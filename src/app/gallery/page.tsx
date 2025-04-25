@@ -54,7 +54,7 @@ export default function GalleryPage() {
     <div className="bg-[#1A1A1A] text-[#FAF3E0] font-sans min-h-screen flex flex-col">
       <header className="px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
         <div className="flex items-center justify-between">
-          <a href="/">
+          <a href="/page">
             <img src="/assets/img/logo_miiyuh_text_white_v1.png" alt="miiyuh logo" className="h-10" />
           </a>
           <button id="menu-toggle" className="lg:hidden focus:outline-none z-50">
