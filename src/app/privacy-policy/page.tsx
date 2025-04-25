@@ -33,7 +33,7 @@ export default function PrivacyPolicy() {
 
           <h2 className="text-2xl font-semibold mb-2">4. Cookies</h2>
           <p className="mb-4">
-            Our website uses cookies to enhance user experience. Cookies are small files stored on your device that help us remember preferences and improve the website's performance.
+            Our website uses cookies to enhance user experience. Cookies are small files stored on your device that help us remember preferences and improve the website&apos;s performance.
           </p>
 
           <h2 className="text-2xl font-semibold mb-2">5. Your Rights</h2>

@@ -35,7 +35,7 @@ export default function SocialsPage() {
       {/* Header */}
       <header className="px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
         <div className="flex items-center justify-between">
-          <a href="/">
+          <a href="/page">
             <Image src="/assets/img/logo_miiyuh_text_white_v1.png" alt="miiyuh logo" width={160} height={40} className="h-10 w-auto" />
           </a>
 
