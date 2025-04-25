@@ -5,16 +5,18 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function SocialsPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
-  const toggleRef = useRef(null);
+  
+  // Correct typing of the refs
+  const menuRef = useRef<HTMLUListElement | null>(null);  // For the menu
+  const toggleRef = useRef<HTMLButtonElement | null>(null);  // For the toggle button
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         menuRef.current &&
         toggleRef.current &&
-        !menuRef.current.contains(event.target) &&
-        !toggleRef.current.contains(event.target)
+        !menuRef.current.contains(event.target as Node) &&
+        !toggleRef.current.contains(event.target as Node)
       ) {
         setMenuOpen(false);
       }
