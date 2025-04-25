@@ -1,3 +1,5 @@
+<img src="https://miiyuh.my/assets/img/logo_miiyuh_text_white_v2.png" alt="miiyuh.com logo" height="64px" />
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
