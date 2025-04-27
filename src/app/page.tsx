@@ -3,8 +3,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSound } from '@/hooks/useSound'
 
 export default function HomePage() {
+  const playClick = useSound('/sounds/click.mp3', 0.7)
   return (
     <>
       <Head>
@@ -41,6 +43,7 @@ export default function HomePage() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={playClick}
                 className="group text-3xl font-bold lowercase tracking-tighter transition-transform duration-300 hover:scale-110"
               >
                 <span className="block group-hover:underline group-hover:decoration-[#FAF3E0]/70">

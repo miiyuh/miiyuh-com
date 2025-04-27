@@ -3,11 +3,15 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useSound } from '@/hooks/useSound' // Make sure you have your hook
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
+  const playClick = useSound('/sounds/click.mp3', 0.7) // 🎵 your click sound
+
   const toggleMenu = () => {
+    playClick()
     setMenuOpen(!menuOpen)
   }
 
@@ -15,7 +19,7 @@ export default function Header() {
     <header className="px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <Link href="/">
+        <Link href="/" onClick={playClick}>
           <Image src="/assets/img/logo_miiyuh_text_white_v1.png" alt="miiyuh logo" width={160} height={40} className="h-10 w-auto" />
         </Link>
 
@@ -28,23 +32,22 @@ export default function Header() {
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 text-sm font-bold">
-          <li><Link href="/aboutme" className="hover:underline">about me</Link></li>
-          <li><Link href="/socials" className="hover:underline">socials</Link></li>
-          <li><Link href="/gallery" className="hover:underline">gallery</Link></li>
-          <li><Link href="/blog" className="hover:underline">blog</Link></li>
+          <li><Link href="/aboutme" onClick={playClick} className="hover:underline">about me</Link></li>
+          <li><Link href="/socials" onClick={playClick} className="hover:underline">socials</Link></li>
+          <li><Link href="/gallery" onClick={playClick} className="hover:underline">gallery</Link></li>
+          <li><Link href="/blog" onClick={playClick} className="hover:underline">blog</Link></li>
         </ul>
-        </div>
+      </div>
 
-        {/* Mobile Menu */}
-        <div className={`overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} lg:hidden`}>
+      {/* Mobile Menu */}
+      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} lg:hidden`}>
         <ul className="flex flex-col gap-4 text-sm font-bold bg-[#1A1A1A] px-6 py-4 border-t border-[#FAF3E0]/20">
-            <li><Link href="/aboutme" className="hover:underline">about me</Link></li>
-            <li><Link href="/socials" className="hover:underline">socials</Link></li>
-            <li><Link href="/gallery" className="hover:underline">gallery</Link></li>
-            <li><Link href="/blog" className="hover:underline">blog</Link></li>
+          <li><Link href="/aboutme" onClick={playClick} className="hover:underline">about me</Link></li>
+          <li><Link href="/socials" onClick={playClick} className="hover:underline">socials</Link></li>
+          <li><Link href="/gallery" onClick={playClick} className="hover:underline">gallery</Link></li>
+          <li><Link href="/blog" onClick={playClick} className="hover:underline">blog</Link></li>
         </ul>
-        </div>
-
+      </div>
     </header>
   )
 }
