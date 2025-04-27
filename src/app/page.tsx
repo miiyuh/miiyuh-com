@@ -1,44 +1,56 @@
 'use client'
 
+import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen text-[#FAF3E0] bg-[#1A1A1A] font-sans relative">
-      <main className="flex-grow flex flex-col justify-center items-center">
-        {/* Logo */}
-        <div className="mb-12">
-          <Image
-            src="/assets/img/logo_miiyuh_text_white_v2.png"
-            alt="miiyuh logo"
-            width={320}
-            height={80}
-            className="mx-auto w-80"
-          />
-        </div>
+    <>
+      <Head>
+        <title>miiyuh — creative webpage</title>
+        <meta
+          name="description"
+          content="welcome to miiyuh's official webpage. explore about me, socials, gallery, and blog."
+        />
+      </Head>
 
-        {/* Navigation Links */}
-        <div className="flex flex-wrap justify-center gap-6 mb-12">
-          <Link href="/aboutme" className="text-3xl font-bold lowercase tracking-tighter hover:scale-110 transition-transform duration-300">
-            about me
-          </Link>
-          <Link href="/socials" className="text-3xl font-bold lowercase tracking-tighter hover:scale-110 transition-transform duration-300">
-            socials
-          </Link>
-          <Link href="/gallery" className="text-3xl font-bold lowercase tracking-tighter hover:scale-110 transition-transform duration-300">
-            gallery
-          </Link>
-          <Link href="/blog" className="text-3xl font-bold lowercase tracking-tighter hover:scale-110 transition-transform duration-300">
-            blog
-          </Link>
+      {/* Main full height container */}
+      <main className="flex flex-col min-h-[70vh] items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32 py-12">
+        {/* Inner content centered */}
+        <div className="flex flex-col items-center">
+          {/* Logo */}
+          <div className="mb-12">
+            <Image
+              src="/assets/img/logo_miiyuh_text_white_v2.png"
+              alt="miiyuh logo"
+              width={320}
+              height={80}
+              className="mx-auto w-80"
+            />
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex flex-wrap justify-center gap-6">
+            {[
+              { href: '/aboutme', label: 'about me' },
+              { href: '/socials', label: 'socials' },
+              { href: '/gallery', label: 'gallery' },
+              { href: '/blog', label: 'blog' },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="group text-3xl font-bold lowercase tracking-tighter transition-transform duration-300 hover:scale-110"
+              >
+                <span className="block group-hover:underline group-hover:decoration-[#FAF3E0]/70">
+                  {link.label}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="text-center text-sm text-[#FAF3E0]/70 py-6">
-        <p>© 2025 miiyuh 🍁 | made in malaysia! 🇲🇾</p>
-      </footer>
-    </div>
+    </>
   )
 }

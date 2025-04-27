@@ -8,10 +8,8 @@ import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgFullscreen from 'lightgallery/plugins/fullscreen';
 import lgRotate from 'lightgallery/plugins/rotate';
 import lgAutoplay from 'lightgallery/plugins/autoplay';
-//import lgDownload from 'lightgallery/plugins/download';
 import lgShare from 'lightgallery/plugins/share';
 import lgPager from 'lightgallery/plugins/pager';
-
 
 import 'lightgallery/css/lightgallery.css';
 import 'lightgallery/css/lg-zoom.css';
@@ -19,10 +17,8 @@ import 'lightgallery/css/lg-thumbnail.css';
 import 'lightgallery/css/lg-fullscreen.css';
 import 'lightgallery/css/lg-rotate.css';
 import 'lightgallery/css/lg-autoplay.css';
-//import 'lightgallery/css/lg-download.css';
 import 'lightgallery/css/lg-share.css';
 import 'lightgallery/css/lg-pager.css';
-
 
 export default function GalleryPage() {
   useEffect(() => {
@@ -94,30 +90,6 @@ export default function GalleryPage() {
 
   return (
     <div className="bg-[#1A1A1A] text-[#FAF3E0] font-sans min-h-screen flex flex-col">
-      <header className="px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
-        <div className="flex items-center justify-between">
-          <a href="/page">
-            <Image src="/assets/img/logo_miiyuh_text_white_v1.png" alt="miiyuh logo" className="h-10" />
-          </a>
-          <button id="menu-toggle" className="lg:hidden focus:outline-none z-50">
-            <svg className="w-6 h-6 text-[#FAF3E0]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <ul className="hidden lg:flex gap-6 text-sm font-bold">
-            <li><a href="/aboutme" className="hover:underline">about me</a></li>
-            <li><a href="/socials" className="hover:underline">socials</a></li>
-            <li><a href="/gallery" className="hover:underline">gallery</a></li>
-            <li><a href="/blog" className="hover:underline">blog</a></li>
-          </ul>
-        </div>
-        <ul id="mobile-menu" className="hidden flex-col gap-4 text-sm font-bold bg-[#1A1A1A] px-6 py-4 mt-4 border-t border-[#FAF3E0]/20 lg:hidden absolute w-full z-40">
-          <li><a href="/aboutme" className="hover:underline">about me</a></li>
-          <li><a href="/socials" className="hover:underline">socials</a></li>
-          <li><a href="/gallery" className="hover:underline">gallery</a></li>
-          <li><a href="/blog" className="hover:underline">blog</a></li>
-        </ul>
-      </header>
 
       <main className="flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
         <section>
@@ -141,10 +113,6 @@ export default function GalleryPage() {
           <div id="lightgallery-artworks-2023" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
         </section>
       </main>
-
-      <footer className="text-center text-sm text-[#FAF3E0]/70 py-6">
-        <p>© 2025 miiyuh 🍁 | made in malaysia! 🇲🇾</p>
-      </footer>
     </div>
   );
 }

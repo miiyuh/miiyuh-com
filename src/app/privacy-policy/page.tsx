@@ -1,56 +1,44 @@
+'use client'
+
 import Head from 'next/head'
 
 export default function PrivacyPolicy() {
   return (
     <>
       <Head>
-        <title>Privacy Policy | Miiyuh</title>
-        <meta name="description" content="Privacy Policy for the Miiyuh website" />
+        <title>privacy policy | miiyuh</title>
+        <meta name="description" content="privacy policy for miiyuh.com" />
       </Head>
 
-      <div className="min-h-screen bg-[#1A1A1A] text-[#FAF3E0] p-6">
-        <div className="max-w-3xl mx-auto bg-[#1A1A1A] p-6 rounded-lg">
-          <h1 className="text-4xl font-bold mb-4">privacy policy</h1>
+      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans">
+        <section className="flex-grow px-6 py-12 min-h-[70vh] max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold tracking-tight font-sans mb-6">privacy policy</h1>
 
-          <p className="mb-6">
-            This Privacy Policy explains how Miiyuh collects, uses, and protects your personal data. Please read this policy carefully.
+          <p className="font-serif text-lg leading-relaxed mb-6">
+            this privacy policy describes how your personal information is collected, used, and shared when you visit miiyuh.com.
           </p>
 
-          <h2 className="text-2xl font-semibold mb-2">1. Information We Collect</h2>
-          <p className="mb-4">
-            We collect personal information such as name, email address, and browsing data when you use our website. This information is used to provide a better user experience.
+          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">1. information we collect</h2>
+          <p className="font-serif text-lg leading-relaxed mb-4">
+            when you visit the site, we may automatically collect certain information about your device, including information about your browser, ip address, time zone, and cookies installed on your device.
           </p>
 
-          <h2 className="text-2xl font-semibold mb-2">2. How We Use Your Information</h2>
-          <p className="mb-4">
-            Your information may be used to personalize content, respond to inquiries, and improve website functionality. We do not share your information with third parties without your consent.
+          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">2. how we use your information</h2>
+          <p className="font-serif text-lg leading-relaxed mb-4">
+            we use your information to maintain and improve our website experience. your information is not shared with third parties except as necessary to comply with laws or protect our rights.
           </p>
 
-          <h2 className="text-2xl font-semibold mb-2">3. Data Security</h2>
-          <p className="mb-4">
-            We take reasonable measures to protect your data from unauthorized access. However, no method of data transmission over the internet is completely secure.
+          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">3. your rights</h2>
+          <p className="font-serif text-lg leading-relaxed mb-4">
+            you have the right to access, correct, or delete your personal information. if you would like to exercise these rights, please contact us.
           </p>
 
-          <h2 className="text-2xl font-semibold mb-2">4. Cookies</h2>
-          <p className="mb-4">
-            Our website uses cookies to enhance user experience. Cookies are small files stored on your device that help us remember preferences and improve the website&apos;s performance.
+          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">4. changes to this policy</h2>
+          <p className="font-serif text-lg leading-relaxed mb-4">
+            we may update this privacy policy from time to time to reflect changes to our practices or for legal reasons. updated versions will be posted here.
           </p>
-
-          <h2 className="text-2xl font-semibold mb-2">5. Your Rights</h2>
-          <p className="mb-4">
-            You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us via the contact form on the website.
-          </p>
-
-          <h2 className="text-2xl font-semibold mb-2">6. Changes to This Policy</h2>
-          <p className="mb-4">
-            Miiyuh reserves the right to update or modify this Privacy Policy at any time. We recommend reviewing this page periodically to stay informed of any changes.
-          </p>
-
-          <p className="mt-6 text-center">
-            © 2025 Miiyuh | All Rights Reserved
-          </p>
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   )
 }
