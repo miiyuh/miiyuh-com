@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image'
 import { useEffect } from 'react';
 import lightGallery from 'lightgallery';
 import lgZoom from 'lightgallery/plugins/zoom';
@@ -96,7 +97,7 @@ export default function GalleryPage() {
       <header className="px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
         <div className="flex items-center justify-between">
           <a href="/page">
-            <img src="/assets/img/logo_miiyuh_text_white_v1.png" alt="miiyuh logo" className="h-10" />
+            <Image src="/assets/img/logo_miiyuh_text_white_v1.png" alt="miiyuh logo" className="h-10" />
           </a>
           <button id="menu-toggle" className="lg:hidden focus:outline-none z-50">
             <svg className="w-6 h-6 text-[#FAF3E0]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">

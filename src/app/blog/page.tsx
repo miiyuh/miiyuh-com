@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 export default function Blog() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -16,7 +17,7 @@ export default function Blog() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="./">
-            <img
+            <Image
               src="/assets/img/logo_miiyuh_text_white_v1.png"
               alt="miiyuh logo"
               className="h-10"
