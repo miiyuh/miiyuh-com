@@ -1,12 +1,37 @@
 {
   "photos_2025jp": [
-    "/assets/img/photography/2025-japan-trip/1.png",
-    "/assets/img/photography/2025-japan-trip/2.png",
-    "/assets/img/photography/2025-japan-trip/3.png",
-    "/assets/img/photography/2025-japan-trip/4.png",
-    "/assets/img/photography/2025-japan-trip/5.png",
-    "/assets/img/photography/2025-japan-trip/6.png"
+    {
+      "src": "/assets/img/photography/2025-japan-trip/1.png",
+      "title": "mikasa stans!",
+      "description": "mikasa, su casa"
+    },
+    {
+      "src": "/assets/img/photography/2025-japan-trip/2.png",
+      "title": "morning walk",
+      "description": "going to the train station"
+    },
+    {
+      "src": "/assets/img/photography/2025-japan-trip/3.png",
+      "title": "san-nin",
+      "description": "mirror selfie"
+    },
+    {
+      "src": "/assets/img/photography/2025-japan-trip/4.png",
+      "title": "ginza clock",
+      "description": "infamous ginza clock"
+    },
+    {
+      "src": "/assets/img/photography/2025-japan-trip/5.png",
+      "title": "boku no chibi",
+      "description": "mha fans will get this"
+    },
+    {
+      "src": "/assets/img/photography/2025-japan-trip/6.png",
+      "title": "tokyo river",
+      "description": "a river in tokyo"
+    }
   ],
+
   "artworks_2022": [
     "/assets/img/artwork/artwork_levi_01.png",
     "/assets/img/artwork/artwork_tighnari_01.png",

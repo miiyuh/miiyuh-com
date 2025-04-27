@@ -45,36 +45,50 @@ export default function GalleryPage() {
     }
 
     fetch('/gallery.json')
-      .then((res) => res.json())
-      .then((data) => {
-        const insertImages = (containerId: string, images?: string[]) => {
-          const container = document.getElementById(containerId);
-          if (container && images && images.length > 0) {
-            images.forEach((src) => {
-              const a = document.createElement('a');
-              a.href = src;
-              a.innerHTML = `<img src="${src}" class="w-full rounded-lg shadow" alt="gallery image">`;
-              container.appendChild(a);
+    .then((res) => res.json())
+    .then((data) => {
+      const insertImages = (containerId: string, images?: any[]) => {
+        const container = document.getElementById(containerId);
+        if (container && images && images.length > 0) {
+          images.forEach((image) => {
+            const a = document.createElement('a');
+            const src = typeof image === 'string' ? image : image.src;
+            const title = image.title || '';
+            const description = image.description || '';
+  
+            a.href = src;
+            a.setAttribute('data-sub-html', `
+              <div class='text-center'>
+                <h4 class='text-lg font-bold mb-1'>${title}</h4>
+                <p class='text-sm'>${description}</p>
+              </div>
+            `);
+            a.innerHTML = `<img src="${src}" class="w-full rounded-lg shadow" alt="gallery image">`;
+            container.appendChild(a);
+          });
+  
+          setTimeout(() => {
+            lightGallery(container, {
+              plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgAutoplay, lgShare, lgPager],
+              speed: 500,
             });
-            setTimeout(() => {
-              lightGallery(container, { plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgAutoplay, lgShare, lgPager], speed: 500 });
-            }, 100);
-          }
-        };
-
-        if (data.photos_2025jp) {
-          insertImages('lightgallery-photos-2025jp', data.photos_2025jp);
+          }, 100);
         }
-        if (data.artworks_2022) {
-          insertImages('lightgallery-artworks-2022', data.artworks_2022);
-        }
-        if (data.artworks_2023) {
-          insertImages('lightgallery-artworks-2023', data.artworks_2023);
-        }
-      })
-      .catch((error) => {
-        console.error('Error loading gallery.json:', error);
-      });
+      };
+  
+      if (data.photos_2025jp) {
+        insertImages('lightgallery-photos-2025jp', data.photos_2025jp);
+      }
+      if (data.artworks_2022) {
+        insertImages('lightgallery-artworks-2022', data.artworks_2022);
+      }
+      if (data.artworks_2023) {
+        insertImages('lightgallery-artworks-2023', data.artworks_2023);
+      }
+    })
+    .catch((error) => {
+      console.error('Error loading gallery.json:', error);
+    });
   }, []);
 
   return (
