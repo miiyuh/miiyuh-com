@@ -1,10 +1,18 @@
 'use client'
 
-import '../i18n'
-
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
+
+// Lazy load i18n only on client
+const loadI18n = async () => {
+  if (typeof window !== 'undefined') {
+    await import('../i18n')
+  }
+}
+loadI18n()
+
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function HomePage() {
@@ -12,7 +20,7 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen text-[#FAF3E0] bg-[#1A1A1A] font-sans relative">
-      {/* Language Switcher at Top Right */}
+      {/* Language Switcher */}
       <div className="absolute top-4 right-4 z-50">
         <LanguageSwitcher />
       </div>
