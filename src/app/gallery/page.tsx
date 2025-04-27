@@ -83,7 +83,7 @@ export default function GalleryPage() {
             <h1 className="text-5xl font-bold tracking-[-0.03em] mb-2">photography 📸</h1>
             <p className="text-lg text-[#FAF3E0]/90">i dedicate this section to the photographs that i took, from both my phone and my camera.</p>
           </div>
-          <h2 className="text-right font-bold text-3xl mb-4">2 0 2 2</h2>
+          <h2 className="text-right font-bold text-3xl mb-4">2025 japan trip 🇯🇵</h2>
           <div id="lightgallery-photos" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
         </section>
 
