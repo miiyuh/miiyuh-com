@@ -47,7 +47,7 @@ export default function GalleryPage() {
     fetch('/gallery.json')
     .then((res) => res.json())
     .then((data) => {
-      const insertImages = (containerId: string, images?: any[]) => {
+      const insertImages = (containerId: string, images?: { src: string; title?: string; description?: string }[]) => {
         const container = document.getElementById(containerId);
         if (container && images && images.length > 0) {
           images.forEach((image) => {
