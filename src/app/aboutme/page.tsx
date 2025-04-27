@@ -113,7 +113,7 @@ export default function AboutMePage() {
 
       {/* 📌 Footer */}
       <footer className="text-center text-sm text-[#FAF3E0]/70 py-6">
-        <p>© 2025 miiyuh | made in malaysia!</p>
+        <p>© 2025 miiyuh 🍁 | made in malaysia! 🇲🇾</p>
       </footer>
     </main>
   )
