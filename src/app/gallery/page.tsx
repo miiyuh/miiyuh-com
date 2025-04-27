@@ -3,9 +3,25 @@
 import { useEffect } from 'react';
 import lightGallery from 'lightgallery';
 import lgZoom from 'lightgallery/plugins/zoom';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgFullscreen from 'lightgallery/plugins/fullscreen';
+import lgRotate from 'lightgallery/plugins/rotate';
+import lgAutoplay from 'lightgallery/plugins/autoplay';
+//import lgDownload from 'lightgallery/plugins/download';
+import lgShare from 'lightgallery/plugins/share';
+import lgPager from 'lightgallery/plugins/pager';
+
 
 import 'lightgallery/css/lightgallery.css';
 import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lg-fullscreen.css';
+import 'lightgallery/css/lg-rotate.css';
+import 'lightgallery/css/lg-autoplay.css';
+//import 'lightgallery/css/lg-download.css';
+import 'lightgallery/css/lg-share.css';
+import 'lightgallery/css/lg-pager.css';
+
 
 export default function GalleryPage() {
   useEffect(() => {
@@ -31,22 +47,33 @@ export default function GalleryPage() {
     fetch('/gallery.json')
       .then((res) => res.json())
       .then((data) => {
-        const insertImages = (containerId: string, images: string[]) => {
+        const insertImages = (containerId: string, images?: string[]) => {
           const container = document.getElementById(containerId);
-          if (container) {
+          if (container && images && images.length > 0) {
             images.forEach((src) => {
               const a = document.createElement('a');
               a.href = src;
               a.innerHTML = `<img src="${src}" class="w-full rounded-lg shadow" alt="gallery image">`;
               container.appendChild(a);
             });
-            lightGallery(container, { plugins: [lgZoom], speed: 500 });
+            setTimeout(() => {
+              lightGallery(container, { plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgAutoplay, lgShare, lgPager], speed: 500 });
+            }, 100);
           }
         };
 
-        insertImages('lightgallery-photos', data.photos);
-        insertImages('lightgallery-artworks-2022', data.artworks_2022);
-        insertImages('lightgallery-artworks-2023', data.artworks_2023);
+        if (data.photos_2025jp) {
+          insertImages('lightgallery-photos-2025jp', data.photos_2025jp);
+        }
+        if (data.artworks_2022) {
+          insertImages('lightgallery-artworks-2022', data.artworks_2022);
+        }
+        if (data.artworks_2023) {
+          insertImages('lightgallery-artworks-2023', data.artworks_2023);
+        }
+      })
+      .catch((error) => {
+        console.error('Error loading gallery.json:', error);
       });
   }, []);
 
@@ -84,7 +111,7 @@ export default function GalleryPage() {
             <p className="text-lg text-[#FAF3E0]/90">i dedicate this section to the photographs that i took, from both my phone and my camera.</p>
           </div>
           <h2 className="text-right font-bold text-3xl mb-4">2025 japan trip 🇯🇵</h2>
-          <div id="lightgallery-photos" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+          <div id="lightgallery-photos-2025jp" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
         </section>
 
         <section className="mt-16">

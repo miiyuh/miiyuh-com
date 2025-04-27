@@ -1,20 +1,20 @@
 {
-  "photos": [
-    "assets/img/photography/2025-japan-trip/1.png",
-    "assets/img/photography/2025-japan-trip/2.png",
-    "assets/img/photography/2025-japan-trip/3.png",
-    "assets/img/photography/2025-japan-trip/4.png",
-    "assets/img/photography/2025-japan-trip/5.png",
-    "assets/img/photography/2025-japan-trip/6.png"
+  "photos_2025jp": [
+    "/assets/img/photography/2025-japan-trip/1.png",
+    "/assets/img/photography/2025-japan-trip/2.png",
+    "/assets/img/photography/2025-japan-trip/3.png",
+    "/assets/img/photography/2025-japan-trip/4.png",
+    "/assets/img/photography/2025-japan-trip/5.png",
+    "/assets/img/photography/2025-japan-trip/6.png"
   ],
   "artworks_2022": [
-    "assets/img/artwork/artwork_levi_01.png",
-    "assets/img/artwork/artwork_tighnari_01.png",
-    "assets/img/artwork/artwork_reformasi_01.png"
+    "/assets/img/artwork/artwork_levi_01.png",
+    "/assets/img/artwork/artwork_tighnari_01.png",
+    "/assets/img/artwork/artwork_reformasi_01.png"
   ],
   "artworks_2023": [
-    "assets/img/artwork/artwork_miya_01.png",
-    "assets/img/artwork/artwork_mikasa_01.png",
-    "assets/img/artwork/artwork_levi_02.png"
+    "/assets/img/artwork/artwork_miya_01.png",
+    "/assets/img/artwork/artwork_mikasa_01.png",
+    "/assets/img/artwork/artwork_levi_02.png"
   ]
 }
