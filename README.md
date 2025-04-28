@@ -1,38 +1,95 @@
-<img src="https://miiyuh.my/assets/img/logo_miiyuh_text_white_v2.png" alt="miiyuh.com logo" height="64px" />
+<img src="https://miiyuh.my/assets/img/logo_miiyuh_text_white_v2.png" alt="miiyuh.com logo" height="64px" /> <b>.com</b>
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+welcome to the official source code for miiyuh.com.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🛠 Built With
+
+- Next.js 15 — React framework for production-grade sites
+
+- Tailwind CSS 4 — Utility-first modern styling
+
+- Payload CMS — Headless CMS for blog and gallery management
+
+- Howler.js — Sound library for interactive click sound effects
+
+- Vercel — Deployment and hosting
+
+- Zapsplat — Free sounds (button clicks, UI sounds)
+
+## 🚀 Features
+
+- Responsive design (desktop, tablet, mobile)
+
+- Dark theme aesthetic (#1A1A1A background, #FAF3E0 text)
+
+- Centered homepage logo and navigation
+
+- Sound effects on click events (buttons, navigation, menu toggles)
+
+- Light, optimized assets (next/image lazy loading)
+
+- Sticky footer and header layout
+
+- Scroll-to-top button for long pages
+
+- SEO optimized meta tags
+
+- Deployed via Vercel (CI/CD ready)
+
+## 📂 Project Structure
+
+/public/
+  /assets/
+    /img/            # Images (logos, illustrations)
+    /sounds/         # UI sound effects
+
+/src/
+  /app/              # Next.js App Router (pages)
+  /components/       # Header, Footer, ScrollToTopButton, LanguageSwitcher
+  /hooks/            # useSound.ts (custom Howler hook)
+  /styles/           # globals.css
+
+/tailwind.config.ts  # Tailwind configuration
+/postcss.config.mjs  # PostCSS setup
+/next.config.mjs     # Next.js configuration
+
+## 📦 Getting Started (Local Development)
+
+Clone the repository:
+
+```
+git clone https://github.com/your-username/miiyuh-com.git
+cd miiyuh-com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run the development server:
 
-## Learn More
+```
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open http://localhost:3000 to view it in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📜 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- All source code is open for personal learning and portfolio use.However, all original artwork, logos, and media assets (images, sounds) are copyrighted to miiyuh.
 
-## Deploy on Vercel
+## 📣 Credits
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Zapsplat — free sound effects
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ✨ Live Website
+
+- 🚀 miiyuh.com (Hosted on Vercel)
+
+## 💬 Say Hi!
+
+- If you find this project inspiring or helpful, feel free to star ⭐ the repository or connect with me!
