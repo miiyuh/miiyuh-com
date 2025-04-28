@@ -4,6 +4,7 @@ import { Inter, Noto_Sans, Noto_Serif, Noto_Sans_Mono } from 'next/font/google'
 import ClientHeader from '@/components/client-header'
 import Footer from '@/components/footer'
 import ScrollToTopButton from '@/components/scroll-to-top-button'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
@@ -35,6 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         <ScrollToTopButton />
 
+        <SpeedInsights />
+        
       </body>
     </html>
   )
