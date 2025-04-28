@@ -5,6 +5,7 @@ import ClientHeader from '@/components/client-header'
 import Footer from '@/components/footer'
 import ScrollToTopButton from '@/components/scroll-to-top-button'
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
@@ -35,9 +36,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         
         <ScrollToTopButton />
-
-        <SpeedInsights />
         
+        <Analytics />
+        
+        <SpeedInsights />
+
       </body>
     </html>
   )
