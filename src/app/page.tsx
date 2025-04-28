@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function HomePage() {
   const playClick = useSound('/sounds/click.mp3', 0.7)
@@ -53,6 +54,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+        <SpeedInsights />
       </main>
     </>
   )
