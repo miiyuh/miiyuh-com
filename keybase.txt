@@ -1,0 +1,81 @@
+==================================================================
+https://keybase.io/miiyuh
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://miiyuh.com
+  * I am miiyuh (https://keybase.io/miiyuh) on keybase.
+  * I have a public key with fingerprint 0454 3CD8 2B39 1C2B 3925  407B 7D6C 41EA BAA7 F715
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101078f0940762a0ff4768c8798dbf434ed1aa2ed9ea928d0794d846b342bae71590a",
+      "fingerprint": "04543cd82b391c2b3925407b7d6c41eabaa7f715",
+      "host": "keybase.io",
+      "key_id": "7d6c41eabaa7f715",
+      "kid": "0101078f0940762a0ff4768c8798dbf434ed1aa2ed9ea928d0794d846b342bae71590a",
+      "uid": "2b9c771904c9d4ec28af44a8fe7e6619",
+      "username": "miiyuh"
+    },
+    "merkle_root": {
+      "ctime": 1745833683,
+      "hash_meta": "47590265dc0bb46f73357662f76eb439d4dd0d96eed6127b939726bd093f121f",
+      "seqno": 26752312
+    },
+    "revoke": {
+      "sig_ids": [
+        "d1665569dacf7132b6c6132374dfbe63537d751a3271e50abd59862948827c100f"
+      ]
+    },
+    "service": {
+      "hostname": "miiyuh.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1745833767,
+  "expire_in": 157680000,
+  "prev": "583f281ea95c3875e9dfcac85d1764f14c60beb673e3c74c03b945572a81ad1a",
+  "seqno": 11,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.13
+Comment: https://keybase.io/crypto
+
+yMK3AnicrVN7aBxFHL5LY9CAJCIoGPCxpRr1THceO7OTgnBaCipYDW2xbeo6z9wm
+d7fn7t4112tSqvWPIG1FCkqFpkSCWLQVohYNlNIWwfpCoQUboSpUqcRI4wN8YJ0N
+ihT80x3YYYbv933ffPObU9cuy3Xm1z2z/tdH7z5/IP/BiaSeK3WtvaPliEg1nf6W
+M6KXJl1WOkmDkVA5/Y4L7KC+cRl2KYHcNQZT4kufMl8JgxHWCnAOtWKaM+grlzKs
+fEwEwlBwTYHHXO4UHBNWh3Rci8NqmtFiDyOpfCgQAzL7Q88KCKqIxEBzwTk1ttYW
+lqIkq7DmBE90XxjZPbsIluz9B/5/9l1fooOCSUoBc7FkCmsJfW4w5r7RVBMCWAZM
+dFzlFW3RlTBs1kvOWMGp6HikrIM4itIsWpmGGQBQ7PkIER/Z4/GkFFR0ym0dplYU
+Ek9JVwhMDEXIo4RAQ4kWGFllpVzFiNaKAEgFQ4xCIpTLkAEQGOsi0U9WI6cfEupB
+BKC1EOtGNKIz9SQcsqklTv9mRwFCPI8wxaWNDUFBJLETolgZoQnyEFXUAxxBCrTn
+cqE85hPIsO9DKoHrGmfLWKYWN0K5RJ5d0xXH75NRxRqqxVEayahs90tpWkv6s1jS
+Zi0DbtUi+JsiEGFV2RaxFQ0dJ2FUtTFZ5JWJUUILjh6thbEOwgxh4/Fd+2U6umEp
+LcpA33YE8yTyqaeZMpJL31OAEmwAlsQVWhCKNJIUSxcJhj2PQu4Dbjvi3wgBsD75
+kOW0uVV5Wo+1M3bi+GB7Lt+Z67iqLXs7uc5ruv95UZWzV+dOHnvro+bgQsebF57o
+Pn9x1a3zP71f3/FssTgz8efJtq6jhXO3THb8vHLmwZW7fpjd21MaVcePHeo6+2Uy
++/ae9nMP1b//cPjI7fu2H3pp/7u7D6qBb1edLqj7N17acXlbz+O95cPrvm67b0X5
+xWI4GEzOBnPRbvTetrm9Z4b7zPLqxGerW+tnmtsXWvk/ttzVaA0f+Qbu/G0fXXi1
++5cbJnftHP/uucfmB9fc+8VXU+Xeh9/5feC2m3oKF6eeGp++fnHsjeHVG27O799k
+puOnSZA+/8AL9c571qwYPVg8eur1y1MXFrcun25sCj5ZO7D54zN75ubbl21YHH9Z
+P3Ld6c9/fO2VOw8UJ3pvxFOXPkV/Ad9gfrY=
+=Y8Eh
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/miiyuh
+
+==================================================================
