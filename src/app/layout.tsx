@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="bg-[#1A1A1A] text-[#FAF3E0]">
       <head>
-        {/* 🛠️ Preconnect to font servers for faster font loading */}
+        {/* Preconnect to font servers for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
