@@ -10,10 +10,10 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>miiyuh — creative webpage</title>
+        <title>miiyuh&apos;s webpage</title>
         <meta
           name="description"
-          content="welcome to miiyuh's official webpage. explore about me, socials, gallery, and blog."
+          content="welcome to miiyuh's webpage. explore about me, my socials, pictures taken by me, and my blog."
         />
       </Head>
 

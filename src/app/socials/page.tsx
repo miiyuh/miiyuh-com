@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 
 export default function SocialsPage() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [, setMenuOpen] = useState(false)
   
   const menuRef = useRef<HTMLUListElement | null>(null)
   const toggleRef = useRef<HTMLButtonElement | null>(null)
