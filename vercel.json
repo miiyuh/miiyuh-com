@@ -1,0 +1,79 @@
+{
+  "redirects": [
+    {
+      "source": "/anilist",
+      "destination": "https://anilist.co/user/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/bsky",
+      "destination": "https://bsky.app/profile/miiyuh.com",
+      "permanent": true
+    },
+    {
+      "source": "/github",
+      "destination": "https://github.com/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/instagram",
+      "destination": "https://instagram.com/miiyuh.co",
+      "permanent": true
+    },
+    {
+      "source": "/ko-fi",
+      "destination": "https://ko-fi.com/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin",
+      "destination": "https://linkedin.com/in/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/myanimelist",
+      "destination": "https://myanimelist.net/profile/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/pinterest",
+      "destination": "https://pinterest.com/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/spacehey",
+      "destination": "https://spacehey.com/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/spotify",
+      "destination": "https://open.spotify.com/user/zttcd2713bknn5a2i4hvzoeml?si=e788dce596ab4628",
+      "permanent": true
+    },
+    {
+      "source": "/steam",
+      "destination": "https://steamcommunity.com/id/miiyuh",
+      "permanent": true
+    },
+    {
+      "source": "/tiktok",
+      "destination": "https://www.tiktok.com/@muhamad_azri.my",
+      "permanent": true
+    },
+    {
+      "source": "/twitch",
+      "destination": "https://twitch.tv/miiyuh_",
+      "permanent": true
+    },
+    {
+      "source": "/twitter",
+      "destination": "https://twitter.com/miiyuh_",
+      "permanent": true
+    },
+    {
+      "source": "/youtube",
+      "destination": "https://youtube.com/@miiyuh_",
+      "permanent": true
+    }
+  ]
+}
