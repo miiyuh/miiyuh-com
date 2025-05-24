@@ -45,7 +45,7 @@ export default function SocialsPage() {
           {socials.map((social) => (
             <a
               key={social}
-              href={`https://miiyuh.com/${social}`}
+              href={`/${social}`}
               target="_blank"
               rel="noopener noreferrer"
             >
