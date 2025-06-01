@@ -6,17 +6,17 @@ welcome to the official source code for miiyuh.com.
 
 ## 🛠 Built With
 
-- Next.js 15 — React framework for production-grade sites
+- Next.js 15 - React framework for production-grade sites
 
-- Tailwind CSS 4 — Utility-first modern styling
+- Tailwind CSS - Utility-first modern styling
 
-- Payload CMS — Headless CMS for blog and gallery management
+- Payload CMS - Headless CMS for blog and gallery management
 
-- Howler.js — Sound library for interactive click sound effects
+- Howler.js - Sound library for interactive click sound effects
 
-- Vercel — Deployment and hosting
+- Vercel - Deployment and hosting
 
-- Zapsplat — Free sounds (button clicks, UI sounds)
+- Zapsplat - Free sounds (button clicks, UI sounds)
 
 ## 🚀 Features
 
@@ -37,23 +37,6 @@ welcome to the official source code for miiyuh.com.
 - SEO optimized meta tags
 
 - Deployed via Vercel (CI/CD ready)
-
-## 📂 Project Structure
-
-/public/
-  /assets/
-    /img/            # Images (logos, illustrations)
-    /sounds/         # UI sound effects
-
-/src/
-  /app/              # Next.js App Router (pages)
-  /components/       # Header, Footer, ScrollToTopButton, LanguageSwitcher
-  /hooks/            # useSound.ts (custom Howler hook)
-  /styles/           # globals.css
-
-/tailwind.config.ts  # Tailwind configuration
-/postcss.config.mjs  # PostCSS setup
-/next.config.mjs     # Next.js configuration
 
 ## 📦 Getting Started (Local Development)
 
@@ -80,7 +63,7 @@ Open http://localhost:3000 to view it in your browser.
 
 ## 📜 License
 
-- All source code is open for personal learning and portfolio use.However, all original artwork, logos, and media assets (images, sounds) are copyrighted to miiyuh.
+- All source code is open for personal learning and portfolio use. However, all original artwork, logos, and media assets (images) are copyrighted to miiyuh.
 
 ## 📣 Credits
 
