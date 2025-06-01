@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image'
 import { useEffect } from 'react';
 import lightGallery from 'lightgallery';
 import lgZoom from 'lightgallery/plugins/zoom';

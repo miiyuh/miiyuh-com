@@ -23,7 +23,7 @@ export default function AboutMePage() {
           {/* Right Text */}
           <div className="w-full lg:w-1/2 text-center lg:text-left">
             <h1 className="text-5xl font-bold tracking-tighter mb-4">about me 🍁</h1>
-            <p className="font-serif text-lg leading-relaxed tracking-tight text-[#FAF3E0]/90">
+            <p className="font-serif text-xl leading-relaxed tracking-tight text-[#FAF3E0]/90">
               i am rather a not-so-interesting person. very basic to be honest. when i have free time, i usually play games and maybe sometimes draw, depends on my mood. also, i sleep a LOT. any time i see fit, i would sleep. sleeping is the best, could not argue about it :&gt;
             </p>
           </div>
