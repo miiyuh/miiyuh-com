@@ -24,6 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect to font servers for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          src="https://app.rybbit.io/api/script.js"
+          data-site-id="1007"
+          defer
+        ></script>
       </head>
       <body className={`${inter.variable} ${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} font-sans flex flex-col min-h-screen`}>
         
