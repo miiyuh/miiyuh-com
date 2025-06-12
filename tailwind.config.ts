@@ -5,13 +5,13 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
     './app/**/*.{js,ts,jsx,tsx}',
-  ],
-  theme: {
+  ],  theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
-        serif: ['var(--font-noto-serif)', 'serif'],
-        mono: ['var(--font-noto-mono)', 'monospace'],
+        sans: ['Inter', 'var(--font-noto-sans)', 'EmojiOverride', 'sans-serif'],
+        serif: ['var(--font-noto-serif)', 'EmojiOverride', 'serif'],
+        mono: ['var(--font-noto-mono)', 'EmojiOverride', 'monospace'],
+        emoji: ['var(--font-noto-color-emoji)', 'EmojiOverride'],
       },
     },
   },

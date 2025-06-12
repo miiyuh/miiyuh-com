@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
+import { NAVIGATION_LINKS } from '@/constants'
 
 export default function HomePage() {
   const playClick = useSound('/sounds/click.mp3', 0.7)
@@ -15,31 +16,23 @@ export default function HomePage() {
           name="description"
           content="welcome to miiyuh's webpage. explore about me, my socials, pictures taken by me, and my blog."
         />
-      </Head>
-
-      {/* Main full height container */}
-      <main className="flex flex-col min-h-[70vh] items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32 py-12">
+      </Head>      {/* Main full height container */}
+      <main className="flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
         {/* Inner content centered */}
         <div className="flex flex-col items-center">
-          {/* Logo */}
-          <div className="mb-12">
+          {/* Logo */}          <div className="mb-12">
             <Image
               src="/assets/img/logo_miiyuh_text_white_v2.png"
-              alt="miiyuh logo"
+              alt="miiyuh - personal webpage logo"
               width={320}
               height={80}
               className="mx-auto w-80"
+              priority
+              quality={90}
             />
-          </div>
-
-          {/* Navigation Links */}
+          </div>{/* Navigation Links */}
           <div className="flex flex-wrap justify-center gap-6">
-            {[
-              { href: '/aboutme', label: 'about me' },
-              { href: '/socials', label: 'socials' },
-              { href: '/gallery', label: 'gallery' },
-              { href: '/blog', label: 'blog' },
-            ].map((link) => (
+            {NAVIGATION_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

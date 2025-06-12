@@ -10,13 +10,14 @@ export default function AboutMePage() {
       <section className="flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex items-center justify-center">
         <div className="flex flex-col lg:flex-row items-center gap-10">
           {/* Left Image */}
-          <div className="w-full lg:w-1/2 flex justify-center">
-            <Image
+          <div className="w-full lg:w-1/2 flex justify-center">            <Image
               src="/assets/img/kazuha.png"
-              alt="kazuha"
+              alt="Kazuha character illustration"
               width={300}
               height={300}
               className="max-w-xs w-full rounded-lg"
+              loading="lazy"
+              quality={85}
             />
           </div>
 
