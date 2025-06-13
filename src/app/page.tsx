@@ -5,20 +5,49 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { TypewriterText, AnimatedHeading } from '@/components/animated-text'
 import { ParallaxElement } from '@/components/parallax-effects'
 import { ScrollAnimation } from '@/components/scroll-animations'
 
-export default function HomePage() {
-  const playClick = useSound('/sounds/click.mp3', 0.7)
+export default function HomePage() {  const playClick = useSound('/sounds/click.mp3', 0.7)
   const [mounted, setMounted] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [hasMouseMoved, setHasMouseMoved] = useState(false)
+  const logoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
+  }, [])
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (logoRef.current) {
+        const logoRect = logoRef.current.getBoundingClientRect()
+        const logoCenterX = logoRect.left + logoRect.width / 2
+        const logoCenterY = logoRect.top + logoRect.height / 2
+        
+        // Calculate relative position (-1 to 1)
+        const deltaX = (e.clientX - logoCenterX) / (logoRect.width / 2)
+        const deltaY = (e.clientY - logoCenterY) / (logoRect.height / 2)
+        
+        // Limit the tilt range and convert to degrees
+        const maxTilt = 15 // Reduced maximum tilt for subtler effect
+        const limitedDeltaX = Math.max(-1, Math.min(1, deltaX)) // Clamp between -1 and 1
+        const limitedDeltaY = Math.max(-1, Math.min(1, deltaY)) // Clamp between -1 and 1
+        
+        const rotateY = limitedDeltaX * maxTilt // Horizontal mouse movement = Y-axis rotation
+        const rotateX = -limitedDeltaY * maxTilt // Vertical mouse movement = X-axis rotation (inverted)
+        
+        setMousePosition({ x: rotateX, y: rotateY })
+        setHasMouseMoved(true)
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
   const getGreeting = () => {
@@ -43,7 +72,9 @@ export default function HomePage() {
           name="description"
           content="welcome to miiyuh's webpage. explore about me, my socials, pictures taken by me, and my blog."
         />
-      </Head>      {/* Animated background elements */}
+      </Head>
+
+      {/* Animated background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <ParallaxElement speed={0.3} direction="up">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#FAF3E0]/5 rounded-full blur-3xl animate-pulse"></div>
@@ -60,7 +91,7 @@ export default function HomePage() {
       <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
         {/* Inner content centered */}
         <div className={`flex flex-col items-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            {/* Dynamic greeting with typewriter effect */}
+          {/* Dynamic greeting with typewriter effect */}
           {mounted && (
             <ScrollAnimation animation="fadeIn" className="mt-8 md:mt-16 mb-16 text-center">
               <AnimatedHeading variant="fade" delay={0.2}>
@@ -73,18 +104,44 @@ export default function HomePage() {
               </AnimatedHeading>
               <p className="font-mono text-sm text-[#FAF3E0]/60">current time: {timeString}</p>
             </ScrollAnimation>
-          )}          {/* Logo with enhanced styling */}
+          )}          {/* Logo with limited 3D mouse-following effect */}
           <ScrollAnimation animation="scale" delay={0.5} className="mb-16 group">
-            <Image
-              src="/assets/img/logo_miiyuh_text_white_v2.png"
-              alt="miiyuh - personal webpage logo"
-              width={480}
-              height={120}
-              className="mx-auto w-96 md:w-[30rem] transition-all duration-500 group-hover:scale-105 group-hover:brightness-110"
-              priority
-              quality={90}
-            />
-          </ScrollAnimation>          {/* Navigation Cards */}
+            <div 
+              ref={logoRef}
+              className="relative"
+              style={{
+                transform: hasMouseMoved 
+                  ? `perspective(1000px) rotateX(${mousePosition.x}deg) rotateY(${mousePosition.y}deg)`
+                  : `perspective(1000px) rotateX(0deg) rotateY(0deg)`,
+                transition: hasMouseMoved 
+                  ? 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  : 'transform 0.6s ease-out',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <Image
+                src="/assets/img/logo_miiyuh_text_white_v2.png"
+                alt="miiyuh - personal webpage logo"
+                width={480}
+                height={120}
+                className="mx-auto w-96 md:w-[30rem] transition-all duration-500 group-hover:scale-105 group-hover:brightness-110"
+                priority
+                quality={90}
+                style={{ backfaceVisibility: 'hidden' }}
+              />
+              
+              {/* Optional: Add a subtle 3D shadow effect */}
+              <div 
+                className="absolute inset-0 bg-[#FAF3E0]/5 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  transform: `translateZ(-10px) scale(1.05)`,
+                  filter: 'blur(15px)'
+                }}
+              />
+            </div>
+          </ScrollAnimation>
+
+          {/* Navigation Cards */}
           <ScrollAnimation animation="fadeUp" delay={0.8} className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl mb-12">
             {NAVIGATION_LINKS.map((link, index) => (
               <ScrollAnimation
@@ -120,7 +177,9 @@ export default function HomePage() {
                 </Link>
               </ScrollAnimation>
             ))}
-          </ScrollAnimation>{/* Fun interactive element */}
+          </ScrollAnimation>
+
+          {/* Fun interactive element */}
           <ScrollAnimation animation="fadeIn" delay={1.5} className="mt-12 text-center mb-16">
             <TypewriterText 
               text="welcome to my little corner on the internet 💫"

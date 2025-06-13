@@ -14,6 +14,12 @@
     "audit:full": "npm audit && npm run optimize"
   },
   "dependencies": {
+    "@portabletext/react": "^3.2.1",
+    "@sanity/client": "^7.6.0",
+    "@sanity/icons": "^3.7.0",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/ui": "^2.15.18",
+    "@sanity/vision": "^3.92.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^12.17.3",
@@ -21,11 +27,15 @@
     "lightgallery": "^2.8.3",
     "lucide-react": "^0.514.0",
     "next": "15.2.4",
+    "next-sanity": "^9.12.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^9.16.0",
+    "react-is": "18.0.0",
     "react-type-animation": "^3.2.0",
-    "sharp": "^0.34.2"
+    "sanity": "^3.92.0",
+    "sharp": "^0.34.2",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

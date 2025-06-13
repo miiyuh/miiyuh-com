@@ -10,7 +10,7 @@ welcome to the official source code for miiyuh.com.
 
 - Tailwind CSS - Utility-first modern styling
 
-- Payload CMS - Headless CMS for blog and gallery management
+- Sanity CMS - Headless CMS for blog content management
 
 - Howler.js - Sound library for interactive click sound effects
 
@@ -25,6 +25,13 @@ welcome to the official source code for miiyuh.com.
 - Dark theme aesthetic (#1A1A1A background, #FAF3E0 text)
 
 - Centered homepage logo and navigation
+
+- **Custom Blog System** with Sanity CMS
+  - Support for multiple categories (Attack on Titan, Photography, Coding, Personal)
+  - Rich text content with PortableText
+  - Category filtering and tagging system
+  - Featured posts and read time estimates
+  - Dynamic blog post pages with SEO optimization
 
 - Sound effects on click events (buttons, navigation, menu toggles)
 
@@ -60,6 +67,39 @@ npm run dev
 ```
 
 Open http://localhost:3000 to view it in your browser.
+
+## 📝 Blog Setup
+
+This site uses Sanity CMS for blog content management. To set up the blog:
+
+### Prerequisites
+1. Create a Sanity account at https://sanity.io
+2. Set up environment variables in `.env.local`:
+   ```env
+   NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+   NEXT_PUBLIC_SANITY_DATASET=production
+   ```
+
+### Initial Setup
+1. Install Sanity CLI: `npm install -g @sanity/cli`
+2. Run the setup script to create categories:
+   ```bash
+   node scripts/setup-categories.js
+   ```
+3. Access Sanity Studio at `http://localhost:3000/studio`
+4. Create your first blog posts with:
+   - Title and slug
+   - Category (Attack on Titan, Photography, Coding, Personal)
+   - Content using rich text editor
+   - Published date and read time estimate
+
+### Content Management
+- **Categories**: Pre-configured for different content topics
+- **Posts**: Support rich text, images, tags, and metadata
+- **Studio**: Available at `/studio` route for content creation
+- **Live Preview**: Changes appear immediately on the blog
+
+Visit `/blog` to see your published posts!
 
 ## 📜 License
 

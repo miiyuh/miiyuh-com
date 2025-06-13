@@ -5,7 +5,6 @@ import { Noto_Sans, Noto_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/fo
 import ClientHeader from '@/components/client-header'
 import Footer from '@/components/footer'
 import ScrollToTopButton from '@/components/scroll-to-top-button'
-import PageTransition from '@/components/page-transition'
 import { AccessibilityControls } from '@/components/accessibility-controls-simple'
 import { PerformanceMonitor } from '@/components/analytics'
 import { StructuredData } from '@/components/structured-data'
@@ -104,13 +103,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData type="website" />
         <Suspense fallback={null}>
           <PerformanceMonitor />
-        </Suspense>
-        <AccessibilityControls />
+        </Suspense>        <AccessibilityControls />
         <ClientHeader />
         <main className="flex-grow relative z-10" id="main-content">
-          <PageTransition>
-            {children}
-          </PageTransition>
+          {children}
         </main>
         <Footer />
         <ScrollToTopButton />
