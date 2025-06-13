@@ -1,25 +1,25 @@
 'use client'
 
-import { useMemo, useCallback } from 'react'
-import { Howl } from 'howler'
+import { useCallback, useRef } from 'react'
 
-export function useSound(src: string, volume = 1.0) {
-  const sound = useMemo(() => {
-    if (typeof window === 'undefined') return null;
-    
-    return new Howl({
-      src: [src],
-      volume,
-      preload: true,
-      html5: true, // Use HTML5 Audio for better performance
-    })
-  }, [src, volume])
+export function useSound(src: string, volume: number = 1) {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const play = useCallback(() => {
-    if (sound) {
-      sound.play()
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(src)
+        audioRef.current.volume = volume
+      }
+      
+      audioRef.current.currentTime = 0
+      audioRef.current.play().catch(error => {
+        console.warn('Could not play sound:', error)
+      })
+    } catch (error) {
+      console.warn('Sound not available:', error)
     }
-  }, [sound])
+  }, [src, volume])
 
   return play
 }
