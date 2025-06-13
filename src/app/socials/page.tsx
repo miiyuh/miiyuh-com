@@ -7,6 +7,7 @@ import { Breadcrumb } from '@/components/breadcrumb'
 import { ScrollAnimation } from '@/components/scroll-animations'
 import { ParallaxElement } from '@/components/parallax-effects'
 import { TypewriterText, AnimatedHeading } from '@/components/animated-text'
+import { LiveSpotifyIntegration } from '@/components/live-spotify'
 
 export default function SocialsPage() {
   const [mounted, setMounted] = useState(false)
@@ -90,9 +91,21 @@ export default function SocialsPage() {
                     </p>
                   </div>
                 </a>
-              </ScrollAnimation>
-            ))}
+              </ScrollAnimation>            ))}
           </section>
+
+          {/* Live Spotify Integration */}
+          <ScrollAnimation animation="fadeUp" delay={1.2} className="mt-16">
+            <h2 className="text-3xl font-bold tracking-tighter mb-8 text-center">
+              <TypewriterText text="what i'm listening to 🎵" speed={80} />
+            </h2>
+            <LiveSpotifyIntegration 
+              showCurrentlyPlaying={true}
+              showTopTracks={true}
+              showTopArtists={true}
+              showPlaylists={false}
+            />
+          </ScrollAnimation>
         </div>
 
         {/* Fun interactive element */}

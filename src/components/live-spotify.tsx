@@ -68,9 +68,10 @@ export function LiveSpotifyIntegration({
   const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
   const CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
   const REFRESH_TOKEN = process.env.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN
-
   const getAccessToken = useCallback(async (): Promise<string | null> => {
     try {
+      console.log('Attempting to refresh Spotify access token...')
+      
       const response = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: {
@@ -84,8 +85,17 @@ export function LiveSpotifyIntegration({
       })
 
       if (!response.ok) {
-        throw new Error('Failed to refresh access token')
-      }      const data = await response.json()
+        const errorText = await response.text()
+        console.error('Spotify token refresh failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorText
+        })
+        throw new Error(`Failed to refresh access token: ${response.status} ${response.statusText}`)
+      }
+
+      const data = await response.json()
+      console.log('Successfully refreshed Spotify access token')
       return data.access_token
     } catch (error) {
       console.error('Error getting access token:', error)
@@ -106,14 +116,13 @@ export function LiveSpotifyIntegration({
 
     return response.json()
   }, [])
-
   const initializeSpotifyData = useCallback(async () => {
     try {
       setIsLoading(true)
       const token = await getAccessToken()
       
       if (!token) {
-        throw new Error('Failed to get access token')
+        throw new Error('Failed to get access token. Please check your Spotify API credentials and refresh token.')
       }
 
       // Fetch data concurrently
@@ -164,10 +173,14 @@ export function LiveSpotifyIntegration({
       setIsLoading(false)
     }
   }, [showCurrentlyPlaying, showTopTracks, showTopArtists, showPlaylists, getAccessToken, spotifyFetch])
-
   useEffect(() => {
     if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
-      setError('Spotify API credentials not configured')
+      console.error('Missing Spotify credentials:', {
+        CLIENT_ID: !!CLIENT_ID,
+        CLIENT_SECRET: !!CLIENT_SECRET,
+        REFRESH_TOKEN: !!REFRESH_TOKEN
+      })
+      setError('Spotify API credentials not configured properly. Please check your environment variables.')
       setIsLoading(false)
       return
     }

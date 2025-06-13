@@ -105,14 +105,12 @@ export default function AboutMePage() {
             <TypewriterText text="my journey so far 🗺️" speed={100} />
           </h2>
         </ScrollAnimation>        <InteractiveTimeline events={[]} />
-      </section>{/* Skills & Interests Section */}
+      </section>      {/* Skills & Music Section - Side by Side */}
       <section className="px-6 md:px-12 lg:px-24 xl:px-32 py-16">
-        <SkillsRadar />
-      </section>
-
-      {/* Music Taste Section */}
-      <section className="px-6 md:px-12 lg:px-24 xl:px-32 py-16">
-        <MusicTaste />
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12">
+          <SkillsRadar />
+          <MusicTaste />
+        </div>
       </section>
 
       {/* Fun interactive element */}

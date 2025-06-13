@@ -45,33 +45,28 @@ export const SkillsRadar = ({
   const size = 300
   const center = size / 2
   const maxRadius = center - 40
-  
-  // Create concentric circles for the radar background
+    // Create concentric circles for the radar background
   const circles = [20, 40, 60, 80, 100].map(percentage => 
-    (maxRadius * percentage) / 100
+    Math.round(((maxRadius * percentage) / 100) * 1000) / 1000
   )
-
   // Convert skill level to radius
-  const getRadius = (level: number) => (maxRadius * level) / 100
-
+  const getRadius = (level: number) => Math.round(((maxRadius * level) / 100) * 1000) / 1000
   // Get angle for each skill (evenly distributed)
-  const getAngle = (index: number) => (index * 360) / skills.length
-
+  const getAngle = (index: number) => Math.round(((index * 360) / skills.length) * 1000) / 1000
   // Convert polar coordinates to cartesian
   const polarToCartesian = (angle: number, radius: number) => {
     const radians = (angle - 90) * (Math.PI / 180)
     return {
-      x: center + radius * Math.cos(radians),
-      y: center + radius * Math.sin(radians)
+      x: Math.round((center + radius * Math.cos(radians)) * 1000) / 1000,
+      y: Math.round((center + radius * Math.sin(radians)) * 1000) / 1000
     }
   }
-
   return (
     <ScrollAnimation animation="scale" className={className}>
-      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#F59E0B]/20 rounded-xl p-6">
+      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#F59E0B]/20 rounded-xl p-6 h-full">
         <h3 className="text-2xl font-serif text-[#F59E0B] text-center mb-6">Skills & Interests</h3>
         
-        <div className="flex flex-col lg:flex-row items-center gap-8">
+        <div className="flex flex-col items-center gap-6">
           {/* Radar Chart */}
           <div className="relative">
             <svg
@@ -178,17 +173,15 @@ export const SkillsRadar = ({
               })}
             </svg>
           </div>
-          
-          {/* Legend */}
-          <div className="space-y-4">
-            <h4 className="font-serif text-[#F59E0B] mb-4">Categories</h4>
+            {/* Legend */}
+          <div className="grid grid-cols-2 gap-3 w-full max-w-sm">
             {Object.entries(categoryColors).map(([category, color]) => (
-              <div key={category} className="flex items-center gap-3">
+              <div key={category} className="flex items-center gap-2">
                 <div 
-                  className="w-4 h-4 rounded-full"
+                  className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: color }}
                 />
-                <span className="text-[#F59E0B] capitalize text-sm">
+                <span className="text-[#F59E0B] capitalize text-xs">
                   {category}
                 </span>
               </div>
