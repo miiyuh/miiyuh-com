@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { initializeGallery, loadGalleryData } from '@/utils/gallery-loader';
 import { JapanFlag } from '@/utils';
-import LoadingSpinner from '@/components/loading-spinner';
-import ErrorBoundary from '@/components/error-boundary';
+import LoadingSpinner from '@/components/ui/loading-spinner';
+import ErrorBoundary from '@/components/ui/error-boundary';
 
 export default function GalleryPage() {
   const [isLoading, setIsLoading] = useState(true);

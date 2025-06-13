@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { MalaysiaFlag } from './malaysia-flag'
+import { MalaysiaFlag } from '@/utils'
 
 export default function Footer() {
   return (

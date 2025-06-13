@@ -6,9 +6,9 @@ import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
 import { useEffect, useState, useRef } from 'react'
-import { TypewriterText, AnimatedHeading } from '@/components/animated-text'
-import { ParallaxElement } from '@/components/parallax-effects'
-import { ScrollAnimation } from '@/components/scroll-animations'
+import { TypewriterText, AnimatedHeading } from '@/components/effects/animated-text'
+import { ParallaxElement } from '@/components/effects/parallax-effects'
+import { ScrollAnimation } from '@/components/effects/scroll-animations'
 
 export default function HomePage() {  const playClick = useSound('/sounds/click.mp3', 0.7)
   const [mounted, setMounted] = useState(false)

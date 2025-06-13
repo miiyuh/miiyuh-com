@@ -1,9 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Noto_Sans, Noto_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
-import ClientHeader from '@/components/client-header'
-import Footer from '@/components/footer'
-import ScrollToTopButton from '@/components/scroll-to-top-button'
+import ClientHeader from '@/components/layout/client-header'
+import Footer from '@/components/layout/footer'
+import ScrollToTopButton from '@/components/ui/scroll-to-top-button'
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from "@vercel/analytics/react"
 

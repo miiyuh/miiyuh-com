@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { MalaysiaFlag } from '../../components/malaysia-flag'
+import { MalaysiaFlag } from '@/utils'
 
 export default function AboutMePage() {
   const [mounted, setMounted] = useState(false)
