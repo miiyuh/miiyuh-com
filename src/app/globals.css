@@ -58,8 +58,12 @@ span, div {
   font-family: inherit, var(--font-noto-color-emoji), 'Noto Color Emoji';
 }
 
-/* Add focus styles for accessibility */
+/* Remove default focus outlines for mouse users, keep for keyboard users */
 *:focus {
+  outline: none;
+}
+
+*:focus-visible {
   outline: 2px solid var(--text-primary);
   outline-offset: 2px;
 }
