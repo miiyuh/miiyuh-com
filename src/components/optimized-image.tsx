@@ -45,8 +45,8 @@ export const OptimizedImage = ({
 
   if (hasError) {
     return (
-      <div className={`bg-[#8B5A2B]/20 rounded flex items-center justify-center ${className}`}>
-        <span className="text-[#8B5A2B]/50 text-sm">Failed to load image</span>
+      <div className={`bg-[#F59E0B]/20 rounded flex items-center justify-center ${className}`}>
+        <span className="text-[#F59E0B]/50 text-sm">Failed to load image</span>
       </div>
     )
   }
@@ -103,7 +103,6 @@ export const LazyImage = (props: OptimizedImageProps) => {
   return (
     <OptimizedImage
       {...props}
-      loading="lazy"
       placeholder="blur"
       blurDataURL={props.blurDataURL || generateBlurDataURL(props.width || 400, props.height || 300)}
     />

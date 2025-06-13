@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { ScrollAnimation } from './scroll-animations'
 
 interface SpotifyTrack {
@@ -58,31 +59,17 @@ export function LiveSpotifyIntegration({
   showTopTracks = true,
   showTopArtists = true,
   showPlaylists = false
-}: LiveSpotifyProps) {
-  const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null)
+}: LiveSpotifyProps) {  const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null)
   const [topTracks, setTopTracks] = useState<SpotifyTrack[]>([])
   const [topArtists, setTopArtists] = useState<SpotifyArtist[]>([])
   const [playlists, setPlaylists] = useState<SpotifyPlaylist[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [accessToken, setAccessToken] = useState<string | null>(null)
-
-  // Spotify API configuration (these would be environment variables)
+  const [error, setError] = useState<string | null>(null)// Spotify API configuration (these would be environment variables)
   const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
   const CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
   const REFRESH_TOKEN = process.env.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN
 
-  useEffect(() => {
-    if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
-      setError('Spotify API credentials not configured')
-      setIsLoading(false)
-      return
-    }
-
-    initializeSpotifyData()
-  }, [])
-
-  const getAccessToken = async (): Promise<string | null> => {
+  const getAccessToken = useCallback(async (): Promise<string | null> => {
     try {
       const response = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
@@ -98,18 +85,15 @@ export function LiveSpotifyIntegration({
 
       if (!response.ok) {
         throw new Error('Failed to refresh access token')
-      }
-
-      const data = await response.json()
-      setAccessToken(data.access_token)
+      }      const data = await response.json()
       return data.access_token
     } catch (error) {
       console.error('Error getting access token:', error)
       return null
     }
-  }
+  }, [CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN])
 
-  const spotifyFetch = async (endpoint: string, token: string) => {
+  const spotifyFetch = useCallback(async (endpoint: string, token: string) => {
     const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -121,9 +105,9 @@ export function LiveSpotifyIntegration({
     }
 
     return response.json()
-  }
+  }, [])
 
-  const initializeSpotifyData = async () => {
+  const initializeSpotifyData = useCallback(async () => {
     try {
       setIsLoading(true)
       const token = await getAccessToken()
@@ -179,14 +163,17 @@ export function LiveSpotifyIntegration({
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [showCurrentlyPlaying, showTopTracks, showTopArtists, showPlaylists, getAccessToken, spotifyFetch])
 
-  const formatDuration = (ms: number): string => {
-    const minutes = Math.floor(ms / 60000)
-    const seconds = Math.floor((ms % 60000) / 1000)
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
-  }
-
+  useEffect(() => {
+    if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
+      setError('Spotify API credentials not configured')
+      setIsLoading(false)
+      return
+    }
+    
+    initializeSpotifyData()
+  }, [CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, initializeSpotifyData])
   if (isLoading) {
     return (
       <div className={`bg-[#252525] rounded-lg p-6 border-l-4 border-green-500 ${className}`}>
@@ -246,11 +233,12 @@ export function LiveSpotifyIntegration({
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="flex items-center space-x-4"
-              >
-                {currentTrack.album.images[0] && (
-                  <img
+              >                {currentTrack.album.images[0] && (
+                  <Image
                     src={currentTrack.album.images[0].url}
                     alt={`${currentTrack.album.name} cover`}
+                    width={64}
+                    height={64}
                     className="w-16 h-16 rounded-lg shadow-md"
                   />
                 )}
@@ -300,11 +288,12 @@ export function LiveSpotifyIntegration({
                 >
                   <span className="text-[#FAF3E0]/50 text-sm font-mono w-6">
                     #{index + 1}
-                  </span>
-                  {track.album.images[2] && (
-                    <img
+                  </span>                  {track.album.images[2] && (
+                    <Image
                       src={track.album.images[2].url}
                       alt={`${track.album.name} cover`}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded"
                     />
                   )}
@@ -347,11 +336,12 @@ export function LiveSpotifyIntegration({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block"
-                  >
-                    {artist.images[0] && (
-                      <img
+                  >                    {artist.images[0] && (
+                      <Image
                         src={artist.images[0].url}
                         alt={artist.name}
+                        width={150}
+                        height={150}
                         className="w-full aspect-square object-cover rounded-full mb-2 group-hover:opacity-80 transition-opacity"
                       />
                     )}
@@ -362,6 +352,47 @@ export function LiveSpotifyIntegration({
                       {artist.followers.total.toLocaleString()} followers
                     </p>
                   </a>
+                </motion.div>
+              ))}
+            </div>          </div>
+        </ScrollAnimation>
+      )}
+
+      {/* Playlists */}
+      {showPlaylists && playlists.length > 0 && (
+        <ScrollAnimation animation="fadeUp" delay={600}>
+          <div className="bg-[#252525] rounded-lg p-6 border-l-4 border-yellow-500">
+            <h3 className="font-bold text-lg mb-4 text-[#FAF3E0]">my playlists</h3>
+            <div className="space-y-3">
+              {playlists.map((playlist, index) => (
+                <motion.div
+                  key={playlist.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center space-x-3 group"
+                >                  {playlist.images[0] && (
+                    <Image
+                      src={playlist.images[0].url}
+                      alt={`${playlist.name} cover`}
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 rounded"
+                    />
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <a
+                      href={playlist.external_urls.spotify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#FAF3E0] font-medium hover:text-yellow-400 transition-colors truncate block"
+                    >
+                      {playlist.name}
+                    </a>
+                    <p className="text-[#FAF3E0]/60 text-sm truncate">
+                      {playlist.tracks.total} tracks
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </div>

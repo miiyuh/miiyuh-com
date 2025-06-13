@@ -5,9 +5,9 @@
  * This script runs various tests and optimizations to ensure peak performance
  */
 
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require('child_process')
+import fs from 'fs'
+import path from 'path'
+import { execSync } from 'child_process'
 
 class WebsiteOptimizer {
   constructor() {
@@ -278,7 +278,7 @@ class WebsiteOptimizer {
 
     // Accessibility recommendations
     const lowAccessibilityScores = Object.entries(this.results.accessibility)
-      .filter(([_, comp]) => comp.score < 3)
+      .filter(([, comp]) => comp.score < 3)
 
     if (lowAccessibilityScores.length > 0) {
       recommendations.push({
@@ -349,9 +349,9 @@ class WebsiteOptimizer {
 }
 
 // Run the optimizer
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const optimizer = new WebsiteOptimizer()
   optimizer.run()
 }
 
-module.exports = WebsiteOptimizer
+export default WebsiteOptimizer

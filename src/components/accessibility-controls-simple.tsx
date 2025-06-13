@@ -21,10 +21,9 @@ export function AccessibilityControls({ className = '' }: AccessibilityControlsP
   return (
     <>
       {/* Skip Links - Only visible when focused */}
-      <div className={`sr-only focus-within:not-sr-only focus-within:absolute focus-within:top-0 focus-within:left-0 z-50 ${className}`}>
-        <a
+      <div className={`sr-only focus-within:not-sr-only focus-within:absolute focus-within:top-0 focus-within:left-0 z-50 ${className}`}>        <a
           href="#main-content"
-          className="bg-[#FAF3E0] text-[#1A1A1A] px-4 py-2 rounded-br-lg font-bold focus:outline-none focus:ring-2 focus:ring-[#8B5A2B]"
+          className="bg-[#FAF3E0] text-[#1A1A1A] px-4 py-2 rounded-br-lg font-bold focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
         >
           Skip to main content
         </a>

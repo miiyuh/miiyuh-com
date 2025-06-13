@@ -24,7 +24,7 @@ export const LoadingSkeleton = ({
       {Array.from({ length: lines }).map((_, index) => (
         <div
           key={index}
-          className={`bg-[#8B5A2B]/20 rounded ${height} mb-2 ${
+          className={`bg-[#F59E0B]/20 rounded ${height} mb-2 ${
             index === lines - 1 ? 'w-3/4' : 'w-full'
           }`}
         />
@@ -38,15 +38,15 @@ export const SkeletonCard = ({
   hasImage = true
 }: SkeletonCardProps) => {
   return (
-    <div className={`animate-pulse bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#8B5A2B]/20 rounded-lg p-6 ${className}`}>
+    <div className={`animate-pulse bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#F59E0B]/20 rounded-lg p-6 ${className}`}>
       {hasImage && (
-        <div className="bg-[#8B5A2B]/20 rounded h-48 mb-4" />
+        <div className="bg-[#F59E0B]/20 rounded h-48 mb-4" />
       )}
       <div className="space-y-3">
-        <div className="bg-[#8B5A2B]/20 rounded h-6 w-3/4" />
-        <div className="bg-[#8B5A2B]/20 rounded h-4 w-full" />
-        <div className="bg-[#8B5A2B]/20 rounded h-4 w-5/6" />
-        <div className="bg-[#8B5A2B]/20 rounded h-4 w-2/3" />
+        <div className="bg-[#F59E0B]/20 rounded h-6 w-3/4" />
+        <div className="bg-[#F59E0B]/20 rounded h-4 w-full" />
+        <div className="bg-[#F59E0B]/20 rounded h-4 w-5/6" />
+        <div className="bg-[#F59E0B]/20 rounded h-4 w-2/3" />
       </div>
     </div>
   )
@@ -60,7 +60,7 @@ export const ImageSkeleton = ({
   aspectRatio?: string
 }) => {
   return (
-    <div className={`animate-pulse bg-[#8B5A2B]/20 rounded ${aspectRatio} ${className}`} />
+    <div className={`animate-pulse bg-[#F59E0B]/20 rounded ${aspectRatio} ${className}`} />
   )
 }
 
@@ -95,13 +95,13 @@ export const PageLoader = () => {
           className="mb-8"
         >
           <div className="text-6xl font-emoji mb-4">🌟</div>
-          <h2 className="text-2xl font-serif text-[#8B5A2B] mb-2">Loading</h2>
-          <p className="text-[#8B5A2B]/70">Preparing your experience...</p>
+          <h2 className="text-2xl font-serif text-[#F59E0B] mb-2">Loading</h2>
+          <p className="text-[#F59E0B]/70">Preparing your experience...</p>
         </motion.div>
         
-        <div className="w-64 h-2 bg-[#8B5A2B]/20 rounded-full overflow-hidden">
+        <div className="w-64 h-2 bg-[#F59E0B]/20 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-gradient-to-r from-[#8B5A2B] to-[#A0662F] rounded-full"
+            className="h-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
@@ -111,7 +111,7 @@ export const PageLoader = () => {
         <motion.p
           animate={{ opacity: [1, 0.5, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="text-[#8B5A2B]/60 text-sm mt-4"
+          className="text-[#F59E0B]/60 text-sm mt-4"
         >
           {progress < 30 ? 'Loading assets...' : 
            progress < 70 ? 'Preparing interface...' : 

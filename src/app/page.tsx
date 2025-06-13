@@ -62,7 +62,7 @@ export default function HomePage() {
         <div className={`flex flex-col items-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {/* Dynamic greeting with typewriter effect */}
           {mounted && (
-            <ScrollAnimation animation="fadeIn" className="mb-8 text-center">
+            <ScrollAnimation animation="fadeIn" className="mt-8 md:mt-16 mb-16 text-center">
               <AnimatedHeading variant="fade" delay={0.2}>
                 <TypewriterText 
                   text={[getGreeting(), "welcome to my space 💫", getGreeting()]}
@@ -86,15 +86,16 @@ export default function HomePage() {
             />
           </ScrollAnimation>          {/* Navigation Cards */}
           <ScrollAnimation animation="fadeUp" delay={0.8} className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl mb-12">
-            {NAVIGATION_LINKS.map((link, index) => (                <ScrollAnimation
-                  key={link.href}
-                  animation="fadeUp"
-                  delay={1 + index * 0.15}
-                >
+            {NAVIGATION_LINKS.map((link, index) => (
+              <ScrollAnimation
+                key={link.href}
+                animation="fadeUp"
+                delay={1 + index * 0.15}
+              >
                 <Link
                   href={link.href}
                   onClick={playClick}
-                  className="group bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20"
+                  className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none"
                 >
                   <div className="text-left">
                     <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji">
@@ -119,8 +120,8 @@ export default function HomePage() {
                 </Link>
               </ScrollAnimation>
             ))}
-          </ScrollAnimation>          {/* Fun interactive element */}
-          <ScrollAnimation animation="fadeIn" delay={1.5} className="mt-12 text-center">
+          </ScrollAnimation>{/* Fun interactive element */}
+          <ScrollAnimation animation="fadeIn" delay={1.5} className="mt-12 text-center mb-16">
             <TypewriterText 
               text="welcome to my little corner on the internet 💫"
               className="font-serif text-sm text-[#FAF3E0]/50 hover:text-[#FAF3E0]/80 transition-colors duration-300 cursor-default"

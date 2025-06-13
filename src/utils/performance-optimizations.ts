@@ -1,6 +1,3 @@
-// Performance optimization utilities
-import { NextRequest, NextResponse } from 'next/server'
-
 // Image optimization configurations
 export const imageConfig = {
   formats: ['image/webp', 'image/avif'],
@@ -103,7 +100,7 @@ export const measurePerformance = () => {
           domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
           loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
           ttfb: perfData.responseStart - perfData.requestStart, // Time to First Byte
-          domInteractive: perfData.domInteractive - perfData.navigationStart
+          domInteractive: perfData.domInteractive
         }
 
         // Log metrics for development
@@ -123,14 +120,17 @@ export const optimizeMemory = () => {
     // Clean up event listeners on page unload
     window.addEventListener('beforeunload', () => {
       // Clear any intervals or timeouts
-      const highestTimeoutId = setTimeout(() => {}, 0)
-      for (let i = 0; i < highestTimeoutId; i++) {
-        clearTimeout(i)
-      }
-      
-      const highestIntervalId = setInterval(() => {}, 1000)
-      for (let i = 0; i < highestIntervalId; i++) {
-        clearInterval(i)
+      // Only works in browser environments where setTimeout returns a number
+      if (typeof window !== 'undefined' && typeof window.clearTimeout === 'function') {
+        const highestTimeoutId = window.setTimeout(() => {}, 0)
+        for (let i = 0; i <= highestTimeoutId; i++) {
+          window.clearTimeout(i)
+        }
+        
+        const highestIntervalId = window.setInterval(() => {}, 1000)
+        for (let i = 0; i <= highestIntervalId; i++) {
+          window.clearInterval(i)
+        }
       }
     })
   }

@@ -1,11 +1,11 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Noto_Sans, Noto_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
 import ClientHeader from '@/components/client-header'
 import Footer from '@/components/footer'
 import ScrollToTopButton from '@/components/scroll-to-top-button'
 import PageTransition from '@/components/page-transition'
-import ParticleSystem from '@/components/particle-system'
 import { AccessibilityControls } from '@/components/accessibility-controls-simple'
 import { PerformanceMonitor } from '@/components/analytics'
 import { StructuredData } from '@/components/structured-data'
@@ -97,20 +97,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://vercel.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         {/* Preload critical resources */}
-        <link 
-          rel="preload" 
-          href="/assets/img/logo_miiyuh_text_white_v2.png" 
-          as="image" 
-          type="image/png"
-        />
-        <script
-          src="https://app.rybbit.io/api/script.js"
-          data-site-id="1007"
-          defer        ></script>
+        <link rel="preload" href="/assets/img/logo_miiyuh_text_white_v2.png" as="image" type="image/png" />
+        <script src="https://app.rybbit.io/api/script.js" data-site-id="1007" defer></script>
       </head>
-      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>        <ParticleSystem theme="light" density={30} className="z-0" />
+      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
         <StructuredData type="website" />
-        <PerformanceMonitor />
+        <Suspense fallback={null}>
+          <PerformanceMonitor />
+        </Suspense>
         <AccessibilityControls />
         <ClientHeader />
         <main className="flex-grow relative z-10" id="main-content">

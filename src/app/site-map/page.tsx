@@ -74,7 +74,7 @@ const categoryTitles = {
 }
 
 const categoryColors = {
-  main: 'border-[#8B5A2B]/30 hover:border-[#8B5A2B]/50',
+  main: 'border-[#F59E0B]/30 hover:border-[#F59E0B]/50',
   info: 'border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40',
   external: 'border-[#FAF3E0]/30 hover:border-[#FAF3E0]/50'
 }
@@ -125,9 +125,8 @@ export default function SiteMapPage() {
               animation="fadeUp"
               delay={categoryIndex * 0.2}
               className="mb-12"
-            >
-              <h2 className="text-2xl font-serif text-[#FAF3E0] mb-6 flex items-center gap-3">
-                <span className="w-8 h-0.5 bg-[#8B5A2B]"></span>
+            >              <h2 className="text-2xl font-serif text-[#FAF3E0] mb-6 flex items-center gap-3">
+                <span className="w-8 h-0.5 bg-[#F59E0B]"></span>
                 {categoryTitles[category as keyof typeof categoryTitles]}
               </h2>
               
@@ -184,10 +183,9 @@ export default function SiteMapPage() {
           <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#FAF3E0]/20 rounded-lg p-6 max-w-2xl mx-auto">
             <p className="font-serif text-[#FAF3E0]/70 mb-4">
               This site map provides an overview of all available pages and sections. 
-              If you can't find what you're looking for, feel free to explore or contact me through my socials.
-            </p>
-            <div className="flex justify-center gap-4 text-sm">
-              <span className="px-3 py-1 bg-[#8B5A2B]/20 rounded-full text-[#FAF3E0]/80">
+              If you can&apos;t find what you&apos;re looking for, feel free to explore or contact me through my socials.
+            </p>            <div className="flex justify-center gap-4 text-sm">
+              <span className="px-3 py-1 bg-[#F59E0B]/20 rounded-full text-[#FAF3E0]/80">
                 {siteMapItems.length} pages total
               </span>
               <span className="px-3 py-1 bg-[#FAF3E0]/10 rounded-full text-[#FAF3E0]/80">

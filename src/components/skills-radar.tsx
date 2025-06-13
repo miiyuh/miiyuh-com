@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { ScrollAnimation } from './scroll-animations'
 
 interface Skill {
@@ -68,8 +68,8 @@ export const SkillsRadar = ({
 
   return (
     <ScrollAnimation animation="scale" className={className}>
-      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#8B5A2B]/20 rounded-xl p-6">
-        <h3 className="text-2xl font-serif text-[#8B5A2B] text-center mb-6">Skills & Interests</h3>
+      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#F59E0B]/20 rounded-xl p-6">
+        <h3 className="text-2xl font-serif text-[#F59E0B] text-center mb-6">Skills & Interests</h3>
         
         <div className="flex flex-col lg:flex-row items-center gap-8">
           {/* Radar Chart */}
@@ -167,7 +167,7 @@ export const SkillsRadar = ({
                       y={labelPoint.y}
                       textAnchor="middle"
                       dominantBaseline="middle"
-                      className="text-xs font-sans fill-[#8B5A2B] cursor-pointer"
+                      className="text-xs font-sans fill-[#F59E0B] cursor-pointer"
                       onClick={() => setSelectedSkill(skill)}
                     >
                       <tspan x={labelPoint.x} dy="0">{skill.icon}</tspan>
@@ -181,14 +181,14 @@ export const SkillsRadar = ({
           
           {/* Legend */}
           <div className="space-y-4">
-            <h4 className="font-serif text-[#8B5A2B] mb-4">Categories</h4>
+            <h4 className="font-serif text-[#F59E0B] mb-4">Categories</h4>
             {Object.entries(categoryColors).map(([category, color]) => (
               <div key={category} className="flex items-center gap-3">
                 <div 
                   className="w-4 h-4 rounded-full"
                   style={{ backgroundColor: color }}
                 />
-                <span className="text-[#8B5A2B] capitalize text-sm">
+                <span className="text-[#F59E0B] capitalize text-sm">
                   {category}
                 </span>
               </div>
@@ -201,23 +201,23 @@ export const SkillsRadar = ({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 p-4 bg-[#FAF3E0]/10 rounded-lg border border-[#8B5A2B]/20"
+            className="mt-6 p-4 bg-[#FAF3E0]/10 rounded-lg border border-[#F59E0B]/20"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{selectedSkill.icon}</span>
                 <div>
-                  <h4 className="font-serif text-[#8B5A2B] text-lg">{selectedSkill.name}</h4>
-                  <p className="text-[#8B5A2B]/70 text-sm capitalize">{selectedSkill.category}</p>
+                  <h4 className="font-serif text-[#F59E0B] text-lg">{selectedSkill.name}</h4>
+                  <p className="text-[#F59E0B]/70 text-sm capitalize">{selectedSkill.category}</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-mono font-bold text-[#8B5A2B]">
+                <div className="text-2xl font-mono font-bold text-[#F59E0B]">
                   {selectedSkill.level}%
                 </div>
                 <button
                   onClick={() => setSelectedSkill(null)}
-                  className="text-[#8B5A2B]/50 hover:text-[#8B5A2B] text-sm"
+                  className="text-[#F59E0B]/50 hover:text-[#F59E0B] text-sm"
                 >
                   ✕
                 </button>

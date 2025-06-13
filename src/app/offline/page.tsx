@@ -57,7 +57,7 @@ export default function OfflinePage() {
             <ScrollAnimation animation="fadeUp" delay={200}>
               <div className="bg-[#2A2A2A] rounded-lg p-8 border border-[#FAF3E0]/10">
                 <p className="font-serif text-xl leading-relaxed text-[#FAF3E0]/90 mb-4">
-                  looks like you've lost your internet connection. no worries though – some parts of the site are still available!
+                  looks like you&apos;ve lost your internet connection. no worries though – some parts of the site are still available!
                 </p>
               </div>
             </ScrollAnimation>
@@ -83,7 +83,7 @@ export default function OfflinePage() {
                 </div>
 
                 <div className="bg-[#252525] rounded-lg p-6 border-l-4 border-[#FAF3E0]/50">
-                  <h3 className="font-bold text-lg mb-3 text-[#FAF3E0]">when you're back online:</h3>
+                  <h3 className="font-bold text-lg mb-3 text-[#FAF3E0]">when you&apos;re back online:</h3>
                   <ul className="space-y-2 text-[#FAF3E0]/80 text-left">
                     <li className="flex items-center">
                       <span className="w-2 h-2 bg-[#FAF3E0]/50 rounded-full mr-3"></span>

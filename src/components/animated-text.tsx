@@ -31,16 +31,21 @@ export const TypewriterText = ({
     : [text]
 
   return (
-    <TypeAnimation
-      sequence={sequence}
-      wrapper="span"
-      speed={speed}
-      className={className}
-      repeat={repeat ? Infinity : 0}
-      style={{ display: 'inline-block' }}
-      cursor={true}
-      deletionSpeed={speed * 2}
-    />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay }}
+    >      <TypeAnimation
+        sequence={sequence}
+        wrapper="span"
+        speed={speed as 1 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 99}
+        className={className}
+        repeat={repeat ? Infinity : 0}
+        style={{ display: 'inline-block' }}
+        cursor={true}
+        deletionSpeed={Math.min(99, speed * 2) as 1 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 99}
+      />
+    </motion.div>
   )
 }
 
@@ -64,7 +69,6 @@ export const AnimatedHeading = ({
       animate: { opacity: 1, scale: 1 }
     }
   }
-
   return (
     <motion.div
       initial={variants[variant].initial}

@@ -65,7 +65,7 @@ export const InteractiveTimeline = ({
   return (
     <div className={`relative ${className}`}>
       {/* Timeline Line */}
-      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#8B5A2B]/30 via-[#8B5A2B]/60 to-[#8B5A2B]/30" />
+      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#F59E0B]/30 via-[#F59E0B]/60 to-[#F59E0B]/30" />
       
       {/* Events */}
       <div className="space-y-8">
@@ -78,7 +78,7 @@ export const InteractiveTimeline = ({
           >
             {/* Timeline Dot */}
             <motion.div
-              className="absolute left-6 w-4 h-4 rounded-full bg-[#8B5A2B] border-4 border-[#FAF3E0] z-10 cursor-pointer"
+              className="absolute left-6 w-4 h-4 rounded-full bg-[#F59E0B] border-4 border-[#FAF3E0] z-10 cursor-pointer"
               whileHover={{ scale: 1.3 }}
               whileTap={{ scale: 0.9 }}
               animate={{
@@ -96,7 +96,7 @@ export const InteractiveTimeline = ({
               whileHover={{ x: 8 }}
               onClick={() => setSelectedEvent(event)}
             >
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#8B5A2B]/20 rounded-lg p-6 hover:bg-[#FAF3E0]/10 transition-all duration-300">
+              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#F59E0B]/20 rounded-lg p-6 hover:bg-[#FAF3E0]/10 transition-all duration-300">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
@@ -105,15 +105,15 @@ export const InteractiveTimeline = ({
                         {event.category}
                       </span>
                     </div>
-                    <h3 className="text-xl font-serif text-[#8B5A2B] mb-1 group-hover:text-[#A0662F] transition-colors">
+                    <h3 className="text-xl font-serif text-[#F59E0B] mb-1 group-hover:text-[#D97706] transition-colors">
                       {event.title}
                     </h3>
-                    <p className="text-[#8B5A2B]/70 text-sm mb-2">
+                    <p className="text-[#F59E0B]/70 text-sm mb-2">
                       {event.description}
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-lg font-mono font-bold text-[#8B5A2B]">
+                    <span className="text-lg font-mono font-bold text-[#F59E0B]">
                       {event.year}
                     </span>
                   </div>
@@ -137,18 +137,18 @@ export const InteractiveTimeline = ({
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-[#FAF3E0] rounded-lg p-8 max-w-md w-full border border-[#8B5A2B]/20"
+            className="bg-[#FAF3E0] rounded-lg p-8 max-w-md w-full border border-[#F59E0B]/20"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center">
               <span className="text-4xl mb-4 block">{selectedEvent.icon}</span>
-              <h2 className="text-2xl font-serif text-[#8B5A2B] mb-2">
+              <h2 className="text-2xl font-serif text-[#F59E0B] mb-2">
                 {selectedEvent.title}
               </h2>
-              <p className="text-lg font-mono text-[#8B5A2B]/80 mb-4">
+              <p className="text-lg font-mono text-[#F59E0B]/80 mb-4">
                 {selectedEvent.year}
               </p>
-              <p className="text-[#8B5A2B]/70 mb-6">
+              <p className="text-[#F59E0B]/70 mb-6">
                 {selectedEvent.description}
               </p>
               <span className={`inline-block px-3 py-1 rounded-full text-sm border ${categoryColors[selectedEvent.category]} mb-6`}>
@@ -157,7 +157,7 @@ export const InteractiveTimeline = ({
               <div>
                 <button
                   onClick={() => setSelectedEvent(null)}
-                  className="px-6 py-2 bg-[#8B5A2B] text-[#FAF3E0] rounded-lg hover:bg-[#A0662F] transition-colors"
+                  className="px-6 py-2 bg-[#F59E0B] text-[#FAF3E0] rounded-lg hover:bg-[#D97706] transition-colors"
                 >
                   Close
                 </button>

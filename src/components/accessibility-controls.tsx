@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
 interface AccessibilityControlsProps {
@@ -8,14 +8,54 @@ interface AccessibilityControlsProps {
 }
 
 export function AccessibilityControls({ className = '' }: AccessibilityControlsProps) {
-  const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const [settings, setSettings] = useState({
+  type AccessibilitySettings = {
+    fontSize: number;
+    contrast: boolean;
+    reducedMotion: boolean;
+    focusVisible: boolean;
+  };
+
+  const [, setSettings] = useState<AccessibilitySettings>({
     fontSize: 100,
     contrast: false,
     reducedMotion: false,
     focusVisible: false
   })
+
+
+  const applySettings = useCallback((newSettings: AccessibilitySettings) => {
+    if (typeof window === 'undefined') return;
+    
+    const root = document.documentElement;
+
+    // Font size
+    root.style.fontSize = `${newSettings.fontSize}%`;
+
+    // High contrast
+    if (newSettings.contrast) {
+      root.classList.add('high-contrast');
+    } else {
+      root.classList.remove('high-contrast');
+    }
+
+    // Reduced motion
+    if (newSettings.reducedMotion) {
+      root.classList.add('reduce-motion');
+    } else {
+      root.classList.remove('reduce-motion');
+    }
+
+    // Focus indicators
+    if (newSettings.focusVisible) {
+      root.classList.add('focus-visible');
+    } else {
+      root.classList.remove('focus-visible');
+    }
+
+    // Save to localStorage
+    localStorage.setItem('accessibility-settings', JSON.stringify(newSettings));
+  }, []);
 
   useEffect(() => {
     setMounted(true)
@@ -39,57 +79,19 @@ export function AccessibilityControls({ className = '' }: AccessibilityControlsP
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setSettings(prev => ({ ...prev, reducedMotion: true }))
     }
-  }, [])
+  }, [applySettings])
 
-  const applySettings = (newSettings: typeof settings) => {
-    if (typeof window === 'undefined') return
-    
-    const root = document.documentElement
 
-    // Font size
-    root.style.fontSize = `${newSettings.fontSize}%`
-
-    // High contrast
-    if (newSettings.contrast) {
-      root.classList.add('high-contrast')
-    } else {
-      root.classList.remove('high-contrast')
-    }
-
-    // Reduced motion
-    if (newSettings.reducedMotion) {
-      root.classList.add('reduce-motion')
-    } else {
-      root.classList.remove('reduce-motion')
-    }
-
-    // Focus indicators
-    if (newSettings.focusVisible) {
-      root.classList.add('focus-visible')
-    } else {
-      root.classList.remove('focus-visible')
-    }
-
-    // Save to localStorage
-    localStorage.setItem('accessibility-settings', JSON.stringify(newSettings))
-  }
-
-  const updateSetting = (key: keyof typeof settings, value: number | boolean) => {
-    const newSettings = { ...settings, [key]: value }
-    setSettings(newSettings)
-    applySettings(newSettings)
-  }
-
-  const resetSettings = () => {
-    const defaultSettings = {
-      fontSize: 100,
-      contrast: false,
-      reducedMotion: false,
-      focusVisible: false
-    }
-    setSettings(defaultSettings)
-    applySettings(defaultSettings)
-  }
+  // const resetSettings = () => {
+  //   const defaultSettings = {
+  //     fontSize: 100,
+  //     contrast: false,
+  //     reducedMotion: false,
+  //     focusVisible: false
+  //   }
+  //   setSettings(defaultSettings)
+  //   applySettings(defaultSettings)
+  // }
 
   // Don't render anything until mounted to prevent hydration mismatch
   if (!mounted) {
@@ -100,7 +102,6 @@ export function AccessibilityControls({ className = '' }: AccessibilityControlsP
     <>
       {/* Accessibility Button */}
       <motion.button
-        onClick={() => setIsOpen(true)}
         className={`fixed bottom-4 left-4 z-50 bg-[#FAF3E0] text-[#1A1A1A] p-3 rounded-full shadow-lg hover:bg-[#FAF3E0]/90 transition-colors ${className}`}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -111,7 +112,6 @@ export function AccessibilityControls({ className = '' }: AccessibilityControlsP
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
         </svg>
       </motion.button>
-
       {/* Skip Links */}
       <div className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 z-50">
         <a

@@ -125,7 +125,7 @@ async function cacheFirst(request, cache) {
       cache.put(request, networkResponse.clone())
     }
     return networkResponse
-  } catch (error) {
+  } catch {
     console.log('Network failed, serving offline page if available')
     return cache.match('/offline') || new Response('Offline', { status: 503 })
   }
@@ -138,7 +138,7 @@ async function networkFirst(request, cache) {
       cache.put(request, networkResponse.clone())
     }
     return networkResponse
-  } catch (error) {
+  } catch {
     console.log('Network failed, trying cache')
     const cachedResponse = await cache.match(request)
     return cachedResponse || new Response('Offline', { status: 503 })

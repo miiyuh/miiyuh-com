@@ -3,6 +3,36 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
+// Type definitions for Web APIs
+interface PerformanceNavigatorConnection {
+  effectiveType?: 'slow-2g' | '2g' | '3g' | '4g'
+  downlink?: number
+  rtt?: number
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: PerformanceNavigatorConnection
+}
+
+interface PerformanceMemory {
+  usedJSHeapSize: number
+  totalJSHeapSize: number
+  jsHeapSizeLimit: number
+}
+
+interface PerformanceWithMemory extends Performance {
+  memory?: PerformanceMemory
+}
+
+interface LayoutShiftEntry extends PerformanceEntry {
+  value: number
+  hadRecentInput: boolean
+}
+
+interface FirstInputEntry extends PerformanceEntry {
+  processingStart: number
+}
+
 // Web Vitals tracking
 export const useWebVitals = () => {
   useEffect(() => {
@@ -16,11 +46,12 @@ export const useWebVitals = () => {
               console.log('LCP:', entry.startTime)
               break
             case 'first-input':
-              console.log('FID:', entry.processingStart - entry.startTime)
+              console.log('FID:', (entry as FirstInputEntry).processingStart - entry.startTime)
               break
             case 'layout-shift':
-              if (!(entry as any).hadRecentInput) {
-                console.log('CLS:', (entry as any).value)
+              const layoutEntry = entry as LayoutShiftEntry
+              if (!layoutEntry.hadRecentInput) {
+                console.log('CLS:', layoutEntry.value)
               }
               break
           }
@@ -30,7 +61,7 @@ export const useWebVitals = () => {
       // Observe different entry types
       try {
         observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] })
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support all entry types
         console.log('Performance observation not fully supported')
       }
@@ -162,7 +193,8 @@ export const useSiteSpeedOptimization = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Check connection quality
-      const connection = (navigator as any).connection
+      const navigator = window.navigator as NavigatorWithConnection
+      const connection = navigator.connection
       if (connection) {
         console.log('Connection info:', {
           effectiveType: connection.effectiveType,
@@ -177,8 +209,9 @@ export const useSiteSpeedOptimization = () => {
       }
 
       // Memory usage monitoring
-      if ('memory' in performance) {
-        const memory = (performance as any).memory
+      const performance = window.performance as PerformanceWithMemory
+      if (performance.memory) {
+        const memory = performance.memory
         console.log('Memory usage:', {
           used: Math.round(memory.usedJSHeapSize / 1048576) + ' MB',
           total: Math.round(memory.totalJSHeapSize / 1048576) + ' MB',

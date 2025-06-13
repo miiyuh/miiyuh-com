@@ -48,7 +48,7 @@ export default function Header() {
         </ul>
       </div>      {/* Mobile Menu */}
       <div className={`overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} lg:hidden`}>
-        <ul className="flex flex-col gap-4 text-sm font-bold bg-[#1A1A1A] px-6 py-4 border-t border-[#FAF3E0]/20">
+        <ul className="flex flex-col gap-4 text-sm font-bold bg-[#1A1A1A] pl-0 pr-6 py-4 border-t border-[#FAF3E0]/20 mt-4">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} onClick={playClick} className="hover:underline">

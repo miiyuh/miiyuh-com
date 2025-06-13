@@ -28,18 +28,25 @@ export const ParallaxElement = ({
     offset: ["start end", "end start"]
   })
 
+  // Create transforms based on direction
+  const transformUp = useTransform(scrollYProgress, [0, 1], [100 * speed, -100 * speed])
+  const transformDown = useTransform(scrollYProgress, [0, 1], [-100 * speed, 100 * speed])
+  const transformLeft = useTransform(scrollYProgress, [0, 1], [100 * speed, -100 * speed])
+  const transformRight = useTransform(scrollYProgress, [0, 1], [-100 * speed, 100 * speed])
+
+  // Select the appropriate transform based on direction
   const getTransform = () => {
     switch (direction) {
       case 'up':
-        return useTransform(scrollYProgress, [0, 1], [100 * speed, -100 * speed])
+        return transformUp
       case 'down':
-        return useTransform(scrollYProgress, [0, 1], [-100 * speed, 100 * speed])
+        return transformDown
       case 'left':
-        return useTransform(scrollYProgress, [0, 1], [100 * speed, -100 * speed])
+        return transformLeft
       case 'right':
-        return useTransform(scrollYProgress, [0, 1], [-100 * speed, 100 * speed])
+        return transformRight
       default:
-        return useTransform(scrollYProgress, [0, 1], [100 * speed, -100 * speed])
+        return transformUp
     }
   }
 
