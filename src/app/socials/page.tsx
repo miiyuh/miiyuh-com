@@ -9,11 +9,10 @@ export default function SocialsPage() {
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans">
 
       {/* Main Content */}
-      <section className="flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex flex-col">
-        <div className="mb-12 text-left">
+      <section className="flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex flex-col">        <div className="mb-12 text-left">
           <h1 className="text-5xl font-bold tracking-tighter mb-2">socials ✨</h1>
-          <p className="text-lg text-[#FAF3E0]/90">my accounts, duh.</p>
-        </div>        <section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6 text-center">
+          <p className="font-serif text-lg text-[#FAF3E0]/90">my accounts, duh.</p>
+        </div><section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6 text-center">
           {SOCIAL_PLATFORMS.map((social) => (
             <a
               key={social}

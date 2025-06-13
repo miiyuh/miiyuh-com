@@ -63,19 +63,17 @@ export default function GalleryPage() {
         <main className="flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
           {isLoading && <LoadingSpinner size="lg" className="py-12" />}
           
-          <section>
-            <div className="mb-6">
+          <section>            <div className="mb-6">
               <h1 className="text-5xl font-bold tracking-[-0.03em] mb-2">photography 📸</h1>
-              <p className="text-lg text-[#FAF3E0]/90">i dedicate this section to the photographs that i took, from both my phone and my camera.</p>
+              <p className="font-serif text-lg text-[#FAF3E0]/90">i dedicate this section to the photographs that i took, from both my phone and my camera.</p>
             </div>
             <h2 className="text-right font-bold text-3xl mb-4">2025 japan trip 🇯🇵</h2>
             <div id="lightgallery-photos-2025jp" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
           </section>
 
-        <section className="mt-16">
-          <div className="mb-6">
+        <section className="mt-16">          <div className="mb-6">
             <h1 className="text-5xl font-bold tracking-[-0.03em] mb-2">artwork 🎨</h1>
-            <p className="text-lg text-[#FAF3E0]/90">i am still learning on how to draw, so most of these are referenced on other peoples artworks.</p>
+            <p className="font-serif text-lg text-[#FAF3E0]/90">i am still learning on how to draw, so most of these are referenced on other peoples artworks.</p>
           </div>
           <h2 className="text-right font-bold text-3xl mb-4">2 0 2 2</h2>
           <div id="lightgallery-artworks-2022" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>

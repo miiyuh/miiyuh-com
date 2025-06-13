@@ -18,43 +18,39 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
 }
 
-/* Override all paragraphs to use Noto Serif */
-p {
-  font-family: var(--font-noto-serif), 'Noto Serif', serif !important;
-}
-
 /* Font class overrides with proper cascading */
 .font-sans {
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Inter', var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif !important;
 }
 
 .font-sans p {
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Inter', var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif !important;
 }
 
-.font-serif {
-  font-family: var(--font-noto-serif), 'Noto Serif', serif !important;
+.font-serif,
+.font-serif p {
+  font-family: var(--font-noto-serif), 'Noto Serif', var(--font-noto-color-emoji), 'Noto Color Emoji', serif !important;
 }
 
 .font-mono {
-  font-family: var(--font-noto-mono), 'Noto Sans Mono', monospace !important;
+  font-family: var(--font-noto-mono), 'Noto Sans Mono', var(--font-noto-color-emoji), 'Noto Color Emoji', monospace !important;
 }
 
 .font-emoji {
   font-family: var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif !important;
 }
 
-/* Emoji support - add to specific elements to avoid circular inheritance */
+/* Default styles for elements */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif;
 }
 
-p {
+/* Only paragraphs with font-serif class use Noto Serif */
+p.font-serif {
   font-family: var(--font-noto-serif), 'Noto Serif', var(--font-noto-color-emoji), 'Noto Color Emoji', serif !important;
 }
 

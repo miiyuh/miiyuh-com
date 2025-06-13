@@ -2,8 +2,18 @@
 
 import { useEffect, useState } from 'react'
 
+type FontInfo = {
+  bodyFont?: string
+  notoSerif?: string
+  notoSans?: string
+  notoMono?: string
+  notoEmoji?: string
+  pFont?: string
+  allVars?: Record<string, string>
+}
+
 export default function FontDebugPage() {
-  const [fontInfo, setFontInfo] = useState<any>({})
+  const [fontInfo, setFontInfo] = useState<FontInfo>({})
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -88,10 +98,9 @@ export default function FontDebugPage() {
           <h3 className="font-bold">Default text (should be Inter): </h3>
           <p>This is default text with emoji 🍁</p>
         </div>
-        
-        <div className="border border-gray-600 p-4">
+          <div className="border border-gray-600 p-4">
           <h3 className="font-bold">Paragraph tag (should be Noto Serif): </h3>
-          <p>This paragraph should use Noto Serif with emoji 🍁</p>
+          <p className="font-serif">This paragraph should use Noto Serif with emoji 🍁</p>
         </div>
         
         <div className="border border-gray-600 p-4">
