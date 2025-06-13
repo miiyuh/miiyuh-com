@@ -26,7 +26,7 @@ export default function HomePage() {
               alt="miiyuh - personal webpage logo"
               width={320}
               height={80}
-              className="mx-auto w-80"
+              className="mx-auto w-120"
               priority
               quality={90}
             />
