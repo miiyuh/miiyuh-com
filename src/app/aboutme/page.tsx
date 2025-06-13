@@ -1,13 +1,43 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 export default function AboutMePage() {
   const [mounted, setMounted] = useState(false)
-
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [hasMouseMoved, setHasMouseMoved] = useState(false)
+  const imageRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (imageRef.current) {
+        const imageRect = imageRef.current.getBoundingClientRect()
+        const imageCenterX = imageRect.left + imageRect.width / 2
+        const imageCenterY = imageRect.top + imageRect.height / 2
+        
+        // Calculate relative position (-1 to 1)
+        const deltaX = (e.clientX - imageCenterX) / (imageRect.width / 2)
+        const deltaY = (e.clientY - imageCenterY) / (imageRect.height / 2)
+        
+        // Limit the tilt range and convert to degrees
+        const maxTilt = 15 // Reduced maximum tilt for subtler effect
+        const limitedDeltaX = Math.max(-1, Math.min(1, deltaX)) // Clamp between -1 and 1
+        const limitedDeltaY = Math.max(-1, Math.min(1, deltaY)) // Clamp between -1 and 1
+        
+        const rotateY = limitedDeltaX * maxTilt // Horizontal mouse movement = Y-axis rotation
+        const rotateX = -limitedDeltaY * maxTilt // Vertical mouse movement = X-axis rotation (inverted)
+        
+        setMousePosition({ x: rotateX, y: rotateY })
+        setHasMouseMoved(true)
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
   return (
@@ -22,17 +52,32 @@ export default function AboutMePage() {
         {/* 🧩 Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex items-center justify-center">
 
-        <div className={`flex flex-col lg:flex-row items-center gap-12 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {/* Left Image */}
+        <div className={`flex flex-col lg:flex-row items-center gap-12 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>          {/* Left Image */}
           <div className="w-full lg:w-1/2 flex justify-center group">
-            <Image
-              src="/assets/img/kazuha.png"
-              alt="Kazuha character illustration"
-              width={300}
-              height={300}
-              loading="lazy"
-              quality={85}
-            />
+            <div 
+              ref={imageRef}
+              className="relative"
+              style={{
+                transform: hasMouseMoved 
+                  ? `perspective(1000px) rotateX(${mousePosition.x}deg) rotateY(${mousePosition.y}deg)`
+                  : `perspective(1000px) rotateX(0deg) rotateY(0deg)`,
+                transition: hasMouseMoved 
+                  ? 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  : 'transform 0.6s ease-out',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <Image
+                src="/assets/img/kazuha.png"
+                alt="Kazuha character illustration"
+                width={300}
+                height={300}
+                loading="lazy"
+                quality={85}
+                className="transition-all duration-500 group-hover:scale-105"
+                style={{ backfaceVisibility: 'hidden' }}
+              />
+            </div>
           </div>
 
           {/* Right Text */}
