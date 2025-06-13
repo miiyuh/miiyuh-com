@@ -1,8 +1,4 @@
-<img src="https://miiyuh.my/assets/img/logo_miiyuh_text_white_v2.png" alt="miiyuh.com logo" height="64px" /> <b>.com</b>
-
-
-welcome to the official source code for miiyuh.com.
-
+![miiyuh.com logo](https://miiyuh.my/assets/img/logo_miiyuh_text_white_v2.png)
 
 ## 🛠 Built With
 
@@ -42,24 +38,24 @@ welcome to the official source code for miiyuh.com.
 
 Clone the repository:
 
-```
+```git
 git clone https://github.com/your-username/miiyuh-com.git
 cd miiyuh-com
 ```
 
 Install dependencies:
 
-```
+```npm
 npm install
 ```
 
 Run the development server:
 
-```
+```npm
 npm run dev
 ```
 
-Open http://localhost:3000 to view it in your browser.
+Open <http://localhost:3000> to view it in your browser.
 
 ## 📜 License
 
@@ -73,6 +69,6 @@ Open http://localhost:3000 to view it in your browser.
 
 - 🚀 miiyuh.com (Hosted on Vercel)
 
-## 💬 Say Hi!
+## 💬 Say Hi
 
 - If you find this project inspiring or helpful, feel free to star ⭐ the repository or connect with me!
