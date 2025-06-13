@@ -1,43 +1,145 @@
 'use client'
 
 import Head from 'next/head'
+import { ScrollAnimation } from '@/components/scroll-animations'
+import { Breadcrumb } from '@/components/breadcrumb'
+import { TypewriterText } from '@/components/animated-text'
+import { ParallaxElement } from '@/components/parallax-effects'
+import { ParticleSystem } from '@/components/particle-system'
 
 export default function TermsOfService() {
   return (
     <>
       <Head>
         <title>terms of service | miiyuh</title>
-        <meta name="description" content="terms of service for miiyuh.com" />
+        <meta name="description" content="comprehensive terms of service for miiyuh.com outlining usage terms and conditions" />
       </Head>
 
-      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans">
-        <section className="flex-grow px-6 py-12 min-h-[70vh] max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold tracking-tight font-sans mb-6">terms of service</h1>
+      <ParticleSystem 
+        particleCount={80}
+        particleColor="#FAF3E0"
+        particleSize={2}
+        connectionDistance={100}
+        mouseInteraction={true}
+        opacity={0.3}
+      />
 
-          <p className="font-serif text-lg leading-relaxed mb-6">
-            by accessing and using miiyuh.com, you agree to the following terms and conditions. please read them carefully.
-          </p>
+      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative z-10">
+        <div className="container mx-auto px-6 py-8">
+          <Breadcrumb />
+        </div>
 
-          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">1. use of the site</h2>
-          <p className="font-serif text-lg leading-relaxed mb-4">
-            you may use this site for lawful purposes only. you agree not to engage in any activity that may harm, disrupt, or interfere with the site's operation.
-          </p>
+        <ParallaxElement speed={0.5} direction="up">
+          <section className="flex-grow px-6 py-12 min-h-[70vh] max-w-4xl mx-auto">
+            <ScrollAnimation animation="fadeUp" delay={0}>
+              <TypewriterText 
+                text="terms of service" 
+                className="text-5xl font-bold tracking-tight font-sans mb-8 text-center"
+                speed={100}
+              />
+            </ScrollAnimation>
 
-          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">2. intellectual property</h2>
-          <p className="font-serif text-lg leading-relaxed mb-4">
-            all content on this site, including text, images, and designs, is owned by miiyuh unless otherwise stated. you may not reproduce, distribute, or create derivative works without permission.
-          </p>
+            <ScrollAnimation animation="fadeUp" delay={200}>
+              <div className="bg-[#2A2A2A] rounded-lg p-8 mb-8 border border-[#FAF3E0]/10">
+                <p className="font-serif text-xl leading-relaxed text-center text-[#FAF3E0]/90">
+                  by accessing and using miiyuh.com, you agree to the following terms and conditions. please read them carefully.
+                </p>
+              </div>
+            </ScrollAnimation>
 
-          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">3. limitation of liability</h2>
-          <p className="font-serif text-lg leading-relaxed mb-4">
-            miiyuh is not responsible for any damages resulting from your use of this site or any content provided herein.
-          </p>
+            <div className="space-y-8">
+              <ScrollAnimation animation="fadeUp" delay={300}>
+                <div className="bg-[#252525] rounded-lg p-6 border-l-4 border-[#FAF3E0]">
+                  <h2 className="text-3xl font-bold tracking-tight font-sans mb-4 text-[#FAF3E0]">1. use of the site</h2>
+                  <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
+                    you may use this site for lawful purposes only. you agree not to engage in any activity that may harm, disrupt, or interfere with the site's operation or the experience of other users.
+                  </p>
+                  <div className="bg-[#1A1A1A] p-4 rounded border border-[#FAF3E0]/20">
+                    <h3 className="font-semibold mb-2 text-[#FAF3E0]">prohibited activities include:</h3>
+                    <ul className="list-disc list-inside space-y-1 text-[#FAF3E0]/80">
+                      <li>attempting to gain unauthorized access</li>
+                      <li>interfering with site functionality</li>
+                      <li>uploading malicious content</li>
+                      <li>violating intellectual property rights</li>
+                    </ul>
+                  </div>
+                </div>
+              </ScrollAnimation>
 
-          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">4. changes to the terms</h2>
-          <p className="font-serif text-lg leading-relaxed mb-4">
-            we may update these terms from time to time. continued use of the site after changes indicates your acceptance of the new terms.
-          </p>
-        </section>
+              <ScrollAnimation animation="fadeUp" delay={400}>
+                <div className="bg-[#252525] rounded-lg p-6 border-l-4 border-[#FAF3E0]">
+                  <h2 className="text-3xl font-bold tracking-tight font-sans mb-4 text-[#FAF3E0]">2. intellectual property</h2>
+                  <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
+                    all content on this site, including text, images, and designs, is owned by miiyuh unless otherwise stated. you may not reproduce, distribute, or create derivative works without permission.
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-[#1A1A1A] p-4 rounded border border-[#FAF3E0]/20">
+                      <h4 className="font-semibold mb-2 text-[#FAF3E0]">protected content:</h4>
+                      <ul className="list-disc list-inside space-y-1 text-[#FAF3E0]/80 text-sm">
+                        <li>original photography</li>
+                        <li>digital artwork</li>
+                        <li>written content</li>
+                        <li>site design & code</li>
+                      </ul>
+                    </div>
+                    <div className="bg-[#1A1A1A] p-4 rounded border border-[#FAF3E0]/20">
+                      <h4 className="font-semibold mb-2 text-[#FAF3E0]">fair use:</h4>
+                      <ul className="list-disc list-inside space-y-1 text-[#FAF3E0]/80 text-sm">
+                        <li>personal viewing</li>
+                        <li>educational reference</li>
+                        <li>critical commentary</li>
+                        <li>non-commercial sharing</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation animation="fadeUp" delay={500}>
+                <div className="bg-[#252525] rounded-lg p-6 border-l-4 border-[#FAF3E0]">
+                  <h2 className="text-3xl font-bold tracking-tight font-sans mb-4 text-[#FAF3E0]">3. limitation of liability</h2>
+                  <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
+                    miiyuh is not responsible for any damages resulting from your use of this site or any content provided herein. the site is provided "as is" without warranties of any kind.
+                  </p>
+                  <div className="bg-[#1A1A1A] p-4 rounded border border-[#FAF3E0]/20">
+                    <p className="text-[#FAF3E0]/80 text-sm">
+                      <strong>disclaimer:</strong> while we strive to provide accurate and up-to-date information, 
+                      we make no guarantees about the completeness, accuracy, or reliability of the content.
+                    </p>
+                  </div>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation animation="fadeUp" delay={600}>
+                <div className="bg-[#252525] rounded-lg p-6 border-l-4 border-[#FAF3E0]">
+                  <h2 className="text-3xl font-bold tracking-tight font-sans mb-4 text-[#FAF3E0]">4. changes to the terms</h2>
+                  <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
+                    we may update these terms from time to time. continued use of the site after changes indicates your acceptance of the new terms. significant changes will be clearly communicated.
+                  </p>
+                  <div className="bg-[#1A1A1A] p-4 rounded border border-[#FAF3E0]/20">
+                    <p className="text-[#FAF3E0]/80 text-sm">
+                      <strong>last updated:</strong> {new Date().toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </p>
+                  </div>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation animation="fadeUp" delay={700}>
+                <div className="bg-[#2A2A2A] rounded-lg p-6 border border-[#FAF3E0]/20">
+                  <h2 className="text-2xl font-bold tracking-tight font-sans mb-4 text-[#FAF3E0]">contact information</h2>
+                  <p className="font-serif text-lg leading-relaxed text-[#FAF3E0]/90">
+                    if you have any questions about these terms of service, please reach out through any of the platforms listed on our 
+                    <a href="/socials" className="text-[#FAF3E0] hover:underline ml-1">socials page</a>.
+                  </p>
+                </div>
+              </ScrollAnimation>
+            </div>
+          </section>
+        </ParallaxElement>
       </main>
     </>
   )

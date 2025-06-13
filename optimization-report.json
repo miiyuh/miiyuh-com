@@ -1,0 +1,154 @@
+{
+  "timestamp": "2025-06-13T01:14:35.164Z",
+  "summary": {
+    "performance": {
+      "total": 3,
+      "optimized": 3
+    },
+    "accessibility": {
+      "components": 3,
+      "averageScore": 0.6666666666666666
+    },
+    "seo": {
+      "pages": 5,
+      "averageScore": 3,
+      "infrastructureScore": 3
+    }
+  },
+  "detailed": {
+    "performance": {
+      "largeImages": [
+        {
+          "file": "azri_cropped.png",
+          "size": 3662
+        }
+      ],
+      "missingModernFormats": [
+        "azri_cropped.png",
+        "kazuha.png",
+        "logo_miiyuh_text_white_v1.png",
+        "logo_miiyuh_text_white_v2.png",
+        "アセット-2.png"
+      ],
+      "optimizations": {
+        "serviceWorker": true,
+        "lazyLoading": true,
+        "imageOptimization": true,
+        "codesplitting": false,
+        "caching": false
+      }
+    },
+    "accessibility": {
+      "src/components/accessibility-controls.tsx": {
+        "hasAriaLabels": true,
+        "hasAriaDescribedBy": false,
+        "hasRole": true,
+        "hasAltText": false,
+        "score": 2
+      },
+      "src/app/layout.tsx": {
+        "hasAriaLabels": false,
+        "hasAriaDescribedBy": false,
+        "hasRole": false,
+        "hasAltText": false,
+        "score": 0
+      },
+      "src/components/client-header.tsx": {
+        "hasAriaLabels": false,
+        "hasAriaDescribedBy": false,
+        "hasRole": false,
+        "hasAltText": false,
+        "score": 0
+      }
+    },
+    "seo": {
+      "src/app/page.tsx": {
+        "hasMetadata": true,
+        "hasStructuredData": false,
+        "hasHeadings": true,
+        "hasImageAlt": true,
+        "score": 3
+      },
+      "src/app/aboutme/page.tsx": {
+        "hasMetadata": true,
+        "hasStructuredData": false,
+        "hasHeadings": true,
+        "hasImageAlt": true,
+        "score": 3
+      },
+      "src/app/gallery/page.tsx": {
+        "hasMetadata": false,
+        "hasStructuredData": false,
+        "hasHeadings": true,
+        "hasImageAlt": false,
+        "score": 1
+      },
+      "src/app/socials/page.tsx": {
+        "hasMetadata": true,
+        "hasStructuredData": false,
+        "hasHeadings": true,
+        "hasImageAlt": true,
+        "score": 3
+      },
+      "src/app/blog/page.tsx": {
+        "hasMetadata": true,
+        "hasStructuredData": false,
+        "hasHeadings": true,
+        "hasImageAlt": false,
+        "score": 2
+      },
+      "infrastructure": {
+        "hasSitemap": true,
+        "hasRobots": true,
+        "hasManifest": true,
+        "score": 3
+      }
+    },
+    "errors": []
+  },
+  "recommendations": [
+    {
+      "category": "Performance",
+      "priority": "High",
+      "issue": "Large images detected",
+      "solution": "Compress images or convert to WebP/AVIF format",
+      "files": [
+        "azri_cropped.png"
+      ]
+    },
+    {
+      "category": "Performance",
+      "priority": "Medium",
+      "issue": "Missing modern image formats",
+      "solution": "Create WebP and AVIF versions of images",
+      "files": [
+        "azri_cropped.png",
+        "kazuha.png",
+        "logo_miiyuh_text_white_v1.png",
+        "logo_miiyuh_text_white_v2.png",
+        "アセット-2.png"
+      ]
+    },
+    {
+      "category": "Accessibility",
+      "priority": "High",
+      "issue": "Components with low accessibility scores",
+      "solution": "Add missing aria-labels, alt text, and semantic roles",
+      "files": [
+        "src/components/accessibility-controls.tsx",
+        "src/app/layout.tsx",
+        "src/components/client-header.tsx"
+      ]
+    },
+    {
+      "category": "SEO",
+      "priority": "Medium",
+      "issue": "Pages with incomplete SEO optimization",
+      "solution": "Add missing metadata, structured data, or proper heading structure",
+      "files": [
+        "src/app/gallery/page.tsx",
+        "src/app/blog/page.tsx"
+      ]
+    }
+  ]
+}

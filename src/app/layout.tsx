@@ -4,6 +4,11 @@ import { Noto_Sans, Noto_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/fo
 import ClientHeader from '@/components/client-header'
 import Footer from '@/components/footer'
 import ScrollToTopButton from '@/components/scroll-to-top-button'
+import PageTransition from '@/components/page-transition'
+import ParticleSystem from '@/components/particle-system'
+import { AccessibilityControls } from '@/components/accessibility-controls-simple'
+import { PerformanceMonitor } from '@/components/analytics'
+import { StructuredData } from '@/components/structured-data'
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from "@vercel/analytics/react"
 
@@ -36,15 +41,41 @@ export const metadata: Metadata = {
   keywords: ['miiyuh', 'photography', 'artwork', 'blog', 'portfolio'],
   authors: [{ name: 'miiyuh' }],
   creator: 'miiyuh',
+  metadataBase: new URL('https://miiyuh.com'),
   openGraph: {
     title: "miiyuh's webpage",
     description: 'hello, and welcome to my webpage!',
     type: 'website',
+    siteName: "miiyuh's webpage",
+    images: [
+      {
+        url: '/assets/img/logo_miiyuh_text_white_v2.png',
+        width: 480,
+        height: 120,
+        alt: "miiyuh's webpage logo"
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "miiyuh's webpage",
+    description: 'hello, and welcome to my webpage!',
+    images: ['/assets/img/logo_miiyuh_text_white_v2.png']
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
+  verification: {
+    google: 'your-google-verification-code', // Add your actual verification code
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -55,16 +86,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://rsms.me/" />
         {/* Load Inter CSS */}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#FAF3E0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="miiyuh" />
+        <link rel="apple-touch-icon" href="/assets/img/logo_miiyuh_text_white_v2.png" />
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://vercel.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        {/* Preload critical resources */}
+        <link 
+          rel="preload" 
+          href="/assets/img/logo_miiyuh_text_white_v2.png" 
+          as="image" 
+          type="image/png"
+        />
         <script
           src="https://app.rybbit.io/api/script.js"
           data-site-id="1007"
-          defer
-        ></script>
+          defer        ></script>
       </head>
-      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
+      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>        <ParticleSystem theme="light" density={30} className="z-0" />
+        <StructuredData type="website" />
+        <PerformanceMonitor />
+        <AccessibilityControls />
         <ClientHeader />
-        <main className="flex-grow">
-          {children}
+        <main className="flex-grow relative z-10" id="main-content">
+          <PageTransition>
+            {children}
+          </PageTransition>
         </main>
         <Footer />
         <ScrollToTopButton />

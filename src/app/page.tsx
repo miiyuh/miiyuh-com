@@ -6,6 +6,9 @@ import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
 import { useEffect, useState } from 'react'
+import { TypewriterText, AnimatedHeading } from '@/components/animated-text'
+import { ParallaxElement } from '@/components/parallax-effects'
+import { ScrollAnimation } from '@/components/scroll-animations'
 
 export default function HomePage() {
   const playClick = useSound('/sounds/click.mp3', 0.7)
@@ -42,24 +45,36 @@ export default function HomePage() {
         />
       </Head>      {/* Animated background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#FAF3E0]/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-[#FAF3E0]/3 rounded-full blur-2xl animate-bounce" style={{animationDuration: '3s'}}></div>
-        <div className="absolute top-3/4 left-1/3 w-32 h-32 bg-[#FAF3E0]/4 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <ParallaxElement speed={0.3} direction="up">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#FAF3E0]/5 rounded-full blur-3xl animate-pulse"></div>
+        </ParallaxElement>
+        <ParallaxElement speed={0.5} direction="down">
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-[#FAF3E0]/3 rounded-full blur-2xl animate-bounce" style={{animationDuration: '3s'}}></div>
+        </ParallaxElement>
+        <ParallaxElement speed={0.2} direction="left">
+          <div className="absolute top-3/4 left-1/3 w-32 h-32 bg-[#FAF3E0]/4 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        </ParallaxElement>
       </div>
 
       {/* Main full height container */}
       <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
         {/* Inner content centered */}
         <div className={`flex flex-col items-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          
-          {/* Dynamic greeting */}
+            {/* Dynamic greeting with typewriter effect */}
           {mounted && (
-            <div className="mb-8 text-center">
-              <p className="font-serif text-lg text-[#FAF3E0]/80 mb-2">{getGreeting()}</p>
+            <ScrollAnimation animation="fadeIn" className="mb-8 text-center">
+              <AnimatedHeading variant="fade" delay={0.2}>
+                <TypewriterText 
+                  text={[getGreeting(), "welcome to my space 💫", getGreeting()]}
+                  className="font-serif text-lg text-[#FAF3E0]/80 mb-2"
+                  speed={100}
+                  repeat={false}
+                />
+              </AnimatedHeading>
               <p className="font-mono text-sm text-[#FAF3E0]/60">current time: {timeString}</p>
-            </div>
+            </ScrollAnimation>
           )}          {/* Logo with enhanced styling */}
-          <div className="mb-16 group">
+          <ScrollAnimation animation="scale" delay={0.5} className="mb-16 group">
             <Image
               src="/assets/img/logo_miiyuh_text_white_v2.png"
               alt="miiyuh - personal webpage logo"
@@ -69,48 +84,49 @@ export default function HomePage() {
               priority
               quality={90}
             />
-          </div>          {/* Navigation Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl mb-12">
-            {NAVIGATION_LINKS.map((link, index) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={playClick}
-                className={`group bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer`}
-                style={{
-                  animationDelay: mounted ? `${index * 150}ms` : '0ms'
-                }}
-              >
-                <div className="text-left">
-                  <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji">
-                    {link.href === '/aboutme' && '🍁'}
-                    {link.href === '/socials' && '✨'}
-                    {link.href === '/gallery' && '📸'}
-                    {link.href === '/blog' && '📰'}
+          </ScrollAnimation>          {/* Navigation Cards */}
+          <ScrollAnimation animation="fadeUp" delay={0.8} className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl mb-12">
+            {NAVIGATION_LINKS.map((link, index) => (                <ScrollAnimation
+                  key={link.href}
+                  animation="fadeUp"
+                  delay={1 + index * 0.15}
+                >
+                <Link
+                  href={link.href}
+                  onClick={playClick}
+                  className="group bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20"
+                >
+                  <div className="text-left">
+                    <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji">
+                      {link.href === '/aboutme' && '🍁'}
+                      {link.href === '/socials' && '✨'}
+                      {link.href === '/gallery' && '📸'}
+                      {link.href === '/blog' && '📰'}
+                    </div>
+                    <h3 className="font-bold text-sm mb-1 lowercase tracking-tighter group-hover:text-[#FAF3E0] transition-colors duration-300">
+                      {link.label}
+                    </h3>
+                    <p className="text-xs text-[#FAF3E0]/70 font-serif group-hover:text-[#FAF3E0]/90 transition-colors duration-300">
+                      {link.href === '/aboutme' && 'get to know me better'}
+                      {link.href === '/socials' && 'find me everywhere'}
+                      {link.href === '/gallery' && 'photos & artwork'}
+                      {link.href === '/blog' && 'my thoughts & stories'}
+                    </p>
                   </div>
-                  <h3 className="font-bold text-sm mb-1 lowercase tracking-tighter group-hover:text-[#FAF3E0] transition-colors duration-300">
-                    {link.label}
-                  </h3>
-                  <p className="text-xs text-[#FAF3E0]/70 font-serif group-hover:text-[#FAF3E0]/90 transition-colors duration-300">
-                    {link.href === '/aboutme' && 'get to know me better'}
-                    {link.href === '/socials' && 'find me everywhere'}
-                    {link.href === '/gallery' && 'photos & artwork'}
-                    {link.href === '/blog' && 'my thoughts & stories'}
-                  </p>
-                </div>
-                
-                {/* Subtle hover indicator */}
-                <div className="absolute bottom-2 left-4 w-0 h-0.5 bg-[#FAF3E0]/50 group-hover:w-6 transition-all duration-300"></div>
-              </Link>
+                  
+                  {/* Enhanced hover indicator */}
+                  <div className="absolute bottom-2 left-4 w-0 h-0.5 bg-gradient-to-r from-[#FAF3E0]/50 to-transparent group-hover:w-6 transition-all duration-300"></div>
+                </Link>
+              </ScrollAnimation>
             ))}
-          </div>
-
-          {/* Fun interactive element */}
-          <div className="mt-12 text-center">
-            <p className="font-serif text-sm text-[#FAF3E0]/50 hover:text-[#FAF3E0]/80 transition-colors duration-300 cursor-default">
-              welcome to my little corner on the internet 💫
-            </p>
-          </div>
+          </ScrollAnimation>          {/* Fun interactive element */}
+          <ScrollAnimation animation="fadeIn" delay={1.5} className="mt-12 text-center">
+            <TypewriterText 
+              text="welcome to my little corner on the internet 💫"
+              className="font-serif text-sm text-[#FAF3E0]/50 hover:text-[#FAF3E0]/80 transition-colors duration-300 cursor-default"
+              speed={80}
+            />
+          </ScrollAnimation>
         </div>
       </main>
     </>
