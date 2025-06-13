@@ -143,9 +143,8 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                   href={link.href}
                   onClick={playClick}
                   className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none"
-                >
-                  <div className="text-left">
-                    <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji">
+                >                  <div className="text-left">
+                    <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
                       {link.href === '/aboutme' && '🍁'}
                       {link.href === '/socials' && '✨'}
                       {link.href === '/gallery' && '📸'}

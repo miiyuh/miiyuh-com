@@ -41,7 +41,8 @@ body {
 }
 
 .font-emoji {
-  font-family: var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif !important;
+  font-family: var(--font-noto-color-emoji), 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols', sans-serif !important;
+  font-variant-emoji: emoji;
 }
 
 /* Default styles for elements */

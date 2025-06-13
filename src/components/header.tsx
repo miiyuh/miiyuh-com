@@ -10,10 +10,14 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const playClick = useSound('/sounds/click.mp3', 0.7) // 🎵 your click sound
-
   const toggleMenu = () => {
     playClick()
     setMenuOpen(!menuOpen)
+  }
+
+  const handleMobileLinkClick = () => {
+    playClick()
+    setMenuOpen(false) // Close menu when link is clicked
   }
 
   return (
@@ -48,10 +52,10 @@ export default function Header() {
         </ul>
       </div>      {/* Mobile Menu */}
       <div className={`overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} lg:hidden`}>
-        <ul className="flex flex-col gap-4 text-sm font-bold bg-[#1A1A1A] px-6 py-4 border-t border-[#FAF3E0]/20">
+        <div className="pt-4"></div>        <ul className="flex flex-col gap-4 text-sm font-bold bg-[#1A1A1A] px-4 py-4 border-t border-[#FAF3E0]/20">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} onClick={playClick} className="hover:underline">
+              <Link href={link.href} onClick={handleMobileLinkClick} className="hover:underline">
                 {link.label}
               </Link>
             </li>
