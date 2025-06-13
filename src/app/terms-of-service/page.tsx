@@ -18,9 +18,8 @@ export default function TermsOfService() {
             by accessing and using miiyuh.com, you agree to the following terms and conditions. please read them carefully.
           </p>
 
-          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">1. use of the site</h2>
-          <p className="font-serif text-lg leading-relaxed mb-4">
-            you may use this site for lawful purposes only. you agree not to engage in any activity that may harm, disrupt, or interfere with the site's operation.
+          <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">1. use of the site</h2>          <p className="font-serif text-lg leading-relaxed mb-4">
+            you may use this site for lawful purposes only. you agree not to engage in any activity that may harm, disrupt, or interfere with the site&apos;s operation.
           </p>
 
           <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-2">2. intellectual property</h2>

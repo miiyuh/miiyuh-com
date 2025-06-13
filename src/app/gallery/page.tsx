@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { initializeGallery, loadGalleryData } from '@/utils/gallery-loader';
+import { JapanFlag } from '@/utils';
 import LoadingSpinner from '@/components/loading-spinner';
 import ErrorBoundary from '@/components/error-boundary';
 
@@ -90,10 +91,9 @@ export default function GalleryPage() {
                   i dedicate this section to the photographs that i took, from both my phone and my camera.
                 </p>
               </div>
-              
-              <div className="mb-8">
+                <div className="mb-8">
                 <h2 className="text-right font-bold text-3xl mb-6 hover:text-[#FAF3E0] transition-colors duration-300">
-                  2025 japan trip 🇯🇵
+                  2025 japan trip <JapanFlag />
                 </h2>
                 <div id="lightgallery-photos-2025jp" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
               </div>

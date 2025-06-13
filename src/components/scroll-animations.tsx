@@ -21,8 +21,7 @@ export function ScrollAnimation({
   const [hasAnimated, setHasAnimated] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
+  useEffect(() => {    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
           setTimeout(() => {
@@ -34,13 +33,14 @@ export function ScrollAnimation({
       { threshold }
     )
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current)
+    const currentElement = elementRef.current
+    if (currentElement) {
+      observer.observe(currentElement)
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current)
+      if (currentElement) {
+        observer.unobserve(currentElement)
       }
     }
   }, [delay, threshold, hasAnimated])

@@ -1,4 +1,11 @@
-export const reportWebVitals = (metric: any) => {
+interface WebVitalMetric {
+  name: string
+  value: number
+  id: string
+  delta: number
+}
+
+export const reportWebVitals = (metric: WebVitalMetric) => {
   if (process.env.NODE_ENV === 'production') {
     console.log(metric)
     // You can send to analytics service here
