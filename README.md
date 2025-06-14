@@ -1,74 +1,153 @@
-![miiyuh.com logo](https://miiyuh.my/assets/img/logo_miiyuh_text_white_v2.png)
+# miiyuh.com
+
+![miiyuh.com logo](public/assets/img/logo_miiyuh_text_white_v2.png)
+
+A modern personal portfolio website featuring photography, artwork, and blog content with interactive animations and effects.
 
 ## 🛠 Built With
 
-- Next.js 15 - React framework for production-grade sites
+- **Next.js 15** - React framework with App Router and Turbopack
+- **TypeScript** - Type-safe development
+- **Tailwind CSS 4** - Utility-first modern styling
+- **Howler.js** - Sound library for interactive click effects
+- **LightGallery** - Advanced gallery viewer with zoom, fullscreen, and thumbnails
+- **Vercel Analytics & Speed Insights** - Performance monitoring
+- **Google Fonts** - Inter, Noto Sans, Noto Serif, Noto Mono, and Noto Color Emoji
 
-- Tailwind CSS - Utility-first modern styling
+## ✨ Features
 
-- Payload CMS - Headless CMS for blog and gallery management
+### 🎨 Design & UX
 
-- Howler.js - Sound library for interactive click sound effects
+- **Dark Theme Aesthetic** - Deep dark (#1A1A1A) background with warm cream (#FAF3E0) text
+- **Fully Responsive** - Optimized for desktop, tablet, and mobile devices
+- **Interactive 3D Logo** - Mouse-following parallax effect on homepage logo
+- **Smooth Animations** - Scroll-triggered animations, typewriter effects, and transitions
+- **Background Effects** - Animated floating elements with blur and pulse effects
 
-- Vercel - Deployment and hosting
+### 🖼️ Gallery System
 
-- Zapsplat - Free sounds (button clicks, UI sounds)
+- **Advanced Photo Gallery** - Built with LightGallery for enhanced viewing experience
+- **Multiple Collections** - 2025 Japan trip photos, 2022-2023 artwork collections
+- **Gallery Features** - Zoom, fullscreen, thumbnails, rotation, autoplay, and sharing
+- **Optimized Images** - WebP/AVIF formats with lazy loading and caching
 
-## 🚀 Features
+### 🔊 Interactive Audio
 
-- Responsive design (desktop, tablet, mobile)
+- **Click Sound Effects** - Custom audio feedback on navigation and interactions
+- **Volume Control** - Configurable sound levels (70% default)
+- **Performance Optimized** - Preloaded audio assets for instant playback
 
-- Dark theme aesthetic (#1A1A1A background, #FAF3E0 text)
+### 🧭 Navigation & Layout
 
-- Centered homepage logo and navigation
+- **Sticky Header/Footer** - Consistent navigation across all pages
+- **Mobile-First Menu** - Responsive hamburger menu for mobile devices
+- **Scroll-to-Top Button** - Enhanced UX for long content pages
+- **Social Media Links** - 15+ platform integrations with custom icons
 
-- Sound effects on click events (buttons, navigation, menu toggles)
+### ⚡ Performance & SEO
 
-- Light, optimized assets (next/image lazy loading)
+- **Optimized Assets** - Image compression, lazy loading, and CDN delivery
+- **SEO Meta Tags** - Comprehensive OpenGraph and meta tag implementation
+- **Analytics Integration** - Vercel Analytics and Speed Insights
+- **TypeScript Strict Mode** - Type safety and better developer experience
 
-- Sticky footer and header layout
+## 📖 Pages
 
-- Scroll-to-top button for long pages
+- **Homepage** (`/`) - Interactive landing page with 3D logo and dynamic greetings
+- **About Me** (`/aboutme`) - Personal introduction with character illustration
+- **Gallery** (`/gallery`) - Photography and artwork collections with advanced viewer
+- **Blog** (`/blog`) - Embedded Blogspot integration
+- **Socials** (`/socials`) - Social media platform links with hover effects
+- **Legal Pages** - Privacy Policy and Terms of Service
 
-- SEO optimized meta tags
+## 🏗️ Project Structure
 
-- Deployed via Vercel (CI/CD ready)
+```text
+src/
+├── app/                 # Next.js App Router pages
+├── components/          # Organized React components
+│   ├── effects/         # Animation components
+│   ├── layout/          # Header, footer, page layouts
+│   ├── ui/              # Reusable UI components
+│   └── debug/           # Development utilities
+├── constants/           # Application constants
+├── hooks/               # Custom React hooks
+└── utils/               # Utility functions and helpers
+```
 
-## 📦 Getting Started (Local Development)
+## 🚀 Getting Started
 
-Clone the repository:
+### Prerequisites
 
-```git
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+```bash
 git clone https://github.com/your-username/miiyuh-com.git
 cd miiyuh-com
 ```
 
-Install dependencies:
+2. Install dependencies:
 
-```npm
+```bash
 npm install
 ```
 
-Run the development server:
+3. Run the development server:
 
-```npm
+```bash
 npm run dev
 ```
 
-Open <http://localhost:3000> to view it in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+### Available Scripts
+
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix linting issues
+- `npm run type-check` - Run TypeScript type checking
+
+## 🎛️ Configuration
+
+### Environment Setup
+
+- **Fonts** - Configured for Inter (primary), Noto font family (secondary)
+- **Images** - WebP/AVIF optimization with 1-year cache TTL
+- **Gallery Data** - JSON-based configuration in `public/gallery.json`
+
+### Key Files
+
+- `tailwind.config.ts` - Tailwind CSS configuration
+- `next.config.ts` - Next.js optimization settings
+- `src/constants/index.ts` - Navigation and theme constants
+
+## 📱 Social Platforms
+
+Integrated social media platforms with custom icons:
+
+- GitHub, Instagram, LinkedIn, Twitter/X
+- Spotify, YouTube, Twitch, TikTok
+- AniList, MyAnimeList, Steam
+- Ko-fi, Pinterest, SpaceHey, Bluesky
 
 ## 📜 License
 
-- All source code is open for personal learning and portfolio use. However, all original artwork, logos, and media assets (images) are copyrighted to miiyuh.
+- **Source Code** - Open for personal learning and portfolio inspiration
+- **Original Content** - All artwork, photography, logos, and media assets are copyrighted to miiyuh
+- **Third-party Assets** - Sound effects from Zapsplat (free license)
 
-## 📣 Credits
+## 🔗 Links
 
-- Zapsplat — free sound effects
+- **Live Website** - [miiyuh.com](https://miiyuh.com) (Hosted on Vercel)
+- **Blog** - [miiyuh.blogspot.com](https://miiyuh.blogspot.com)
 
-## ✨ Live Website
+## 🙋‍♀️ Connect
 
-- 🚀 miiyuh.com (Hosted on Vercel)
-
-## 💬 Say Hi
-
-- If you find this project inspiring or helpful, feel free to star ⭐ the repository or connect with me!
+Feel free to explore the code, star ⭐ the repository, or reach out through any of the social platforms listed on the website!
