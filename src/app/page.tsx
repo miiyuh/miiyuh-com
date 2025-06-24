@@ -119,7 +119,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                 transformStyle: 'preserve-3d'
               }}
             >              <Image
-                src="/assets/img/logo_miiyuh_text_white_v2.png"
+                src="/assets/img/logo_miiyuh_v4-white_with-border.png"
                 alt="miiyuh - personal webpage logo"
                 width={480}
                 height={120}

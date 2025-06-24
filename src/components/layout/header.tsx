@@ -25,7 +25,7 @@ export default function Header() {
       <div className="flex items-center justify-between">
         {/* Logo */}        <Link href="/" onClick={playClick}>
           <Image 
-            src="/assets/img/logo_miiyuh_text_white_v1.png" 
+            src="/assets/img/logo_miiyuh_v4-white.png" 
             alt="miiyuh - return to homepage" 
             width={160} 
             height={40} 
