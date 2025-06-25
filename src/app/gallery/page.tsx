@@ -9,30 +9,57 @@ import ErrorBoundary from '@/components/ui/error-boundary';
 export default function GalleryPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    let isMounted = true; // Prevent state updates if component unmounts
+    let isMounted = true;
 
     const loadGallery = async () => {
       try {
+        setLoadingProgress(10);
         const data = await loadGalleryData();
         
+        if (!isMounted) return;
+        
+        setLoadingProgress(30);
+        
+        const galleries = [
+          { id: 'lightgallery-photos-2025jp', data: data.photos_2025jp },
+          { id: 'lightgallery-artworks-2022', data: data.artworks_2022 },
+          { id: 'lightgallery-artworks-2023', data: data.artworks_2023 }
+        ];
+        
+        let completedGalleries = 0;
+        
+        // Initialize galleries with progress tracking
+        const galleryPromises = galleries.map(async (gallery) => {
+          if (gallery.data && gallery.data.length > 0) {
+            await initializeGallery(gallery.id, gallery.data);
+          }
+          completedGalleries++;
+          if (isMounted) {
+            setLoadingProgress(30 + (completedGalleries / galleries.length) * 60);
+          }
+        });
+        
+        await Promise.all(galleryPromises);
+        
         if (isMounted) {
-          if (data.photos_2025jp) {
-            initializeGallery('lightgallery-photos-2025jp', data.photos_2025jp);
-          }
-          if (data.artworks_2022) {
-            initializeGallery('lightgallery-artworks-2022', data.artworks_2022);
-          }
-          if (data.artworks_2023) {
-            initializeGallery('lightgallery-artworks-2023', data.artworks_2023);
-          }
+          setLoadingProgress(100);
+          // Small delay to show 100% before hiding loading
+          setTimeout(() => {
+            if (isMounted) {
+              setIsLoading(false);
+            }
+          }, 300);
         }
+        
       } catch (error) {
         console.error('Failed to load gallery:', error);
-      } finally {
         if (isMounted) {
+          setError('Failed to load gallery. Please try refreshing the page.');
           setIsLoading(false);
         }
       }
@@ -40,7 +67,6 @@ export default function GalleryPage() {
 
     loadGallery();
 
-    // Cleanup function
     return () => {
       isMounted = false;
       // Clean up lightGallery instances on unmount
@@ -49,7 +75,7 @@ export default function GalleryPage() {
         'lightgallery-artworks-2022', 
         'lightgallery-artworks-2023'
       ];
-        containers.forEach(containerId => {
+      containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
           const containerWithLg = container as HTMLElement & { lgGallery?: { destroy: () => void } };
@@ -72,9 +98,35 @@ export default function GalleryPage() {
         </div>
 
         <main className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
-          {isLoading && <LoadingSpinner size="lg" className="py-12" />}
+          {isLoading && (
+            <div className="py-12">
+              <LoadingSpinner size="lg" />
+              <div className="text-center mt-4">
+                <div className="w-48 h-2 bg-[#FAF3E0]/20 rounded-full mx-auto mb-2">
+                  <div 
+                    className="h-full bg-[#FAF3E0]/60 rounded-full transition-all duration-300"
+                    style={{ width: `${loadingProgress}%` }}
+                  ></div>
+                </div>
+                <p className="text-xs text-[#FAF3E0]/60 font-serif">loading gallery... {Math.round(loadingProgress)}%</p>
+              </div>
+            </div>
+          )}
           
-          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {error && (
+            <div className="py-12 text-center">
+              <div className="text-red-400 mb-4">⚠️</div>
+              <p className="text-[#FAF3E0]/70 font-serif">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="mt-4 px-4 py-2 bg-[#FAF3E0]/10 hover:bg-[#FAF3E0]/20 rounded-lg transition-colors duration-300 text-sm"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+          
+          <div className={`transition-all duration-1000 ${mounted && !isLoading ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {/* Photography Section */}
             <section>
               <div className="mb-12">

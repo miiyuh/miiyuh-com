@@ -6,21 +6,18 @@ import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
 import { useEffect, useState, useRef } from 'react'
-import { TypewriterText, AnimatedHeading } from '@/components/effects/animated-text'
+import { TypewriterText } from '@/components/effects/animated-text'
 import { ParallaxElement } from '@/components/effects/parallax-effects'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
 
 export default function HomePage() {  const playClick = useSound('/sounds/click.mp3', 0.7)
   const [mounted, setMounted] = useState(false)
-  const [currentTime, setCurrentTime] = useState(new Date())
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [hasMouseMoved, setHasMouseMoved] = useState(false)
   const logoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-    return () => clearInterval(timer)
   }, [])
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -50,20 +47,6 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  const getGreeting = () => {
-    const hour = currentTime.getHours()
-    if (hour < 12) return 'good morning! 🌅'
-    if (hour < 17) return 'good afternoon! ☀️'
-    if (hour < 21) return 'good evening! 🌆'
-    return 'good night! 🌙'
-  }
-
-  const timeString = currentTime.toLocaleTimeString('en-US', { 
-    hour12: false, 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  })
-
   return (
     <>
       <Head>
@@ -88,24 +71,12 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
       </div>
 
       {/* Main full height container */}
-      <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
+      <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 160px)' }}>
         {/* Inner content centered */}
-        <div className={`flex flex-col items-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {/* Dynamic greeting with typewriter effect */}
-          {mounted && (
-            <ScrollAnimation animation="fadeIn" className="mt-8 md:mt-16 mb-16 text-center">
-              <AnimatedHeading variant="fade" delay={0.2}>
-                <TypewriterText 
-                  text={[getGreeting(), "welcome to my space 💫", getGreeting()]}
-                  className="font-serif text-lg text-[#FAF3E0]/80 mb-2"
-                  speed={100}
-                  repeat={false}
-                />
-              </AnimatedHeading>
-              <p className="font-mono text-sm text-[#FAF3E0]/60">current time: {timeString}</p>
-            </ScrollAnimation>
-          )}          {/* Logo with limited 3D mouse-following effect */}
-          <ScrollAnimation animation="scale" delay={0.5} className="mb-16 group">
+        <div className={`flex flex-col items-center justify-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          
+          {/* Logo with limited 3D mouse-following effect */}
+          <ScrollAnimation animation="scale" delay={0.3} className="mb-8 group">
             <div 
               ref={logoRef}
               className="relative"
@@ -132,7 +103,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
           </ScrollAnimation>
 
           {/* Navigation Cards */}
-          <ScrollAnimation animation="fadeUp" delay={0.8} className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl mb-12">
+          <ScrollAnimation animation="fadeUp" delay={0.8} className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-4xl mb-8">
             {NAVIGATION_LINKS.map((link, index) => (
               <ScrollAnimation
                 key={link.href}
@@ -148,6 +119,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                       {link.href === '/aboutme' && '🍁'}
                       {link.href === '/socials' && '✨'}
                       {link.href === '/gallery' && '📸'}
+                      {link.href === '/projects' && '🚀'}
                       {link.href === '/blog' && '📰'}
                     </div>
                     <h3 className="font-bold text-sm mb-1 lowercase tracking-tighter group-hover:text-[#FAF3E0] transition-colors duration-300">
@@ -157,6 +129,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                       {link.href === '/aboutme' && 'get to know me better'}
                       {link.href === '/socials' && 'find me everywhere'}
                       {link.href === '/gallery' && 'photos & artwork'}
+                      {link.href === '/projects' && 'personal creations'}
                       {link.href === '/blog' && 'my thoughts & stories'}
                     </p>
                   </div>
@@ -168,8 +141,20 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
             ))}
           </ScrollAnimation>
 
+          {/* Development disclaimer */}
+          <ScrollAnimation animation="fadeIn" delay={1.3} className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#FAF3E0]/20 rounded-lg px-4 py-2">
+              <div className="text-sm" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
+                🚧
+              </div>
+              <p className="text-xs text-[#FAF3E0]/70 font-serif">
+                website is currently in heavy development
+              </p>
+            </div>
+          </ScrollAnimation>
+
           {/* Fun interactive element */}
-          <ScrollAnimation animation="fadeIn" delay={1.5} className="mt-12 text-center mb-16">
+          <ScrollAnimation animation="fadeIn" delay={1.5} className="text-center">
             <TypewriterText 
               text="welcome to my little corner on the internet 💫"
               className="font-serif text-sm text-[#FAF3E0]/50 hover:text-[#FAF3E0]/80 transition-colors duration-300 cursor-default"
