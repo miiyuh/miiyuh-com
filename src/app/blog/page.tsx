@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 export default function BlogPage() {
   const [mounted, setMounted] = useState(false)
@@ -12,12 +13,8 @@ export default function BlogPage() {
   return (
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
 
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#FAF3E0]/3 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-[#FAF3E0]/2 rounded-full blur-2xl animate-bounce" style={{animationDuration: '7s'}}></div>
-        <div className="absolute top-2/3 left-1/5 w-56 h-56 bg-[#FAF3E0]/4 rounded-full blur-xl animate-pulse" style={{animationDelay: '3s'}}></div>
-      </div>      {/* 🧩 Page Content */}
+      {/* Interactive dots background */}
+      <InteractiveDotsBackground />      {/* 🧩 Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex flex-col justify-center">
         
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>

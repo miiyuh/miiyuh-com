@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 type FontInfo = {
   bodyFont?: string
@@ -59,8 +60,11 @@ export default function FontDebugPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[#1A1A1A] text-[#FAF3E0] p-8">
-      <h1 className="text-3xl font-bold mb-6">Font Debug Information</h1>
+    <main className="min-h-screen bg-[#1A1A1A] text-[#FAF3E0] p-8 relative">
+      {/* Interactive dots background */}
+      <InteractiveDotsBackground />
+      <div className="relative z-10">
+        <h1 className="text-3xl font-bold mb-6">Font Debug Information</h1>
       
       <div className="space-y-4 font-mono text-sm">
         <div>
@@ -112,6 +116,7 @@ export default function FontDebugPage() {
           <h3 className="font-bold">Explicit .font-sans (should be Inter): </h3>
           <div className="font-sans">This uses .font-sans class with emoji 🍁</div>
         </div>
+      </div>
       </div>
     </main>
   )

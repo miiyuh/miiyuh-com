@@ -7,8 +7,8 @@ import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
 import { useEffect, useState, useRef } from 'react'
 import { TypewriterText } from '@/components/effects/animated-text'
-import { ParallaxElement } from '@/components/effects/parallax-effects'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 export default function HomePage() {  const playClick = useSound('/sounds/click.mp3', 0.7)
   const [mounted, setMounted] = useState(false)
@@ -57,18 +57,8 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
         />
       </Head>
 
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <ParallaxElement speed={0.3} direction="up">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#FAF3E0]/5 rounded-full blur-3xl animate-pulse"></div>
-        </ParallaxElement>
-        <ParallaxElement speed={0.5} direction="down">
-          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-[#FAF3E0]/3 rounded-full blur-2xl animate-bounce" style={{animationDuration: '3s'}}></div>
-        </ParallaxElement>
-        <ParallaxElement speed={0.2} direction="left">
-          <div className="absolute top-3/4 left-1/3 w-32 h-32 bg-[#FAF3E0]/4 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        </ParallaxElement>
-      </div>
+      {/* Interactive dots background */}
+      <InteractiveDotsBackground />
 
       {/* Main full height container */}
       <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 160px)' }}>

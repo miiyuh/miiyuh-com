@@ -5,6 +5,7 @@ import { initializeGallery, loadGalleryData } from '@/utils/gallery-loader';
 import { JapanFlag } from '@/utils';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import ErrorBoundary from '@/components/ui/error-boundary';
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background';
 
 export default function GalleryPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,12 +91,8 @@ export default function GalleryPage() {
     <ErrorBoundary>
       <div className="bg-[#1A1A1A] text-[#FAF3E0] font-sans min-h-screen flex flex-col relative">
         
-        {/* Animated background elements */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/6 right-1/6 w-80 h-80 bg-[#FAF3E0]/3 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/5 left-1/6 w-64 h-64 bg-[#FAF3E0]/2 rounded-full blur-2xl animate-bounce" style={{animationDuration: '6s'}}></div>
-          <div className="absolute top-3/5 right-1/2 w-48 h-48 bg-[#FAF3E0]/4 rounded-full blur-xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        </div>
+        {/* Interactive dots background */}
+        <InteractiveDotsBackground />
 
         <main className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
           {isLoading && (

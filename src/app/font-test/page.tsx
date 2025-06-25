@@ -1,9 +1,13 @@
 'use client'
 
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
+
 export default function FontTestPage() {
   return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] min-h-screen p-8">
-      <div className="max-w-4xl mx-auto">
+    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] min-h-screen p-8 relative">
+      {/* Interactive dots background */}
+      <InteractiveDotsBackground />
+      <div className="max-w-4xl mx-auto relative z-10">
         <h1 className="text-4xl font-bold mb-8">Font Test Page</h1>
         
         <div className="space-y-6">

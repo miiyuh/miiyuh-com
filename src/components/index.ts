@@ -15,6 +15,7 @@ export { default as ScrollToTopButton } from './ui/scroll-to-top-button'
 export { TypewriterText, AnimatedHeading } from './effects/animated-text'
 export { ScrollAnimation } from './effects/scroll-animations'
 export { ParallaxElement } from './effects/parallax-effects'
+export { InteractiveDotsBackground } from './effects/interactive-dots-background'
 
 // Debug components (only for development)
 export { default as FontDebug } from './debug/font-debug'

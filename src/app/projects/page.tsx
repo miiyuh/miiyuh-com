@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSound } from '@/hooks/useSound'
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 const projects = [
   {
@@ -39,12 +40,8 @@ export default function ProjectsPage() {
   return (
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
 
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/5 left-1/4 w-72 h-72 bg-[#FAF3E0]/4 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/5 w-56 h-56 bg-[#FAF3E0]/3 rounded-full blur-2xl animate-bounce" style={{animationDuration: '5s'}}></div>
-        <div className="absolute top-2/3 left-1/2 w-40 h-40 bg-[#FAF3E0]/2 rounded-full blur-xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
-      </div>
+      {/* Interactive dots background */}
+      <InteractiveDotsBackground />
 
       {/* Main Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 flex flex-col justify-center min-h-screen">

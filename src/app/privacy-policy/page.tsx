@@ -1,6 +1,7 @@
 'use client'
 
 import Head from 'next/head'
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 export default function PrivacyPolicy() {
   return (
@@ -10,8 +11,10 @@ export default function PrivacyPolicy() {
         <meta name="description" content="privacy policy for miiyuh.com" />
       </Head>
 
-      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans">
-        <section className="flex-grow px-6 py-12 min-h-[70vh] max-w-3xl mx-auto">
+      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
+        {/* Interactive dots background */}
+        <InteractiveDotsBackground />
+        <section className="relative flex-grow px-6 py-12 min-h-[70vh] max-w-3xl mx-auto">
           <h1 className="text-4xl font-bold tracking-tight font-sans mb-6">privacy policy</h1>
 
           <p className="font-serif text-lg leading-relaxed mb-6">

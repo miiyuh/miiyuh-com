@@ -3,28 +3,48 @@
 import Image from 'next/image'
 import { SOCIAL_PLATFORMS } from '@/constants'
 import { useEffect, useState } from 'react'
+import { useSound } from '@/hooks/useSound'
+import { ScrollAnimation } from '@/components/effects/scroll-animations'
+import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 export default function SocialsPage() {
   const [mounted, setMounted] = useState(false)
+  const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null)
+  const playClick = useSound('/sounds/click.mp3', 0.7)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
+  // Copy platform URL to clipboard
+  const copyToClipboard = async (platform: string) => {
+    try {
+      const url = `https://miiyuh.com/${platform}`
+      await navigator.clipboard.writeText(url)
+      setCopiedPlatform(platform)
+      setTimeout(() => setCopiedPlatform(null), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
 
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/5 left-1/5 w-72 h-72 bg-[#FAF3E0]/4 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/5 w-56 h-56 bg-[#FAF3E0]/3 rounded-full blur-2xl animate-bounce" style={{animationDuration: '5s'}}></div>
-        <div className="absolute top-2/3 left-1/2 w-40 h-40 bg-[#FAF3E0]/2 rounded-full blur-xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
-      </div>      {/* Main Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex flex-col">
+  // Format platform name for display
+  const formatPlatformName = (platform: string) => {
+    return platform.replace(/([A-Z])/g, ' $1').trim().toLowerCase()
+  }
+
+  return (
+    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
+
+      {/* Interactive dots background */}
+      <InteractiveDotsBackground />
+
+      {/* Main Content */}
+      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
 
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Header Section */}
-          <div className="mb-16 text-left">
+          <div className="mb-12 text-left">
             <div className="mb-6">
               <h1 className="text-5xl font-bold tracking-tighter mb-4 hover:text-[#FAF3E0] transition-colors duration-300">
                 socials ✨
@@ -35,48 +55,85 @@ export default function SocialsPage() {
             </div>
             
             <p className="font-serif text-lg text-[#FAF3E0]/90 hover:text-[#FAF3E0] transition-colors duration-300 mb-8">
-              my accounts, duh.
+              find me across the digital universe. connect, follow, or just say hi! 🌐
             </p>
           </div>
 
           {/* Enhanced Social Icons Grid */}
-          <section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8 text-center">
+          <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
             {SOCIAL_PLATFORMS.map((social, index) => (
-              <div
+              <ScrollAnimation
                 key={social}
-                className={`transition-all duration-500`}
-                style={{
-                  animationDelay: mounted ? `${index * 100}ms` : '0ms'
-                }}
+                animation="fadeUp"
+                delay={0.1 * index}
               >
-                <a
-                  href={`/${social}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  <div className="relative">
-                    <Image
-                      src={`/assets/img/social_media_icons/${social}.png`}
-                      alt={social}
-                      width={96}
-                      height={96}
-                      className="mx-auto w-24 group-hover:scale-110 transition-all duration-300 group-hover:brightness-110 group-hover:-translate-y-1"
-                      loading="lazy"
-                      quality={85}
-                    />
-                    
-                    {/* Hover background effect */}
-                    <div className="absolute inset-0 bg-[#FAF3E0]/5 rounded-lg scale-0 group-hover:scale-125 transition-transform duration-300 -z-10"></div>
+                <div className="group relative bg-gradient-to-br from-[#FAF3E0]/10 to-[#FAF3E0]/5 backdrop-blur-sm rounded-xl p-6 hover:from-[#FAF3E0]/15 hover:to-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 overflow-hidden">
+                  
+                  {/* Background pattern */}
+                  <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
+                    <div className="w-full h-full bg-gradient-to-br from-transparent via-[#FAF3E0]/10 to-transparent"></div>
                   </div>
-                    {/* Platform name on hover */}
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <p className="text-xs font-serif text-[#FAF3E0]/80">
-                      {social.replace(/([A-Z])/g, ' $1').trim().toLowerCase()}
-                    </p>
-                  </div>
-                </a>
-              </div>
+
+                  {/* Copy button */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      copyToClipboard(social)
+                      playClick()
+                    }}
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1.5 rounded-lg bg-[#FAF3E0]/10 hover:bg-[#FAF3E0]/20 focus:outline-none z-10"
+                    title="Copy link"
+                  >
+                    {copiedPlatform === social ? (
+                      <svg className="w-3 h-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    )}
+                  </button>
+
+                  {/* Main Link */}
+                  <a
+                    href={`/${social}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={playClick}
+                    className="relative z-0 block text-center focus:outline-none"
+                  >
+                    {/* Social Media Icon */}
+                    <div className="relative mb-3">
+                      <Image
+                        src={`/assets/img/social_media_icons/${social}.png`}
+                        alt={social}
+                        width={80}
+                        height={80}
+                        className="mx-auto w-16 h-16 md:w-20 md:h-20 group-hover:scale-110 transition-all duration-300 group-hover:brightness-110 group-hover:-translate-y-1"
+                        loading="lazy"
+                        quality={90}
+                      />
+                    </div>
+
+                    {/* Platform name */}
+                    <div className="relative z-10">
+                      <h3 className="font-bold text-sm mb-1 group-hover:text-[#FAF3E0] transition-colors duration-300 lowercase">
+                        {formatPlatformName(social)}
+                      </h3>
+                      <p className="text-xs text-[#FAF3E0]/60 group-hover:text-[#FAF3E0]/80 transition-colors duration-300 font-serif lowercase">
+                        @miiyuh
+                      </p>
+                    </div>
+
+                    {/* Hover background effect - covers entire content area */}
+                    <div className="absolute inset-0 bg-[#FAF3E0]/5 rounded-xl scale-0 group-hover:scale-110 transition-transform duration-300 -z-10"></div>
+                  </a>
+
+                  {/* Hover indicator */}
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FAF3E0]/50 to-transparent group-hover:w-full transition-all duration-500"></div>
+                </div>
+              </ScrollAnimation>
             ))}
           </section>
         </div>
