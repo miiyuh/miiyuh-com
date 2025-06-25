@@ -12,7 +12,7 @@ interface InteractiveDotsBackgroundProps {
 }
 
 export function InteractiveDotsBackground({
-  dotSize = 1,
+  dotSize = 2,
   spacing = 40,
   baseOpacity = 0.1,
   hoverOpacity = 0.4,
