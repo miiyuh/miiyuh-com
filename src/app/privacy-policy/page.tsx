@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
     
     const handleScroll = () => {
       const sections = ['overview', 'information-we-collect', 'how-we-use-information', 'information-sharing', 'data-security', 'cookies', 'your-rights', 'third-party-services', 'children-privacy', 'international-users', 'changes-to-policy', 'contact-us']
-      const headerHeight = 80
+      const headerHeight = 96
       
       for (const section of sections) {
         const element = document.getElementById(section)
@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      const headerHeight = 80 // Approximate header height
+      const headerHeight = 96 // Adjusted for better alignment
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
       const offsetPosition = elementPosition - headerHeight
       
@@ -68,32 +68,34 @@ export default function PrivacyPolicy() {
         <meta name="description" content="privacy policy for miiyuh.com" />
       </Head>
 
-      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative scroll-smooth">
+      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
         {/* Interactive dots background */}
         <InteractiveDotsBackground />
         
         <div className="relative flex-grow flex px-6 py-12 min-h-screen max-w-7xl mx-auto gap-8">
           {/* Table of Contents - Left Sidebar */}
-          <aside className={`hidden lg:block w-64 flex-shrink-0 sticky top-20 h-fit transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-            <nav className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-xl p-6 border border-[#FAF3E0]/20">
-              <h3 className="text-lg font-bold mb-4 text-[#FAF3E0]">Contents</h3>
-              <ul className="space-y-2">
-                {tableOfContents.map((item) => (
-                  <li key={item.id}>
-                    <button
-                      onClick={() => scrollToSection(item.id)}
-                      className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-300 hover:bg-[#FAF3E0]/10 ${
-                        activeSection === item.id 
-                          ? 'bg-[#FAF3E0]/15 text-[#FAF3E0] font-semibold border-l-2 border-[#FAF3E0]/50' 
-                          : 'text-[#FAF3E0]/70 hover:text-[#FAF3E0]'
-                      }`}
-                    >
-                      {item.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          <aside className={`hidden lg:block w-64 flex-shrink-0 transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+            <div className="sticky top-24">
+              <nav className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-xl p-6 border border-[#FAF3E0]/20">
+                <h3 className="text-lg font-bold mb-4 text-[#FAF3E0]">Contents</h3>
+                <ul className="space-y-2">
+                  {tableOfContents.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => scrollToSection(item.id)}
+                        className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-300 hover:bg-[#FAF3E0]/10 ${
+                          activeSection === item.id 
+                            ? 'bg-[#FAF3E0]/15 text-[#FAF3E0] font-semibold border-l-2 border-[#FAF3E0]/50' 
+                            : 'text-[#FAF3E0]/70 hover:text-[#FAF3E0]'
+                        }`}
+                      >
+                        {item.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </aside>
 
           {/* Main Content */}
@@ -102,7 +104,7 @@ export default function PrivacyPolicy() {
               <h1 className="text-4xl font-bold tracking-tight font-sans mb-6 text-[#FAF3E0]">privacy policy</h1>
               <p className="text-sm text-[#FAF3E0]/60 mb-8">Last updated: January 2025</p>
 
-              <section id="overview" className="mb-12 scroll-mt-20">
+              <section id="overview" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Overview</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   Welcome to miiyuh.com (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. We are committed to protecting your privacy and ensuring you have a positive experience on our website.
@@ -112,7 +114,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="information-we-collect" className="mb-12 scroll-mt-20">
+              <section id="information-we-collect" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Information We Collect</h2>
                 
                 <h3 className="text-xl font-semibold mt-6 mb-3 text-[#FAF3E0]">Automatically Collected Information</h3>
@@ -136,7 +138,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="how-we-use-information" className="mb-12 scroll-mt-20">
+              <section id="how-we-use-information" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">How We Use Your Information</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   We use the information we collect for various purposes, including:
@@ -152,7 +154,7 @@ export default function PrivacyPolicy() {
                 </ul>
               </section>
 
-              <section id="information-sharing" className="mb-12 scroll-mt-20">
+              <section id="information-sharing" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Information Sharing</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy. We may share your information in the following circumstances:
@@ -166,7 +168,7 @@ export default function PrivacyPolicy() {
                 </ul>
               </section>
 
-              <section id="data-security" className="mb-12 scroll-mt-20">
+              <section id="data-security" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Data Security</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure.
@@ -176,7 +178,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="cookies" className="mb-12 scroll-mt-20">
+              <section id="cookies" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Cookies and Tracking Technologies</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   We may use cookies, web beacons, and other tracking technologies to collect information about your browsing activities. These technologies help us:
@@ -192,7 +194,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="your-rights" className="mb-12 scroll-mt-20">
+              <section id="your-rights" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Your Rights</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   Depending on your location, you may have certain rights regarding your personal information, including:
@@ -211,7 +213,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="third-party-services" className="mb-12 scroll-mt-20">
+              <section id="third-party-services" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Third-Party Services</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   Our website may contain links to third-party websites or services. We are not responsible for the privacy practices of these external sites. We encourage you to review the privacy policies of any third-party services you access through our website.
@@ -221,7 +223,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="children-privacy" className="mb-12 scroll-mt-20">
+              <section id="children-privacy" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Children&apos;s Privacy</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have collected personal information from a child under 13, we will take steps to delete such information.
@@ -231,7 +233,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="international-users" className="mb-12 scroll-mt-20">
+              <section id="international-users" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">International Users</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   Our website is operated from Malaysia. If you are accessing our website from outside Malaysia, please be aware that your information may be transferred to, stored, and processed in Malaysia where our servers are located and our central database is operated.
@@ -241,7 +243,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="changes-to-policy" className="mb-12 scroll-mt-20">
+              <section id="changes-to-policy" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Changes to This Policy</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or other factors. When we make changes, we will update the &quot;Last updated&quot; date at the top of this policy.
@@ -251,7 +253,7 @@ export default function PrivacyPolicy() {
                 </p>
               </section>
 
-              <section id="contact-us" className="mb-12 scroll-mt-20">
+              <section id="contact-us" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Contact Us</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   If you have any questions about this Privacy Policy, your rights, or our data practices, please contact us:

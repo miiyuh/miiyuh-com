@@ -13,7 +13,7 @@ export default function TermsOfService() {
     
     const handleScroll = () => {
       const sections = ['overview', 'acceptance-of-terms', 'use-of-site', 'user-accounts', 'intellectual-property', 'user-content', 'prohibited-activities', 'privacy-policy', 'disclaimers', 'limitation-of-liability', 'indemnification', 'termination', 'governing-law', 'changes-to-terms', 'contact-information']
-      const headerHeight = 80
+      const headerHeight = 96
       
       for (const section of sections) {
         const element = document.getElementById(section)
@@ -36,7 +36,7 @@ export default function TermsOfService() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      const headerHeight = 80 // Approximate header height
+      const headerHeight = 96 // Adjusted for better alignment
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
       const offsetPosition = elementPosition - headerHeight
       
@@ -71,32 +71,34 @@ export default function TermsOfService() {
         <meta name="description" content="terms of service for miiyuh.com" />
       </Head>
 
-      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative scroll-smooth">
+      <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
         {/* Interactive dots background */}
         <InteractiveDotsBackground />
         
         <div className="relative flex-grow flex px-6 py-12 min-h-screen max-w-7xl mx-auto gap-8">
           {/* Table of Contents - Left Sidebar */}
-          <aside className={`hidden lg:block w-64 flex-shrink-0 sticky top-20 h-fit transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-            <nav className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-xl p-6 border border-[#FAF3E0]/20">
-              <h3 className="text-lg font-bold mb-4 text-[#FAF3E0]">Contents</h3>
-              <ul className="space-y-2">
-                {tableOfContents.map((item) => (
-                  <li key={item.id}>
-                    <button
-                      onClick={() => scrollToSection(item.id)}
-                      className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-300 hover:bg-[#FAF3E0]/10 ${
-                        activeSection === item.id 
-                          ? 'bg-[#FAF3E0]/15 text-[#FAF3E0] font-semibold border-l-2 border-[#FAF3E0]/50' 
-                          : 'text-[#FAF3E0]/70 hover:text-[#FAF3E0]'
-                      }`}
-                    >
-                      {item.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          <aside className={`hidden lg:block w-64 flex-shrink-0 transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+            <div className="sticky top-24">
+              <nav className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-xl p-6 border border-[#FAF3E0]/20">
+                <h3 className="text-lg font-bold mb-4 text-[#FAF3E0]">Contents</h3>
+                <ul className="space-y-2">
+                  {tableOfContents.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => scrollToSection(item.id)}
+                        className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-300 hover:bg-[#FAF3E0]/10 ${
+                          activeSection === item.id 
+                            ? 'bg-[#FAF3E0]/15 text-[#FAF3E0] font-semibold border-l-2 border-[#FAF3E0]/50' 
+                            : 'text-[#FAF3E0]/70 hover:text-[#FAF3E0]'
+                        }`}
+                      >
+                        {item.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </aside>
 
           {/* Main Content */}
@@ -105,7 +107,7 @@ export default function TermsOfService() {
               <h1 className="text-4xl font-bold tracking-tight font-sans mb-6 text-[#FAF3E0]">terms of service</h1>
               <p className="text-sm text-[#FAF3E0]/60 mb-8">Last updated: January 2025</p>
 
-              <section id="overview" className="mb-12">
+              <section id="overview" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Overview</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   Welcome to miiyuh.com. These Terms of Service (&quot;Terms&quot;) govern your use of our website and services. By accessing or using miiyuh.com, you agree to be bound by these Terms and our Privacy Policy.
@@ -115,7 +117,7 @@ export default function TermsOfService() {
                 </p>
               </section>
 
-              <section id="acceptance-of-terms" className="mb-12">
+              <section id="acceptance-of-terms" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Acceptance of Terms</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. Additionally, when using this website&apos;s particular services, you shall be subject to any posted guidelines or rules applicable to such services.
@@ -125,7 +127,7 @@ export default function TermsOfService() {
                 </p>
               </section>
 
-              <section id="use-of-site" className="mb-12">
+              <section id="use-of-site" className="mb-12 scroll-mt-24">
                 <h2 className="text-2xl font-bold tracking-tight font-sans mt-8 mb-4 text-[#FAF3E0]">Use of the Site</h2>
                 <p className="font-serif text-lg leading-relaxed mb-4 text-[#FAF3E0]/90">
                   You may use our website for lawful purposes only. You agree to use the website in a manner consistent with all applicable laws and regulations, including the laws of Malaysia where our website is operated and hosted.

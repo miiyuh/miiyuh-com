@@ -15,7 +15,7 @@ export function InteractiveDotsBackground({
   dotSize = 2,
   spacing = 40,
   baseOpacity = 0.1,
-  hoverOpacity = 0.4,
+  hoverOpacity = 0.8,
   hoverRadius = 80,
   color = '#FAF3E0'
 }: InteractiveDotsBackgroundProps) {
