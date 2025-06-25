@@ -1,6 +1,4 @@
-# miiyuh.com
-
-![miiyuh.com logo](public/assets/img/logo_miiyuh_v4-white_with-border.png)
+<img src="https://miiyuh.com/assets/img/logo_miiyuh_v4-white_with-border.png" alt="resume on the web" height="80px" />
 
 A modern personal portfolio website featuring photography, artwork, and blog content with interactive animations and effects.
 
