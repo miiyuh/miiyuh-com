@@ -12,3 +12,22 @@ export const SOCIAL_PLATFORMS = [
   'myanimelist', 'pinterest', 'spacehey', 'spotify', 'steam',
   'tiktok', 'twitch', 'twitter', 'youtube'
 ] as const
+
+// Social platform usernames/handles
+export const SOCIAL_USERNAMES: Record<string, string> = {
+  anilist: '@miiyuh',
+  bsky: '@miiyuh.com',
+  github: '@miiyuh',
+  instagram: '@miiyuh.co',
+  'ko-fi': '@miiyuh',
+  linkedin: '@miiyuh',
+  myanimelist: '@miiyuh',
+  pinterest: '@miiyuh_',
+  spacehey: '@miiyuh',
+  spotify: '@miiyuh',
+  steam: '@miiyuh',
+  tiktok: '@muhamad_azri.my',
+  twitch: '@miiyuh_',
+  twitter: '@miiyuh_',
+  youtube: '@miiyuh_'
+} as const
