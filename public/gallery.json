@@ -33,13 +33,37 @@
   ],
 
   "artworks_2022": [
-    "/assets/img/artwork/artwork_levi_01.png",
-    "/assets/img/artwork/artwork_tighnari_01.png",
-    "/assets/img/artwork/artwork_reformasi_01.png"
+    {
+      "src": "/assets/img/artwork/artwork_levi_01.png",
+      "title": "captain levi",
+      "description": "humanity's strongest soldier"
+    },
+    {
+      "src": "/assets/img/artwork/artwork_tighnari_01.png",
+      "title": "forest watcher",
+      "description": "dendro archon's protégé"
+    },
+    {
+      "src": "/assets/img/artwork/artwork_reformasi_01.png",
+      "title": "reformasi spirit",
+      "description": "change starts with us"
+    }
   ],
   "artworks_2023": [
-    "/assets/img/artwork/artwork_miya_01.png",
-    "/assets/img/artwork/artwork_mikasa_01.png",
-    "/assets/img/artwork/artwork_levi_02.png"
+    {
+      "src": "/assets/img/artwork/artwork_miya_01.png",
+      "title": "miya sketch",
+      "description": "quick character study"
+    },
+    {
+      "src": "/assets/img/artwork/artwork_mikasa_01.png",
+      "title": "mikasa ackerman",
+      "description": "eren, come back to us."
+    },
+    {
+      "src": "/assets/img/artwork/artwork_levi_02.png",
+      "title": "levi's gaze",
+      "description": "those piercing eyes"
+    }
   ]
 }
