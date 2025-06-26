@@ -62,6 +62,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       const description = image.description || '';
 
       a.href = src;
+      a.className = 'block w-full'; // Ensure anchor doesn't constrain image
       a.setAttribute('data-sub-html', `
         <div class='text-center'>
           <h4 class='text-lg font-bold mb-1'>${title}</h4>
@@ -72,17 +73,24 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       // Create image element with optimized loading
       const imgElement = document.createElement('img');
       imgElement.src = src;
-      imgElement.className = 'w-full rounded-lg shadow transition-opacity duration-300';
+      imgElement.className = 'w-full h-auto rounded-lg shadow transition-opacity duration-300 object-cover';
       imgElement.alt = title || 'gallery image';
       // Use lazy loading for images after the first few
       imgElement.loading = index < 3 ? 'eager' : 'lazy';
       imgElement.style.opacity = '0';
-      imgElement.style.minHeight = '200px'; // Prevent layout shift
+      // Set aspect ratio instead of fixed height to prevent squashing
+      imgElement.style.aspectRatio = 'auto';
       imgElement.style.backgroundColor = 'rgba(250, 243, 224, 0.05)'; // Placeholder color
       
-      // Fade in when image loads
+      // Fade in when image loads and ensure proper aspect ratio
       imgElement.onload = () => {
-        imgElement.style.opacity = '1';
+        // Small delay to ensure layout has settled
+        setTimeout(() => {
+          imgElement.style.opacity = '1';
+          // Remove any height constraints that might cause squashing
+          imgElement.style.height = 'auto';
+          imgElement.style.maxHeight = 'none';
+        }, 50);
       };
       
       imgElement.onerror = () => {
