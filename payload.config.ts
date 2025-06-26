@@ -1,6 +1,7 @@
 import sharp from 'sharp'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { buildConfig } from 'payload'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -44,6 +45,23 @@ export default buildConfig({
   // This is optional - if you don't need to do these things,
   // you don't need it!
   sharp,
+  
+  // Email configuration using nodemailer adapter
+  email: nodemailerAdapter({
+    defaultFromAddress: 'admin@miiyuh.com',
+    defaultFromName: 'Miiyuh Admin',
+    // Use SMTP if environment variables are provided, otherwise use ethereal.email for development
+    ...(process.env.SMTP_HOST && {
+      transportOptions: {
+        host: process.env.SMTP_HOST,
+        port: 587,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      },
+    }),
+  }),
   
   // TypeScript configuration
   typescript: {

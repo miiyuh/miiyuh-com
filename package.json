@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.43.0",
+    "@payloadcms/email-nodemailer": "^3.43.0",
     "@payloadcms/next": "^3.43.0",
     "@payloadcms/richtext-lexical": "^3.43.0",
     "@tailwindcss/postcss": "^4.1.4",
