@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
@@ -18,6 +19,26 @@ export default function BlogPage() {
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex flex-col justify-center">
         
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {/* Breadcrumb Navigation */}
+          <nav className="w-full mb-8" aria-label="Breadcrumb">
+            <ol className="flex items-center space-x-2 text-sm text-[#FAF3E0]/60">
+              <li>
+                <Link 
+                  href="/" 
+                  className="hover:text-[#FAF3E0] transition-colors duration-300"
+                >
+                  miiyuh
+                </Link>
+              </li>
+              <li>
+                <span className="text-[#FAF3E0]/40">/</span>
+              </li>
+              <li>
+                <span className="text-[#FAF3E0]/90">blog</span>
+              </li>
+            </ol>
+          </nav>
+
           {/* Header Section */}
           <div className="mb-12">
             <div className="mb-6">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { initializeGallery, loadGalleryData } from '@/utils/gallery-loader';
 import { JapanFlag } from '@/utils';
 import LoadingSpinner from '@/components/ui/loading-spinner';
@@ -124,6 +125,26 @@ export default function GalleryPage() {
           )}
           
           <div className={`transition-all duration-1000 ${mounted && !isLoading ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {/* Breadcrumb Navigation */}
+            <nav className="w-full mb-8" aria-label="Breadcrumb">
+              <ol className="flex items-center space-x-2 text-sm text-[#FAF3E0]/60">
+                <li>
+                  <Link 
+                    href="/" 
+                    className="hover:text-[#FAF3E0] transition-colors duration-300"
+                  >
+                    miiyuh
+                  </Link>
+                </li>
+                <li>
+                  <span className="text-[#FAF3E0]/40">/</span>
+                </li>
+                <li>
+                  <span className="text-[#FAF3E0]/90">gallery</span>
+                </li>
+              </ol>
+            </nav>
+
             {/* Photography Section */}
             <section>
               <div className="mb-12">

@@ -119,7 +119,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                       {link.href === '/aboutme' && 'get to know me better'}
                       {link.href === '/socials' && 'find me everywhere'}
                       {link.href === '/gallery' && 'photos & artwork'}
-                      {link.href === '/projects' && 'personal creations'}
+                      {link.href === '/projects' && 'creative organizations'}
                       {link.href === '/blog' && 'my thoughts & stories'}
                     </p>
                   </div>
