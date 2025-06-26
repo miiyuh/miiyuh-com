@@ -22,6 +22,9 @@ export default buildConfig({
   // Admin configuration
   admin: {
     user: Users.slug,
+    meta: {
+      titleSuffix: '- Miiyuh Admin',
+    },
   },
 
   // Define and configure your collections in this array
@@ -39,6 +42,13 @@ export default buildConfig({
   // Mongoose is shown as an example, but you can also use Postgres
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    // Optimize for serverless/Vercel
+    connectOptions: {
+      maxPoolSize: 5, // Maintain up to 5 socket connections
+      serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+      maxIdleTimeMS: 10000, // Close connections after 10 seconds of inactivity
+    },
   }),
   // If you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
