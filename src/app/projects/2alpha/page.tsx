@@ -76,7 +76,7 @@ export default function TwoAlphaPage() {
           <div className="w-48 h-48 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center mb-8 group hover:bg-[#FAF3E0]/15 transition-all duration-300 overflow-hidden">
             <Image 
               src="/assets/img/projects/2alpha-logo.png"
-              alt="2Alpha logo"
+              alt="2alpha logo"
               width={192}
               height={192}
               className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
@@ -85,7 +85,7 @@ export default function TwoAlphaPage() {
 
           {/* Organization Info */}
           <h1 className="text-4xl font-bold tracking-tighter mb-4 hover:text-[#FAF3E0] transition-colors duration-300">
-            2Alpha
+            2alpha
           </h1>
           
           <p className="font-serif text-lg text-[#FAF3E0]/90 hover:text-[#FAF3E0] transition-colors duration-300 mb-8">
