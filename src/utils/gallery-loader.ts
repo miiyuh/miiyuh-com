@@ -22,6 +22,10 @@ export interface GalleryData {
   photos_2025jp?: GalleryImage[];
   artworks_2022?: GalleryImage[];
   artworks_2023?: GalleryImage[];
+  _meta?: {
+    source: 'payloadcms' | 'fallback' | 'static';
+    total?: number;
+  };
 }
 
 // Type for lightGallery instance
@@ -155,8 +159,8 @@ export const loadGalleryData = async (): Promise<GalleryData> => {
   // Create new promise for fresh data
   galleryDataPromise = (async () => {
     try {
-      console.log('🌐 Fetching gallery data from server');
-      const response = await fetch('/gallery.json', {
+      console.log('🌐 Fetching gallery data from PayloadCMS API');
+      const response = await fetch('/api/gallery-frontend', {
         // Add cache headers for better performance
         headers: {
           'Cache-Control': 'public, max-age=300' // 5 minutes cache
@@ -165,12 +169,60 @@ export const loadGalleryData = async (): Promise<GalleryData> => {
       
       if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch gallery data`);
       
-      const data = await response.json();
-      galleryDataCache = data; // Cache the result
-      console.log('✅ Gallery data fetched and cached');
-      return data;
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error('API returned unsuccessful response');
+      }
+      
+      const data = result.data;
+      
+      // Add metadata about the source
+      const dataWithMeta: GalleryData = {
+        ...data,
+        _meta: {
+          source: result.source === 'payloadcms' ? 'payloadcms' : 'fallback',
+          total: result.total
+        }
+      };
+      
+      galleryDataCache = dataWithMeta; // Cache the result
+      
+      if (result.source === 'payloadcms') {
+        console.log('✅ Gallery data fetched from PayloadCMS and cached');
+      } else {
+        console.log('⚠️ Gallery data fetched from fallback source and cached');
+      }
+      
+      return dataWithMeta;
     } catch (error) {
-      console.error('❌ Error loading gallery.json:', error);
+      console.error('❌ Error loading gallery data from API:', error);
+      
+      // Try fallback to static file as last resort
+      try {
+        console.log('🔄 Attempting fallback to static gallery.json');
+        const fallbackResponse = await fetch('/gallery.json', {
+          headers: {
+            'Cache-Control': 'public, max-age=300'
+          }
+        });
+        
+        if (fallbackResponse.ok) {
+          const fallbackData = await fallbackResponse.json();
+          const dataWithMeta: GalleryData = {
+            ...fallbackData,
+            _meta: {
+              source: 'static'
+            }
+          };
+          galleryDataCache = dataWithMeta;
+          console.log('✅ Fallback gallery data loaded and cached');
+          return dataWithMeta;
+        }
+      } catch (fallbackError) {
+        console.error('❌ Fallback also failed:', fallbackError);
+      }
+      
       galleryDataPromise = null; // Reset promise on error
       return {};
     }

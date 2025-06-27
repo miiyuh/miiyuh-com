@@ -2,24 +2,28 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { initializeGallery, loadGalleryData } from '@/utils/gallery-loader';
-import { JapanFlag } from '@/utils';
+import { initializeGallery, loadGalleryData, GalleryData } from '@/utils/gallery-loader';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background';
+import GallerySection from '@/components/gallery/gallery-section';
+
+interface DebugInfo {
+  startTime: number;
+  dataLoadTime?: number;
+  galleryInitTime?: number;
+  totalImages?: number;
+  totalTime?: number;
+  dataSource?: string;
+}
 
 export default function GalleryPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [debugInfo, setDebugInfo] = useState<{
-    startTime: number;
-    dataLoadTime?: number;
-    galleryInitTime?: number;
-    totalImages?: number;
-    totalTime?: number;
-  }>({ startTime: Date.now() });
+  const [galleryData, setGalleryData] = useState<GalleryData>({});
+  const [debugInfo, setDebugInfo] = useState<DebugInfo>({ startTime: Date.now() });
 
   useEffect(() => {
     setMounted(true);
@@ -39,6 +43,9 @@ export default function GalleryPage() {
         
         if (!isMounted) return;
         
+        // Store the gallery data
+        setGalleryData(data);
+        
         const totalImages = (data.photos_2025jp?.length || 0) + 
                            (data.artworks_2022?.length || 0) + 
                            (data.artworks_2023?.length || 0);
@@ -46,7 +53,8 @@ export default function GalleryPage() {
         setDebugInfo(prev => ({ 
           ...prev, 
           dataLoadTime, 
-          totalImages 
+          totalImages,
+          dataSource: data._meta?.source || 'unknown'
         }));
         
         setLoadingProgress(30);
@@ -168,6 +176,7 @@ export default function GalleryPage() {
             <div className="fixed top-4 right-4 bg-[#1A1A1A]/90 border border-[#FAF3E0]/20 rounded-lg p-4 text-xs z-50 backdrop-blur-sm">
               <div className="text-[#FAF3E0]/60 mb-2">🔧 Gallery Debug Info</div>
               <div className="text-[#FAF3E0]/80 space-y-1">
+                <div>Data Source: {debugInfo.dataSource || 'unknown'}</div>
                 <div>Data Load: {debugInfo.dataLoadTime || 0}ms</div>
                 <div>Gallery Init: {debugInfo.galleryInitTime || 0}ms</div>
                 <div>Total Time: {debugInfo.totalTime || 0}ms</div>
@@ -198,62 +207,38 @@ export default function GalleryPage() {
             </nav>
 
             {/* Photography Section */}
-            <section>
-              <div className="mb-12">
-                <div className="mb-6">
-                  <h1 className="text-5xl font-bold tracking-[-0.03em] mb-4 hover:text-[#FAF3E0] transition-colors duration-300">
-                    photography 📸
-                  </h1>
-                  
-                  {/* Decorative line */}
-                  <div className="w-24 h-0.5 bg-[#FAF3E0]/30 mb-6"></div>
-                </div>
-                
-                <p className="font-serif text-lg text-[#FAF3E0]/90 hover:text-[#FAF3E0] transition-colors duration-300 mb-8">
-                  i dedicate this section to the photographs that i took, from both my phone and my camera.
-                </p>
-              </div>
-                <div className="mb-8">
-                <h2 className="text-right font-bold text-3xl mb-6 hover:text-[#FAF3E0] transition-colors duration-300">
-                  2025 japan trip <JapanFlag />
-                </h2>
-                <div id="lightgallery-photos-2025jp" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start"></div>
-              </div>
-            </section>
+            <GallerySection
+              title="photography"
+              description="i dedicate this section to the photographs that i took, from both my phone and my camera."
+              emoji="📸"
+              galleries={[
+                {
+                  title: `2025 japan trip ${String.fromCodePoint(0x1F1EF, 0x1F1F5)}`, // Japan flag
+                  containerId: 'lightgallery-photos-2025jp',
+                  images: galleryData.photos_2025jp || []
+                }
+              ]}
+            />
 
             {/* Artwork Section */}
-            <section className="mt-20">
-              <div className="mb-12">
-                <div className="mb-6">
-                  <h1 className="text-5xl font-bold tracking-[-0.03em] mb-4 hover:text-[#FAF3E0] transition-colors duration-300">
-                    artwork 🎨
-                  </h1>
-                  
-                  {/* Decorative line */}
-                  <div className="w-24 h-0.5 bg-[#FAF3E0]/30 mb-6"></div>
-                </div>
-                
-                <p className="font-serif text-lg text-[#FAF3E0]/90 hover:text-[#FAF3E0] transition-colors duration-300 mb-8">
-                  i am still learning on how to draw, so most of these are referenced on other peoples artworks.
-                </p>
-              </div>
-              
-              <div className="space-y-12">
-                <div>
-                  <h2 className="text-right font-bold text-3xl mb-6 hover:text-[#FAF3E0] transition-colors duration-300">
-                    2 0 2 2
-                  </h2>
-                  <div id="lightgallery-artworks-2022" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start"></div>
-                </div>
-
-                <div>
-                  <h2 className="text-right font-bold text-3xl mb-6 hover:text-[#FAF3E0] transition-colors duration-300">
-                    2 0 2 3
-                  </h2>
-                  <div id="lightgallery-artworks-2023" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start"></div>
-                </div>
-              </div>
-            </section>
+            <GallerySection
+              title="artwork"
+              description="i am still learning on how to draw, so most of these are referenced on other peoples artworks."
+              emoji="🎨"
+              galleries={[
+                {
+                  title: '2 0 2 2',
+                  containerId: 'lightgallery-artworks-2022',
+                  images: galleryData.artworks_2022 || []
+                },
+                {
+                  title: '2 0 2 3',
+                  containerId: 'lightgallery-artworks-2023',
+                  images: galleryData.artworks_2023 || []
+                }
+              ]}
+              className="mt-20"
+            />
           </div>
 
           {/* Fun interactive element */}

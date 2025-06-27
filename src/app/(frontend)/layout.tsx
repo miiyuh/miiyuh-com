@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bg-[#1A1A1A] text-[#FAF3E0]">
+    <html lang="en" className="bg-[#1A1A1A] text-[#FAF3E0]" suppressHydrationWarning={true}>
       <head>
         {/* Preconnect to Inter font */}
         <link rel="preconnect" href="https://rsms.me/" />

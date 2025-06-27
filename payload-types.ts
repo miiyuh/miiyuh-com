@@ -193,11 +193,21 @@ export interface Gallery {
   title: string;
   description?: string | null;
   category: 'photography' | 'artwork' | 'digital-art' | 'other';
-  images: {
-    image: string | Media;
-    caption?: string | null;
-    id?: string | null;
-  }[];
+  /**
+   * Optional subcategory (e.g., "2025 Japan Trip", "Attack on Titan", etc.)
+   */
+  subcategory?: string | null;
+  /**
+   * Year when the content was created or captured
+   */
+  year?: number | null;
+  images?:
+    | {
+        image: string | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Display this item prominently on the gallery page
    */
@@ -494,6 +504,8 @@ export interface GallerySelect<T extends boolean = true> {
   title?: T;
   description?: T;
   category?: T;
+  subcategory?: T;
+  year?: T;
   images?:
     | T
     | {

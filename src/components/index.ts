@@ -21,5 +21,8 @@ export { InteractiveDotsBackground } from './effects/interactive-dots-background
 // Blog components
 export { ReadingProgress } from './blog/reading-progress'
 
+// Gallery components
+export { GalleryGrid, GallerySection } from './gallery'
+
 // Debug components (only for development)
 export { default as FontDebug } from './debug/font-debug'

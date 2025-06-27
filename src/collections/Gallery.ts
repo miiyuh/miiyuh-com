@@ -54,10 +54,27 @@ export const Gallery: CollectionConfig = {
       required: true,
     },
     {
+      name: 'subcategory',
+      type: 'text',
+      label: 'Subcategory',
+      admin: {
+        description: 'Optional subcategory (e.g., "2025 Japan Trip", "Attack on Titan", etc.)',
+      },
+    },
+    {
+      name: 'year',
+      type: 'number',
+      label: 'Year',
+      defaultValue: () => new Date().getFullYear(),
+      admin: {
+        description: 'Year when the content was created or captured',
+      },
+    },
+    {
       name: 'images',
       type: 'array',
       label: 'Images',
-      minRows: 1,
+      minRows: 0, // Allow empty arrays for testing
       maxRows: 20,
       fields: [
         {
@@ -72,7 +89,7 @@ export const Gallery: CollectionConfig = {
           label: 'Image Caption',
         },
       ],
-      required: true,
+      required: false, // Make the entire images array optional
     },
     {
       name: 'featured',
