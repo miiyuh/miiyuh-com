@@ -18,5 +18,8 @@ export { ScrollAnimation } from './effects/scroll-animations'
 export { ParallaxElement } from './effects/parallax-effects'
 export { InteractiveDotsBackground } from './effects/interactive-dots-background'
 
+// Blog components
+export { ReadingProgress } from './blog/reading-progress'
+
 // Debug components (only for development)
 export { default as FontDebug } from './debug/font-debug'

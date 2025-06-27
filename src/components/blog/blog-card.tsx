@@ -77,40 +77,45 @@ export const BlogCard: React.FC<BlogCardProps> = ({
 
   if (featured) {
     return (
-      <article className="group mb-8">
+      <article className="group mb-12">
         <Link href={`/blog/${post.slug}`}>
-          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#FAF3E0]/10 to-[#FAF3E0]/5 border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[#FAF3E0]/5">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#FAF3E0]/8 to-[#FAF3E0]/3 border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 transition-all duration-500 hover:shadow-2xl hover:shadow-[#FAF3E0]/10 hover:-translate-y-1">
             
             {/* Featured Badge */}
-            <div className="absolute top-4 left-4 z-10">
-              <span className="px-3 py-1 bg-[#FAF3E0]/90 text-[#1A1A1A] text-xs font-semibold rounded-full">
-                ⭐ Featured
+            <div className="absolute top-6 left-6 z-10">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#FAF3E0] text-[#1A1A1A] text-sm font-semibold rounded-full shadow-lg">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                Featured
               </span>
             </div>
 
-            <div className="flex flex-col lg:flex-row">
+            <div className="flex flex-col md:flex-row min-h-[320px]">
               {/* Image */}
               {post.featuredImage && showImage && (
-                <div className="lg:w-2/5 relative aspect-video lg:aspect-square overflow-hidden">
-                  <Image
-                    src={post.featuredImage.url}
-                    alt={post.featuredImage.alt || post.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    priority={index === 0}
-                  />
+                <div className="md:w-5/12 relative overflow-hidden">
+                  <div className="aspect-[4/3] md:aspect-auto md:h-full relative">
+                    <Image
+                      src={post.featuredImage.url}
+                      alt={post.featuredImage.alt || post.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      priority={index === 0}
+                    />
+                    {/* Gradient overlay for better text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent md:hidden"></div>
+                  </div>
                 </div>
               )}
 
               {/* Content */}
-              <div className="flex-1 p-6 lg:p-8">
+              <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
                 {/* Categories */}
                 {post.categories && post.categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2 mb-5">
                     {post.categories.slice(0, 2).map((cat, idx) => (
                       <span 
                         key={idx}
-                        className={`px-3 py-1 text-sm rounded-full border ${getCategoryBadgeColor(cat.category)}`}
+                        className={`px-3 py-1.5 text-sm font-medium rounded-full border backdrop-blur-sm ${getCategoryBadgeColor(cat.category)}`}
                       >
                         {cat.category}
                       </span>
@@ -118,26 +123,26 @@ export const BlogCard: React.FC<BlogCardProps> = ({
                   </div>
                 )}
 
-                <h2 className="text-2xl lg:text-3xl font-bold mb-3 group-hover:text-[#FAF3E0] transition-colors duration-300">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight group-hover:text-[#FAF3E0] transition-colors duration-300">
                   {post.title}
                 </h2>
 
-                <p className="text-lg text-[#FAF3E0]/80 mb-4 line-clamp-3">
+                <p className="text-lg text-[#FAF3E0]/80 mb-6 line-clamp-3 leading-relaxed">
                   {post.excerpt}
                 </p>
 
-                <div className="flex items-center justify-between text-sm text-[#FAF3E0]/60">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-[#FAF3E0]/60">
                   <div className="flex items-center gap-4">
-                    <span>By {post.author.name || post.author.email}</span>
-                    <span>•</span>
+                    <span className="font-medium">By {post.author.name || post.author.email}</span>
+                    <span className="hidden sm:inline">•</span>
                     <time dateTime={post.publishedDate}>
                       {formatDate(post.publishedDate)}
                     </time>
-                    <span>•</span>
-                    <span>{readingTime}</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span className="bg-[#FAF3E0]/10 px-2 py-1 rounded-md">{readingTime}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[#FAF3E0]/60 group-hover:text-[#FAF3E0] transition-colors">
-                    <span>Read more</span>
+                  <div className="flex items-center gap-2 text-[#FAF3E0]/70 group-hover:text-[#FAF3E0] transition-colors font-medium">
+                    <span>Read full article</span>
                     <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                   </div>
                 </div>

@@ -110,13 +110,16 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = ({
 
   if (loading) {
     return (
-      <div className="mt-16 pt-8 border-t border-[#FAF3E0]/10">
-        <h3 className="text-2xl font-bold mb-8">Related Posts</h3>
+      <div>
+        <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+          <span className="w-1 h-8 bg-[#FAF3E0] rounded-full"></span>
+          Related Posts
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(3)].map((_, index) => (
             <div 
               key={index}
-              className="animate-pulse border border-[#FAF3E0]/10 rounded-xl p-6"
+              className="animate-pulse border border-[#FAF3E0]/10 rounded-xl p-6 bg-[#FAF3E0]/5"
             >
               <div className="aspect-video bg-[#FAF3E0]/10 rounded-lg mb-4"></div>
               <div className="h-4 bg-[#FAF3E0]/10 rounded mb-2"></div>
@@ -134,8 +137,11 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = ({
   }
 
   return (
-    <div className="mt-16 pt-8 border-t border-[#FAF3E0]/10">
-      <h3 className="text-2xl font-bold mb-8">Related Posts</h3>
+    <div>
+      <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+        <span className="w-1 h-8 bg-[#FAF3E0] rounded-full"></span>
+        Related Posts
+      </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {relatedPosts.map((post, index) => (
           <BlogCard

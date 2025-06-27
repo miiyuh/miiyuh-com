@@ -129,8 +129,8 @@ export default function BlogPage() {
     return filtered
   }, [posts, searchQuery, categoryFilter, sortBy])
 
-  // Get featured post
-  const featuredPost = posts.find(post => post.featured) || posts[0]
+  // Get featured post - only show if explicitly marked as featured
+  const featuredPost = posts.find(post => post.featured === true)
 
   // Paginate posts
   const totalPages = Math.ceil(filteredAndSortedPosts.length / itemsPerPage)

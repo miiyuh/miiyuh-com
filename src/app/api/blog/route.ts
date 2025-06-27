@@ -12,7 +12,7 @@ export async function GET() {
           equals: 'published',
         },
       },
-      sort: '-featured,-publishedDate', // Featured posts first, then by date
+      sort: '-publishedDate', // Sort by date only, not by featured status
     })
     
     return Response.json({
