@@ -103,15 +103,20 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
           <select
             value={currentSort}
             onChange={(e) => handleSortChange(e.target.value)}
-            className="appearance-none bg-[#FAF3E0]/5 border border-[#FAF3E0]/20 rounded-lg px-4 py-2 pr-8 text-[#FAF3E0] text-sm focus:outline-none focus:ring-2 focus:ring-[#FAF3E0]/30 focus:border-transparent transition-all duration-300"
+            className="appearance-none bg-[#FAF3E0]/10 border border-[#FAF3E0]/30 rounded-lg px-4 py-2 pr-10 text-[#FAF3E0] font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#FAF3E0]/50 focus:border-[#FAF3E0]/60 focus:bg-[#FAF3E0]/20 hover:bg-[#FAF3E0]/15 hover:border-[#FAF3E0]/40 transition-all duration-300 cursor-pointer shadow-sm"
+            style={{ 
+              colorScheme: 'dark',
+              color: '#FAF3E0',
+              backgroundColor: 'rgba(250, 243, 224, 0.1)'
+            }}
           >
-            <option value="date-desc">Newest First</option>
-            <option value="date-asc">Oldest First</option>
-            <option value="title-asc">Title A-Z</option>
-            <option value="title-desc">Title Z-A</option>
+            <option value="date-desc" style={{ backgroundColor: '#1A1A1A', color: '#FAF3E0' }}>Newest First</option>
+            <option value="date-asc" style={{ backgroundColor: '#1A1A1A', color: '#FAF3E0' }}>Oldest First</option>
+            <option value="title-asc" style={{ backgroundColor: '#1A1A1A', color: '#FAF3E0' }}>Title A-Z</option>
+            <option value="title-desc" style={{ backgroundColor: '#1A1A1A', color: '#FAF3E0' }}>Title Z-A</option>
           </select>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <svg className="w-4 h-4 text-[#FAF3E0]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg className="w-4 h-4 text-[#FAF3E0]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
