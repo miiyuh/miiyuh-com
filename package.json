@@ -14,6 +14,8 @@
     "clean": "rimraf .next"
   },
   "dependencies": {
+    "@lexical/headless": "^0.28.0",
+    "@lexical/react": "^0.28.0",
     "@payloadcms/db-mongodb": "^3.43.0",
     "@payloadcms/email-nodemailer": "^3.43.0",
     "@payloadcms/next": "^3.43.0",

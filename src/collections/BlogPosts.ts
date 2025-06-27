@@ -9,6 +9,15 @@ export const BlogPosts: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'publishedDate', 'updatedAt'],
+    preview: ({ slug, collection }) => {
+      const params = new URLSearchParams({
+        slug: String(slug || ''),
+        collection: String(collection),
+        path: `/blog/${slug}`,
+        previewSecret: process.env.PREVIEW_SECRET || '',
+      })
+      return `/preview?${params.toString()}`
+    },
   },
   access: {
     read: ({ req: { user } }) => {
