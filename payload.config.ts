@@ -17,6 +17,12 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  // Server URL configuration for Vercel deployment
+  serverURL: process.env.NEXT_PUBLIC_PAYLOAD_URL || 
+             process.env.VERCEL_BRANCH_URL ||
+             process.env.VERCEL_URL ||
+             'http://localhost:3000',
+             
   // If you'd like to use Rich Text, pass your editor here
   editor: lexicalEditor(),
 
@@ -27,6 +33,15 @@ export default buildConfig({
       titleSuffix: '- Miiyuh Admin',
     },
   },
+  
+  // CORS configuration
+  cors: process.env.NODE_ENV === 'production' ? [
+    process.env.NEXT_PUBLIC_PAYLOAD_URL || '',
+    process.env.VERCEL_BRANCH_URL || '',
+    process.env.VERCEL_URL || '',
+    'https://preview.miiyuh.com',
+    'https://miiyuh.com'
+  ].filter(Boolean) : undefined,
 
   // Define and configure your collections in this array
   collections: [

@@ -60,3 +60,4 @@ deployment-log*.md
 DEPLOYMENT_*.md
 DEBUG_*.md
 TROUBLESHOOTING_*.md
+VERCEL_DEPLOYMENT_GUIDE.md
