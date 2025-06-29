@@ -28,9 +28,10 @@ interface GalleryImage {
 
 export async function GET(
   request: Request,
-  { params }: { params: { category: string } }
+  { params }: { params: Promise<{ category: string }> }
 ) {
   try {
+    const { category } = await params
     const { searchParams } = new URL(request.url)
     const year = searchParams.get('year')
     const featured = searchParams.get('featured')
@@ -43,7 +44,7 @@ export async function GET(
         equals: 'published',
       },
       category: {
-        equals: params.category,
+        equals: category,
       },
     }
     
@@ -94,7 +95,7 @@ export async function GET(
     return Response.json({
       success: true,
       data: formattedImages,
-      category: params.category,
+      category: category,
       year: year || 'all',
       featured: featured === 'true',
       total: formattedImages.length,
