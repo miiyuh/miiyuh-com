@@ -53,3 +53,10 @@ DEPLOYMENT_*.md
 DEBUG_*.md
 fix-summary*.md
 deployment-log*.md
+
+# Documentation and fix summaries (may contain sensitive info)
+*_FIX.md
+*_FIXES.md
+DEPLOYMENT_*.md
+DEBUG_*.md
+TROUBLESHOOTING_*.md
