@@ -44,7 +44,9 @@ export async function GET() {
             pathname: blob.pathname,
             size: blob.size,
             uploadedAt: blob.uploadedAt,
-          }))
+            isTargetImage: blob.pathname.includes('mikase.png'),
+          })),
+          mikaseImageFound: blobs.blobs.some(blob => blob.pathname.includes('mikase.png')),
         }
         
         console.log('✅ Vercel Blob connection successful')

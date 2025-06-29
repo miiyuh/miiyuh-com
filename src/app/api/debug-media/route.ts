@@ -22,12 +22,20 @@ export async function GET() {
         id: doc.id,
         filename: doc.filename,
         url: doc.url,
+        urlType: doc.url ? (
+          doc.url.includes('.blob.vercel-storage.com') ? 'BLOB_URL' :
+          doc.url.startsWith('/api/media/file/') ? 'PROXY_URL' :
+          doc.url.startsWith('http') ? 'ABSOLUTE_URL' : 'RELATIVE_URL'
+        ) : 'NO_URL',
         createdAt: doc.createdAt,
+        mimeType: doc.mimeType,
+        filesize: doc.filesize,
         sizes: doc.sizes ? [
           doc.sizes.thumbnail && { name: 'thumbnail', ...doc.sizes.thumbnail },
           doc.sizes.card && { name: 'card', ...doc.sizes.card },
           doc.sizes.tablet && { name: 'tablet', ...doc.sizes.tablet },
         ].filter(Boolean) : [],
+        isMikase: doc.filename === 'mikase.png',
       })),
       environment: {
         NODE_ENV: process.env.NODE_ENV,
