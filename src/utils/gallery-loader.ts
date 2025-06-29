@@ -4,6 +4,7 @@ import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgFullscreen from 'lightgallery/plugins/fullscreen';
 import lgRotate from 'lightgallery/plugins/rotate';
 import lgShare from 'lightgallery/plugins/share';
+import lgAutoplay from 'lightgallery/plugins/autoplay';
 
 import 'lightgallery/css/lightgallery.css';
 import 'lightgallery/css/lg-zoom.css';
@@ -11,17 +12,29 @@ import 'lightgallery/css/lg-thumbnail.css';
 import 'lightgallery/css/lg-fullscreen.css';
 import 'lightgallery/css/lg-rotate.css';
 import 'lightgallery/css/lg-share.css';
+import 'lightgallery/css/lg-autoplay.css';
 
 export interface GalleryImage {
   src: string;
+  fullSrc?: string;
   title?: string;
   description?: string;
+  alt?: string;
+  caption?: string;
+}
+
+export interface GalleryAlbum {
+  id: string;
+  title: string;
+  description?: string;
+  category: 'photography' | 'artwork' | 'digital-art';
+  publishedDate?: string;
+  images: GalleryImage[];
+  slug: string;
 }
 
 export interface GalleryData {
-  photos_2025jp?: GalleryImage[];
-  artworks_2022?: GalleryImage[];
-  artworks_2023?: GalleryImage[];
+  albums: GalleryAlbum[];
   _meta?: {
     source: 'payloadcms' | 'fallback' | 'static';
     total?: number;
@@ -52,77 +65,35 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
     if (existingLg) {
       existingLg.destroy();
     }
-
-    // Clear existing content
-    container.innerHTML = '';
     
     console.log(`🖼️ Initializing gallery ${containerId} with ${images.length} images`);
 
-    // Create DOM elements immediately (faster than preloading all images)
-    images.forEach((image, index) => {
-      const a = document.createElement('a');
-      const src = typeof image === 'string' ? image : image.src;
-      const title = image.title || '';
-      const description = image.description || '';
-
-      a.href = src;
-      a.className = 'block w-full'; // Ensure anchor doesn't constrain image
-      a.setAttribute('data-sub-html', `
-        <div class='text-center'>
-          <h4 class='text-lg font-bold mb-1'>${title}</h4>
-          <p class='text-sm'>${description}</p>
-        </div>
-      `);
-      
-      // Create image element with optimized loading
-      const imgElement = document.createElement('img');
-      imgElement.src = src;
-      imgElement.className = 'w-full h-auto rounded-lg shadow transition-opacity duration-300 object-cover';
-      imgElement.alt = title || 'gallery image';
-      // Use lazy loading for images after the first few
-      imgElement.loading = index < 3 ? 'eager' : 'lazy';
-      imgElement.style.opacity = '0';
-      // Set aspect ratio instead of fixed height to prevent squashing
-      imgElement.style.aspectRatio = 'auto';
-      imgElement.style.backgroundColor = 'rgba(250, 243, 224, 0.05)'; // Placeholder color
-      
-      // Fade in when image loads and ensure proper aspect ratio
-      imgElement.onload = () => {
-        // Small delay to ensure layout has settled
-        setTimeout(() => {
-          imgElement.style.opacity = '1';
-          // Remove any height constraints that might cause squashing
-          imgElement.style.height = 'auto';
-          imgElement.style.maxHeight = 'none';
-        }, 50);
-      };
-      
-      imgElement.onerror = () => {
-        console.warn(`Failed to load image: ${src}`);
-        imgElement.style.opacity = '0.5';
-        imgElement.alt = 'Failed to load image';
-      };
-      
-      a.appendChild(imgElement);
-      container.appendChild(a);
-    });
-
-    // Initialize lightGallery with optimized settings
+    // Initialize lightGallery with minimal, working configuration
     setTimeout(() => {
       if (!containerWithLg.lgGallery && container.children.length > 0) {
         try {
           const lgInstance = lightGallery(container, {
-            plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgShare], // Removed autoplay and pager for speed
-            speed: 300, // Faster transitions
-            download: false,
+            plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgShare, lgAutoplay],
             selector: 'a',
-            preload: 1, // Reduced preload for speed
-            hideControlOnEnd: true,
-            closable: true,
-            mousewheel: true,
-            loadYouTubeThumbnail: false, // Disable if not needed
-            youTubePlayerParams: false,
-            vimeoPlayerParams: false,
+            download: true,
+            zoom: true,
+            actualSize: true,
+            showZoomInOutIcons: false, // Use only actualSize button instead of separate zoom in/out
+            thumbnail: true,
+            toggleThumb: true,
+            fullScreen: true,
+            rotate: true,
+            rotateLeft: true,
+            rotateRight: true,
+            flipHorizontal: true,
+            flipVertical: true,
+            share: true,
+            autoplay: false,
+            autoplayControls: true,
+            loop: true,
+            controls: true,
+            counter: true,
+            escKey: true
           }) as LightGalleryInstance;
           
           containerWithLg.lgGallery = lgInstance;
@@ -135,7 +106,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       } else {
         resolve();
       }
-    }, 100); // Reduced delay
+    }, 100);
   });
 };
 
@@ -158,9 +129,18 @@ export const loadGalleryData = async (): Promise<GalleryData> => {
 
   // Create new promise for fresh data
   galleryDataPromise = (async () => {
+    // Determine the base URL for server-side vs client-side
+    const baseUrl = typeof window === 'undefined' 
+      ? process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      : '';
+    
     try {
       console.log('🌐 Fetching gallery data from PayloadCMS API');
-      const response = await fetch('/api/gallery-frontend', {
+      
+      const apiUrl = `${baseUrl}/api/gallery-frontend`;
+      console.log('🔗 API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         // Add cache headers for better performance
         headers: {
           'Cache-Control': 'public, max-age=300' // 5 minutes cache
@@ -169,62 +149,32 @@ export const loadGalleryData = async (): Promise<GalleryData> => {
       
       if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch gallery data`);
       
-      const result = await response.json();
+      const data: GalleryData = await response.json();
       
-      if (!result.success) {
-        throw new Error('API returned unsuccessful response');
+      if (!data.albums || !Array.isArray(data.albums)) {
+        throw new Error('Invalid data structure received from API');
       }
       
-      const data = result.data;
+      galleryDataCache = data; // Cache the result
+      console.log('✅ Gallery data fetched from PayloadCMS and cached');
       
-      // Add metadata about the source
-      const dataWithMeta: GalleryData = {
-        ...data,
-        _meta: {
-          source: result.source === 'payloadcms' ? 'payloadcms' : 'fallback',
-          total: result.total
-        }
-      };
-      
-      galleryDataCache = dataWithMeta; // Cache the result
-      
-      if (result.source === 'payloadcms') {
-        console.log('✅ Gallery data fetched from PayloadCMS and cached');
-      } else {
-        console.log('⚠️ Gallery data fetched from fallback source and cached');
-      }
-      
-      return dataWithMeta;
+      return data;
     } catch (error) {
       console.error('❌ Error loading gallery data from API:', error);
       
-      // Try fallback to static file as last resort
-      try {
-        console.log('🔄 Attempting fallback to static gallery.json');
-        const fallbackResponse = await fetch('/gallery.json', {
-          headers: {
-            'Cache-Control': 'public, max-age=300'
-          }
-        });
-        
-        if (fallbackResponse.ok) {
-          const fallbackData = await fallbackResponse.json();
-          const dataWithMeta: GalleryData = {
-            ...fallbackData,
-            _meta: {
-              source: 'static'
-            }
-          };
-          galleryDataCache = dataWithMeta;
-          console.log('✅ Fallback gallery data loaded and cached');
-          return dataWithMeta;
+      // Return empty gallery data as fallback
+      const fallbackData: GalleryData = {
+        albums: [],
+        _meta: {
+          source: 'fallback',
+          total: 0
         }
-      } catch (fallbackError) {
-        console.error('❌ Fallback also failed:', fallbackError);
-      }
+      };
       
+      galleryDataCache = fallbackData;
       galleryDataPromise = null; // Reset promise on error
-      return {};
+      console.log('⚠️ Using empty fallback gallery data');
+      return fallbackData;
     }
   })();
 

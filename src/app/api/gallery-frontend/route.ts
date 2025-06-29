@@ -1,196 +1,167 @@
-import { getPayload } from 'payload'
-import type { Where } from 'payload'
-import configPromise from '../../../../payload.config'
-import type { Gallery } from '../../../../payload-types'
-import galleryData from '../../../../public/gallery.json'
+import { NextResponse } from 'next/server';
 
-// Types for gallery data structure
+const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000';
+
+interface PayloadImageItem {
+  id: string;
+  image: PayloadImage;
+}
+
 interface PayloadImage {
-  id: string
-  alt: string
-  caption?: string
-  filename: string
-  mimeType: string
-  url?: string
-  width?: number
-  height?: number
+  id: string;
+  url?: string;
+  filename?: string;
+  alt?: string;
+  title?: string;
+  caption?: string;
+  description?: string;
+  thumbnailURL?: string;
   sizes?: {
-    thumbnail?: { url: string, width: number, height: number }
-    card?: { url: string, width: number, height: number }
-    tablet?: { url: string, width: number, height: number }
-  }
+    thumbnail?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    card?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    tablet?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+  };
 }
 
-interface GalleryImage {
-  src: string
-  title?: string
-  description?: string
+interface PayloadAlbum {
+  id: string;
+  title: string;
+  category?: string;
+  date?: string;
+  createdAt: string;
+  description?: string;
+  images?: (PayloadImageItem | PayloadImage | string)[];
 }
 
-interface FormattedGalleryData {
-  photos_2025jp?: GalleryImage[]
-  artworks_2022?: GalleryImage[]
-  artworks_2023?: GalleryImage[]
+interface PayloadResponse {
+  docs: PayloadAlbum[];
 }
 
-// Helper function to format PayloadCMS data to match existing frontend structure
-function formatGalleryData(payloadData: Gallery[]): FormattedGalleryData {
-  const formatted: FormattedGalleryData = {}
-  
-  // Group items by category and year (if applicable)
-  payloadData.forEach(item => {
-    if (!item.images || !Array.isArray(item.images)) return
-    
-    const year = item.publishedDate ? new Date(item.publishedDate).getFullYear() : new Date().getFullYear()
-    
-    // Convert PayloadCMS images to the expected format
-    const formattedImages: GalleryImage[] = []
-    
-    item.images.forEach(imageItem => {
-      if (typeof imageItem === 'object' && imageItem !== null && 'image' in imageItem) {
-        const image = imageItem.image
-        if (typeof image === 'object' && image !== null && 'filename' in image) {
-          formattedImages.push({
-            src: (image as PayloadImage).url || `/media/${(image as PayloadImage).filename}`,
-            title: (imageItem as { caption?: string }).caption || item.title || 'Untitled',
-            description: item.description || (imageItem as { caption?: string }).caption || undefined
-          })
-        }
-      }
-    })
-    
-    // Categorize based on category and year
-    if (item.category === 'photography') {
-      if (year === 2025) {
-        if (!formatted.photos_2025jp) formatted.photos_2025jp = []
-        formatted.photos_2025jp.push(...formattedImages)
-      }
-      // Add more year conditions as needed
-    } else if (item.category === 'artwork' || item.category === 'digital-art') {
-      if (year === 2022) {
-        if (!formatted.artworks_2022) formatted.artworks_2022 = []
-        formatted.artworks_2022.push(...formattedImages)
-      } else if (year === 2023) {
-        if (!formatted.artworks_2023) formatted.artworks_2023 = []
-        formatted.artworks_2023.push(...formattedImages)
-      }
-    }
-  })
-  
-  return formatted
+interface ProcessedAlbum {
+  id: string;
+  title: string;
+  category: string;
+  date: string;
+  description: string;
+  images: Array<{
+    src: string;
+    fullSrc: string;
+    title: string;
+    description: string;
+    alt: string;
+    caption?: string;
+  }>;
+  slug: string;
 }
 
 export async function GET() {
   try {
-    const payload = await getPayload({ config: configPromise })
+    console.log('🖼️ Gallery Frontend API: Fetching albums from PayloadCMS...');
     
-    const whereClause: Where = {
-      status: {
-        equals: 'published',
+    // Fetch albums from PayloadCMS
+    const albumsResponse = await fetch(`${PAYLOAD_API_URL}/api/gallery`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    }
-    
-    const galleries = await payload.find({
-      collection: 'gallery',
-      where: whereClause,
-      sort: '-publishedDate',
-      depth: 2, // Include related media
-    })
-    
-    // Format data to match existing frontend structure
-    const formattedData = formatGalleryData(galleries.docs as Gallery[])
-    
-    return Response.json({
-      success: true,
-      data: formattedData,
-      source: 'payloadcms',
-      total: galleries.docs.length
-    })
-  } catch (error) {
-    console.error('Gallery API Error:', error)
-    
-    // Fallback to static gallery.json if PayloadCMS fails
-    console.log('Falling back to static gallery data')
-    return Response.json({
-      success: true,
-      data: galleryData,
-      source: 'fallback',
-      fallback: true,
-    })
-  }
-}
+    });
 
-export async function POST(request: Request) {
-  try {
-    const payload = await getPayload({ config: configPromise })
-    
-    // Check if request has content
-    const contentType = request.headers.get('content-type')
-    if (!contentType || !contentType.includes('application/json')) {
-      return Response.json(
-        { 
-          success: false, 
-          error: 'Invalid content type. Expected application/json',
-        },
-        { status: 400 }
-      )
+    if (!albumsResponse.ok) {
+      console.error('❌ Failed to fetch albums from PayloadCMS:', albumsResponse.status);
+      throw new Error(`Failed to fetch albums: ${albumsResponse.status}`);
     }
-    
-    let body
-    try {
-      const rawBody = await request.text()
-      if (!rawBody || rawBody.trim() === '') {
-        return Response.json(
-          { 
-            success: false, 
-            error: 'Empty request body',
-          },
-          { status: 400 }
-        )
-      }
+
+    const albumsData: PayloadResponse = await albumsResponse.json();
+    console.log('📚 Raw albums data:', JSON.stringify(albumsData, null, 2));
+
+    if (!albumsData.docs || !Array.isArray(albumsData.docs)) {
+      console.error('❌ Invalid albums data structure:', albumsData);
+      throw new Error('Invalid albums data structure');
+    }
+
+    // Transform albums into the expected format
+    const albums: ProcessedAlbum[] = albumsData.docs.map((album: PayloadAlbum) => {
+      console.log('🔄 Processing album:', album.title, 'with', album.images?.length || 0, 'images');
       
-      body = JSON.parse(rawBody)
-    } catch (parseError) {
-      console.error('JSON Parse Error:', parseError)
-      return Response.json(
-        { 
-          success: false, 
-          error: 'Invalid JSON in request body',
-          details: parseError instanceof Error ? parseError.message : 'Unknown parse error'
-        },
-        { status: 400 }
-      )
-    }
-    
-    // Validate required fields
-    if (!body.title) {
-      return Response.json(
-        { 
-          success: false, 
-          error: 'Title is required',
-        },
-        { status: 400 }
-      )
-    }
-    
-    const gallery = await payload.create({
-      collection: 'gallery',
-      data: body,
-    })
-    
-    return Response.json({
-      success: true,
-      data: gallery,
-    })
+      return {
+        id: album.id,
+        title: album.title,
+        category: album.category || 'photography',
+        date: album.date || album.createdAt,
+        description: album.description || '',
+        slug: album.id,
+        images: (album.images || []).map((imageItem: PayloadImageItem | PayloadImage | string) => {
+          // Handle the nested structure where image data is in imageItem.image
+          console.log('📷 Raw imageItem:', JSON.stringify(imageItem, null, 2));
+          
+          const image = typeof imageItem === 'string' ? imageItem : 
+                       ('image' in imageItem) ? imageItem.image : imageItem;
+          
+          console.log('🔍 Extracted image:', JSON.stringify(image, null, 2));
+          
+          // For grid display, prefer tablet size (1024x1024) for better quality 1:1 aspect ratio
+          // Fall back to thumbnail, then original image
+          const gridImageUrl = typeof image === 'string' ? image : 
+                              image?.sizes?.tablet?.url || 
+                              image?.thumbnailURL || 
+                              image?.url || 
+                              image?.filename || '';
+          
+          // For lightbox, use the original full-size image
+          const fullImageUrl = typeof image === 'string' ? image : 
+                              image?.url || 
+                              image?.filename || '';
+          
+          console.log('🖼️ Processing grid image URL:', gridImageUrl);
+          console.log('🔍 Processing full image URL:', fullImageUrl);
+          
+          return {
+            src: gridImageUrl, // Use for grid display (1:1 aspect ratio)
+            fullSrc: fullImageUrl, // Use for lightbox (full resolution)
+            alt: typeof image === 'object' ? (image.alt || album.title) : album.title,
+            title: typeof image === 'object' ? (image.caption || image.alt || '') : '',
+            description: typeof image === 'object' ? (image.description || image.caption || '') : '',
+            caption: typeof image === 'object' ? (image.caption || image.alt || '') : '',
+          };
+        }),
+      };
+    });
+
+    // Sort albums by date (newest first)
+    albums.sort((a: ProcessedAlbum, b: ProcessedAlbum) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const response = {
+      albums,
+      totalAlbums: albums.length,
+      totalImages: albums.reduce((sum: number, album: ProcessedAlbum) => sum + album.images.length, 0),
+    };
+
+    console.log('✅ Gallery Frontend API: Returning', albums.length, 'albums with', response.totalImages, 'total images');
+    console.log('📋 Albums summary:', albums.map((a: ProcessedAlbum) => `"${a.title}" (${a.category}, ${a.images.length} images)`));
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Gallery POST Error:', error)
-    return Response.json(
-      { 
-        success: false, 
-        error: 'Failed to create gallery',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    )
+    console.error('❌ Gallery Frontend API Error:', error);
+    
+    // Return empty data structure on error
+    return NextResponse.json({
+      albums: [],
+      totalAlbums: 0,
+      totalImages: 0,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, {
+      status: 500
+    });
   }
 }

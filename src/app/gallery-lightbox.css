@@ -1,0 +1,31 @@
+/* Simple lightGallery toolbar fixes */
+
+/* Ensure toolbar is visible */
+.lg-toolbar {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px;
+}
+
+/* Ensure all icons are visible */
+.lg-toolbar .lg-icon {
+  opacity: 1;
+  display: inline-block;
+  margin: 0 4px;
+}
+
+/* Make sure specific controls show up */
+.lg-zoom-in,
+.lg-zoom-out, 
+.lg-actual-size,
+.lg-rotate-left,
+.lg-rotate-right,
+.lg-flip-hor,
+.lg-flip-ver,
+.lg-download,
+.lg-share,
+.lg-fullscreen,
+.lg-autoplay-button,
+.lg-toogle-thumb {
+  display: inline-block !important;
+  opacity: 1 !important;
+}

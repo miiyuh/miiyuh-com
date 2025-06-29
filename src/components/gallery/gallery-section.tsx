@@ -21,6 +21,12 @@ const GallerySection: React.FC<GallerySectionProps> = ({
   galleries,
   className = ""
 }) => {
+  console.log(`🖼️ GallerySection "${title}" received:`, galleries.map(g => ({ 
+    title: g.title, 
+    containerId: g.containerId, 
+    imageCount: g.images.length 
+  })));
+  
   return (
     <section className={className}>
       <div className="mb-12">

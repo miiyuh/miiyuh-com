@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 31536000, // 1 year cache for images
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/api/media/file/**',
+      },
+    ],
   },
   experimental: {
     optimizePackageImports: ['lightgallery'],

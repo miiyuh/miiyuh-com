@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { loadGalleryData, GalleryData } from '@/utils/gallery-loader';
+import { loadGalleryData, GalleryData, GalleryAlbum } from '@/utils/gallery-loader';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background';
 import GallerySection from '@/components/gallery/gallery-section';
-import '../../gallery-lightbox.css';
 
 export default async function GalleryPage() {
   console.log('🏁 GalleryPage server function executing');
@@ -97,7 +96,7 @@ export default async function GalleryPage() {
               emoji="📸"
               galleries={photographyAlbums.map(album => ({
                 title: album.title,
-                containerId: `lightgallery-${album.slug || album.id}`,
+                containerId: `lightgallery-${album.slug}`,
                 images: album.images
               }))}
             />
@@ -111,7 +110,7 @@ export default async function GalleryPage() {
               emoji="🎨"
               galleries={artworkAlbums.map(album => ({
                 title: album.title,
-                containerId: `lightgallery-${album.slug || album.id}`,
+                containerId: `lightgallery-${album.slug}`,
                 images: album.images
               }))}
               className="mt-20"
