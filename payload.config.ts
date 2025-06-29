@@ -39,17 +39,13 @@ export default buildConfig({
 
   // Storage plugins
   plugins: [
-    // Use Vercel Blob for production, skip for development (use local storage)
-    ...(process.env.NODE_ENV === 'production' && process.env.BLOB_READ_WRITE_TOKEN
-      ? [
-          vercelBlobStorage({
-            collections: {
-              media: true, // Enable for media collection
-            },
-            token: process.env.BLOB_READ_WRITE_TOKEN,
-          }),
-        ]
-      : []),
+    // Always include Vercel Blob plugin, but conditionally configure it
+    vercelBlobStorage({
+      collections: {
+        media: true, // Enable for media collection
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN || '', // Empty token for local dev
+    }),
   ],
 
   // Your Payload secret - should be a complex and secure string, unguessable
