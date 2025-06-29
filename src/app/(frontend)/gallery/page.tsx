@@ -1,19 +1,58 @@
+'use client'
+
 import Link from 'next/link';
-import { loadGalleryData, GalleryData } from '@/utils/gallery-loader';
+import { useState, useEffect } from 'react';
+import { GalleryData } from '@/utils/gallery-loader';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background';
 import GallerySection from '@/components/gallery/gallery-section';
 import '../../gallery-lightbox.css';
 
-export default async function GalleryPage() {
-  let galleryData: GalleryData = { albums: [] };
-  let error: string | null = null;
+export default function GalleryPage() {
+  const [galleryData, setGalleryData] = useState<GalleryData>({ albums: [] });
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  try {
-    galleryData = await loadGalleryData();
-  } catch (err) {
-    console.error('Error loading gallery data:', err);
-    error = 'Failed to load gallery';
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        setIsLoading(true);
+        console.log('🌐 Fetching gallery data...');
+        
+        const response = await fetch('/api/gallery-frontend');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: Failed to fetch gallery data`);
+        }
+        
+        const data: GalleryData = await response.json();
+        
+        if (!data.albums || !Array.isArray(data.albums)) {
+          throw new Error('Invalid data structure received from API');
+        }
+        
+        setGalleryData(data);
+        console.log('✅ Gallery data loaded successfully');
+      } catch (err) {
+        console.error('❌ Error loading gallery data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load gallery');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGalleryData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#1A1A1A] text-[#FAF3E0] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FAF3E0] mx-auto mb-4"></div>
+          <p className="text-[#FAF3E0]/60">Loading gallery...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

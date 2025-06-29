@@ -149,15 +149,11 @@ export const loadGalleryData = async (): Promise<GalleryData> => {
 
   // Create new promise for fresh data
   galleryDataPromise = (async () => {
-    // Determine the base URL for server-side vs client-side
-    const baseUrl = typeof window === 'undefined' 
-      ? process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-      : '';
-    
     try {
       console.log('🌐 Fetching gallery data from PayloadCMS API');
       
-      const apiUrl = `${baseUrl}/api/gallery-frontend`;
+      // Use relative URL - works for client-side calls
+      const apiUrl = '/api/gallery-frontend';
       console.log('🔗 API URL:', apiUrl);
       
       const response = await fetch(apiUrl, {

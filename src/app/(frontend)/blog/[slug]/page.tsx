@@ -46,7 +46,8 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
     if (isDraftMode) {
       // For draft mode, we need to use the PayloadCMS API directly
       // This should be the internal API, not the frontend API
-      const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
+      const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 
+                     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
       const endpoint = `${baseUrl}/api/blog-posts?where[slug][equals]=${slug}&draft=true&limit=1`
       
       const response = await fetch(endpoint, {
@@ -60,7 +61,8 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
       }
     } else {
       // For published posts, use your existing frontend API
-      const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
+      const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 
+                     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
       const response = await fetch(`${baseUrl}/api/blog/${slug}`, {
         next: { revalidate: 60 },
         signal: AbortSignal.timeout(10000), // 10 second timeout
