@@ -66,7 +66,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       existingLg.destroy();
     }
     
-    console.log(`🖼️ Initializing gallery ${containerId} with ${images.length} images`);
+    console.log(`Initializing gallery ${containerId} with ${images.length} images`);
 
     // Initialize lightGallery with minimal, working configuration
     setTimeout(() => {
@@ -97,7 +97,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
           }) as LightGalleryInstance;
           
           containerWithLg.lgGallery = lgInstance;
-          console.log(`✅ Gallery ${containerId} initialized successfully`);
+          console.log(`Gallery ${containerId} initialized successfully`);
           resolve();
         } catch (error) {
           console.error('Error initializing lightGallery:', error);

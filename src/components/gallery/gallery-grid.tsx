@@ -17,11 +17,6 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({
   title, 
   className = "" 
 }) => {
-  console.log(`📋 GalleryGrid "${title}" (${containerId}):`, {
-    imageCount: images?.length || 0,
-    images: images?.map(img => ({ src: img.src, title: img.title })) || []
-  });
-
   useEffect(() => {
     if (images && images.length > 0) {
       // Initialize lightGallery
@@ -30,15 +25,12 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({
   }, [images, containerId]);
 
   if (!images || images.length === 0) {
-    console.log(`⚠️ No images for "${title}"`);
     return (
       <div className={`text-center py-8 ${className}`}>
         <p className="text-[#FAF3E0]/60 font-serif">No images available for {title}</p>
       </div>
     )
   }
-
-  console.log(`✅ Rendering ${images.length} images for "${title}"`);
 
   return (
     <div className={className}>

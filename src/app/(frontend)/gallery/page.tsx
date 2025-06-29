@@ -6,17 +6,13 @@ import GallerySection from '@/components/gallery/gallery-section';
 import '../../gallery-lightbox.css';
 
 export default async function GalleryPage() {
-  console.log('🏁 GalleryPage server function executing');
-  
   let galleryData: GalleryData = { albums: [] };
   let error: string | null = null;
 
   try {
-    console.log('📡 Fetching gallery data on server...');
     galleryData = await loadGalleryData();
-    console.log('✅ Server data fetched:', galleryData);
   } catch (err) {
-    console.error('❌ Server error loading data:', err);
+    console.error('Error loading gallery data:', err);
     error = 'Failed to load gallery';
   }
 
@@ -72,22 +68,6 @@ export default async function GalleryPage() {
               </li>
             </ol>
           </nav>
-
-          {/* Debug Section - can be removed in production */}
-          <div className="mb-8 p-4 bg-gray-800 rounded-lg">
-            <h2 className="text-lg font-bold mb-2">Dynamic Gallery ✨</h2>
-            <p>Environment: Server-side rendered</p>
-            <p>Data Source: {galleryData._meta?.source || 'unknown'}</p>
-            <p>Total Albums: {galleryData.albums.length}</p>
-            <p>Photography Albums: {photographyAlbums.length}</p>
-            <p>Artwork Albums: {artworkAlbums.length}</p>
-            <div className="mt-2 text-sm text-gray-300">
-              <p>Albums:</p>
-              {galleryData.albums.map(album => (
-                <p key={album.id} className="ml-4">• {album.title} ({album.category}, {album.images.length} images)</p>
-              ))}
-            </div>
-          </div>
 
           {/* Photography Section */}
           {photographyAlbums.length > 0 && (
