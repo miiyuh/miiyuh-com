@@ -43,3 +43,13 @@ next-env.d.ts
 .idea
 
 /docs
+
+# Fix documentation and logs (may contain sensitive info)
+*_FIX.md
+*_FIXES.md
+BLOG_404_FIX.md
+GALLERY_FIX.md
+DEPLOYMENT_*.md
+DEBUG_*.md
+fix-summary*.md
+deployment-log*.md
