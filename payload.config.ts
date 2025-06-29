@@ -54,10 +54,12 @@ export default buildConfig({
 
   // Storage plugins
   plugins: [
-    // Always include Vercel Blob plugin, but conditionally configure it
+    // Vercel Blob storage configuration
     vercelBlobStorage({
       collections: {
-        media: true, // Enable for media collection
+        media: {
+          prefix: '', // No prefix to keep URLs clean
+        },
       },
       token: process.env.BLOB_READ_WRITE_TOKEN || '', // Empty token for local dev
     }),

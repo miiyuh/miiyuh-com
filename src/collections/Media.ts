@@ -13,8 +13,7 @@ export const Media: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   upload: {
-    // This will be handled by the Vercel Blob plugin in production
-    staticDir: 'media',
+    // No staticDir when using Vercel Blob storage - let the plugin handle it
     imageSizes: [
       {
         name: 'thumbnail',

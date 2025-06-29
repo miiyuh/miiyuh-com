@@ -29,8 +29,26 @@ export async function GET(
       const mediaDoc = mediaQuery.docs[0]
       console.log('✅ Found media in PayloadCMS:', mediaDoc.filename, 'URL:', mediaDoc.url)
       
+      // If PayloadCMS has stored a proxy URL (circular reference), we need to check if the actual file exists in Blob storage
+      if (mediaDoc.url && mediaDoc.url.includes('/api/media/file/')) {
+        console.log('🔄 Detected proxy URL in PayloadCMS, checking Blob storage directly')
+        
+        // Try to construct the expected Blob URL based on your pattern
+        const expectedBlobUrl = `https://tavt1iz2ukisuwtc.public.blob.vercel-storage.com/${filename}`
+        
+        try {
+          // Test if the Blob URL exists by making a HEAD request
+          const blobResponse = await fetch(expectedBlobUrl, { method: 'HEAD' })
+          if (blobResponse.ok) {
+            console.log('✅ Found file in Blob storage, redirecting to:', expectedBlobUrl)
+            return NextResponse.redirect(expectedBlobUrl, { status: 302 })
+          }
+        } catch (blobError) {
+          console.log('⚠️ Blob storage check failed:', blobError)
+        }
+      }
+      
       // If we have a URL that includes Blob storage, redirect to it
-      // Fixed pattern to match your Blob URL: https://tavt1iz2ukisuwtc.public.blob.vercel-storage.com/mikase.png
       if (mediaDoc.url && (mediaDoc.url.includes('.blob.vercel-storage.com') || mediaDoc.url.startsWith('http'))) {
         console.log('🔗 Redirecting to Blob URL:', mediaDoc.url)
         return NextResponse.redirect(mediaDoc.url, { status: 302 })
@@ -47,7 +65,20 @@ export async function GET(
           for (const [sizeName, sizeData] of Object.entries(mediaDoc.sizes)) {
             if (sizeData.width === width && sizeData.height === height && sizeData.url) {
               console.log('✅ Found matching size:', sizeName, sizeData.url)
-              if (sizeData.url.includes('.blob.vercel-storage.com') || sizeData.url.startsWith('http')) {
+              
+              // If size URL is also a proxy URL, try direct Blob access
+              if (sizeData.url.includes('/api/media/file/')) {
+                const expectedBlobUrl = `https://tavt1iz2ukisuwtc.public.blob.vercel-storage.com/${filename}`
+                try {
+                  const blobResponse = await fetch(expectedBlobUrl, { method: 'HEAD' })
+                  if (blobResponse.ok) {
+                    console.log('✅ Found sized file in Blob storage, redirecting to:', expectedBlobUrl)
+                    return NextResponse.redirect(expectedBlobUrl, { status: 302 })
+                  }
+                } catch (blobError) {
+                  console.log('⚠️ Blob storage check failed for size:', blobError)
+                }
+              } else if (sizeData.url.includes('.blob.vercel-storage.com') || sizeData.url.startsWith('http')) {
                 return NextResponse.redirect(sizeData.url, { status: 302 })
               }
             }
