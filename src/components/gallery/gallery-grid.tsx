@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { GalleryImage, initializeGallery } from '@/utils/gallery-loader'
 
@@ -17,12 +17,39 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({
   title, 
   className = "" 
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInitialized = useRef(false);
+
   useEffect(() => {
-    if (images && images.length > 0) {
-      // Initialize lightGallery
-      initializeGallery(containerId, images).catch(console.error);
+    if (images && images.length > 0 && containerRef.current && !isInitialized.current) {
+      // Small delay to ensure DOM is fully rendered
+      const timeoutId = setTimeout(() => {
+        initializeGallery(containerId, images)
+          .then(() => {
+            isInitialized.current = true;
+            console.log('Gallery initialized successfully');
+          })
+          .catch(console.error);
+      }, 200);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
     }
   }, [images, containerId]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      const container = document.getElementById(containerId);
+      if (container) {
+        const containerWithLg = container as HTMLElement & { lgGallery?: { destroy: () => void } };
+        if (containerWithLg.lgGallery) {
+          containerWithLg.lgGallery.destroy();
+        }
+      }
+    };
+  }, [containerId]);
 
   if (!images || images.length === 0) {
     return (
@@ -38,6 +65,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({
         {title}
       </h2>
       <div 
+        ref={containerRef}
         id={containerId} 
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
@@ -61,6 +89,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({
               className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
               priority={index < 4} // Prioritize first 4 images
+              unoptimized={true} // Prevent Next.js from interfering with lightGallery
             />
           </a>
         ))}

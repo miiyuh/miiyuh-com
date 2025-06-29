@@ -13,6 +13,7 @@ export const Media: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   upload: {
+    // This will be handled by the Vercel Blob plugin in production
     staticDir: 'media',
     imageSizes: [
       {
@@ -30,7 +31,7 @@ export const Media: CollectionConfig = {
       {
         name: 'tablet',
         width: 1024,
-        height: undefined,
+        height: 1024, // Make it square for 1:1 aspect ratio
         position: 'centre',
       },
     ],

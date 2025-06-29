@@ -21,6 +21,18 @@
 - ✅ Media collection configured to work with Vercel Blob
 - ✅ All TypeScript types updated for dynamic content structure
 - ✅ **Import map generated** for proper client component loading in production
+- ✅ **API endpoints fixed** - Gallery now fetches directly from PayloadCMS
+- ✅ **Blog routing fixed** - Updated to use getPayloadHMR for better compatibility
+
+### Bug Fixes (December 29, 2025)
+
+- ✅ **Media thumbnails issue fixed** - Created proper media proxy endpoint
+- ✅ **Gallery API corrected** - Now fetches data directly from PayloadCMS instead of non-existent `/api/gallery`
+- ✅ **Blog 404 issue resolved** - Updated blog API to use proper PayloadCMS integration
+- ✅ **TypeScript type compatibility** - Fixed Gallery type usage in API endpoints
+- ✅ **Image processing logic** - Properly handles Vercel Blob URLs and local fallbacks
+- ✅ **LightGallery click handling fixed** - Prevents default link navigation, ensures lightbox opens correctly
+- ✅ **Event handler optimization** - Improved gallery initialization timing and cleanup
 
 ### Frontend Updates
 - ✅ Gallery page refactored to display albums by category

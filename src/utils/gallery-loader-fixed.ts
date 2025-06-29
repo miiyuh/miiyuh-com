@@ -86,6 +86,22 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
           return;
         }
 
+        // Add event listeners to prevent default behavior
+        links.forEach(link => {
+          // Remove any existing event listeners
+          const newLink = link.cloneNode(true) as HTMLAnchorElement;
+          link.parentNode?.replaceChild(newLink, link);
+          
+          // Add new event listener that prevents default and lets lightGallery handle it
+          newLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }, { capture: true, passive: false });
+        });
+
+        // Re-get links after cloning
+        const updatedLinks = container.querySelectorAll('a');
+
         // Initialize lightGallery
         const lgInstance = lightGallery(container, {
           plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgShare, lgAutoplay],
@@ -115,7 +131,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
         
         containerWithLg.lgGallery = lgInstance;
 
-        console.log(`Gallery ${containerId} initialized successfully with ${links.length} items`);
+        console.log(`Gallery ${containerId} initialized successfully with ${updatedLinks.length} items`);
         resolve();
       } catch (error) {
         console.error('Error initializing lightGallery:', error);

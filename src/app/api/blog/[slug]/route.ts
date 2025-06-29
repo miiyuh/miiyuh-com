@@ -1,4 +1,4 @@
-import { getPayload } from 'payload'
+import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '../../../../../payload.config'
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params
-    const payload = await getPayload({ config: configPromise })
+    const payload = await getPayloadHMR({ config: configPromise })
     
     const posts = await payload.find({
       collection: 'blog-posts',
