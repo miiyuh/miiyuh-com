@@ -51,6 +51,7 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
       
       const response = await fetch(endpoint, {
         next: { revalidate: 0 }, // Don't cache drafts
+        signal: AbortSignal.timeout(10000), // 10 second timeout
       })
       
       if (response.ok) {
@@ -62,6 +63,7 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
       const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
       const response = await fetch(`${baseUrl}/api/blog/${slug}`, {
         next: { revalidate: 60 },
+        signal: AbortSignal.timeout(10000), // 10 second timeout
       })
       
       if (response.ok) {
