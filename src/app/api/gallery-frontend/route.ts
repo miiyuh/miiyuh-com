@@ -67,19 +67,39 @@ export async function GET() {
           
           // For grid display, prefer tablet size (1024x1024) for better quality 1:1 aspect ratio
           // Fall back to thumbnail, then original image
-          const gridImageUrl = typeof image === 'string' ? image : 
+          let gridImageUrl = typeof image === 'string' ? image : 
                               (image?.sizes?.tablet?.url || 
                               image?.sizes?.thumbnail?.url || 
                               image?.url || 
                               image?.filename || '');
           
           // For lightbox, use the original full-size image
-          const fullImageUrl = typeof image === 'string' ? image : 
+          let fullImageUrl = typeof image === 'string' ? image : 
                               (image?.url || 
                               image?.filename || '');
           
-          console.log('🖼️ Processing grid image URL:', gridImageUrl);
-          console.log('🔍 Processing full image URL:', fullImageUrl);
+          // Convert proxy URLs to direct Blob URLs
+          if (gridImageUrl.includes('/api/media/file/') && typeof image === 'object' && image.filename) {
+            // For sized images, construct the expected Blob URL with size suffix
+            if (image.sizes?.tablet?.filename) {
+              const expectedBlobUrl = `https://tavt1iz2ukisuwtc.public.blob.vercel-storage.com/${image.sizes.tablet.filename}`;
+              console.log('🔄 Converting proxy URL to Blob URL for tablet size:', gridImageUrl, '->', expectedBlobUrl);
+              gridImageUrl = expectedBlobUrl;
+            } else {
+              const expectedBlobUrl = `https://tavt1iz2ukisuwtc.public.blob.vercel-storage.com/${image.filename}`;
+              console.log('🔄 Converting proxy URL to Blob URL for grid:', gridImageUrl, '->', expectedBlobUrl);
+              gridImageUrl = expectedBlobUrl;
+            }
+          }
+          
+          if (fullImageUrl.includes('/api/media/file/') && typeof image === 'object' && image.filename) {
+            const expectedBlobUrl = `https://tavt1iz2ukisuwtc.public.blob.vercel-storage.com/${image.filename}`;
+            console.log('🔄 Converting proxy URL to Blob URL for full:', fullImageUrl, '->', expectedBlobUrl);
+            fullImageUrl = expectedBlobUrl;
+          }
+          
+          console.log('🖼️ Final grid image URL:', gridImageUrl);
+          console.log('🔍 Final full image URL:', fullImageUrl);
           
           return {
             src: gridImageUrl, // Use for grid display (1:1 aspect ratio)
