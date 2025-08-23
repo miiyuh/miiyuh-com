@@ -1,0 +1,62 @@
+# Robots.txt for miiyuh.com
+# Personal portfolio website
+
+User-agent: *
+Allow: /
+
+# Allow indexing of main content pages
+Allow: /aboutme
+Allow: /gallery
+Allow: /projects
+Allow: /blog
+Allow: /socials
+
+# Allow indexing of project pages
+Allow: /projects/2alpha
+Allow: /projects/miyabi
+Allow: /projects/shingeki
+Allow: /projects/academic
+Allow: /projects/papers
+
+# Allow indexing of academic project pages
+Allow: /projects/academic/library-management
+Allow: /projects/academic/lockme-encryption
+
+# Allow indexing of paper pages
+Allow: /projects/papers/ai-ethics
+Allow: /projects/papers/sustainable-tech
+Allow: /projects/papers/web-accessibility
+
+# Allow legal pages
+Allow: /privacy-policy
+Allow: /terms-of-service
+
+# Disallow development/testing pages
+Disallow: /font-debug
+Disallow: /font-test
+
+# Disallow sensitive files and directories
+Disallow: /api/
+Disallow: /_next/
+Disallow: /.next/
+Disallow: /admin/
+Disallow: /*.json$
+
+# Allow common crawlers to access static assets
+Allow: /assets/
+Allow: /sounds/
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.webp
+Allow: *.svg
+Allow: *.ico
+
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://miiyuh.com/sitemap.xml

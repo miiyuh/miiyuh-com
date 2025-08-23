@@ -61,7 +61,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
       <InteractiveDotsBackground />
 
       {/* Main full height container */}
-      <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 160px)' }}>
+      <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
         {/* Inner content centered */}
         <div className={`flex flex-col items-center justify-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           

@@ -74,56 +74,10 @@ img {
   content-visibility: auto;
 }
 
-/* Emoji fallback styles for better cross-platform compatibility */
-.emoji-fallback-container {
-  position: relative;
-  display: inline-block;
-}
-
-/* Ensure emoji display properly across platforms */
-.font-emoji {
-  font-family: var(--font-noto-color-emoji), 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols', sans-serif !important;
+/* Simple emoji styling for cross-platform compatibility */
+.emoji-primary {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
   font-variant-emoji: emoji;
   font-feature-settings: normal;
   text-rendering: auto;
-}
-
-/* Flag emoji specific fixes for iOS and other platforms */
-.malaysia-flag-fallback {
-  background: linear-gradient(to right, #cc0000 50%, #ffffff 50%);
-  color: #000;
-  font-size: 0.8em;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-weight: 600;
-  font-family: system-ui, -apple-system, sans-serif;
-  border: 1px solid #ccc;
-  line-height: 1;
-  display: inline-block;
-}
-
-.japan-flag-fallback {
-  background: #ffffff;
-  color: #bc002d;
-  font-size: 0.8em;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-weight: 600;
-  font-family: system-ui, -apple-system, sans-serif;
-  border: 1px solid #ccc;
-  line-height: 1;
-  display: inline-block;
-}
-
-.flag-emoji-fallback {
-  background: #f0f0f0;
-  color: #333;
-  font-size: 0.8em;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-weight: 600;
-  font-family: system-ui, -apple-system, sans-serif;
-  border: 1px solid #ccc;
-  line-height: 1;
-  display: inline-block;
 }
