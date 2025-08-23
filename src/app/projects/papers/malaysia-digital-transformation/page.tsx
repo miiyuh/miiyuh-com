@@ -6,16 +6,16 @@ import { useSound } from '@/hooks/useSound'
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 const paperData = {
-  title: 'Improving Web Accessibility Through Modern Development Practices',
+  title: 'Digital Infrastructure for Malaysia: Towards People-First Technology Policies',
   author: 'miiyuh',
   year: '2024',
-  abstract: 'An analysis of contemporary web development practices and their impact on digital accessibility. This research examines how modern frameworks and tools can be leveraged to create more inclusive web experiences. The paper includes practical guidelines for developers and case studies of successful accessibility implementations. Through examining current accessibility standards, emerging technologies, and real-world applications, this study provides actionable insights for creating digital experiences that serve all users effectively.',
-  keywords: ['Web Development', 'Accessibility', 'Inclusive Design', 'WCAG', 'User Experience'],
-  pages: 18,
-  pdfPath: '/papers/web-accessibility-practices.pdf'
+  abstract: 'This paper examines Malaysia\'s digital transformation landscape and proposes technology policies that prioritize citizen welfare over corporate interests. It explores how reliable public transport systems can be enhanced through smart city technologies, how digital platforms can enable more responsive governance, and how technology can address environmental challenges like air quality and urban safety. The study advocates for institutional reform that leverages technology for transparency and accountability, focusing on creating fairer opportunities for all Malaysians through equitable access to digital services.',
+  keywords: ['Malaysia', 'Digital Policy', 'Smart Cities', 'Public Transport', 'Governance', 'Environmental Technology'],
+  pages: 28,
+  pdfPath: '/papers/malaysia-digital-transformation.pdf'
 }
 
-export default function WebAccessibilityPaperPage() {
+export default function MalaysiaDigitalTransformationPage() {
   const [mounted, setMounted] = useState(false)
   const playClick = useSound('/sounds/click.mp3', 0.7)
 
@@ -24,13 +24,13 @@ export default function WebAccessibilityPaperPage() {
   }, [])
 
   return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
+    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
       {/* Interactive dots background */}
       <InteractiveDotsBackground />
 
       {/* Page Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
-        <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-screen">
+        <div className={`transition-all duration-1000 max-w-7xl mx-auto ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           
           {/* Breadcrumb Navigation */}
           <nav className="w-full mb-6" aria-label="Breadcrumb">
@@ -72,7 +72,7 @@ export default function WebAccessibilityPaperPage() {
                 <span className="text-[#FAF3E0]/40">/</span>
               </li>
               <li>
-                <span className="text-[#FAF3E0]/90">web accessibility</span>
+                <span className="text-[#FAF3E0]/90">malaysia digital transformation</span>
               </li>
             </ol>
           </nav>
@@ -95,7 +95,7 @@ export default function WebAccessibilityPaperPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
             
             {/* Left Column - Paper Information */}
-            <div className="lg:sticky lg:top-24 lg:self-start">
+            <div>
               <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-8 border border-[#FAF3E0]/10">
                 
                 {/* Paper Title */}
@@ -154,32 +154,26 @@ export default function WebAccessibilityPaperPage() {
 
             {/* Right Column - PDF Viewer */}
             <div className="lg:sticky lg:top-24 lg:self-start">
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 overflow-hidden">
-                <div className="p-4 border-b border-[#FAF3E0]/20">
-                  <h3 className="text-lg font-semibold text-[#FAF3E0]">Paper Preview</h3>
-                </div>
+              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-2 border border-[#FAF3E0]/10">
+                <iframe
+                  src={paperData.pdfPath}
+                  className="w-full h-[70vh] rounded-lg"
+                  title={`${paperData.title} - PDF Viewer`}
+                />
                 
-                {/* PDF Viewer Container */}
-                <div className="relative bg-white rounded-b-lg" style={{ height: '80vh' }}>
-                  {/* PDF Embed */}
-                  <iframe
-                    src={`${paperData.pdfPath}#toolbar=1&navpanes=1&scrollbar=1`}
-                    className="w-full h-full rounded-b-lg"
-                    title={`${paperData.title} PDF`}
-                  />
-                  
-                  {/* Fallback message if PDF doesn't load */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-600 rounded-b-lg">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <p className="text-lg font-medium">PDF Viewer</p>
-                      <p className="text-sm text-gray-500 mt-2">
-                        If the PDF doesn&apos;t display, please download it using the button on the left.
-                      </p>
-                    </div>
-                  </div>
+                {/* PDF Fallback */}
+                <div className="mt-4 text-center">
+                  <p className="text-xs text-[#FAF3E0]/60 font-serif mb-2">
+                    PDF not displaying? 
+                  </p>
+                  <a
+                    href={paperData.pdfPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[#FAF3E0]/80 hover:text-[#FAF3E0] underline transition-colors duration-300"
+                  >
+                    Open in new tab
+                  </a>
                 </div>
               </div>
             </div>
@@ -189,7 +183,7 @@ export default function WebAccessibilityPaperPage() {
         {/* Fun interactive element */}
         <div className="absolute bottom-6 right-6 md:right-12 lg:right-24 xl:right-32">
           <p className="font-serif text-xs text-[#FAF3E0]/40 hover:text-[#FAF3E0]/70 transition-colors duration-300 cursor-default">
-            accessible for all 🌐
+            building better malaysia 🇲🇾
           </p>
         </div>
       </section>

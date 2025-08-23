@@ -6,16 +6,16 @@ import { useSound } from '@/hooks/useSound'
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 const paperData = {
-  title: 'Sustainable Technology: Reducing the Environmental Impact of Software Development',
+  title: 'Individual Growth and Collective Responsibility: A Philosophy for Modern Community Building',
   author: 'miiyuh',
-  year: '2023',
-  abstract: 'This paper investigates the environmental impact of software development practices and proposes strategies for creating more sustainable technology solutions. It covers energy-efficient coding practices, sustainable hosting solutions, and the lifecycle impact of digital products. The research explores how developers can minimize their carbon footprint through conscious decision-making in technology choices, optimization techniques, and sustainable deployment practices. Case studies demonstrate practical applications of green computing principles in real-world software projects.',
-  keywords: ['Sustainable Technology', 'Green Computing', 'Environmental Impact', 'Software Development', 'Carbon Footprint'],
-  pages: 21,
-  pdfPath: '/papers/sustainable-technology-development.pdf'
+  year: '2024',
+  abstract: 'Drawing inspiration from philosophical works and narratives like Attack on Titan and Vinland Saga, this paper explores the tension between personal autonomy and community responsibility. It examines how individuals can maintain their independence while supporting those around them, the ethics of change and adaptation, and the philosophical foundations of building better communities. The research addresses questions of meaning, responsibility, and growth in the context of modern social challenges, exploring how we can stand on our own feet while lifting others up. The study investigates the balance between self-preservation and collective welfare, informed by both classical philosophy and contemporary storytelling that challenges our understanding of freedom, responsibility, and community.',
+  keywords: ['Philosophy', 'Community Ethics', 'Personal Growth', 'Social Responsibility', 'Meaning', 'Collective Action'],
+  pages: 24,
+  pdfPath: '/papers/community-responsibility-philosophy.pdf'
 }
 
-export default function SustainableTechPaperPage() {
+export default function CommunityResponsibilityPhilosophyPage() {
   const [mounted, setMounted] = useState(false)
   const playClick = useSound('/sounds/click.mp3', 0.7)
 
@@ -24,13 +24,13 @@ export default function SustainableTechPaperPage() {
   }, [])
 
   return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
+    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
       {/* Interactive dots background */}
       <InteractiveDotsBackground />
 
       {/* Page Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
-        <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-screen">
+        <div className={`transition-all duration-1000 max-w-7xl mx-auto ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           
           {/* Breadcrumb Navigation */}
           <nav className="w-full mb-6" aria-label="Breadcrumb">
@@ -72,7 +72,7 @@ export default function SustainableTechPaperPage() {
                 <span className="text-[#FAF3E0]/40">/</span>
               </li>
               <li>
-                <span className="text-[#FAF3E0]/90">sustainable tech</span>
+                <span className="text-[#FAF3E0]/90">community responsibility philosophy</span>
               </li>
             </ol>
           </nav>
@@ -95,7 +95,7 @@ export default function SustainableTechPaperPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
             
             {/* Left Column - Paper Information */}
-            <div className="lg:sticky lg:top-24 lg:self-start">
+            <div>
               <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-8 border border-[#FAF3E0]/10">
                 
                 {/* Paper Title */}
@@ -154,32 +154,26 @@ export default function SustainableTechPaperPage() {
 
             {/* Right Column - PDF Viewer */}
             <div className="lg:sticky lg:top-24 lg:self-start">
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 overflow-hidden">
-                <div className="p-4 border-b border-[#FAF3E0]/20">
-                  <h3 className="text-lg font-semibold text-[#FAF3E0]">Paper Preview</h3>
-                </div>
+              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-2 border border-[#FAF3E0]/10">
+                <iframe
+                  src={paperData.pdfPath}
+                  className="w-full h-[70vh] rounded-lg"
+                  title={`${paperData.title} - PDF Viewer`}
+                />
                 
-                {/* PDF Viewer Container */}
-                <div className="relative bg-white rounded-b-lg" style={{ height: '80vh' }}>
-                  {/* PDF Embed */}
-                  <iframe
-                    src={`${paperData.pdfPath}#toolbar=1&navpanes=1&scrollbar=1`}
-                    className="w-full h-full rounded-b-lg"
-                    title={`${paperData.title} PDF`}
-                  />
-                  
-                  {/* Fallback message if PDF doesn't load */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-600 rounded-b-lg">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <p className="text-lg font-medium">PDF Viewer</p>
-                      <p className="text-sm text-gray-500 mt-2">
-                        If the PDF doesn&apos;t display, please download it using the button on the left.
-                      </p>
-                    </div>
-                  </div>
+                {/* PDF Fallback */}
+                <div className="mt-4 text-center">
+                  <p className="text-xs text-[#FAF3E0]/60 font-serif mb-2">
+                    PDF not displaying? 
+                  </p>
+                  <a
+                    href={paperData.pdfPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[#FAF3E0]/80 hover:text-[#FAF3E0] underline transition-colors duration-300"
+                  >
+                    Open in new tab
+                  </a>
                 </div>
               </div>
             </div>
@@ -189,7 +183,7 @@ export default function SustainableTechPaperPage() {
         {/* Fun interactive element */}
         <div className="absolute bottom-6 right-6 md:right-12 lg:right-24 xl:right-32">
           <p className="font-serif text-xs text-[#FAF3E0]/40 hover:text-[#FAF3E0]/70 transition-colors duration-300 cursor-default">
-            coding for the planet 🌱
+            philosophy & meaning 📚
           </p>
         </div>
       </section>

@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { SOCIAL_PLATFORMS } from '@/constants'
+import { SOCIAL_PLATFORMS, SOCIAL_USERNAMES } from '@/constants'
 import { useEffect, useState } from 'react'
 import { useSound } from '@/hooks/useSound'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
@@ -143,7 +143,7 @@ export default function SocialsPage() {
                         {formatPlatformName(social)}
                       </h3>
                       <p className="text-xs text-[#FAF3E0]/60 group-hover:text-[#FAF3E0]/80 transition-colors duration-300 font-serif lowercase">
-                        @miiyuh
+                        {SOCIAL_USERNAMES[social] || '@miiyuh'}
                       </p>
                     </div>
 

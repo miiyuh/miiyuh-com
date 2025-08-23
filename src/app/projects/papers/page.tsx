@@ -7,34 +7,44 @@ import { InteractiveDotsBackground } from '@/components/effects/interactive-dots
 
 const researchPapers = [
   {
-    id: 'ai-ethics',
-    title: 'Ethical Considerations in Modern AI Development',
+    id: 'malaysia-digital-transformation',
+    title: 'Digital Infrastructure for Malaysia: Towards People-First Technology Policies',
     author: 'miiyuh',
     year: '2024',
-    abstract: 'This paper explores the critical ethical considerations that arise in the development and deployment of artificial intelligence systems. It examines current frameworks for AI ethics, discusses potential biases in machine learning algorithms, and proposes guidelines for responsible AI development. The study includes case studies of recent AI implementations and their societal impacts.',
-    keywords: ['Artificial Intelligence', 'Ethics', 'Machine Learning', 'Bias', 'Responsible AI'],
+    abstract: 'This paper examines Malaysia\'s digital transformation landscape and proposes technology policies that prioritize citizen welfare over corporate interests. It explores how reliable public transport systems can be enhanced through smart city technologies, how digital platforms can enable more responsive governance, and how technology can address environmental challenges like air quality and urban safety. The study advocates for institutional reform that leverages technology for transparency and accountability.',
+    keywords: ['Malaysia', 'Digital Policy', 'Smart Cities', 'Public Transport', 'Governance', 'Environmental Technology'],
+    pages: 28,
+    pdfPath: '/papers/malaysia-digital-transformation.pdf'
+  },
+  {
+    id: 'ethical-ai-open-source',
+    title: 'AI as a Tool, Not a Shortcut: Building Transparent and Human-Centered AI Systems',
+    author: 'miiyuh',
+    year: '2024',
+    abstract: 'This research explores ethical AI development practices that maintain human agency and transparency. It examines how AI can augment human capabilities without replacing human judgment, the importance of consent and attribution in AI systems, and strategies for fact-checking AI outputs. The paper emphasizes open-source contributions as a means of democratizing AI technology and enabling collective improvement. Case studies demonstrate practical implementations of human-in-the-loop AI systems.',
+    keywords: ['Ethical AI', 'Human-Centered Design', 'Open Source', 'Transparency', 'AI Governance', 'Technology Ethics'],
+    pages: 32,
+    pdfPath: '/papers/ethical-ai-open-source.pdf'
+  },
+  {
+    id: 'community-responsibility-philosophy',
+    title: 'Individual Growth and Collective Responsibility: A Philosophy for Modern Community Building',
+    author: 'miiyuh',
+    year: '2024',
+    abstract: 'Drawing inspiration from philosophical works and narratives like Attack on Titan and Vinland Saga, this paper explores the tension between personal autonomy and community responsibility. It examines how individuals can maintain their independence while supporting those around them, the ethics of change and adaptation, and the philosophical foundations of building better communities. The research addresses questions of meaning, responsibility, and growth in the context of modern social challenges.',
+    keywords: ['Philosophy', 'Community Ethics', 'Personal Growth', 'Social Responsibility', 'Meaning', 'Collective Action'],
     pages: 24,
-    pdfPath: '/papers/ai-ethics-considerations.pdf'
+    pdfPath: '/papers/community-responsibility-philosophy.pdf'
   },
   {
-    id: 'web-accessibility',
-    title: 'Improving Web Accessibility Through Modern Development Practices',
-    author: 'miiyuh',
-    year: '2024',
-    abstract: 'An analysis of contemporary web development practices and their impact on digital accessibility. This research examines how modern frameworks and tools can be leveraged to create more inclusive web experiences. The paper includes practical guidelines for developers and case studies of successful accessibility implementations.',
-    keywords: ['Web Development', 'Accessibility', 'Inclusive Design', 'WCAG', 'User Experience'],
-    pages: 18,
-    pdfPath: '/papers/web-accessibility-practices.pdf'
-  },
-  {
-    id: 'sustainable-tech',
-    title: 'Sustainable Technology: Reducing the Environmental Impact of Software Development',
+    id: 'health-technology-wellbeing',
+    title: 'Technology for Human Wellbeing: Designing Systems that Support Physical and Mental Health',
     author: 'miiyuh',
     year: '2023',
-    abstract: 'This paper investigates the environmental impact of software development practices and proposes strategies for creating more sustainable technology solutions. It covers energy-efficient coding practices, sustainable hosting solutions, and the lifecycle impact of digital products.',
-    keywords: ['Sustainable Technology', 'Green Computing', 'Environmental Impact', 'Software Development'],
-    pages: 21,
-    pdfPath: '/papers/sustainable-technology-development.pdf'
+    abstract: 'This study investigates how technology can be designed to genuinely support human health and wellbeing rather than exploit attention or create dependency. It explores digital wellness principles, the importance of taking care of personal health to serve others effectively, and how technology can facilitate rather than hinder real-world connections and activities. The research includes practical guidelines for creating technology that encourages healthy boundaries and sustainable habits.',
+    keywords: ['Digital Wellbeing', 'Health Technology', 'Sustainable Design', 'Mental Health', 'Human-Computer Interaction', 'Technology Ethics'],
+    pages: 22,
+    pdfPath: '/papers/health-technology-wellbeing.pdf'
   }
 ]
 

@@ -6,16 +6,16 @@ import { useSound } from '@/hooks/useSound'
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 const paperData = {
-  title: 'Ethical Considerations in Modern AI Development',
+  title: 'AI as a Tool, Not a Shortcut: Building Transparent and Human-Centered AI Systems',
   author: 'miiyuh',
   year: '2024',
-  abstract: 'This paper explores the critical ethical considerations that arise in the development and deployment of artificial intelligence systems. It examines current frameworks for AI ethics, discusses potential biases in machine learning algorithms, and proposes guidelines for responsible AI development. The study includes case studies of recent AI implementations and their societal impacts, providing a comprehensive overview of the current state of AI ethics and future directions for responsible AI development.',
-  keywords: ['Artificial Intelligence', 'Ethics', 'Machine Learning', 'Bias', 'Responsible AI'],
-  pages: 24,
-  pdfPath: '/papers/ai-ethics-considerations.pdf'
+  abstract: 'This research explores ethical AI development practices that maintain human agency and transparency. It examines how AI can augment human capabilities without replacing human judgment, the importance of consent and attribution in AI systems, and strategies for fact-checking AI outputs. The paper emphasizes open-source contributions as a means of democratizing AI technology and enabling collective improvement. Case studies demonstrate practical implementations of human-in-the-loop AI systems that maintain transparency, give proper credit to sources, and ensure human oversight remains central to decision-making processes.',
+  keywords: ['Ethical AI', 'Human-Centered Design', 'Open Source', 'Transparency', 'AI Governance', 'Technology Ethics'],
+  pages: 32,
+  pdfPath: '/papers/ethical-ai-open-source.pdf'
 }
 
-export default function AIEthicsPaperPage() {
+export default function EthicalAIOpenSourcePage() {
   const [mounted, setMounted] = useState(false)
   const playClick = useSound('/sounds/click.mp3', 0.7)
 
@@ -24,13 +24,13 @@ export default function AIEthicsPaperPage() {
   }, [])
 
   return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
+    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
       {/* Interactive dots background */}
       <InteractiveDotsBackground />
 
       {/* Page Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
-        <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-screen">
+        <div className={`transition-all duration-1000 max-w-7xl mx-auto ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           
           {/* Breadcrumb Navigation */}
           <nav className="w-full mb-6" aria-label="Breadcrumb">
@@ -72,7 +72,7 @@ export default function AIEthicsPaperPage() {
                 <span className="text-[#FAF3E0]/40">/</span>
               </li>
               <li>
-                <span className="text-[#FAF3E0]/90">ai ethics</span>
+                <span className="text-[#FAF3E0]/90">ethical ai open source</span>
               </li>
             </ol>
           </nav>
@@ -95,7 +95,7 @@ export default function AIEthicsPaperPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
             
             {/* Left Column - Paper Information */}
-            <div className="lg:sticky lg:top-24 lg:self-start">
+            <div>
               <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-8 border border-[#FAF3E0]/10">
                 
                 {/* Paper Title */}
@@ -154,32 +154,26 @@ export default function AIEthicsPaperPage() {
 
             {/* Right Column - PDF Viewer */}
             <div className="lg:sticky lg:top-24 lg:self-start">
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 overflow-hidden">
-                <div className="p-4 border-b border-[#FAF3E0]/20">
-                  <h3 className="text-lg font-semibold text-[#FAF3E0]">Paper Preview</h3>
-                </div>
+              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-2 border border-[#FAF3E0]/10">
+                <iframe
+                  src={paperData.pdfPath}
+                  className="w-full h-[70vh] rounded-lg"
+                  title={`${paperData.title} - PDF Viewer`}
+                />
                 
-                {/* PDF Viewer Container */}
-                <div className="relative bg-white rounded-b-lg" style={{ height: '80vh' }}>
-                  {/* PDF Embed */}
-                  <iframe
-                    src={`${paperData.pdfPath}#toolbar=1&navpanes=1&scrollbar=1`}
-                    className="w-full h-full rounded-b-lg"
-                    title={`${paperData.title} PDF`}
-                  />
-                  
-                  {/* Fallback message if PDF doesn't load */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-600 rounded-b-lg">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <p className="text-lg font-medium">PDF Viewer</p>
-                      <p className="text-sm text-gray-500 mt-2">
-                        If the PDF doesn&apos;t display, please download it using the button on the left.
-                      </p>
-                    </div>
-                  </div>
+                {/* PDF Fallback */}
+                <div className="mt-4 text-center">
+                  <p className="text-xs text-[#FAF3E0]/60 font-serif mb-2">
+                    PDF not displaying? 
+                  </p>
+                  <a
+                    href={paperData.pdfPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[#FAF3E0]/80 hover:text-[#FAF3E0] underline transition-colors duration-300"
+                  >
+                    Open in new tab
+                  </a>
                 </div>
               </div>
             </div>
@@ -189,7 +183,7 @@ export default function AIEthicsPaperPage() {
         {/* Fun interactive element */}
         <div className="absolute bottom-6 right-6 md:right-12 lg:right-24 xl:right-32">
           <p className="font-serif text-xs text-[#FAF3E0]/40 hover:text-[#FAF3E0]/70 transition-colors duration-300 cursor-default">
-            knowledge sharing 📖
+            ai as tool, not shortcut 🤖
           </p>
         </div>
       </section>
