@@ -157,12 +157,6 @@ export default function TwoAlphaPage() {
 
         </div>
 
-        {/* Fun interactive element */}
-        <div className="absolute bottom-6 right-6 md:right-12 lg:right-24 xl:right-32">
-          <p className="font-serif text-xs text-[#FAF3E0]/40 hover:text-[#FAF3E0]/70 transition-colors duration-300 cursor-default">
-            innovation in progress �
-          </p>
-        </div>
       </section>
 
     </main>

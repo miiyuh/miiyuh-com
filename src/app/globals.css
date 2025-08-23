@@ -24,39 +24,39 @@ body {
 
 /* Font class overrides with proper cascading */
 .font-sans {
-  font-family: 'Inter', var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif !important;
+  font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif !important;
 }
 
 .font-sans p {
-  font-family: 'Inter', var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif !important;
+  font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif !important;
 }
 
 .font-serif,
 .font-serif p {
-  font-family: var(--font-noto-serif), 'Noto Serif', var(--font-noto-color-emoji), 'Noto Color Emoji', serif !important;
+  font-family: var(--font-noto-serif), 'Noto Serif', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
 }
 
 .font-mono {
-  font-family: var(--font-noto-mono), 'Noto Sans Mono', var(--font-noto-color-emoji), 'Noto Color Emoji', monospace !important;
+  font-family: var(--font-noto-mono), 'Noto Sans Mono', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), monospace !important;
 }
 
 .font-emoji {
-  font-family: var(--font-noto-color-emoji), 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols', sans-serif !important;
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), 'Android Emoji', 'EmojiSymbols', sans-serif !important;
   font-variant-emoji: emoji;
 }
 
 /* Default styles for elements */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', var(--font-noto-color-emoji), 'Noto Color Emoji', sans-serif;
+  font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif;
 }
 
 /* Only paragraphs with font-serif class use Noto Serif */
 p.font-serif {
-  font-family: var(--font-noto-serif), 'Noto Serif', var(--font-noto-color-emoji), 'Noto Color Emoji', serif !important;
+  font-family: var(--font-noto-serif), 'Noto Serif', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
 }
 
 span, div {
-  font-family: inherit, var(--font-noto-color-emoji), 'Noto Color Emoji';
+  font-family: inherit, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji);
 }
 
 /* Remove default focus outlines for mouse users, keep for keyboard users */
@@ -76,7 +76,7 @@ img {
 
 /* Simple emoji styling for cross-platform compatibility */
 .emoji-primary {
-  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Android Emoji', 'EmojiSymbols', sans-serif;
   font-variant-emoji: emoji;
   font-feature-settings: normal;
   text-rendering: auto;

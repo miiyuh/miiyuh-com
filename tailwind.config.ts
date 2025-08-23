@@ -8,10 +8,10 @@ const config: Config = {
   ],  theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'var(--font-noto-sans)', 'EmojiOverride', 'sans-serif'],
-        serif: ['var(--font-noto-serif)', 'EmojiOverride', 'serif'],
-        mono: ['var(--font-noto-mono)', 'EmojiOverride', 'monospace'],
-        emoji: ['var(--font-noto-color-emoji)', 'EmojiOverride'],
+        sans: ['Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-sans)', 'sans-serif'],
+        serif: ['var(--font-noto-serif)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'serif'],
+        mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
+        emoji: ['Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-color-emoji)', 'sans-serif'],
       },
     },
   },
