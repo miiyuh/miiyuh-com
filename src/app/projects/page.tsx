@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useSound } from '@/hooks/useSound'
+import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
 
 const organizations = [
@@ -112,12 +113,10 @@ export default function ProjectsPage() {
               </h2>
               <div className="space-y-6">
                 {organizations.map((org, index) => (
-                  <div
+                  <ScrollAnimation
                     key={org.id}
-                    className={`transition-all duration-700`}
-                    style={{
-                      animationDelay: mounted ? `${index * 200}ms` : '0ms'
-                    }}
+                    animation="fadeUp"
+                    delay={0.1 + (0.1 * index)}
                   >
                     <Link
                       href={org.href}
@@ -125,7 +124,7 @@ export default function ProjectsPage() {
                       className="group block h-full"
                       data-cursor="link"
                     >
-                      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 hover:bg-[#FAF3E0]/8 transition-all duration-300 group-hover:scale-[1.01] overflow-hidden">
+                      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 hover:bg-[#FAF3E0]/8 transition-all duration-500 hover:scale-105 hover:-translate-y-2 overflow-hidden">
                         
                         {/* Horizontal Layout - Image, Content, Arrow */}
                         <div className="flex items-center justify-between p-6">
@@ -138,10 +137,10 @@ export default function ProjectsPage() {
                                   alt={`${org.name} logo`}
                                   width={64}
                                   height={64}
-                                  className="w-full h-full object-contain"
+                                  className="w-full h-full object-contain group-hover:scale-110 transition-all duration-300 group-hover:brightness-110 group-hover:-translate-y-1"
                                 />
                               ) : (
-                                <div className="w-8 h-8 bg-[#FAF3E0]/30 rounded"></div>
+                                <div className="w-8 h-8 bg-[#FAF3E0]/30 rounded group-hover:scale-110 transition-all duration-300"></div>
                               )}
                             </div>
 
@@ -170,7 +169,7 @@ export default function ProjectsPage() {
                         </div>
                       </div>
                     </Link>
-                  </div>
+                  </ScrollAnimation>
                 ))}
               </div>
             </div>
@@ -182,12 +181,10 @@ export default function ProjectsPage() {
               </h2>
               <div className="space-y-6">
                 {academicProjects.map((project, index) => (
-                  <div
+                  <ScrollAnimation
                     key={project.id}
-                    className={`transition-all duration-700`}
-                    style={{
-                      animationDelay: mounted ? `${(index + organizations.length) * 200}ms` : '0ms'
-                    }}
+                    animation="fadeUp"
+                    delay={0.2 + (0.1 * index)}
                   >
                     <Link
                       href={project.href}
@@ -195,14 +192,14 @@ export default function ProjectsPage() {
                       className="group block h-full"
                       data-cursor="view"
                     >
-                      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 hover:bg-[#FAF3E0]/8 transition-all duration-300 group-hover:scale-[1.01] overflow-hidden">
+                      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 hover:bg-[#FAF3E0]/8 transition-all duration-500 hover:scale-105 hover:-translate-y-2 overflow-hidden">
                         
                         {/* Horizontal Layout - Icon, Content, Arrow */}
                         <div className="flex items-center justify-between p-6">
                           {/* Left: Academic Icon */}
                           <div className="flex items-center gap-4 flex-1">
                             <div className="w-16 h-16 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                              <span className="text-2xl font-bold text-[#FAF3E0]/80">{project.icon}</span>
+                              <span className="text-2xl font-bold text-[#FAF3E0]/80 group-hover:scale-110 transition-all duration-300 group-hover:-translate-y-1">{project.icon}</span>
                             </div>
 
                             {/* Center: Academic Info */}
@@ -230,7 +227,7 @@ export default function ProjectsPage() {
                         </div>
                       </div>
                     </Link>
-                  </div>
+                  </ScrollAnimation>
                 ))}
               </div>
             </div>

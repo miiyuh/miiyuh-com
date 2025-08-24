@@ -13,9 +13,24 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [cursorType, setCursorType] = useState<CursorType>('default')
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(true) // Start as true to prevent flash
   const animationFrameId = useRef<number | null>(null)
   const lastMousePosition = useRef({ x: 0, y: 0 })
   const throttleTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Check if device is mobile/touch device
+  useEffect(() => {
+    const checkDevice = () => {
+      const isTouchDevice = (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      )
+      setIsMobile(isTouchDevice)
+    }
+    
+    checkDevice()
+  }, [])
 
   // Stable throttle function with proper cleanup
   const throttle = useCallback(<T extends unknown[]>(func: (...args: T) => void, delay: number) => {
@@ -88,6 +103,9 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
   }, [])
 
   useEffect(() => {
+    // Don't add event listeners on mobile devices
+    if (isMobile) return
+    
     document.addEventListener('mousemove', updateMousePosition, { passive: true })
     document.addEventListener('mousemove', throttledCursorUpdate, { passive: true })
     document.addEventListener('mouseleave', handleMouseLeave, { passive: true })
@@ -107,7 +125,7 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
         clearTimeout(throttleTimerRef.current)
       }
     }
-  }, [updateMousePosition, throttledCursorUpdate, handleMouseLeave, handleMouseEnter])
+  }, [updateMousePosition, throttledCursorUpdate, handleMouseLeave, handleMouseEnter, isMobile])
 
   // Memoized cursor icon to prevent unnecessary re-renders
   const getCursorIcon = useCallback(() => {
@@ -155,7 +173,8 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
     }
   }, [mousePosition.x, mousePosition.y, cursorType])
 
-  if (!isVisible) return null
+  // Don't render on mobile devices
+  if (isMobile || !isVisible) return null
 
   return (
     <div

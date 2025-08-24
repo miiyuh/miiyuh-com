@@ -93,20 +93,20 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
           </ScrollAnimation>
 
           {/* Navigation Cards */}
-          <ScrollAnimation animation="fadeUp" delay={0.8} className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-4xl mb-8">
+          <ScrollAnimation animation="fadeUp" delay={0.2} className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-4xl mb-8">
             {NAVIGATION_LINKS.map((link, index) => (
               <ScrollAnimation
                 key={link.href}
                 animation="fadeUp"
-                delay={1 + index * 0.15}
+                delay={0.3 + index * 0.1}
               >
                 <Link
                   href={link.href}
                   onClick={playClick}
-                  className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 motion-safe:hover:motion-preset-bounce border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none cursor-pointer"
+                  className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none cursor-pointer"
                   data-cursor="hover"
                 >                  <div className="text-left">
-                    <div className="text-xl mb-2 group-hover:motion-preset-pulse font-emoji" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
+                    <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
                       {link.href === '/aboutme' && '🍁'}
                       {link.href === '/socials' && '✨'}
                       {link.href === '/gallery' && '📸'}
@@ -133,11 +133,12 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
           </ScrollAnimation>
 
           {/* Fun interactive element */}
-          <ScrollAnimation animation="fadeIn" delay={1.5} className="text-center">
+          <ScrollAnimation animation="fadeIn" delay={0.8} className="text-center">
             <TypewriterText 
               text="welcome to my little corner on the internet 💫"
               className="font-serif text-sm text-[#FAF3E0]/50 hover:text-[#FAF3E0]/80 transition-colors duration-300 cursor-default"
               speed={80}
+              delay={200}
             />
           </ScrollAnimation>
         </div>

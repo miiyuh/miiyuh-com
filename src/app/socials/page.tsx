@@ -74,9 +74,9 @@ export default function SocialsPage() {
               <ScrollAnimation
                 key={social}
                 animation="fadeUp"
-                delay={0.1 * index}
+                delay={0.05 * index}
               >
-                <div className="group relative backdrop-blur-sm rounded-xl p-6 motion-safe:hover:motion-preset-bounce cursor-pointer border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 overflow-hidden">
+                <div className="group relative backdrop-blur-sm rounded-xl p-6 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 overflow-hidden">
 
                   {/* Main Link */}
                   <a
@@ -94,7 +94,7 @@ export default function SocialsPage() {
                         alt={social}
                         width={80}
                         height={80}
-                        className="mx-auto w-16 h-16 md:w-20 md:h-20 group-hover:motion-preset-pulse group-hover:brightness-110"
+                        className="mx-auto w-16 h-16 md:w-20 md:h-20 group-hover:scale-110 transition-all duration-300 group-hover:brightness-110 group-hover:-translate-y-1"
                         loading="lazy"
                         quality={90}
                       />

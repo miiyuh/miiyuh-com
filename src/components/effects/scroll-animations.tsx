@@ -48,34 +48,47 @@ export function ScrollAnimation({
     }
   }, [delay, threshold, hasAnimated])
 
-  const getMotionClasses = () => {
-    if (!isVisible) return 'opacity-0'
+  const getAnimationClasses = () => {
+    const baseHidden = 'opacity-0'
+    
+    if (!isVisible) {
+      switch (animation) {
+        case 'fadeUp':
+        case 'fadeDown':
+        case 'fadeLeft':
+        case 'fadeRight':
+          return `${baseHidden} transform`
+        case 'scale':
+          return `${baseHidden} transform`
+        case 'rotate':
+          return `${baseHidden} transform`
+        default:
+          return baseHidden
+      }
+    }
     
     switch (animation) {
       case 'fadeUp':
-        return 'motion-preset-slide-up'
+        return 'animate-smooth-slide-up'
       case 'fadeDown':
-        return 'motion-preset-slide-down'
+        return 'animate-smooth-slide-down'
       case 'fadeLeft':
-        return 'motion-preset-slide-left'
+        return 'transition-all duration-700 ease-out opacity-100 translate-x-0'
       case 'fadeRight':
-        return 'motion-preset-slide-right'
+        return 'transition-all duration-700 ease-out opacity-100 -translate-x-0'
       case 'scale':
-        return 'motion-preset-pop'
+        return 'animate-smooth-scale'
       case 'rotate':
-        return 'motion-preset-wobble'
+        return 'transition-all duration-700 ease-out opacity-100 rotate-0'
       default:
-        return 'motion-preset-fade'
+        return 'animate-smooth-fade-in'
     }
   }
 
   return (
     <div 
       ref={elementRef}
-      className={`${getMotionClasses()} ${className}`}
-      style={{
-        animationDelay: isVisible ? `${delay * 1000}ms` : '0ms'
-      }}
+      className={`${getAnimationClasses()} ${className}`}
     >
       {children}
     </div>
