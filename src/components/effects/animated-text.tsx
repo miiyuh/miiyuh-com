@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 interface TypewriterTextProps {
   text: string | string[]
@@ -23,7 +23,7 @@ export function TypewriterText({
   const [textArrayIndex, setTextArrayIndex] = useState(0)
   const [mounted, setMounted] = useState(false)
   
-  const textArray = Array.isArray(text) ? text : [text]
+  const textArray = useMemo(() => Array.isArray(text) ? text : [text], [text])
   const currentText = textArray[textArrayIndex]
   
   useEffect(() => {

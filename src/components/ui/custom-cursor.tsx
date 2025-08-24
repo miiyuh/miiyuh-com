@@ -163,28 +163,26 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
 
   // Optimized cursor style calculation
   const getCursorStyle = useCallback(() => {
-    // Offset to align cursor tip with mouse position (similar to default cursor)
-    const offsetX = -2 // Slightly left to align with cursor tip
-    const offsetY = -2 // Slightly up to align with cursor tip
+    const baseTransform = 'translate(-50%, -50%)'
     
     switch (cursorType) {
       case 'grab':
         return {
-          left: mousePosition.x + offsetX,
-          top: mousePosition.y + offsetY,
-          transform: 'rotate(-10deg)',
+          left: mousePosition.x,
+          top: mousePosition.y,
+          transform: `${baseTransform} rotate(-10deg)`,
         }
       case 'move':
         return {
-          left: mousePosition.x + offsetX,
-          top: mousePosition.y + offsetY,
-          transform: 'rotate(45deg)',
+          left: mousePosition.x,
+          top: mousePosition.y,
+          transform: `${baseTransform} rotate(45deg)`,
         }
       default:
         return {
-          left: mousePosition.x + offsetX,
-          top: mousePosition.y + offsetY,
-          transform: 'none',
+          left: mousePosition.x,
+          top: mousePosition.y,
+          transform: baseTransform,
         }
     }
   }, [mousePosition.x, mousePosition.y, cursorType])
