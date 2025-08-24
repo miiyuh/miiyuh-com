@@ -13,12 +13,6 @@ export default function LockMeEncryptionPage() {
     setMounted(true)
   }, [])
 
-  const handleDownload = () => {
-    playClick()
-    // In a real implementation, this would download the actual project documentation
-    alert('Download functionality would be implemented here with actual project files')
-  }
-
   return (
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
       {/* Interactive dots background */}
@@ -26,7 +20,7 @@ export default function LockMeEncryptionPage() {
 
       {/* Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-screen">
-        <div className={`transition-all duration-1000 max-w-7xl mx-auto ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`transition-all duration-1000 max-w-8xl mx-auto ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           
           {/* Breadcrumb Navigation */}
           <nav className="w-full mb-6" aria-label="Breadcrumb">
@@ -88,76 +82,50 @@ export default function LockMeEncryptionPage() {
           </div>
 
           {/* Split Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 min-h-[80vh]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[80vh]">
             
             {/* Left Column - Project Information */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="space-y-8">
               
               {/* Header */}
               <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center">
-                    <span className="text-xl">🔐</span>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center">
+                    <span className="text-2xl">🔐</span>
                   </div>
                   <div>
-                    <h1 className="text-2xl lg:text-3xl font-bold tracking-tighter">
-                      LockMe: Secure File Encryption
+                    <h1 className="text-3xl lg:text-4xl font-bold tracking-tight mb-2">
+                      LockMe: Secure File Encryption Application
                     </h1>
-                    <p className="text-[#FAF3E0]/60 font-serif text-sm">Final Year Project (FYP1 & FYP2) - Bachelor • Sep 2024 - Feb 2025</p>
-                    <p className="text-[#FAF3E0]/50 font-serif text-xs">Management and Science University (MSU), Malaysia</p>
+                    <p className="text-[#FAF3E0]/60 font-serif text-base">Final Year Project (FYP) - Bachelor • Sep 2024 - June 2025</p>
+                    <p className="text-[#FAF3E0]/50 font-serif text-sm">Management and Science University (MSU), Malaysia</p>
                   </div>
                 </div>
               </div>
 
               {/* Project Details */}
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-6 border border-[#FAF3E0]/10">
-                <h2 className="font-bold text-lg mb-4 text-[#FAF3E0]">Project Overview</h2>
-                <p className="font-serif text-[#FAF3E0]/90 leading-relaxed mb-4">
-                  LockMe is a comprehensive desktop application designed for secure file encryption and decryption 
-                  using advanced cryptographic algorithms. The application addresses the critical need for data 
-                  security in the digital age, implementing military-grade encryption standards including AES-256, 
-                  RSA key exchange, and SHA-256 hashing. Built with Python and Tkinter, LockMe provides an intuitive 
-                  graphical interface that makes advanced cryptography accessible to end users while maintaining 
-                  the highest security standards. This project was developed as my Final Year Project (FYP1 & FYP2) 
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A]">
+                <h2 className="font-bold text-xl tracking-tight mb-5 text-[#FAF3E0]">Project Overview</h2>
+                <p className="font-serif text-base text-[#FAF3E0]/90 leading-relaxed mb-6">
+                  LockMe is a privacy-first desktop web application designed for secure file encryption and decryption. 
+                  Built with Next.js and TypeScript, it runs entirely client-side using AES-256-GCM encryption via 
+                  the Web Crypto API, ensuring your files and passphrases never touch a server. The application features 
+                  an AI-powered security toolkit with Genkit + Gemini for passphrase generation and strength analysis, 
+                  Firebase-powered user management, and a comprehensive code snippet manager. LockMe addresses the critical 
+                  need for data security in the digital age while providing an intuitive, responsive interface that makes 
+                  advanced cryptography accessible to end users. This project was developed as my Final Year Project (FYP) 
                   for my Bachelor in Computer Forensic (Hons.) at Management and Science University (MSU), Malaysia.
                 </p>
-                
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-[#FAF3E0]/60 font-serif">Project Type:</span>
-                    <p className="font-mono text-[#FAF3E0]">Final Year Project (FYP1 & FYP2)</p>
-                  </div>
-                  <div>
-                    <span className="text-[#FAF3E0]/60 font-serif">Duration:</span>
-                    <p className="font-mono text-[#FAF3E0]">Sep 2024 - Feb 2025</p>
-                  </div>
-                  <div>
-                    <span className="text-[#FAF3E0]/60 font-serif">Program:</span>
-                    <p className="font-mono text-[#FAF3E0]">Bachelor in Computer Forensic (Hons.)</p>
-                  </div>
-                  <div>
-                    <span className="text-[#FAF3E0]/60 font-serif">University:</span>
-                    <p className="font-mono text-[#FAF3E0]">MSU, Malaysia</p>
-                  </div>
-                  <div>
-                    <span className="text-[#FAF3E0]/60 font-serif">Grade:</span>
-                    <p className="font-mono text-[#FAF3E0]">A</p>
-                  </div>
-                  <div>
-                    <span className="text-[#FAF3E0]/60 font-serif">Status:</span>
-                    <p className="font-mono text-green-300">Completed</p>
-                  </div>
-                </div>
               </div>
 
               {/* Technologies Used */}
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-6 border border-[#FAF3E0]/10">
-                <h3 className="font-bold text-lg mb-4 text-[#FAF3E0]">Technologies & Tools</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['Python 3.x', 'Tkinter GUI', 'PyCryptodome', 'AES-256 Encryption', 'RSA-2048', 'SHA-256 Hashing', 'PBKDF2', 'Base64 Encoding', 'File I/O Operations', 'Exception Handling'].map((tech) => (
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A]">
+                <h3 className="font-bold text-xl tracking-tight mb-5 text-[#FAF3E0]">Technologies & Tools</h3>
+                <div className="flex flex-wrap gap-3">
+                  {['Next.js', 'TypeScript', 'React', 'Tailwind CSS', 'ShadCN', 'Firebase Auth', 'Firestore', 'Firebase Storage', 'Genkit AI', 'Gemini API', 'Web Crypto API'].map((tech) => (
                     <span 
                       key={tech}
-                      className="text-xs px-3 py-1 bg-[#FAF3E0]/10 rounded-full text-[#FAF3E0]/80 font-mono"
+                      className="text-sm px-4 py-2 bg-[#FAF3E0]/10 rounded-full text-[#FAF3E0]/80 font-mono"
                     >
                       {tech}
                     </span>
@@ -166,108 +134,133 @@ export default function LockMeEncryptionPage() {
               </div>
 
               {/* Cryptographic Implementation */}
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-6 border border-[#FAF3E0]/10">
-                <h3 className="font-bold text-lg mb-4 text-[#FAF3E0]">Cryptographic Implementation</h3>
-                <ul className="space-y-2 text-sm font-serif text-[#FAF3E0]/90">
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A]">
+                <h3 className="font-bold text-xl tracking-tight mb-5 text-[#FAF3E0]">Security Implementation</h3>
+                <ul className="space-y-3 text-base font-serif text-[#FAF3E0]/90">
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>AES-256 CBC Mode:</strong> Symmetric encryption for file content with 256-bit key strength</span>
+                    <span><strong>AES-256-GCM Encryption:</strong> Client-side encryption via Web Crypto API for maximum security</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>RSA-2048:</strong> Asymmetric encryption for secure key exchange and digital signatures</span>
+                    <span><strong>Client-Side Only:</strong> Files and passphrases never leave your device or touch any server</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>PBKDF2 Key Derivation:</strong> Password-based key derivation with salt for enhanced security</span>
+                    <span><strong>Multiple File Support:</strong> Encrypt/decrypt multiple files simultaneously</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>SHA-256 Hashing:</strong> Cryptographic hash function for data integrity verification</span>
+                    <span><strong>Custom File Extension:</strong> Encrypted files use .lockme extension for identification</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Random IV Generation:</strong> Initialization vectors for enhanced encryption security</span>
+                    <span><strong>reCAPTCHA Security:</strong> Additional security layer for user interactions</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Secure Key Management:</strong> Proper key storage and memory clearing practices</span>
+                    <span><strong>Firebase Security Rules:</strong> Secure data handling with Firestore and Storage rules</span>
                   </li>
                 </ul>
               </div>
 
               {/* Application Features & Capabilities */}
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-6 border border-[#FAF3E0]/10">
-                <h3 className="font-bold text-lg mb-4 text-[#FAF3E0]">Application Features</h3>
-                <ul className="space-y-2 text-sm font-serif text-[#FAF3E0]/90">
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A]">
+                <h3 className="font-bold text-xl tracking-tight mb-5 text-[#FAF3E0]">Key Features</h3>
+                <ul className="space-y-3 text-base font-serif text-[#FAF3E0]/90">
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Intuitive GUI:</strong> User-friendly interface built with Tkinter for easy navigation</span>
+                    <span><strong>AI Security Toolkit:</strong> Passphrase generator, recovery prompt enhancer, and strength analyzer</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>File Selection:</strong> Browse and select files for encryption/decryption operations</span>
+                    <span><strong>Code Snippet Manager:</strong> Store, tag, and encrypt code snippets with syntax highlighting</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Password Management:</strong> Secure password input with strength validation</span>
+                    <span><strong>User Account Management:</strong> Email/password authentication with profile management</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Progress Indicators:</strong> Real-time feedback during encryption/decryption processes</span>
+                    <span><strong>Personalized Dashboard:</strong> Track file activity, passphrase generation, and operation history</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Error Handling:</strong> Comprehensive exception handling and user notifications</span>
+                    <span><strong>Responsive Design:</strong> Works seamlessly on desktop and mobile devices</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Cross-Platform:</strong> Compatible with Windows, macOS, and Linux systems</span>
+                    <span><strong>Theme Support:</strong> Light/dark mode toggle with localStorage preferences</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Secure Memory:</strong> Automatic clearing of sensitive data from memory</span>
+                    <span><strong>Email Verification:</strong> Secure account management with password reset functionality</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* AI Integration & Research */}
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A]">
+                <h3 className="font-bold text-xl tracking-tight mb-5 text-[#FAF3E0]">AI Integration & Academic Research</h3>
+                <ul className="space-y-3 text-base font-serif text-[#FAF3E0]/90">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#FAF3E0]/60">•</span>
+                    <span><strong>Genkit + Gemini AI:</strong> AI-powered passphrase generation and security analysis</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#FAF3E0]/60">•</span>
+                    <span><strong>Academic Foundation:</strong> Research based on Al-Hazaimeh (2013) and Mushtaq et al. (2017)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#FAF3E0]/60">•</span>
+                    <span><strong>Supervised Research:</strong> Under Dr. Asma Mahfoudh Hezam Al-Hakimi at MSU</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#FAF3E0]/60">•</span>
+                    <span><strong>Open Source:</strong> MIT License for community contributions and transparency</span>
                   </li>
                 </ul>
               </div>
 
               {/* Project Methodology */}
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-6 border border-[#FAF3E0]/10">
-                <h3 className="font-bold text-lg mb-4 text-[#FAF3E0]">Development Methodology</h3>
-                <ul className="space-y-2 text-sm font-serif text-[#FAF3E0]/90">
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A]">
+                <h3 className="font-bold text-xl tracking-tight mb-5 text-[#FAF3E0]">Development Approach</h3>
+                <ul className="space-y-3 text-base font-serif text-[#FAF3E0]/90">
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Literature Review:</strong> Comprehensive study of modern cryptographic standards</span>
+                    <span><strong>Privacy-First Design:</strong> Client-side encryption ensuring data never leaves the device</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Security Analysis:</strong> Threat modeling and vulnerability assessment</span>
+                    <span><strong>Modern Web Technologies:</strong> Next.js App Router with TypeScript for type safety</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Algorithm Implementation:</strong> Custom implementation of cryptographic functions</span>
+                    <span><strong>AI-Powered Security:</strong> Integration of Gemini API for intelligent security features</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Testing & Validation:</strong> Rigorous testing of encryption/decryption processes</span>
+                    <span><strong>Firebase Integration:</strong> Secure user management with Firestore and Authentication</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#FAF3E0]/60">•</span>
-                    <span><strong>Performance Optimization:</strong> Efficient handling of large files and memory usage</span>
+                    <span><strong>Responsive Implementation:</strong> Cross-device compatibility with Tailwind CSS</span>
                   </li>
                 </ul>
               </div>
 
               {/* Download Button */}
-              <button
-                onClick={handleDownload}
-                className="w-full bg-[#FAF3E0]/10 hover:bg-[#FAF3E0]/20 border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 rounded-lg px-6 py-3 font-serif text-[#FAF3E0] transition-all duration-300 flex items-center justify-center gap-2 mb-4"
+              <a
+                href="/papers/lockme-encryption-system.pdf"
+                download="lockme-encryption-system.pdf"
+                onClick={playClick}
+                className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A] w-full rounded-lg font-serif text-[#FAF3E0] flex items-center justify-center gap-2 mb-4"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 Download Project Documentation
-              </button>
+              </a>
 
               {/* GitHub Repository Link */}
               <a
@@ -275,7 +268,7 @@ export default function LockMeEncryptionPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={playClick}
-                className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 rounded-lg px-6 py-3 font-serif text-[#FAF3E0] transition-all duration-300 flex items-center justify-center gap-2"
+                className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A] w-full rounded-lg font-serif text-[#FAF3E0] flex items-center justify-center gap-2"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -285,14 +278,14 @@ export default function LockMeEncryptionPage() {
             </div>
 
             {/* Right Column - PDF Viewer */}
-            <div className="lg:col-span-3">
-              <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 h-full min-h-[600px] lg:min-h-[80vh] flex flex-col">
-                <div className="p-4 border-b border-[#FAF3E0]/10">
-                  <h3 className="font-bold text-[#FAF3E0]">Project Documentation</h3>
-                  <p className="text-xs text-[#FAF3E0]/60 font-serif">Security analysis and implementation details</p>
+            <div>
+              <div className="border border-[#FAF3E0]/10 transition-all duration-300 group p-8 bg-[#1A1A1A] h-full min-h-[600px] lg:min-h-[80vh] flex flex-col">
+                <div className="pb-4 mb-4 border-b border-[#FAF3E0]/10">
+                  <h3 className="font-bold text-xl tracking-tight text-[#FAF3E0]">Project Documentation</h3>
+                  <p className="text-sm text-[#FAF3E0]/60 font-serif">Security analysis and implementation details</p>
                 </div>
                 
-                <div className="flex-1 p-4">
+                <div className="flex-1">
                   <div className="w-full h-full">
                     <object
                       data="/papers/lockme-encryption-system.pdf"
@@ -312,12 +305,13 @@ export default function LockMeEncryptionPage() {
                             <p className="text-sm text-[#FAF3E0]/60 font-serif mb-4">
                               The project documentation PDF is not yet uploaded to this location.
                             </p>
-                            <button
-                              onClick={handleDownload}
-                              className="bg-[#FAF3E0]/10 hover:bg-[#FAF3E0]/20 border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 rounded px-4 py-2 text-sm font-serif text-[#FAF3E0] transition-all duration-300"
+                            <a
+                              href="/papers/lockme-encryption-system.pdf"
+                              download="lockme-encryption-system.pdf"
+                              className="inline-block bg-[#FAF3E0]/10 border border-[#FAF3E0]/20 rounded-lg px-6 py-3 font-serif text-[#FAF3E0] transition-all duration-300"
                             >
                               Download Documentation
-                            </button>
+                            </a>
                           </div>
                         </div>
                       </div>
