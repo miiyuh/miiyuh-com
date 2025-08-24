@@ -4,6 +4,7 @@ import { Noto_Sans, Noto_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/fo
 import ClientHeader from '@/components/layout/client-header'
 import Footer from '@/components/layout/footer'
 import ScrollToTopButton from '@/components/ui/scroll-to-top-button'
+import { CustomCursor } from '@/components/ui/custom-cursor'
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from "@vercel/analytics/react"
 
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <ScrollToTopButton />
+        <CustomCursor />
         <Analytics />
         <SpeedInsights />
       </body>

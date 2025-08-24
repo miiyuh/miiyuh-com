@@ -4,14 +4,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { initializeGallery, loadGalleryData } from '@/utils/gallery-loader';
 import { JapanFlag } from '@/utils';
-import LoadingSpinner from '@/components/ui/loading-spinner';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background';
 
 export default function GalleryPage() {
-  const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [debugInfo, setDebugInfo] = useState<{
     startTime: number;
@@ -29,7 +26,6 @@ export default function GalleryPage() {
     const loadGallery = async () => {
       try {
         console.log('🎨 Gallery loading started');
-        setLoadingProgress(10);
         
         const dataLoadStart = Date.now();
         const data = await loadGalleryData();
@@ -49,18 +45,15 @@ export default function GalleryPage() {
           totalImages 
         }));
         
-        setLoadingProgress(30);
-        
         const galleries = [
           { id: 'lightgallery-photos-2025jp', data: data.photos_2025jp },
           { id: 'lightgallery-artworks-2022', data: data.artworks_2022 },
           { id: 'lightgallery-artworks-2023', data: data.artworks_2023 }
         ];
         
-        let completedGalleries = 0;
         const galleryInitStart = Date.now();
         
-        // Initialize galleries sequentially for better perceived performance
+        // Initialize galleries sequentially for reliability
         console.log('🔄 Starting sequential gallery initialization');
         for (let i = 0; i < galleries.length; i++) {
           const gallery = galleries[i];
@@ -68,19 +61,15 @@ export default function GalleryPage() {
             const initStart = Date.now();
             await initializeGallery(gallery.id, gallery.data);
             const initTime = Date.now() - initStart;
-            console.log(`🖼️ Gallery ${gallery.id} initialized in ${initTime}ms (${gallery.data.length} images)`);
-          }
-          completedGalleries++;
-          if (isMounted) {
-            setLoadingProgress(30 + (completedGalleries / galleries.length) * 60);
+            console.log(`Gallery ${gallery.id} initialized in ${initTime}ms (${gallery.data.length} images)`);
           }
         }
         
         const galleryInitTime = Date.now() - galleryInitStart;
         const totalTime = Date.now() - startTime;
         
-        console.log(`✅ All galleries initialized in ${galleryInitTime}ms`);
-        console.log(`🎯 Total gallery load time: ${totalTime}ms`);
+        console.log(`All galleries initialized in ${galleryInitTime}ms`);
+        console.log(`Total gallery load time: ${totalTime}ms`);
         
         if (isMounted) {
           setDebugInfo(prev => ({ 
@@ -88,20 +77,12 @@ export default function GalleryPage() {
             galleryInitTime,
             totalTime 
           }));
-          setLoadingProgress(100);
-          // Small delay to show 100% before hiding loading
-          setTimeout(() => {
-            if (isMounted) {
-              setIsLoading(false);
-            }
-          }, 300);
         }
         
       } catch (error) {
-        console.error('❌ Failed to load gallery:', error);
+        console.error('Failed to load gallery:', error);
         if (isMounted) {
           setError('Failed to load gallery. Please try refreshing the page.');
-          setIsLoading(false);
         }
       }
     };
@@ -135,21 +116,6 @@ export default function GalleryPage() {
         <InteractiveDotsBackground />
 
         <main className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
-          {isLoading && (
-            <div className="py-12">
-              <LoadingSpinner size="lg" />
-              <div className="text-center mt-4">
-                <div className="w-48 h-2 bg-[#FAF3E0]/20 rounded-full mx-auto mb-2">
-                  <div 
-                    className="h-full bg-[#FAF3E0]/60 rounded-full transition-all duration-300"
-                    style={{ width: `${loadingProgress}%` }}
-                  ></div>
-                </div>
-                <p className="text-xs text-[#FAF3E0]/60 font-serif">loading gallery... {Math.round(loadingProgress)}%</p>
-              </div>
-            </div>
-          )}
-          
           {error && (
             <div className="py-12 text-center">
               <div className="text-red-400 mb-4">⚠️</div>
@@ -164,9 +130,9 @@ export default function GalleryPage() {
           )}
 
           {/* Debug Panel (only shown in development) */}
-          {process.env.NODE_ENV === 'development' && !isLoading && (
+          {process.env.NODE_ENV === 'development' && (
             <div className="fixed top-4 right-4 bg-[#1A1A1A]/90 border border-[#FAF3E0]/20 rounded-lg p-4 text-xs z-50 backdrop-blur-sm">
-              <div className="text-[#FAF3E0]/60 mb-2">🔧 Gallery Debug Info</div>
+              <div className="text-[#FAF3E0]/60 mb-2">Gallery Debug Info</div>
               <div className="text-[#FAF3E0]/80 space-y-1">
                 <div>Data Load: {debugInfo.dataLoadTime || 0}ms</div>
                 <div>Gallery Init: {debugInfo.galleryInitTime || 0}ms</div>
@@ -176,7 +142,7 @@ export default function GalleryPage() {
             </div>
           )}
           
-          <div className={`transition-all duration-1000 ${mounted && !isLoading ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {/* Breadcrumb Navigation */}
             <nav className="w-full mb-8" aria-label="Breadcrumb">
               <ol className="flex items-center space-x-2 text-sm text-[#FAF3E0]/60">

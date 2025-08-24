@@ -12,7 +12,7 @@ interface InteractiveDotsBackgroundProps {
 }
 
 export function InteractiveDotsBackground({
-  dotSize = 2,
+  dotSize = 1,
   spacing = 40,
   baseOpacity = 0.1,
   hoverOpacity = 0.8,
@@ -49,57 +49,63 @@ export function InteractiveDotsBackground({
       const cols = Math.ceil(canvas.width / spacing)
       const rows = Math.ceil(canvas.height / spacing)
 
+      // Use requestAnimationFrame for smooth animations
       for (let i = 0; i <= cols; i++) {
         for (let j = 0; j <= rows; j++) {
           const x = i * spacing
           const y = j * spacing
           
-          // Calculate distance from mouse
           const distance = Math.sqrt(
             Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2)
           )
           
-          // Calculate opacity based on distance
           let opacity = baseOpacity
           if (distance < hoverRadius) {
-            const factor = 1 - (distance / hoverRadius)
-            opacity = baseOpacity + (hoverOpacity - baseOpacity) * factor
+            opacity = baseOpacity + (hoverOpacity - baseOpacity) * 
+              (1 - distance / hoverRadius)
           }
           
-          // Draw dot
-          ctx.fillStyle = `${color}`
-          ctx.globalAlpha = opacity
+          ctx.fillStyle = `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(color.slice(5, 7), 16)}, ${opacity})`
           ctx.beginPath()
-          ctx.arc(x, y, dotSize / 2, 0, Math.PI * 2)
+          ctx.arc(x, y, dotSize, 0, Math.PI * 2)
           ctx.fill()
         }
       }
       
+      // Continue animation
       animationRef.current = requestAnimationFrame(drawDots)
     }
 
+    // Initialize
     resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseleave', handleMouseLeave)
     
-    drawDots()
+    // Start animation loop
+    animationRef.current = requestAnimationFrame(drawDots)
+    
+    // Add event listeners with passive option for better performance
+    window.addEventListener('resize', resizeCanvas, { passive: true })
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    document.addEventListener('mouseleave', handleMouseLeave, { passive: true })
 
     return () => {
+      // Clean up
       window.removeEventListener('resize', resizeCanvas)
       window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+      
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
+        animationRef.current = null
       }
     }
-  }, [mousePos, dotSize, spacing, baseOpacity, hoverOpacity, hoverRadius, color])
+  }, [mousePos.x, mousePos.y, dotSize, spacing, baseOpacity, hoverOpacity, hoverRadius, color])
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
       style={{ background: 'transparent' }}
+      aria-hidden="true"
     />
   )
 }

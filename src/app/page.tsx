@@ -103,9 +103,10 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                 <Link
                   href={link.href}
                   onClick={playClick}
-                  className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none"
+                  className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 motion-safe:hover:motion-preset-bounce border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none cursor-pointer"
+                  data-cursor="hover"
                 >                  <div className="text-left">
-                    <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300 font-emoji" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
+                    <div className="text-xl mb-2 group-hover:motion-preset-pulse font-emoji" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
                       {link.href === '/aboutme' && '🍁'}
                       {link.href === '/socials' && '✨'}
                       {link.href === '/gallery' && '📸'}
@@ -129,18 +130,6 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                 </Link>
               </ScrollAnimation>
             ))}
-          </ScrollAnimation>
-
-          {/* Development disclaimer */}
-          <ScrollAnimation animation="fadeIn" delay={1.3} className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-[#FAF3E0]/5 backdrop-blur-sm border border-[#FAF3E0]/20 rounded-lg px-4 py-2">
-              <div className="text-sm" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
-                🚧
-              </div>
-              <p className="text-xs text-[#FAF3E0]/70 font-serif">
-                website is currently in heavy development
-              </p>
-            </div>
           </ScrollAnimation>
 
           {/* Fun interactive element */}

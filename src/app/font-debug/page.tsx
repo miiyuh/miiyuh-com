@@ -22,40 +22,50 @@ export default function FontDebugPage() {
       const rootStyle = getComputedStyle(document.documentElement)
       const bodyStyle = getComputedStyle(body)
       
-      // Test paragraph element
+      // Test paragraph element with proper cleanup
       const testP = document.createElement('p')
       testP.className = 'font-serif'
       testP.style.visibility = 'hidden'
+      testP.style.position = 'absolute'
+      testP.style.top = '-9999px'
       testP.textContent = 'Test'
-      body.appendChild(testP)
-      const pStyle = getComputedStyle(testP)
       
-      setFontInfo({
-        bodyFont: bodyStyle.fontFamily,
-        notoSerif: rootStyle.getPropertyValue('--font-noto-serif'),
-        notoSans: rootStyle.getPropertyValue('--font-noto-sans'),
-        notoMono: rootStyle.getPropertyValue('--font-noto-mono'),
-        notoEmoji: rootStyle.getPropertyValue('--font-noto-color-emoji'),
-        pFont: pStyle.fontFamily,
-        allVars: Object.fromEntries(
-          Array.from(document.styleSheets)
-            .flatMap(sheet => {
-              try {
-                return Array.from(sheet.cssRules)
-              } catch {
-                return []
-              }
-            })
-            .filter(rule => rule instanceof CSSStyleRule)
-            .map(rule => rule.style)
-            .filter(style => style.length > 0)
-            .flatMap(style => Array.from(style))
-            .filter(prop => prop.startsWith('--font'))
-            .map(prop => [prop, rootStyle.getPropertyValue(prop)])
-        )
-      })
-      
-      body.removeChild(testP)
+      try {
+        body.appendChild(testP)
+        const pStyle = getComputedStyle(testP)
+        
+        setFontInfo({
+          bodyFont: bodyStyle.fontFamily,
+          notoSerif: rootStyle.getPropertyValue('--font-noto-serif'),
+          notoSans: rootStyle.getPropertyValue('--font-noto-sans'),
+          notoMono: rootStyle.getPropertyValue('--font-noto-mono'),
+          notoEmoji: rootStyle.getPropertyValue('--font-noto-color-emoji'),
+          pFont: pStyle.fontFamily,
+          allVars: Object.fromEntries(
+            Array.from(document.styleSheets)
+              .flatMap(sheet => {
+                try {
+                  return Array.from(sheet.cssRules)
+                } catch {
+                  return []
+                }
+              })
+              .filter(rule => rule instanceof CSSStyleRule)
+              .map(rule => rule.style)
+              .filter(style => style.length > 0)
+              .flatMap(style => Array.from(style))
+              .filter(prop => prop.startsWith('--font'))
+              .map(prop => [prop, rootStyle.getPropertyValue(prop)])
+          )
+        })
+      } catch (error) {
+        console.error('Font debug error:', error)
+      } finally {
+        // Ensure cleanup even if errors occur
+        if (testP.parentNode) {
+          body.removeChild(testP)
+        }
+      }
     }
   }, [])
 

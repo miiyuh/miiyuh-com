@@ -5,10 +5,11 @@ interface WebVitalMetric {
   delta: number
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const reportWebVitals = (metric: WebVitalMetric) => {
   if (process.env.NODE_ENV === 'production') {
-    console.log(metric)
     // You can send to analytics service here
+    // For production, remove console.log to avoid performance overhead
   }
 }
 
@@ -20,7 +21,7 @@ export const measurePageLoad = () => {
 }
 
 export const logPageRenderTime = (startTime: number, pageName: string) => {
-  if (typeof window !== 'undefined' && 'performance' in window) {
+  if (typeof window !== 'undefined' && 'performance' in window && process.env.NODE_ENV === 'development') {
     const endTime = window.performance.now()
     const renderTime = endTime - startTime
     console.log(`${pageName} rendered in ${renderTime.toFixed(2)}ms`)

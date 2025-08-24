@@ -81,3 +81,13 @@ img {
   font-feature-settings: normal;
   text-rendering: auto;
 }
+
+/* Custom cursor styles - hide default cursor */
+* {
+  cursor: none !important;
+}
+
+/* Hide cursor on all interactive elements */
+a, button, input, textarea, select, [role="button"], [tabindex], .group {
+  cursor: none !important;
+}

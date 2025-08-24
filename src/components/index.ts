@@ -7,7 +7,6 @@ export { default as Footer } from './layout/footer'
 export { default as PageLayout } from './layout/page-layout'
 
 // UI components
-export { default as LoadingSpinner } from './ui/loading-spinner'
 export { default as ErrorBoundary } from './ui/error-boundary'
 export { default as ScrollToTopButton } from './ui/scroll-to-top-button'
 export { HeadingWithHash } from './ui/heading-with-hash'

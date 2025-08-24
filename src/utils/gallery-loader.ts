@@ -63,6 +63,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
 
       a.href = src;
       a.className = 'block w-full'; // Ensure anchor doesn't constrain image
+      a.setAttribute('aria-label', `View ${title || 'gallery image'} in full size`);
       a.setAttribute('data-sub-html', `
         <div class='text-center'>
           <h4 class='text-lg font-bold mb-1'>${title}</h4>
@@ -84,27 +85,34 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       
       // Fade in when image loads and ensure proper aspect ratio
       imgElement.onload = () => {
-        // Small delay to ensure layout has settled
-        setTimeout(() => {
+        // Use requestAnimationFrame for smooth visual update
+        requestAnimationFrame(() => {
           imgElement.style.opacity = '1';
           // Remove any height constraints that might cause squashing
           imgElement.style.height = 'auto';
           imgElement.style.maxHeight = 'none';
-        }, 50);
+        });
       };
       
       imgElement.onerror = () => {
         console.warn(`Failed to load image: ${src}`);
         imgElement.style.opacity = '0.5';
         imgElement.alt = 'Failed to load image';
+        // Add a visual indicator for failed images
+        imgElement.style.border = '2px dashed rgba(250, 243, 224, 0.3)';
+        imgElement.style.minHeight = '200px';
+        imgElement.style.display = 'flex';
+        imgElement.style.alignItems = 'center';
+        imgElement.style.justifyContent = 'center';
       };
       
       a.appendChild(imgElement);
       container.appendChild(a);
     });
 
-    // Initialize lightGallery with optimized settings
-    setTimeout(() => {
+    // Initialize lightGallery immediately after DOM creation
+    // Use a microtask to ensure DOM is ready
+    Promise.resolve().then(() => {
       if (!containerWithLg.lgGallery && container.children.length > 0) {
         try {
           const lgInstance = lightGallery(container, {
@@ -131,7 +139,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       } else {
         resolve();
       }
-    }, 100); // Reduced delay
+    });
   });
 };
 
@@ -172,6 +180,7 @@ export const loadGalleryData = async (): Promise<GalleryData> => {
     } catch (error) {
       console.error('❌ Error loading gallery.json:', error);
       galleryDataPromise = null; // Reset promise on error
+      galleryDataCache = null; // Clear cache on error to allow retry
       return {};
     }
   })();

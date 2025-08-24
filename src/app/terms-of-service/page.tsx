@@ -81,16 +81,16 @@ export default function TermsOfService() {
           {/* Table of Contents - Left Sidebar */}
           <aside className={`hidden lg:block w-64 flex-shrink-0 transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <div className="sticky top-24">
-              <nav className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-xl p-6 border border-[#FAF3E0]/20">
-                <h3 className="text-lg font-bold mb-4 text-[#FAF3E0]">Contents</h3>
-                <ul className="space-y-2">
+              <nav className="p-4">
+                <h3 className="text-sm font-bold mb-3 text-[#FAF3E0] uppercase tracking-wider">Contents</h3>
+                <ul className="space-y-1">
                   {tableOfContents.map((item) => (
                     <li key={item.id}>
                       <button
                         onClick={() => scrollToSection(item.id)}
-                        className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-300 hover:bg-[#FAF3E0]/10 ${
+                        className={`w-full text-left text-xs py-1 px-2 transition-colors duration-200 hover:text-[#FAF3E0] ${
                           activeSection === item.id 
-                            ? 'bg-[#FAF3E0]/15 text-[#FAF3E0] font-semibold border-l-2 border-[#FAF3E0]/50' 
+                            ? 'text-[#FAF3E0] font-semibold border-l-2 border-[#FAF3E0]' 
                             : 'text-[#FAF3E0]/70 hover:text-[#FAF3E0]'
                         }`}
                       >

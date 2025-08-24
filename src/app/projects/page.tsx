@@ -62,7 +62,7 @@ export default function ProjectsPage() {
       <InteractiveDotsBackground />
 
       {/* Main Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 flex flex-col justify-center min-h-screen">
+      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
 
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Breadcrumb Navigation */}
@@ -102,132 +102,137 @@ export default function ProjectsPage() {
             </p>
           </div>
 
-          {/* Personal Organizations Section */}
-          <div className="mb-20">
-            <h2 className="text-2xl font-bold tracking-tight mb-8 text-[#FAF3E0]/90">
-              Personal Organizations
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {organizations.map((org, index) => (
-                <div
-                  key={org.id}
-                  className={`transition-all duration-700`}
-                  style={{
-                    animationDelay: mounted ? `${index * 200}ms` : '0ms'
-                  }}
-                >
-                  <Link
-                    href={org.href}
-                    onClick={playClick}
-                    className="group block h-full"
+          {/* Two Column Layout - Personal Organizations Left, Academic Work Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-8xl mx-auto">
+            
+            {/* Personal Organizations Section - Left Column */}
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-8 text-[#FAF3E0]/90">
+                Personal Organizations
+              </h2>
+              <div className="space-y-6">
+                {organizations.map((org, index) => (
+                  <div
+                    key={org.id}
+                    className={`transition-all duration-700`}
+                    style={{
+                      animationDelay: mounted ? `${index * 200}ms` : '0ms'
+                    }}
                   >
-                    <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-8 hover:bg-[#FAF3E0]/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#FAF3E0]/10 border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 h-full flex flex-col">
-                      
-                      {/* Organization Content - Logo and Info Side by Side */}
-                      <div className="flex items-start gap-4 flex-grow">
-                        {/* Organization Image - Height matches title + description */}
-                        <div className="flex-shrink-0">
-                          <div className="w-20 h-20 bg-[#FAF3E0]/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 overflow-hidden">
-                            {org.image ? (
-                              <Image 
-                                src={org.image} 
-                                alt={`${org.name} logo`}
-                                width={80}
-                                height={80}
-                                className="w-full h-full object-contain"
-                              />
-                            ) : (
-                              <div className="w-10 h-10 bg-[#FAF3E0]/30 rounded"></div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Organization Info - Fills remaining space */}
-                        <div className="text-left flex-grow">
-                          <h3 className="font-bold text-xl mb-1 group-hover:text-[#FAF3E0] transition-colors duration-300 leading-tight">
-                            {org.name}
-                          </h3>
-                          <p className="text-sm text-[#FAF3E0]/70 font-serif group-hover:text-[#FAF3E0]/90 transition-colors duration-300 leading-relaxed">
-                            {org.description}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* View Projects Button - Moved to bottom */}
-                      <div className="mt-6 flex justify-between items-center">
-                        <div className="inline-flex items-center gap-2 text-xs text-[#FAF3E0]/60 group-hover:text-[#FAF3E0]/80 transition-colors duration-300">
-                          <span>explore projects</span>
-                          <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </div>
-
-                      {/* Hover indicator */}
-                      <div className="mt-4 w-0 h-0.5 bg-gradient-to-r from-[#FAF3E0]/50 to-transparent group-hover:w-full transition-all duration-500"></div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Academic Section */}
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight mb-8 text-[#FAF3E0]/90">
-              Academic Work
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {academicProjects.map((project, index) => (
-                <div
-                  key={project.id}
-                  className={`transition-all duration-700`}
-                  style={{
-                    animationDelay: mounted ? `${(index + organizations.length) * 200}ms` : '0ms'
-                  }}
-                >
-                  <Link
-                    href={project.href}
-                    onClick={playClick}
-                    className="group block h-full"
-                  >
-                    <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-8 hover:bg-[#FAF3E0]/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#FAF3E0]/10 border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 h-full flex flex-col">
-                      
-                      {/* Academic Project Icon */}
-                      <div className="aspect-square mb-6 flex items-center justify-center bg-[#FAF3E0]/5 rounded-lg overflow-hidden max-w-24 max-h-24">
-                        <div className="w-20 h-20 bg-[#FAF3E0]/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <span className="text-3xl font-bold text-[#FAF3E0]/70">{project.icon}</span>
-                        </div>
-                      </div>
-
-                      {/* Academic Project Info */}
-                      <div className="text-left flex-grow flex flex-col justify-between">
-                        <div>
-                          <h3 className="font-bold text-xl mb-3 group-hover:text-[#FAF3E0] transition-colors duration-300">
-                            {project.name}
-                          </h3>
-                          <p className="text-sm text-[#FAF3E0]/70 font-serif group-hover:text-[#FAF3E0]/90 transition-colors duration-300 mb-4">
-                            {project.description}
-                          </p>
-                        </div>
+                    <Link
+                      href={org.href}
+                      onClick={playClick}
+                      className="group block h-full"
+                      data-cursor="link"
+                    >
+                      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 hover:bg-[#FAF3E0]/8 transition-all duration-300 group-hover:scale-[1.01] overflow-hidden">
                         
-                        {/* View Button */}
-                        <div className="mt-auto">
-                          <div className="inline-flex items-center gap-2 text-xs text-[#FAF3E0]/60 group-hover:text-[#FAF3E0]/80 transition-colors duration-300">
-                            <span>view work</span>
-                            <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        {/* Horizontal Layout - Image, Content, Arrow */}
+                        <div className="flex items-center justify-between p-6">
+                          {/* Left: Organization Image */}
+                          <div className="flex items-center gap-4 flex-1">
+                            <div className="w-16 h-16 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                              {org.image ? (
+                                <Image 
+                                  src={org.image} 
+                                  alt={`${org.name} logo`}
+                                  width={64}
+                                  height={64}
+                                  className="w-full h-full object-contain"
+                                />
+                              ) : (
+                                <div className="w-8 h-8 bg-[#FAF3E0]/30 rounded"></div>
+                              )}
+                            </div>
+
+                            {/* Center: Organization Info */}
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-lg text-[#FAF3E0] mb-1 leading-tight">
+                                {org.name}
+                              </h3>
+                              <p className="text-sm text-[#FAF3E0]/70 font-serif leading-relaxed">
+                                {org.description}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Right: Arrow Icon */}
+                          <div className="flex-shrink-0 ml-4">
+                            <svg 
+                              className="w-6 h-6 text-[#FAF3E0]/60 group-hover:text-[#FAF3E0] group-hover:translate-x-1 transition-all duration-300" 
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17l9.2-9.2M17 17V7H7" />
                             </svg>
                           </div>
                         </div>
                       </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                      {/* Hover indicator */}
-                      <div className="mt-4 w-0 h-0.5 bg-gradient-to-r from-[#FAF3E0]/50 to-transparent group-hover:w-full transition-all duration-500"></div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+            {/* Academic Work Section - Right Column */}
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-8 text-[#FAF3E0]/90">
+                Academic Work
+              </h2>
+              <div className="space-y-6">
+                {academicProjects.map((project, index) => (
+                  <div
+                    key={project.id}
+                    className={`transition-all duration-700`}
+                    style={{
+                      animationDelay: mounted ? `${(index + organizations.length) * 200}ms` : '0ms'
+                    }}
+                  >
+                    <Link
+                      href={project.href}
+                      onClick={playClick}
+                      className="group block h-full"
+                      data-cursor="view"
+                    >
+                      <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 hover:bg-[#FAF3E0]/8 transition-all duration-300 group-hover:scale-[1.01] overflow-hidden">
+                        
+                        {/* Horizontal Layout - Icon, Content, Arrow */}
+                        <div className="flex items-center justify-between p-6">
+                          {/* Left: Academic Icon */}
+                          <div className="flex items-center gap-4 flex-1">
+                            <div className="w-16 h-16 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <span className="text-2xl font-bold text-[#FAF3E0]/80">{project.icon}</span>
+                            </div>
+
+                            {/* Center: Academic Info */}
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-lg text-[#FAF3E0] mb-1 leading-tight">
+                                {project.name}
+                              </h3>
+                              <p className="text-sm text-[#FAF3E0]/70 font-serif leading-relaxed">
+                                {project.description}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Right: Arrow Icon */}
+                          <div className="flex-shrink-0 ml-4">
+                            <svg 
+                              className="w-6 h-6 text-[#FAF3E0]/60 group-hover:text-[#FAF3E0] group-hover:translate-x-1 transition-all duration-300" 
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17l9.2-9.2M17 17V7H7" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

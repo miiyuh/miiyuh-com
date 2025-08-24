@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 
 interface TypewriterTextProps {
   text: string | string[]
@@ -17,45 +17,38 @@ export function TypewriterText({
   repeat = true,
   delay = 0 
 }: TypewriterTextProps) {
-  const [displayText, setDisplayText] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isTyping, setIsTyping] = useState(true)
-  const [textArrayIndex, setTextArrayIndex] = useState(0)
-
-  const textArray = useMemo(() => Array.isArray(text) ? text : [text], [text])
-  const currentText = textArray[textArrayIndex]
-
+  const [mounted, setMounted] = useState(false)
+  const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const textArray = Array.isArray(text) ? text : [text]
+  const currentText = textArray[currentTextIndex]
+  
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isTyping) {
-        if (currentIndex < currentText.length) {
-          setDisplayText(currentText.slice(0, currentIndex + 1))
-          setCurrentIndex(currentIndex + 1)
-        } else {
-          if (repeat && textArray.length > 1) {
-            setTimeout(() => {
-              setIsTyping(false)
-            }, 1000)
-          }
-        }
-      } else {
-        if (currentIndex > 0) {
-          setDisplayText(currentText.slice(0, currentIndex - 1))
-          setCurrentIndex(currentIndex - 1)
-        } else {
-          setTextArrayIndex((textArrayIndex + 1) % textArray.length)
-          setIsTyping(true)
-        }
-      }
-    }, delay > 0 ? delay : (isTyping ? speed : speed / 2))
-
-    return () => clearTimeout(timer)
-  }, [currentIndex, isTyping, currentText, speed, repeat, textArray, textArrayIndex, delay])
-
+    setMounted(true)
+  }, [])
+  
+  useEffect(() => {
+    if (!repeat || textArray.length <= 1) return
+    
+    const interval = setInterval(() => {
+      setCurrentTextIndex((prev) => (prev + 1) % textArray.length)
+    }, (currentText.length * speed) + 2000) // Duration based on text length + pause
+    
+    return () => clearInterval(interval)
+  }, [currentText, speed, repeat, textArray.length])
+  
+  if (!mounted) {
+    return <span className={className}>{currentText}</span>
+  }
+  
   return (
-    <span className={className}>
-      {displayText}
-      <span className="animate-pulse">|</span>
+    <span 
+      className={`motion-preset-typewriter-[${speed}] ${className}`}
+      style={{
+        animationDelay: `${delay}ms`,
+        '--motion-typewriter-speed': `${speed}ms`
+      } as React.CSSProperties & { [key: string]: string | number }}
+    >
+      {currentText}
     </span>
   )
 }
@@ -73,31 +66,34 @@ export function AnimatedHeading({
   delay = 0,
   className = '' 
 }: AnimatedHeadingProps) {
-  const [isVisible, setIsVisible] = useState(false)
-
+  const [mounted, setMounted] = useState(false)
+  
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, delay * 1000)
-
-    return () => clearTimeout(timer)
-  }, [delay])
-
-  const getAnimationClasses = () => {
-    const base = 'transition-all duration-1000 ease-out'
-    
+    setMounted(true)
+  }, [])
+  
+  if (!mounted) {
+    return <div className={className}>{children}</div>
+  }
+  
+  const getMotionClasses = () => {
     switch (variant) {
       case 'slide':
-        return `${base} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`
+        return 'motion-preset-slide-right'
       case 'scale':
-        return `${base} ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`
+        return 'motion-preset-pop'
       default:
-        return `${base} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`
+        return 'motion-preset-fade'
     }
   }
-
+  
   return (
-    <div className={`${getAnimationClasses()} ${className}`}>
+    <div 
+      className={`${getMotionClasses()} ${className}`}
+      style={{
+        animationDelay: `${delay}ms`
+      }}
+    >
       {children}
     </div>
   )

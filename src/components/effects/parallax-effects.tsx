@@ -17,12 +17,28 @@ export function ParallaxElement({
 }: ParallaxElementProps) {
   const [scrollY, setScrollY] = useState(0)
   const elementRef = useRef<HTMLDivElement>(null)
+  const animationFrameRef = useRef<number | null>(null)
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
+    const handleScroll = () => {
+      // Throttle using requestAnimationFrame
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+      
+      animationFrameRef.current = requestAnimationFrame(() => {
+        setScrollY(window.scrollY)
+      })
+    }
     
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+    }
   }, [])
 
   const getTransform = () => {
@@ -30,13 +46,13 @@ export function ParallaxElement({
     
     switch (direction) {
       case 'down':
-        return `translateY(${offset}px)`
+        return `translate3d(0, ${offset}px, 0)`
       case 'left':
-        return `translateX(-${offset}px)`
+        return `translate3d(-${offset}px, 0, 0)`
       case 'right':
-        return `translateX(${offset}px)`
+        return `translate3d(${offset}px, 0, 0)`
       default:
-        return `translateY(-${offset}px)`
+        return `translate3d(0, -${offset}px, 0)`
     }
   }
 

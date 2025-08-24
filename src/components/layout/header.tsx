@@ -36,7 +36,12 @@ export default function Header() {
         </Link>
 
         {/* Hamburger */}
-        <button onClick={toggleMenu} className="lg:hidden focus:outline-none z-50">
+        <button 
+          onClick={toggleMenu} 
+          className="lg:hidden focus:outline-none z-50"
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+        >
           <svg className="w-6 h-6 text-[#FAF3E0]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>

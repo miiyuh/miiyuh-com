@@ -21,13 +21,16 @@ export function ScrollAnimation({
   const [hasAnimated, setHasAnimated] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {    const observer = new IntersectionObserver(
+  useEffect(() => {
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             setIsVisible(true)
             setHasAnimated(true)
           }, delay * 1000)
+          
+          return () => clearTimeout(timer)
         }
       },
       { threshold }
@@ -45,31 +48,34 @@ export function ScrollAnimation({
     }
   }, [delay, threshold, hasAnimated])
 
-  const getAnimationClasses = () => {
-    const base = 'transition-all duration-700 ease-out'
+  const getMotionClasses = () => {
+    if (!isVisible) return 'opacity-0'
     
     switch (animation) {
       case 'fadeUp':
-        return `${base} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`
+        return 'motion-preset-slide-up'
       case 'fadeDown':
-        return `${base} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`
+        return 'motion-preset-slide-down'
       case 'fadeLeft':
-        return `${base} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`
+        return 'motion-preset-slide-left'
       case 'fadeRight':
-        return `${base} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`
+        return 'motion-preset-slide-right'
       case 'scale':
-        return `${base} ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`
+        return 'motion-preset-pop'
       case 'rotate':
-        return `${base} ${isVisible ? 'opacity-100 rotate-0' : 'opacity-0 rotate-12'}`
+        return 'motion-preset-wobble'
       default:
-        return `${base} ${isVisible ? 'opacity-100' : 'opacity-0'}`
+        return 'motion-preset-fade'
     }
   }
 
   return (
     <div 
       ref={elementRef}
-      className={`${getAnimationClasses()} ${className}`}
+      className={`${getMotionClasses()} ${className}`}
+      style={{
+        animationDelay: isVisible ? `${delay * 1000}ms` : '0ms'
+      }}
     >
       {children}
     </div>
