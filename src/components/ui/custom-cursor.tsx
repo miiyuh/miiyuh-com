@@ -21,11 +21,25 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
   // Check if device is mobile/touch device
   useEffect(() => {
     const checkDevice = () => {
-      const isTouchDevice = (
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      // More accurate mobile detection
+      const userAgent = navigator.userAgent.toLowerCase()
+      const mobileKeywords = [
+        'android', 'webos', 'iphone', 'ipad', 'ipod', 
+        'blackberry', 'iemobile', 'opera mini', 'mobile'
+      ]
+      
+      const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword))
+      
+      // Check for mobile-specific features
+      const isMobileFeatures = (
+        'ontouchstart' in window && 
+        navigator.maxTouchPoints > 0 && 
+        window.matchMedia('(pointer: coarse)').matches
       )
+      
+      // Only consider it mobile if BOTH user agent and mobile features match
+      const isTouchDevice = isMobileUserAgent && isMobileFeatures
+      
       setIsMobile(isTouchDevice)
     }
     
@@ -149,26 +163,28 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
 
   // Optimized cursor style calculation
   const getCursorStyle = useCallback(() => {
-    const baseTransform = 'translate(-50%, -50%)'
+    // Offset to align cursor tip with mouse position (similar to default cursor)
+    const offsetX = -2 // Slightly left to align with cursor tip
+    const offsetY = -2 // Slightly up to align with cursor tip
     
     switch (cursorType) {
       case 'grab':
         return {
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: `${baseTransform} rotate(-10deg)`,
+          left: mousePosition.x + offsetX,
+          top: mousePosition.y + offsetY,
+          transform: 'rotate(-10deg)',
         }
       case 'move':
         return {
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: `${baseTransform} rotate(45deg)`,
+          left: mousePosition.x + offsetX,
+          top: mousePosition.y + offsetY,
+          transform: 'rotate(45deg)',
         }
       default:
         return {
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: baseTransform,
+          left: mousePosition.x + offsetX,
+          top: mousePosition.y + offsetY,
+          transform: 'none',
         }
     }
   }, [mousePosition.x, mousePosition.y, cursorType])
