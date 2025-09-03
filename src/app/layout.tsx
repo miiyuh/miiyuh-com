@@ -36,11 +36,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://rsms.me/" />
         {/* Load Inter CSS */}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <Script
-          src="https://rybbit.local.miiyuh.com/api/script.js"
-          data-site-id="1"
-          strategy="beforeInteractive"
-        />
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
         <ClientHeader />
@@ -48,6 +43,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <ScrollToTopButton />
         <CustomCursor />
+        <Script
+          src="https://rybbit.local.miiyuh.com/api/script.js"
+          data-site-id="1"
+          defer
+          strategy="beforeInteractive"
+        />
         <Analytics />
         <SpeedInsights />
       </body>
