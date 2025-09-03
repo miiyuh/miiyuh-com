@@ -57,9 +57,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Load Inter CSS */}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <script
-          src="https://app.rybbit.io/api/script.js"
-          data-site-id="1007"
-          defer
+            src="https://rybbit.local.miiyuh.com/api/script.js"
+            data-site-id="1"
+            defer
         ></script>
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
