@@ -5,8 +5,9 @@ import ClientHeader from '@/components/layout/client-header'
 import Footer from '@/components/layout/footer'
 import ScrollToTopButton from '@/components/ui/scroll-to-top-button'
 import { CustomCursor } from '@/components/ui/custom-cursor'
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
+import Script from "next/script"
 
 // Load only the specified fonts - Inter via CSS, others via Next.js
 const notoSans = Noto_Sans({ 
@@ -56,11 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://rsms.me/" />
         {/* Load Inter CSS */}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <script
-            src="https://rybbit.local.miiyuh.com/api/script.js"
-            data-site-id="1"
-            defer
-        ></script>
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
         <ClientHeader />
@@ -72,6 +68,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CustomCursor />
         <Analytics />
         <SpeedInsights />
+        <Script
+          src="https://rybbit.local.miiyuh.com/api/script.js"
+          data-site-id="1"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
