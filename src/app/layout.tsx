@@ -9,28 +9,10 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
 import Script from "next/script"
 
-// Load only the specified fonts - Inter via CSS, others via Next.js
-const notoSans = Noto_Sans({ 
-  subsets: ['latin'], 
-  variable: '--font-noto-sans', 
-  display: 'swap' 
-})
-const notoSerif = Noto_Serif({ 
-  subsets: ['latin'], 
-  variable: '--font-noto-serif', 
-  display: 'swap' 
-})
-const notoMono = Noto_Sans_Mono({ 
-  subsets: ['latin'], 
-  variable: '--font-noto-mono', 
-  display: 'swap' 
-})
-const notoColorEmoji = Noto_Color_Emoji({ 
-  weight: '400',
-  subsets: ['emoji'], 
-  variable: '--font-noto-color-emoji', 
-  display: 'swap' 
-})
+const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
+const notoSerif = Noto_Serif({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
+const notoMono = Noto_Sans_Mono({ subsets: ['latin'], variable: '--font-noto-mono', display: 'swap' })
+const notoColorEmoji = Noto_Color_Emoji({ weight: '400', subsets: ['emoji'], variable: '--font-noto-color-emoji', display: 'swap' })
 
 export const metadata: Metadata = {
   title: "miiyuh's webpage",
@@ -43,10 +25,7 @@ export const metadata: Metadata = {
     description: 'hello, and welcome to my webpage!',
     type: 'website',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -60,9 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
         <ClientHeader />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <main className="flex-grow">{children}</main>
         <Footer />
         <ScrollToTopButton />
         <CustomCursor />
