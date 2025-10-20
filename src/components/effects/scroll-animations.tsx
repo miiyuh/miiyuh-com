@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { animate, set } from 'animejs'
 
 interface ScrollAnimationProps {
   children: React.ReactNode
@@ -8,6 +9,8 @@ interface ScrollAnimationProps {
   delay?: number
   threshold?: number
   className?: string
+  duration?: number
+  easing?: string
 }
 
 export function ScrollAnimation({
@@ -15,81 +18,96 @@ export function ScrollAnimation({
   animation = 'fadeIn',
   delay = 0,
   threshold = 0.1,
-  className = ''
+  className = '',
+  duration = 800,
+  easing = 'out-expo'
 }: ScrollAnimationProps) {
-  const [isVisible, setIsVisible] = useState(false)
   const [hasAnimated, setHasAnimated] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const element = elementRef.current
+    if (!element) return
+
+    // Set initial state based on animation type
+    const setInitialState = () => {
+      switch (animation) {
+        case 'fadeUp':
+          set(element, { opacity: 0, translateY: '50px' })
+          break
+        case 'fadeDown':
+          set(element, { opacity: 0, translateY: '-50px' })
+          break
+        case 'fadeLeft':
+          set(element, { opacity: 0, translateX: '50px' })
+          break
+        case 'fadeRight':
+          set(element, { opacity: 0, translateX: '-50px' })
+          break
+        case 'scale':
+          set(element, { opacity: 0, scale: 0.8 })
+          break
+        case 'rotate':
+          set(element, { opacity: 0, rotate: '-10deg' })
+          break
+        default: // fadeIn
+          set(element, { opacity: 0 })
+      }
+    }
+
+    setInitialState()
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
-          const timer = setTimeout(() => {
-            setIsVisible(true)
-            setHasAnimated(true)
+          // Get animation target and properties
+          setTimeout(() => {
+            const animProps: Record<string, any> = {
+              opacity: 1,
+              duration: duration,
+              ease: easing
+            }
+
+            switch (animation) {
+              case 'fadeUp':
+                animProps.translateY = '0px'
+                break
+              case 'fadeDown':
+                animProps.translateY = '0px'
+                break
+              case 'fadeLeft':
+                animProps.translateX = '0px'
+                break
+              case 'fadeRight':
+                animProps.translateX = '0px'
+                break
+              case 'scale':
+                animProps.scale = 1
+                break
+              case 'rotate':
+                animProps.rotate = '0deg'
+                break
+            }
+
+            // Trigger animation
+            animate(element, animProps)
           }, delay * 1000)
-          
-          return () => clearTimeout(timer)
+
+          setHasAnimated(true)
         }
       },
       { threshold }
     )
 
-    const currentElement = elementRef.current
-    if (currentElement) {
-      observer.observe(currentElement)
-    }
+    observer.observe(element)
 
     return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement)
-      }
+      observer.unobserve(element)
     }
-  }, [delay, threshold, hasAnimated])
-
-  const getAnimationClasses = () => {
-    const baseHidden = 'opacity-0'
-    
-    if (!isVisible) {
-      switch (animation) {
-        case 'fadeUp':
-        case 'fadeDown':
-        case 'fadeLeft':
-        case 'fadeRight':
-          return `${baseHidden} transform`
-        case 'scale':
-          return `${baseHidden} transform`
-        case 'rotate':
-          return `${baseHidden} transform`
-        default:
-          return baseHidden
-      }
-    }
-    
-    switch (animation) {
-      case 'fadeUp':
-        return 'animate-smooth-slide-up'
-      case 'fadeDown':
-        return 'animate-smooth-slide-down'
-      case 'fadeLeft':
-        return 'transition-all duration-700 ease-out opacity-100 translate-x-0'
-      case 'fadeRight':
-        return 'transition-all duration-700 ease-out opacity-100 -translate-x-0'
-      case 'scale':
-        return 'animate-smooth-scale'
-      case 'rotate':
-        return 'transition-all duration-700 ease-out opacity-100 rotate-0'
-      default:
-        return 'animate-smooth-fade-in'
-    }
-  }
+  }, [animation, delay, threshold, hasAnimated, duration, easing])
 
   return (
-    <div 
-      ref={elementRef}
-      className={`${getAnimationClasses()} ${className}`}
-    >
+    <div ref={elementRef} className={className}>
       {children}
     </div>
   )

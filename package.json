@@ -10,18 +10,32 @@
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
     "analyze": "ANALYZE=true npm run build",
-    "clean": "rimraf .next"
+    "clean": "rimraf .next",
+    "payload": "payload",
+    "create:admin": "tsx scripts/create-admin.ts",
+    "clear:gallery": "tsx scripts/clear-gallery.ts",
+    "seed:gallery": "tsx scripts/seed-gallery.ts",
+    "seed:projects": "tsx scripts/seed-projects.ts"
   },
   "dependencies": {
+    "@payloadcms/db-mongodb": "^3.60.0",
+    "@payloadcms/next": "^3.60.0",
+    "@payloadcms/plugin-cloud-storage": "^3.60.0",
+    "@payloadcms/richtext-lexical": "^3.60.0",
+    "@payloadcms/storage-s3": "^3.60.0",
     "@tailwindcss/postcss": "^4.1.4",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "animejs": "^4.2.2",
+    "graphql": "^16.11.0",
     "howler": "^2.2.4",
     "lightgallery": "^2.8.3",
     "lucide-react": "^0.541.0",
     "next": "^15.5.4",
+    "payload": "^3.60.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sharp": "^0.34.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -29,10 +43,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "tailwindcss": "^4",
     "tailwindcss-motion": "^1.1.1",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }

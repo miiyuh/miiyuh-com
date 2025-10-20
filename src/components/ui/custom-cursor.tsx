@@ -163,7 +163,7 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
 
   // Optimized cursor style calculation
   const getCursorStyle = useCallback(() => {
-    const baseTransform = 'translate(-50%, -50%)'
+    const baseTransform = 'translate(-50%, 0%)'
     
     switch (cursorType) {
       case 'grab':

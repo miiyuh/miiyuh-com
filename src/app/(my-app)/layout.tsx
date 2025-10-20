@@ -1,0 +1,61 @@
+import './globals.css'
+import type { Metadata } from 'next'
+import { Noto_Sans, Noto_Serif_JP, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from "@vercel/analytics/react"
+import Script from "next/script"
+import { AppProvider } from '@/components/layout/app-provider'
+
+const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
+const notoSerif = Noto_Serif_JP({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
+const notoMono = Noto_Sans_Mono({ subsets: ['latin'], variable: '--font-noto-mono', display: 'swap' })
+const notoColorEmoji = Noto_Color_Emoji({ weight: '400', subsets: ['emoji'], variable: '--font-noto-color-emoji', display: 'swap' })
+
+export const metadata: Metadata = {
+  title: "miiyuh's webpage",
+  description: 'hello, and welcome to my webpage!',
+  keywords: ['miiyuh', 'photography', 'artwork', 'blog', 'portfolio'],
+  authors: [{ name: 'miiyuh' }],
+  creator: 'miiyuh',
+  icons: {
+    icon: [
+      { url: '/assets/img/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/assets/img/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/assets/img/favicons/apple-touch-icon.png',
+    other: {
+      rel: 'android-chrome-192x192',
+      url: '/assets/img/favicons/android-chrome-192x192.png',
+    },
+  },
+  openGraph: {
+    title: "miiyuh's webpage",
+    description: 'hello, and welcome to my webpage!',
+    type: 'website',
+  },
+  robots: { index: true, follow: true },
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className="bg-[#1A1A1A] text-[#FAF3E0]">
+      <head>
+        {/* Preconnect to Inter font */}
+        <link rel="preconnect" href="https://rsms.me/" />
+        {/* Load Inter CSS */}
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      </head>
+      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
+        <AppProvider>{children}</AppProvider>
+        <Script
+          src="https://rybbit.local.miiyuh.com/api/script.js"
+          data-site-id="1"
+          defer
+          strategy="beforeInteractive"
+        />
+        <SpeedInsights />
+        <Analytics />
+      </body>
+    </html>
+  )
+}
