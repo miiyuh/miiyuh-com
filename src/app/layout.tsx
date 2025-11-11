@@ -7,7 +7,6 @@ import ScrollToTopButton from '@/components/ui/scroll-to-top-button'
 import { CustomCursor } from '@/components/ui/custom-cursor'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
-import Script from "next/script";
 
 const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
 const notoSerif = Noto_Serif({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
@@ -43,12 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <ScrollToTopButton />
         <CustomCursor />
-        <Script
-          src="https://rybbit.local.miiyuh.com/api/script.js"
-          data-site-id="1"
-          defer
-          strategy="beforeInteractive"
-        />
         <Analytics />
         <SpeedInsights />
       </body>
