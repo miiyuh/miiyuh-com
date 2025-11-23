@@ -99,19 +99,26 @@ export default async function AlbumPage({ params }: PageProps) {
 
     const images = imageDocs as GalleryImageDocument[]
 
-    const galleryImages: GalleryItem[] = images.map((imgDoc) => {
-        const imageMedia = typeof imgDoc.image === 'object' ? imgDoc.image : null
+    const galleryImages: GalleryItem[] = images
+        .map((imgDoc) => {
+            const imageMedia = typeof imgDoc.image === 'object' ? imgDoc.image : null
 
-        const fallbackSrc = imageMedia?.filename
-            ? `/api/media/file/${imageMedia.filename}`
-            : ''
+            const src = imageMedia?.url ??
+                (imageMedia?.filename
+                    ? `/api/media/file/${imageMedia.filename}`
+                    : undefined)
 
-        return {
-            src: imageMedia?.url ?? fallbackSrc,
-            title: imgDoc.title ?? imageMedia?.alt ?? '',
-            description: imgDoc.description ?? imageMedia?.caption ?? '',
-        }
-    })
+            if (!src) {
+                return null
+            }
+
+            return {
+                src,
+                title: imgDoc.title ?? imageMedia?.alt ?? '',
+                description: imgDoc.description ?? imageMedia?.caption ?? '',
+            }
+        })
+        .filter((item): item is GalleryItem => Boolean(item))
 
     const collectionData: GalleryCollectionSummary = {
         id: String(collection.id),

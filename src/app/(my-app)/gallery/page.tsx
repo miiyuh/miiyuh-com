@@ -6,6 +6,7 @@ import type {
   GalleryCollectionSummary,
   GalleryDataMap,
   GalleryImageDocument,
+  GalleryItem,
 } from '@/types/gallery'
 
 export const metadata = {
@@ -73,22 +74,33 @@ export default async function GalleryPage() {
   collectionsWithImages.forEach((collection) => {
     if (collection.images.length === 0) return
 
-    galleryData[collection.slug] = collection.images.map((imgDoc) => {
-      const imageMedia =
-        imgDoc.image && typeof imgDoc.image === 'object'
-          ? imgDoc.image
-          : null
+    const items = collection.images
+      .map((imgDoc) => {
+        const imageMedia =
+          imgDoc.image && typeof imgDoc.image === 'object'
+            ? imgDoc.image
+            : null
 
-      const fallbackSrc = imageMedia?.filename
-        ? `/api/media/file/${imageMedia.filename}`
-        : ''
+        const src = imageMedia?.url ??
+          (imageMedia?.filename
+            ? `/api/media/file/${imageMedia.filename}`
+            : undefined)
 
-      return {
-        src: imageMedia?.url ?? fallbackSrc,
-        title: imgDoc.title ?? imageMedia?.alt ?? '',
-        description: imgDoc.description ?? imageMedia?.caption ?? '',
-      }
-    })
+        if (!src) {
+          return null
+        }
+
+        return {
+          src,
+          title: imgDoc.title ?? imageMedia?.alt ?? '',
+          description: imgDoc.description ?? imageMedia?.caption ?? '',
+        }
+      })
+      .filter((item): item is GalleryItem => Boolean(item))
+
+    if (items.length > 0) {
+      galleryData[collection.slug] = items
+    }
   })
 
   const clientCollections: GalleryCollectionSummary[] = collectionsWithImages.map((collection) => ({
