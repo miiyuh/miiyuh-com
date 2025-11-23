@@ -8,6 +8,7 @@ import type {
   GalleryImageDocument,
   GalleryItem,
 } from '@/types/gallery'
+import { resolveMediaSrc } from '@/utils/media'
 
 export const metadata = {
   title: 'gallery - miiyuh',
@@ -81,10 +82,10 @@ export default async function GalleryPage() {
             ? imgDoc.image
             : null
 
-        const src = imageMedia?.url ??
-          (imageMedia?.filename
-            ? `/api/media/file/${imageMedia.filename}`
-            : undefined)
+        const src = resolveMediaSrc({
+          url: imageMedia?.url,
+          filename: imageMedia?.filename,
+        })
 
         if (!src) {
           return null

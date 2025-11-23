@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import BlogClient from './blog-client'
 import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
+import { resolveMediaSrc } from '@/utils/media'
 
 export const metadata = {
   title: 'blog - miiyuh',
@@ -33,8 +34,10 @@ export default async function BlogPage() {
     const coverImageData =
       typeof post.coverImage === 'object' && post.coverImage ? post.coverImage : null
 
-    const coverImageUrl = coverImageData?.url ??
-      (coverImageData?.filename ? `/api/media/file/${coverImageData.filename}` : undefined)
+    const coverImageUrl = resolveMediaSrc({
+      url: coverImageData?.url,
+      filename: coverImageData?.filename,
+    })
 
     const coverImage = coverImageUrl
       ? {

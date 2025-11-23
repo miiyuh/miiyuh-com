@@ -9,6 +9,7 @@ import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import BlogPostContent from './blog-post-content'
 import type { BlogPostDocument } from '@/types/blog'
+import { resolveMediaSrc } from '@/utils/media'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,13 +70,10 @@ async function Page({ params }: PageProps) {
   }
 
   // Transform cover image
-  const coverImage =
-    post.coverImage && typeof post.coverImage === 'object'
-      ? post.coverImage.url ??
-        (post.coverImage.filename
-          ? `/api/media/file/${post.coverImage.filename}`
-          : null)
-      : null
+  const coverImage = resolveMediaSrc({
+    url: typeof post.coverImage === 'object' ? post.coverImage?.url : undefined,
+    filename: typeof post.coverImage === 'object' ? post.coverImage?.filename : undefined,
+  })
 
   const publishedAtDate = post.publishedAt ? new Date(post.publishedAt) : null
 

@@ -8,6 +8,7 @@ import type {
     GalleryImageDocument,
     GalleryItem,
 } from '@/types/gallery'
+import { resolveMediaSrc } from '@/utils/media'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -103,10 +104,10 @@ export default async function AlbumPage({ params }: PageProps) {
         .map((imgDoc) => {
             const imageMedia = typeof imgDoc.image === 'object' ? imgDoc.image : null
 
-            const src = imageMedia?.url ??
-                (imageMedia?.filename
-                    ? `/api/media/file/${imageMedia.filename}`
-                    : undefined)
+            const src = resolveMediaSrc({
+                url: imageMedia?.url,
+                filename: imageMedia?.filename,
+            })
 
             if (!src) {
                 return null
