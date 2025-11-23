@@ -12,6 +12,7 @@ import GalleryCollections from './src/collections/GalleryCollections'
 import GalleryImages from './src/collections/GalleryImages'
 import Posts from './src/collections/Posts'
 import Projects from './src/collections/Projects'
+import { LegalPages } from './src/globals/LegalPages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,6 +25,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, GalleryCollections, GalleryImages, Posts, Projects],
+  globals: [LegalPages],
   plugins: [
     s3Storage({
       enabled: process.env.NODE_ENV === 'production',

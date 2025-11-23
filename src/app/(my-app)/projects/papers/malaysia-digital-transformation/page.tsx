@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSound } from '@/hooks/useSound'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
-
 const paperData = {
   title: 'Digital Infrastructure for Malaysia: Towards People-First Technology Policies',
   author: 'miiyuh',
@@ -26,9 +24,7 @@ export default function MalaysiaDigitalTransformationPage() {
   return (
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
       {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
-      {/* Page Content */}
+            {/* Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-screen">
         <div className={`transition-all duration-1000 max-w-7xl mx-auto ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           

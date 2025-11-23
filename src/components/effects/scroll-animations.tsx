@@ -62,10 +62,10 @@ export function ScrollAnimation({
         if (entry.isIntersecting && !hasAnimated) {
           // Get animation target and properties
           setTimeout(() => {
-            const animProps: Record<string, any> = {
+            const animProps: Record<string, number | string> = {
               opacity: 1,
-              duration: duration,
-              ease: easing
+              duration,
+              easing
             }
 
             switch (animation) {

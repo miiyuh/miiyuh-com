@@ -1,12 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
-import { SOCIAL_PLATFORMS, SOCIAL_USERNAMES } from '@/constants'
 import { useEffect, useState } from 'react'
+import { SOCIAL_PLATFORMS } from '@/constants'
 import { useSound } from '@/hooks/useSound'
+import { ExternalLink } from 'lucide-react'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
+import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 
 export default function SocialsPage() {
   const [mounted, setMounted] = useState(false)
@@ -16,111 +16,90 @@ export default function SocialsPage() {
     setMounted(true)
   }, [])
 
-  // Format platform name for display
-  const formatPlatformName = (platform: string) => {
-    return platform.replace(/([A-Z])/g, ' $1').trim().toLowerCase()
+  // Helper to format platform names
+  const formatPlatformName = (name: string) => {
+    return name.charAt(0).toUpperCase() + name.slice(1).replace('_', ' ')
   }
 
   return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
+    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-hidden">
 
-      {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
-      {/* Main Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
+      {/* Page Content */}
+      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]">
 
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Breadcrumb Navigation */}
-          <nav className="w-full mb-8" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm text-[#FAF3E0]/60">
-              <li>
-                <Link 
-                  href="/" 
-                  className="hover:text-[#FAF3E0] transition-colors duration-300"
-                  data-cursor="link"
-                >
-                  miiyuh
-                </Link>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/40">/</span>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/90">socials</span>
-              </li>
-            </ol>
-          </nav>
+          <SimpleBreadcrumb
+            items={[
+              { label: 'home', href: '/' },
+              { label: 'socials' },
+            ]}
+            className="mb-16"
+          />
 
-          {/* Header Section */}
-          <div className="mb-12 text-left">
-            <div className="mb-6">
-              <h1 className="text-5xl font-bold tracking-tighter mb-4 hover:text-[#FAF3E0] transition-colors duration-300">
-                socials ✨
-              </h1>
-              
-              {/* Decorative line */}
-              <div className="w-24 h-0.5 bg-[#FAF3E0]/30 mb-6"></div>
-            </div>
-            
-            <p className="font-serif text-lg text-[#FAF3E0]/90 hover:text-[#FAF3E0] transition-colors duration-300 mb-8">
-              find me across the digital universe. connect, follow, or just say hi!
+          {/* Header */}
+          <div className="mb-20">
+            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary">
+              connect
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary max-w-xl font-light">
+              Find me across the digital landscape.
             </p>
           </div>
 
-          {/* Enhanced Social Icons Grid */}
-          <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+          {/* Staggered Grid Layout */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto w-full">
             {SOCIAL_PLATFORMS.map((social, index) => (
               <ScrollAnimation
                 key={social}
                 animation="fadeUp"
-                delay={0.05 * index}
+                delay={0.1 + (index * 0.05)}
+                className="w-full"
               >
-                <div className="group relative backdrop-blur-sm rounded-xl p-6 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer border border-[#FAF3E0]/20 hover:border-[#FAF3E0]/40 overflow-hidden">
+                <a
+                  href={`/${social}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={playClick}
+                  className="group block h-full"
+                  data-cursor="link"
+                >
+                  <div className="h-full min-h-[180px] p-6 glass-panel-pro rounded-3xl hover:border-accent-primary/30 transition-all duration-500 flex flex-col items-center justify-center gap-6 relative overflow-hidden">
 
-                  {/* Main Link */}
-                  <a
-                    href={`/${social}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={playClick}
-                    className="relative z-0 block text-center focus:outline-none"
-                    data-cursor="link"
-                  >
-                    {/* Social Media Icon */}
-                    <div className="relative mb-3">
+                    {/* Hover Gradient Background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    {/* Icon */}
+                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500">
                       <Image
                         src={`/assets/img/social_media_icons/${social}.png`}
-                        alt={social}
+                        alt={formatPlatformName(social)}
                         width={80}
                         height={80}
-                        className="mx-auto w-16 h-16 md:w-20 md:h-20 group-hover:scale-110 transition-all duration-300 group-hover:brightness-110 group-hover:-translate-y-1"
+                        className="w-16 h-16 md:w-20 md:h-20 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-lg"
                         loading="lazy"
                         quality={90}
                       />
                     </div>
 
-                    {/* Platform name */}
+                    {/* Label */}
                     <div className="relative z-10">
-                      <h3 className="font-bold text-sm mb-1 group-hover:text-[#FAF3E0] transition-colors duration-300 lowercase">
+                      <span className="font-serif text-lg text-text-muted group-hover:text-text-primary transition-colors duration-300 border-b border-transparent group-hover:border-accent-primary/50 pb-1">
                         {formatPlatformName(social)}
-                      </h3>
-                      <p className="text-xs text-[#FAF3E0]/60 group-hover:text-[#FAF3E0]/80 transition-colors duration-300 font-serif lowercase">
-                        {SOCIAL_USERNAMES[social] || '@miiyuh'}
-                      </p>
+                      </span>
                     </div>
 
-
-                  </a>
-
-
-                </div>
+                    {/* External Link Icon */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <ExternalLink className="w-4 h-4 text-accent-primary" />
+                    </div>
+                  </div>
+                </a>
               </ScrollAnimation>
             ))}
-          </section>
+          </div>
+
         </div>
-
-
       </section>
     </main>
   )

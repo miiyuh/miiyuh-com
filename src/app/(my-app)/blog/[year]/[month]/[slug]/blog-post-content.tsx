@@ -1,11 +1,11 @@
 'use client'
 
 import { useRef } from 'react'
-import { renderLexicalContent } from '@/utils/lexical-renderer'
+import { renderLexicalContent, type LexicalContent } from '@/utils/lexical-renderer'
 import { TableOfContents } from '@/components/ui/table-of-contents'
 
 type BlogPostContentProps = {
-  content: any
+  content: LexicalContent | null
 }
 
 export default function BlogPostContent({ content }: BlogPostContentProps) {
@@ -13,9 +13,9 @@ export default function BlogPostContent({ content }: BlogPostContentProps) {
   const htmlContent = renderLexicalContent(content)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
       {/* Main content */}
-      <article className="prose prose-invert max-w-none lg:col-span-3">
+      <article className="prose prose-invert max-w-none">
         <div
           ref={contentRef}
           className="lexical-content"
@@ -24,8 +24,10 @@ export default function BlogPostContent({ content }: BlogPostContentProps) {
       </article>
 
       {/* Table of contents sidebar - visible only on large screens */}
-      <div className="hidden lg:block">
-        <TableOfContents contentRef={contentRef} />
+      <div className="hidden lg:block relative h-full border-l border-white/10 pl-8">
+        <div className="sticky top-24 w-64">
+          <TableOfContents contentRef={contentRef} />
+        </div>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import ProjectsClient from './projects-client'
 
 export const dynamic = 'force-dynamic'
 
-async function generateMetadata() {
+export async function generateMetadata() {
   return {
     title: 'Projects - miiyuh',
     description: 'Creative organizations and the projects that live under them. Each represents a different focus area or creative endeavor.',

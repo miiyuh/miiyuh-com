@@ -1,13 +1,17 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Noto_Sans, Noto_Serif_JP, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
+import { Noto_Sans, Noto_Serif, Noto_Serif_JP, Instrument_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
 import Script from "next/script"
 import { AppProvider } from '@/components/layout/app-provider'
 
+import { InteractiveGridBackground } from '@/components/effects/interactive-grid-background'
+
 const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
-const notoSerif = Noto_Serif_JP({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
+const notoSerif = Noto_Serif({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
+const notoSerifJP = Noto_Serif_JP({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-noto-serif-jp', display: 'swap' })
+const instrumentSerif = Instrument_Serif({ weight: '400', subsets: ['latin'], variable: '--font-instrument-serif', display: 'swap' })
 const notoMono = Noto_Sans_Mono({ subsets: ['latin'], variable: '--font-noto-mono', display: 'swap' })
 const notoColorEmoji = Noto_Color_Emoji({ weight: '400', subsets: ['emoji'], variable: '--font-noto-color-emoji', display: 'swap' })
 
@@ -38,15 +42,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bg-[#1A1A1A] text-[#FAF3E0]">
+    <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
         {/* Preconnect to Inter font */}
         <link rel="preconnect" href="https://rsms.me/" />
         {/* Load Inter CSS */}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </head>
-      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
-        <AppProvider>{children}</AppProvider>
+      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
+        <InteractiveGridBackground />
+        <div className="relative z-10 flex flex-col min-h-screen">
+          <AppProvider>{children}</AppProvider>
+        </div>
         <Script
           src="https://rybbit.local.miiyuh.com/api/script.js"
           data-site-id="1"

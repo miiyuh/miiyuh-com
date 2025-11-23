@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import BlogClient from './blog-client'
+import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
 
 export const metadata = {
   title: 'blog - miiyuh',
@@ -14,7 +15,7 @@ export const revalidate = 0
 export default async function BlogPage() {
   const payload = await getPayload({ config })
   
-  const { docs: posts } = await payload.find({
+  const { docs } = await payload.find({
     collection: 'posts',
     where: {
       _status: {
@@ -26,11 +27,20 @@ export default async function BlogPage() {
     limit: 50,
   })
 
-  const transformedPosts = posts.map((post: any) => {
-    const coverImage = typeof post.coverImage === 'object' && post.coverImage
+  const posts = docs as BlogPostDocument[]
+
+  const transformedPosts: BlogPostCard[] = posts.map((post) => {
+    const coverImageData =
+      typeof post.coverImage === 'object' && post.coverImage ? post.coverImage : null
+
+    const coverImageUrl = coverImageData?.url ??
+      (coverImageData?.filename ? `/api/media/file/${coverImageData.filename}` : undefined)
+
+    const coverImage = coverImageUrl
       ? {
-          url: post.coverImage.url || `/api/media/file/${post.coverImage.filename}`,
-          alt: post.coverImage.alt || post.title,
+          url: coverImageUrl,
+          alt: coverImageData?.alt ?? post.title,
+          caption: coverImageData?.caption ?? undefined,
         }
       : undefined
 
@@ -38,10 +48,10 @@ export default async function BlogPage() {
       id: String(post.id),
       title: post.title,
       slug: post.slug,
-      excerpt: post.excerpt || '',
-      coverImage,
-      publishedAt: post.publishedAt || new Date().toISOString(),
-      tags: Array.isArray(post.tags) ? post.tags.map((t: any) => ({ tag: t.tag || '' })) : [],
+      excerpt: post.excerpt ?? '',
+      coverImage: coverImage?.url ? coverImage : undefined,
+      publishedAt: post.publishedAt ?? new Date().toISOString(),
+      tags: post.tags?.map((tag) => ({ tag: tag?.tag ?? '' })) ?? [],
     }
   })
 

@@ -1,6 +1,8 @@
 'use client'
 
+import * as React from 'react'
 import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface Heading {
   id: string
@@ -8,26 +10,23 @@ interface Heading {
   level: number
 }
 
-interface TableOfContentsProps {
+interface TableOfContentsProps extends React.HTMLAttributes<HTMLDivElement> {
   contentRef: React.RefObject<HTMLDivElement | HTMLElement | null>
 }
 
-export function TableOfContents({ contentRef }: TableOfContentsProps) {
+export function TableOfContents({ contentRef, className, ...props }: TableOfContentsProps) {
   const [headings, setHeadings] = useState<Heading[]>([])
   const [activeId, setActiveId] = useState<string>('')
 
   useEffect(() => {
     if (!contentRef.current) return
 
-    // Small delay to ensure DOM is fully rendered
     const timer = setTimeout(() => {
-      // Extract headings from the content
       const headingElements = Array.from(
-        contentRef.current?.querySelectorAll('h1, h2, h3, h4, h5, h6') || []
+        contentRef.current?.querySelectorAll('h1, h2, h3, h4') || []
       ) as HTMLHeadingElement[]
 
       const extractedHeadings: Heading[] = headingElements.map((el, index) => {
-        // Generate ID if not present
         if (!el.id) {
           el.id = `heading-${index}`
         }
@@ -42,7 +41,6 @@ export function TableOfContents({ contentRef }: TableOfContentsProps) {
 
       setHeadings(extractedHeadings)
 
-      // Set up intersection observer to track active heading
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -51,7 +49,7 @@ export function TableOfContents({ contentRef }: TableOfContentsProps) {
             }
           })
         },
-        { rootMargin: '-50% 0px -50% 0px' }
+        { rootMargin: '0% 0px -80% 0px' }
       )
 
       headingElements.forEach((el) => observer.observe(el))
@@ -67,7 +65,7 @@ export function TableOfContents({ contentRef }: TableOfContentsProps) {
   const handleClick = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      const headerOffset = 90 // Account for header height
+      const headerOffset = 100
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
       const offsetPosition = elementPosition - headerOffset
 
@@ -79,31 +77,66 @@ export function TableOfContents({ contentRef }: TableOfContentsProps) {
   }
 
   return (
-    <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pr-4">
-      <nav className="space-y-2">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#FAF3E0]/60 mb-4">
-          On this page
-        </h3>
-        <ul className="space-y-2 text-sm">
-          {headings.map((heading) => (
-            <li
-              key={heading.id}
-              style={{ marginLeft: `${(heading.level - 1) * 0.75}rem` }}
-            >
-              <button
-                onClick={() => handleClick(heading.id)}
-                className={`transition-colors duration-200 text-left hover:text-[#FAF3E0] ${
-                  activeId === heading.id
-                    ? 'text-[#FAF3E0] font-medium'
-                    : 'text-[#FAF3E0]/60'
-                }`}
-              >
-                {heading.text}
-              </button>
+    <div className={cn("", className)} {...props}>
+      <h5 className="text-text-primary font-semibold mb-4 text-sm leading-6">On this page</h5>
+      <ul className="text-text-secondary text-sm leading-6">
+        {headings.map((heading) => {
+          const isActive = activeId === heading.id
+          const isNested = heading.level > 2
+
+          return (
+            <li key={heading.id} className={cn(isNested && "ml-4")}>
+              {isNested ? (
+                <a
+                  href={`#${heading.id}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleClick(heading.id)
+                  }}
+                  className={cn(
+                    "group flex items-start py-1 transition-colors",
+                    isActive
+                      ? "text-accent-primary"
+                      : "hover:text-text-primary"
+                  )}
+                >
+                  <svg
+                    width="3"
+                    height="24"
+                    viewBox="0 -9 3 24"
+                    className="mr-2 text-text-muted overflow-visible group-hover:text-text-secondary"
+                  >
+                    <path
+                      d="M0 0L3 3L0 6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  {heading.text}
+                </a>
+              ) : (
+                <a
+                  href={`#${heading.id}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleClick(heading.id)
+                  }}
+                  className={cn(
+                    "block py-1 font-medium transition-colors",
+                    isActive
+                      ? "text-accent-primary"
+                      : "hover:text-text-primary"
+                  )}
+                >
+                  {heading.text}
+                </a>
+              )}
             </li>
-          ))}
-        </ul>
-      </nav>
+          )
+        })}
+      </ul>
     </div>
   )
 }

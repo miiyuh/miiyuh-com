@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSound } from '@/hooks/useSound'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
-
 const paperData = {
   title: 'Sustainable Technology: Reducing the Environmental Impact of Software Development',
   author: 'miiyuh',
@@ -26,9 +24,7 @@ export default function SustainableTechPaperPage() {
   return (
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
       {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
-      {/* Page Content */}
+            {/* Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           

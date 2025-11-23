@@ -16,7 +16,6 @@ export { TableOfContents } from './ui/table-of-contents'
 export { TypewriterText, AnimatedHeading } from './effects/animated-text'
 export { ScrollAnimation } from './effects/scroll-animations'
 export { ParallaxElement } from './effects/parallax-effects'
-export { InteractiveDotsBackground } from './effects/interactive-dots-background'
 export { ReadingProgressBar } from './effects/reading-progress-bar'
 
 // Debug components (only for development)

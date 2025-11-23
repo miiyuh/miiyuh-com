@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
-
 export default function TwoAlphaPage() {
   const [mounted, setMounted] = useState(false)
   const playClick = useSound('/sounds/click.mp3', 0.7)
@@ -18,9 +16,7 @@ export default function TwoAlphaPage() {
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
 
       {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
-      {/* Page Content */}
+            {/* Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh]">
 
         {/* Breadcrumb Navigation - Top */}

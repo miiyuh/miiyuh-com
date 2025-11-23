@@ -3,12 +3,6 @@
 
 import { notFound } from 'next/navigation'
 
-type Args = {
-  params?: Promise<{
-    segments: string[]
-  }>
-}
-
-export default async function NotFound({ params }: Args) {
+export default async function NotFound() {
   notFound()
 }

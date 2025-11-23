@@ -8,8 +8,6 @@ import { NAVIGATION_LINKS } from '@/constants'
 import { useEffect, useState, useRef } from 'react'
 import { TypewriterText } from '@/components/effects/animated-text'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
-
 export default function HomePage() {  const playClick = useSound('/sounds/click.mp3', 0.7)
   const [mounted, setMounted] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -58,9 +56,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
       </Head>
 
       {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
-      {/* Main full height container */}
+            {/* Main full height container */}
       <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
         {/* Inner content centered */}
         <div className={`flex flex-col items-center justify-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>

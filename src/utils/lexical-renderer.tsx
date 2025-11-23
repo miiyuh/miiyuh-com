@@ -1,35 +1,69 @@
 // Simple Lexical to HTML renderer for blog posts
 // This converts Lexical's JSON format into readable HTML
 
-type LexicalNode = {
-  type: string
+type LexicalBaseNode = {
   children?: LexicalNode[]
-  text?: string
-  format?: number
   tag?: string
-  url?: string
-  src?: string
-  alt?: string
-  direction?: string | null
-  indent?: number
-  version?: number
 }
 
-type LexicalContent = {
+type LexicalTextNode = LexicalBaseNode & {
+  type: 'text'
+  text: string
+  format?: number
+}
+
+type LexicalElementNode = LexicalBaseNode & {
+  type: 'root' | 'paragraph' | 'heading' | 'list' | 'listitem' | 'quote' | 'linebreak' | 'code'
+}
+
+type LexicalLinkNode = LexicalBaseNode & {
+  type: 'link'
+  url?: string
+}
+
+type LexicalImageNode = LexicalBaseNode & {
+  type: 'image'
+  src?: string
+  url?: string
+  alt?: string
+  altText?: string
+  caption?: string
+}
+
+type LexicalUploadNode = LexicalBaseNode & {
+  type: 'upload'
+  value?: {
+    url?: string
+    src?: string
+    alt?: string
+    caption?: string
+  }
+  src?: string
+  alt?: string
+  caption?: string
+}
+
+type LexicalNode =
+  | LexicalTextNode
+  | LexicalElementNode
+  | LexicalLinkNode
+  | LexicalImageNode
+  | LexicalUploadNode
+
+export type LexicalContent = {
   root?: LexicalNode
 }
 
-export function renderLexicalContent(content: any): string {
+export function renderLexicalContent(content: LexicalContent | null | undefined): string {
   if (!content || typeof content !== 'object') {
     return ''
   }
 
-  const lexicalContent = content as LexicalContent
-  if (!lexicalContent.root || !lexicalContent.root.children) {
+  if (!content.root || !content.root.children) {
     return ''
   }
 
-  return renderNode(lexicalContent.root)
+  return renderNode(content.root)
 }
 
 function renderNode(node: LexicalNode): string {
@@ -38,7 +72,7 @@ function renderNode(node: LexicalNode): string {
   // Text node
   if (node.type === 'text' && node.text) {
     let text = node.text
-    
+
     // Apply formatting based on format bitmask
     if (node.format) {
       if (node.format & 1) text = `<strong>${text}</strong>` // Bold
@@ -47,7 +81,7 @@ function renderNode(node: LexicalNode): string {
       if (node.format & 8) text = `<u>${text}</u>` // Underline
       if (node.format & 16) text = `<code>${text}</code>` // Code
     }
-    
+
     return text
   }
 
@@ -79,8 +113,7 @@ function renderNode(node: LexicalNode): string {
       return `<blockquote>${childrenHtml}</blockquote>`
 
     case 'link':
-      const url = (node as any).url || '#'
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${childrenHtml}</a>`
+      return `<a href="${node.url || '#'}" target="_blank" rel="noopener noreferrer">${childrenHtml}</a>`
 
     case 'linebreak':
       return '<br>'
@@ -88,16 +121,26 @@ function renderNode(node: LexicalNode): string {
     case 'code':
       return `<pre><code>${childrenHtml}</code></pre>`
 
-    case 'image':
-      const src = (node as any).src || (node as any).url || ''
-      const alt = (node as any).alt || (node as any).altText || 'Image'
-      return `<img src="${src}" alt="${alt}" style="max-width: 100%; height: auto; margin: 1rem 0; border-radius: 0.5rem;" />`
+    case 'image': {
+      const src = node.src || node.url || ''
+      const alt = node.alt || node.altText || 'Image'
+      const caption = node.caption || ''
+      return `<div class="my-8">
+        <img src="${src}" alt="${alt}" class="w-full h-auto rounded-2xl glass-panel-pro" />
+        ${caption ? `<p class="mt-2 text-left text-sm text-text-secondary font-mono" style="font-family: 'Noto Sans Mono', monospace">${caption}</p>` : ''}
+      </div>`
+    }
 
-    case 'upload':
+    case 'upload': {
       // Handle upload nodes (Payload's image upload type)
-      const uploadSrc = (node as any).value?.url || (node as any).value?.src || (node as any).src || ''
-      const uploadAlt = (node as any).value?.alt || (node as any).alt || 'Image'
-      return `<img src="${uploadSrc}" alt="${uploadAlt}" style="max-width: 100%; height: auto; margin: 1rem 0; border-radius: 0.5rem;" />`
+      const uploadSrc = node.value?.url || node.value?.src || node.src || ''
+      const uploadAlt = node.value?.alt || node.alt || 'Image'
+      const uploadCaption = node.value?.caption || node.caption || ''
+      return `<div class="my-8">
+        <img src="${uploadSrc}" alt="${uploadAlt}" class="w-full h-auto rounded-2xl glass-panel-pro" />
+        ${uploadCaption ? `<p class="mt-2 text-left text-sm text-text-secondary font-mono" style="font-family: 'Noto Sans Mono', monospace">${uploadCaption}</p>` : ''}
+      </div>`
+    }
 
     default:
       return childrenHtml

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSound } from '@/hooks/useSound'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
+import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 
 const paperData = {
   title: 'Ethical Considerations in Modern AI Development',
@@ -26,56 +26,20 @@ export default function AIEthicsPaperPage() {
   return (
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative min-h-screen">
       {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
       {/* Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12">
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          
+
           {/* Breadcrumb Navigation */}
-          <nav className="w-full mb-6" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm text-[#FAF3E0]/60">
-              <li>
-                <Link 
-                  href="/" 
-                  className="hover:text-[#FAF3E0] transition-colors duration-300"
-                  onClick={playClick}
-                >
-                  miiyuh
-                </Link>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/40">/</span>
-              </li>
-              <li>
-                <Link 
-                  href="/projects" 
-                  className="hover:text-[#FAF3E0] transition-colors duration-300"
-                  onClick={playClick}
-                >
-                  projects
-                </Link>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/40">/</span>
-              </li>
-              <li>
-                <Link 
-                  href="/projects/papers" 
-                  className="hover:text-[#FAF3E0] transition-colors duration-300"
-                  onClick={playClick}
-                >
-                  papers
-                </Link>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/40">/</span>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/90">ai ethics</span>
-              </li>
-            </ol>
-          </nav>
+          <SimpleBreadcrumb
+            items={[
+              { label: 'home', href: '/' },
+              { label: 'projects', href: '/projects' },
+              { label: 'papers', href: '/projects/papers' },
+              { label: 'ai ethics' },
+            ]}
+            className="mb-16"
+          />
 
           {/* Back button */}
           <div className="w-full mb-8">
@@ -93,11 +57,11 @@ export default function AIEthicsPaperPage() {
 
           {/* Paper Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-            
+
             {/* Left Column - Paper Information */}
             <div className="lg:sticky lg:top-24 lg:self-start">
               <div className="bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-8 border border-[#FAF3E0]/10">
-                
+
                 {/* Paper Title */}
                 <h1 className="text-3xl font-bold tracking-tight mb-4 text-[#FAF3E0] leading-tight">
                   {paperData.title}
@@ -126,7 +90,7 @@ export default function AIEthicsPaperPage() {
                   <h3 className="text-lg font-semibold mb-3 text-[#FAF3E0]">Keywords</h3>
                   <div className="flex flex-wrap gap-2">
                     {paperData.keywords.map((keyword) => (
-                      <span 
+                      <span
                         key={keyword}
                         className="px-3 py-1 bg-[#FAF3E0]/10 rounded-full text-xs text-[#FAF3E0]/80 font-mono"
                       >
@@ -158,7 +122,7 @@ export default function AIEthicsPaperPage() {
                 <div className="p-4 border-b border-[#FAF3E0]/20">
                   <h3 className="text-lg font-semibold text-[#FAF3E0]">Paper Preview</h3>
                 </div>
-                
+
                 {/* PDF Viewer Container */}
                 <div className="relative bg-white rounded-b-lg" style={{ height: '80vh' }}>
                   {/* PDF Embed */}
@@ -167,7 +131,7 @@ export default function AIEthicsPaperPage() {
                     className="w-full h-full rounded-b-lg"
                     title={`${paperData.title} PDF`}
                   />
-                  
+
                   {/* Fallback message if PDF doesn't load */}
                   <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-600 rounded-b-lg">
                     <div className="text-center">

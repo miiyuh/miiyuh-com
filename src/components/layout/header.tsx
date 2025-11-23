@@ -21,23 +21,23 @@ export default function Header() {
   }
 
   return (
-    <header className="px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
+    <header className="bg-[#070707] px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
       <div className="flex items-center justify-between">
         {/* Logo */}        <Link href="/" onClick={playClick}>
-          <Image 
-            src="/assets/img/logo_miiyuh_v4-white.png" 
-            alt="miiyuh - return to homepage" 
-            width={160} 
-            height={40} 
-            className="h-10 w-auto" 
+          <Image
+            src="/assets/img/logo_miiyuh_v4-white.png"
+            alt="miiyuh - return to homepage"
+            width={160}
+            height={40}
+            className="h-10 w-auto"
             priority
             quality={90}
           />
         </Link>
 
         {/* Hamburger */}
-        <button 
-          onClick={toggleMenu} 
+        <button
+          onClick={toggleMenu}
           className="lg:hidden focus:outline-none z-50"
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
@@ -46,7 +46,7 @@ export default function Header() {
             <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>        {/* Desktop Menu */}
-        <ul className="hidden lg:flex gap-6 text-sm font-bold">
+        <ul className="hidden lg:flex gap-6 text-lg font-bold font-serif">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} onClick={playClick} className="hover:underline">
@@ -55,12 +55,13 @@ export default function Header() {
             </li>
           ))}
         </ul>
-      </div>      {/* Mobile Menu */}
-      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} lg:hidden`}>
-        <div className="pt-4"></div>        <ul className="flex flex-col gap-4 text-sm font-bold bg-[#1A1A1A] px-4 py-4 border-t border-[#FAF3E0]/20">
+      </div>
+      {/* Mobile Menu */}
+      <div className={`fixed inset-0 z-40 bg-[#070707] transition-all duration-500 ease-in-out flex flex-col justify-center items-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} lg:hidden`}>
+        <ul className="flex flex-col gap-8 text-4xl font-serif font-bold text-center">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} onClick={handleMobileLinkClick} className="hover:underline">
+              <Link href={link.href} onClick={handleMobileLinkClick} className="hover:text-accent-primary transition-colors">
                 {link.label}
               </Link>
             </li>

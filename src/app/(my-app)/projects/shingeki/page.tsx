@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSound } from '@/hooks/useSound'
-import { InteractiveDotsBackground } from '@/components/effects/interactive-dots-background'
+import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 
 export default function ShingekiPage() {
   const [mounted, setMounted] = useState(false)
@@ -18,45 +18,20 @@ export default function ShingekiPage() {
     <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] font-sans relative">
 
       {/* Interactive dots background */}
-      <InteractiveDotsBackground />
-
       {/* Page Content */}
       <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-12 min-h-[70vh] flex items-center justify-start">
 
         <div className={`flex flex-col items-start text-left transition-all duration-1000 max-w-2xl ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          
+
           {/* Breadcrumb Navigation */}
-          <nav className="w-full mb-6" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm text-[#FAF3E0]/60">
-              <li>
-                <Link 
-                  href="/" 
-                  className="hover:text-[#FAF3E0] transition-colors duration-300"
-                  onClick={playClick}
-                >
-                  miiyuh
-                </Link>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/40">/</span>
-              </li>
-              <li>
-                <Link 
-                  href="/projects" 
-                  className="hover:text-[#FAF3E0] transition-colors duration-300"
-                  onClick={playClick}
-                >
-                  projects
-                </Link>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/40">/</span>
-              </li>
-              <li>
-                <span className="text-[#FAF3E0]/90">shingeki</span>
-              </li>
-            </ol>
-          </nav>
+          <SimpleBreadcrumb
+            items={[
+              { label: 'home', href: '/' },
+              { label: 'projects', href: '/projects' },
+              { label: 'shingeki' },
+            ]}
+            className="mb-16"
+          />
 
           {/* Back button */}
           <div className="w-full mb-8">
@@ -74,7 +49,7 @@ export default function ShingekiPage() {
 
           {/* Organization Logo/Image */}
           <div className="w-48 h-48 bg-[#FAF3E0]/10 rounded-lg flex items-center justify-center mb-8 group hover:bg-[#FAF3E0]/15 transition-all duration-300 overflow-hidden">
-            <Image 
+            <Image
               src="/assets/img/projects/shingeki-logo.png"
               alt="studio shingeki logo"
               width={192}
@@ -87,9 +62,9 @@ export default function ShingekiPage() {
           <h1 className="text-4xl font-bold tracking-tighter mb-4 hover:text-[#FAF3E0] transition-colors duration-300">
             studio shingeki
           </h1>
-          
+
           <p className="font-serif text-lg text-[#FAF3E0]/90 hover:text-[#FAF3E0] transition-colors duration-300 mb-8">
-            Attack on Titan inspired creative works and projects. This organization focuses on strategic gameplay, 
+            Attack on Titan inspired creative works and projects. This organization focuses on strategic gameplay,
             immersive storytelling, and capturing the epic scale of humanity&apos;s struggle.
           </p>
 

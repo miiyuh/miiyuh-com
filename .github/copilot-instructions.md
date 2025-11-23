@@ -1,98 +1,99 @@
 # Copilot Instructions for miiyuh.com
 
-This is a Next.js 15 personal portfolio website with a focus on photography, artwork, and interactive animations. Built with App Router, TypeScript, and Tailwind CSS 4.
+This repository is a **Next.js 15** personal portfolio focused on photography, artwork, and interactive animations. It uses **TypeScript**, **Tailwind CSS v4**, and the **App Router**.
 
-## Architecture Overview
+## Project Structure
+- `src/app/(my-app)/` – All route folders (blog, projects, socials, etc.)
+- `src/components/` – UI components, split into sub‑folders:
+  - `layout/` – Header, Footer, RootLayout
+  - `ui/` – Reusable UI primitives (Button, Card, Combobox, etc.)
+  - `effects/` – Animation and visual effects (ScrollAnimation, InteractiveDotsBackground, EncryptedText)
+  - `debug/` – Development helpers
+- `src/constants/` – Centralised navigation links, social platform list, theme colors
+- `public/` – Static assets (images, sounds, PDFs)
+- `.github/` – CI/CD and Copilot configuration
 
-### Core Design System
-- **Theme**: Dark aesthetic with `#1A1A1A` background and `#FAF3E0` cream text
-- **Fonts**: Inter (primary) + Noto family (Sans, Serif, Mono, Color Emoji) with emoji fallback support
-- **Component Organization**: Categorized by purpose (`layout/`, `ui/`, `effects/`, `debug/`)
-- **Constants**: Centralized in `src/constants/index.ts` for navigation links and social platforms
+## Core Design System
+- **Theme**: Dark aesthetic with `#070707` primary background and subtle glass‑morphism panels.
+- **Typography**: Inter (primary) and Noto families loaded via Next.js Google Fonts with `display: 'swap'`. Emoji fallback hierarchy: Apple → Noto → Segoe UI.
+- **Colors**: Defined in `src/styles/theme.css` using HSL variables for easy theming.
+- **Spacing**: Tailwind spacing scale, with custom utilities for glass panels (`glass-panel-pro`).
 
-### Key Architectural Patterns
-
-1. **Client-First Interactivity**: Most components use `'use client'` for animations and sound effects
-2. **Sound Integration**: Custom `useSound` hook with iOS compatibility and graceful fallbacks
-3. **Gallery System**: LightGallery integration with JSON-driven configuration (`public/gallery.json`)
-4. **Hash Navigation**: `HeadingWithHash` component provides GitHub-style section linking with copy-to-clipboard
-
-## Development Workflows
-
-### Scripts & Commands
+## Development Workflow
 ```bash
-npm run dev          # Development with Turbopack
-npm run build        # Production build
-npm run lint:fix     # Auto-fix ESLint issues
-npm run type-check   # TypeScript validation
+# Install dependencies
+pnpm install
+
+# Development server (TurboPack)
+pnpm run dev
+
+# Production build
+pnpm run build
+
+# Lint and auto‑fix
+pnpm run lint:fix
+
+# TypeScript check
+pnpm run type-check
+
+# Clean build artifacts (uses npx rimraf for cross‑platform compatibility)
+pnpm run clean
 ```
 
-### Font Loading Strategy
-- Inter font loaded via external CSS link (rsms.me) with preconnect
-- Noto fonts via Next.js Google Fonts with `display: 'swap'`
-- Emoji fallback hierarchy: Apple → Noto → Segoe UI
+### `package.json` scripts (relevant excerpt)
+```json
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "lint": "next lint",
+  "lint:fix": "next lint --fix",
+  "type-check": "tsc --noEmit",
+  "clean": "npx rimraf .next"
+}
+```
+> **Note**: The original `clean` script used the global `rimraf` command, which is not available on Windows. Using `npx rimraf` ensures the command works without a global install.
 
-## Project-Specific Conventions
+## Key Architectural Patterns
+1. **Client‑First Interactivity** – All interactive components start with `'use client'`.
+2. **Sound Integration** – `useSound` hook wraps Howler.js with iOS gesture handling.
+3. **Gallery System** – LightGallery initialized via `src/utils/gallery-loader.ts` using data from `public/gallery.json`.
+4. **Hash Navigation** – `HeadingWithHash` provides GitHub‑style anchors with copy‑to‑clipboard.
 
-### Component Patterns
-```typescript
-// All interactive components start with 'use client'
+## Component Conventions
+```tsx
+// Example pattern for interactive components
 'use client'
+import { useState, useEffect } from 'react'
+import useSound from '@/hooks/useSound'
 
-// Sound integration pattern
-const playClick = useSound('/sounds/click.mp3', 0.7)
+export default function ComponentName() {
+  const playClick = useSound('/sounds/click.mp3', 0.7)
+  const [state, setState] = useState(initialValue)
 
-// Mouse interaction with state management
-const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  // ...component logic
+}
 ```
+- Export components from `src/components/index.ts` for clean imports.
+- Prefer Tailwind utility classes over custom CSS; only add bespoke styles when necessary.
 
-### Gallery Implementation
-- Images stored in `public/assets/img/` with organized subdirectories
-- Gallery data in `public/gallery.json` with `src`, `title`, `description` structure
-- LightGallery initialization via `src/utils/gallery-loader.ts` with plugin management
+## Animation System
+- **InteractiveDotsBackground** – Canvas‑based mouse‑following dot grid.
+- **ScrollAnimation** – IntersectionObserver wrapper for reveal animations.
+- **EncryptedText** – Typing‑like decryption effect (no unused state variables).
 
-### Animation System
-- `InteractiveDotsBackground`: Canvas-based mouse-following dot grid
-- `TypewriterText`: Character-by-character text animation
-- `ScrollAnimation`: Intersection Observer-based reveal animations
-- 3D logo parallax with mouse tracking and tilt limitations (±15 degrees)
-
-## Critical Integration Points
-
-### External Dependencies
-- **Vercel Analytics & Speed Insights**: Integrated in root layout
-- **LightGallery**: Comprehensive plugin loading (zoom, thumbnail, fullscreen, rotate, share)
-- **Howler.js**: Audio with iOS/mobile compatibility handling
-- **Tailwindcss-motion**: Animation utilities plugin
-
-### Asset Management
-- Images optimized with WebP/AVIF formats and 1-year cache TTL
-- PDF storage in `public/papers/` for academic showcase
-- Sound effects from `/sounds/` directory with preload strategies
-
-### SEO & Meta
-- Comprehensive OpenGraph implementation in layout
-- Social media integration with 15+ platforms via constants mapping
-- Sitemap and robots.txt for search engine optimization
-
-## File Structure Significance
-
-- `src/app/projects/`: Nested routes for personal organizations (shingeki, 2alpha, miyabi) and academic work
-- `src/components/index.ts`: Centralized exports for clean imports
-- `public/gallery.json`: Single source of truth for all gallery collections
-- Legal pages use sticky TOC and hash navigation patterns
-
-## Development Notes
-
-- All component exports centralized through `src/components/index.ts`
-- iOS audio handling requires user gesture acknowledgment (graceful degradation)
-- Gallery reinitializes on navigation to prevent memory leaks
-- Custom cursor implementation with DOM manipulation
-- Emoji components handle cross-platform compatibility issues
+## SEO & Meta
+- OpenGraph and Twitter cards are defined in `src/app/layout.tsx`.
+- Each page exports a `generateMetadata` function for dynamic titles/descriptions.
+- Sitemap and `robots.txt` are generated via `next-sitemap`.
 
 ## Testing & Debugging
+- Font debugging route at `/font-debug`.
+- Performance utilities in `src/utils/performance.ts`.
+- Global error boundaries in `src/components/debug/ErrorBoundary.tsx`.
 
-- Font debugging component available at `/font-debug` route
-- Performance monitoring via `src/utils/performance.ts`
-- Error boundaries implemented for graceful failure handling
-- Console debugging for audio failures (common on iOS)
+## CI / GitHub Actions
+- Lint, type‑check, and build run on each PR.
+- Deploy to Vercel on merge to `main`.
+
+---
+*This file is kept up‑to‑date to guide Copilot and contributors on the project's conventions and tooling.*
