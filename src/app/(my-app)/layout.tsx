@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { Noto_Sans, Noto_Serif, Noto_Serif_JP, Instrument_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
-import Script from "next/script"
 import { AppProvider } from '@/components/layout/app-provider'
 
 import { InteractiveGridBackground } from '@/components/effects/interactive-grid-background'
@@ -54,12 +53,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 flex flex-col min-h-screen">
           <AppProvider>{children}</AppProvider>
         </div>
-        <Script
-          src="https://rybbit.local.miiyuh.com/api/script.js"
-          data-site-id="1"
-          defer
-          strategy="beforeInteractive"
-        />
         <SpeedInsights />
         <Analytics />
       </body>
