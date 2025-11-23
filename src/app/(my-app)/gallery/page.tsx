@@ -19,6 +19,8 @@ export const metadata = {
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
+const PREVIEW_IMAGE_LIMIT = 3
+
 export default async function GalleryPage() {
   const payload = await getPayload({ config })
   
@@ -35,11 +37,7 @@ export default async function GalleryPage() {
 
   const collections = collectionDocs as GalleryCollectionDocument[]
 
-  type CollectionWithImages = GalleryCollectionDocument & {
-    images: GalleryImageDocument[]
-  }
-
-  const collectionsWithImages: CollectionWithImages[] = await Promise.all(
+  const previewEntries = await Promise.all(
     collections.map(async (collection) => {
       const { docs: imageDocs } = await payload.find({
         collection: 'gallery-images',
@@ -59,52 +57,51 @@ export default async function GalleryPage() {
         },
         depth: 1,
         sort: 'displayOrder',
+        limit: PREVIEW_IMAGE_LIMIT,
       })
 
       const images = imageDocs as GalleryImageDocument[]
 
+      const previewItems = images
+        .map((imgDoc) => {
+          const imageMedia =
+            imgDoc.image && typeof imgDoc.image === 'object'
+              ? imgDoc.image
+              : null
+
+          const src = resolveMediaSrc({
+            url: imageMedia?.url,
+            filename: imageMedia?.filename,
+          })
+
+          if (!src) {
+            return null
+          }
+
+          return {
+            src,
+            title: imgDoc.title ?? imageMedia?.alt ?? '',
+            description: imgDoc.description ?? imageMedia?.caption ?? '',
+          }
+        })
+        .filter((item): item is GalleryItem => Boolean(item))
+
       return {
-        ...collection,
-        images,
+        slug: collection.slug,
+        items: previewItems,
       }
     })
   )
 
   const galleryData: GalleryDataMap = {}
   
-  collectionsWithImages.forEach((collection) => {
-    if (collection.images.length === 0) return
-
-    const items = collection.images
-      .map((imgDoc) => {
-        const imageMedia =
-          imgDoc.image && typeof imgDoc.image === 'object'
-            ? imgDoc.image
-            : null
-
-        const src = resolveMediaSrc({
-          url: imageMedia?.url,
-          filename: imageMedia?.filename,
-        })
-
-        if (!src) {
-          return null
-        }
-
-        return {
-          src,
-          title: imgDoc.title ?? imageMedia?.alt ?? '',
-          description: imgDoc.description ?? imageMedia?.caption ?? '',
-        }
-      })
-      .filter((item): item is GalleryItem => Boolean(item))
-
+  previewEntries.forEach(({ slug, items }) => {
     if (items.length > 0) {
-      galleryData[collection.slug] = items
+      galleryData[slug] = items
     }
   })
 
-  const clientCollections: GalleryCollectionSummary[] = collectionsWithImages.map((collection) => ({
+  const clientCollections: GalleryCollectionSummary[] = collections.map((collection) => ({
     id: String(collection.id),
     slug: collection.slug,
     title: collection.title,

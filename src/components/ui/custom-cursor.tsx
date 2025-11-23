@@ -192,7 +192,7 @@ export function CustomCursor({ className = '' }: CustomCursorProps) {
 
   return (
     <div
-      className={`fixed pointer-events-none z-[9999] transition-transform duration-75 ease-out ${className}`}
+      className={`fixed pointer-events-none z-9999 transition-transform duration-75 ease-out ${className}`}
       style={getCursorStyle()}
       role="presentation"
       aria-hidden="true"

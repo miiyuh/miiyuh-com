@@ -1,114 +1,105 @@
 'use client'
 
+const notoSansStack = "var(--font-noto-sans), 'Noto Sans', 'Inter', sans-serif"
+
 export default function FontTestPage() {
-  return (
-    <main className="flex flex-col bg-[#1A1A1A] text-[#FAF3E0] min-h-screen p-8 relative">
-      {/* Interactive dots background */}
-            <div className="max-w-4xl mx-auto relative z-10">
-        <h1 className="text-4xl font-bold mb-8">Font Test Page</h1>
-        
-        <div className="space-y-6">
-          {/* Inter (Default Sans) */}
-          <div className="border border-[#FAF3E0]/20 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">Inter Font (Default Sans)</h2>
-            <p className="text-lg">
-              This text uses Inter font as the default sans-serif font. 
-              Inter is designed for user interfaces with excellent readability.
-              123456789 !@#$%^&*()
-            </p>
-            <p className="font-sans text-lg mt-2">
-              This text explicitly uses font-sans class with Inter.
-            </p>
-          </div>
-
-          {/* Noto Serif */}
-          <div className="border border-[#FAF3E0]/20 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">Noto Serif Font</h2>
-            <p className="font-serif text-lg">
-              This text uses Noto Serif font for elegant and readable body text.
-              Perfect for longer paragraphs and traditional typography.
-              123456789 !@#$%^&*()
-            </p>
-          </div>
-
-          {/* Noto Mono */}
-          <div className="border border-[#FAF3E0]/20 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">Noto Mono Font</h2>
-            <p className="font-mono text-lg">
-              This text uses Noto Mono font for code and monospaced content.
-              const example = &quot;Hello World&quot;;
-              function test() {'{'} return true; {'}'}
-              123456789 !@#$%^&*()
-            </p>
-          </div>
-
-          {/* Noto Color Emoji */}
-          <div className="border border-[#FAF3E0]/20 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">Noto Color Emoji Font</h2>
-            <p className="font-emoji text-lg">
-              This text uses Noto Color Emoji font.
-              🎨 📸 🍁 🇯🇵 💻 🎮 🎵 ⭐ 🌟 ✨ 🔥 💜 ❤️ 🧡 💛 💚 💙
-            </p>
-          </div>          {/* Mixed fonts in one paragraph */}
-          <div className="border border-[#FAF3E0]/20 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">Mixed Fonts Example</h2>
-            <p className="text-lg">
-              This paragraph uses <span className="font-sans">Inter (sans)</span>, 
-              <span className="font-serif"> Noto Serif</span>, 
-              <span className="font-mono"> Noto Mono code</span>, and 
-              <span className="font-emoji">🎉 emojis 🚀</span> together.
-            </p>
-          </div>
-
-          {/* Comprehensive Emoji Test */}
-          <div className="border border-[#FAF3E0]/20 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">Comprehensive Emoji Test (should all use Noto Color Emoji)</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-bold mb-2">Default text with emojis (no explicit font class):</h3>
-                <p className="text-lg">
-                  😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold mb-2">font-sans with emojis:</h3>
-                <p className="font-sans text-lg">
-                  🎨 🎭 🎪 🎬 🎤 🎧 🎼 🎵 🎶 🎸 🥁 🎹 🎺 🎻 🎲 🎯 🎳 🎮 🎰 🧩
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold mb-2">font-serif with emojis:</h3>
-                <p className="font-serif text-lg">
-                  🌍 🌎 🌏 🌐 🗺️ 🗾 🧭 🏔️ ⛰️ 🌋 🗻 🏕️ 🏖️ 🏜️ 🏝️ 🏞️ 🏟️ 🏛️ 🏗️ 🧱
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold mb-2">font-mono with emojis:</h3>
-                <p className="font-mono text-lg">
-                  💻 🖥️ 🖨️ ⌨️ 🖱️ 🖲️ 💽 💾 💿 📀 📱 📲 ☎️ 📞 📟 📠 📺 📻 🎙️ 🎚️
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold mb-2">Explicit font-emoji class:</h3>
-                <p className="font-emoji text-lg">
-                  🇯🇵 🇺🇸 🇬🇧 🇫🇷 🇩🇪 🇮🇹 🇪🇸 🇨🇦 🇦🇺 🇰🇷 🇨🇳 🇮🇳 🇧🇷 🇲🇽 🇷🇺
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold mb-2">Complex emoji sequences:</h3>
-                <p className="text-lg">
-                  👨‍💻 👩‍💻 👨‍🎨 👩‍🎨 👨‍🏫 👩‍🏫 👨‍🔬 👩‍🔬 👨‍⚕️ 👩‍⚕️ 👨‍🚀 👩‍🚀
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold mb-2">Skin tone variations:</h3>
-                <p className="text-lg">
-                  👋 👋🏻 👋🏼 👋🏽 👋🏾 👋🏿 👍 👍🏻 👍🏼 👍🏽 👍🏾 👍🏿
-                </p>
-              </div>
-            </div>
-          </div>
+  const specimens = [
+    {
+      title: 'Inter UI Sans',
+      description: 'Primary interface font for navigation, controls, and body copy when no overrides are present.',
+      content: (
+        <p className="font-sans text-lg leading-relaxed">
+          Inter keeps dense UI layouts legible. The quick brown fox jumps over 0123456789 widgets &amp; toggles.
+        </p>
+      ),
+    },
+    {
+      title: 'Instrument Serif Headlines',
+      description: 'Applied via .font-serif on non-paragraph elements for dramatic hero typography.',
+      content: (
+        <div className="font-serif text-4xl tracking-tight">
+          Vaporwave Chronicles · Stories that feel like late-night radio.
         </div>
+      ),
+    },
+    {
+      title: 'Noto Serif JP Paragraphs',
+      description: 'Paragraph tags using .font-serif flip to the Noto Serif JP stack for bilingual content.',
+      content: (
+        <p className="font-serif text-lg leading-8">
+          The journal entries mix English narration with 日本語のスニペット to keep the tone authentic.
+        </p>
+      ),
+    },
+    {
+      title: 'Noto Sans Mono',
+      description: 'Used for code samples, metadata, and caption blocks that demand strict alignment.',
+      content: (
+        <pre className="font-mono text-sm bg-white/5 border border-white/10 p-4 rounded">
+{`export const lens = {
+  brand: 'Leica',
+  focal: 28,
+}
+`}
+        </pre>
+      ),
+    },
+    {
+      title: 'Emoji Stack',
+      description: 'font-emoji ensures Apple → Noto → Segoe UI fallback order.',
+      content: (
+        <p className="font-emoji text-3xl">🎞️ 📷 🌃 ✨ 🏮 🗼 🍁</p>
+      ),
+    },
+    {
+      title: 'Noto Sans Fallback',
+      description: 'Raw CSS variable sample in case Inter fails to load.',
+      content: (
+        <p className="text-lg" style={{ fontFamily: notoSansStack }}>
+          This sentence forces the --font-noto-sans stack for reliability tests.
+        </p>
+      ),
+    },
+  ]
+
+  return (
+    <main className="flex flex-col bg-[#070707] text-[#FAF3E0] min-h-screen px-6 py-16">
+      <div className="max-w-5xl mx-auto space-y-10">
+        <header className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.4em] text-text-muted">specimens</p>
+          <h1 className="text-4xl font-bold">Font test lab</h1>
+          <p className="text-text-secondary max-w-2xl">
+            Quick audit of every font stack currently live on miiyuh.com—from Inter UI copy to Noto Serif JP paragraphs
+            and the full emoji fallback chain.
+          </p>
+        </header>
+
+        <section className="grid gap-6 md:grid-cols-2">
+          {specimens.map((specimen) => (
+            <article key={specimen.title} className="border border-white/10 p-6 space-y-3">
+              <div>
+                <h2 className="text-lg font-semibold">{specimen.title}</h2>
+                <p className="text-sm text-text-secondary">{specimen.description}</p>
+              </div>
+              {specimen.content}
+            </article>
+          ))}
+        </section>
+
+        <section className="space-y-6">
+          <h2 className="text-2xl font-semibold">Mixed layout preview</h2>
+          <div className="border border-white/10 p-6 space-y-4">
+            <div className="font-serif text-3xl tracking-tight">A slow drip of postcards.</div>
+            <p className="font-serif text-lg leading-relaxed">
+              Morning light spills over the skyline, 写真の中で色が伸びる, and Inter quietly captions every frame.
+            </p>
+            <div className="font-mono text-xs uppercase tracking-[0.4em]">shot · 2025-11-23 · tokyo</div>
+            <p>
+              Default text continues in Inter. When combined with the emoji stack <span className="font-emoji">🍁✨</span>,
+              everything stays aligned.
+            </p>
+          </div>
+        </section>
       </div>
     </main>
   )

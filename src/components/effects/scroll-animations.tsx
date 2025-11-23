@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { animate, set } from 'animejs'
 
 interface ScrollAnimationProps {
@@ -22,12 +22,15 @@ export function ScrollAnimation({
   duration = 800,
   easing = 'out-expo'
 }: ScrollAnimationProps) {
-  const [hasAnimated, setHasAnimated] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
+  const hasAnimatedRef = useRef(false)
 
   useEffect(() => {
     const element = elementRef.current
     if (!element) return
+
+    // Reset animation state when dependencies change
+    hasAnimatedRef.current = false
 
     // Set initial state based on animation type
     const setInitialState = () => {
@@ -59,7 +62,7 @@ export function ScrollAnimation({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
           // Get animation target and properties
           setTimeout(() => {
             const animProps: Record<string, number | string> = {
@@ -93,7 +96,7 @@ export function ScrollAnimation({
             animate(element, animProps)
           }, delay * 1000)
 
-          setHasAnimated(true)
+          hasAnimatedRef.current = true
         }
       },
       { threshold }
@@ -102,9 +105,9 @@ export function ScrollAnimation({
     observer.observe(element)
 
     return () => {
-      observer.unobserve(element)
+      observer.disconnect()
     }
-  }, [animation, delay, threshold, hasAnimated, duration, easing])
+  }, [animation, delay, threshold, duration, easing])
 
   return (
     <div ref={elementRef} className={className}>

@@ -13,7 +13,7 @@ interface EncryptedTextProps {
 export function EncryptedText({
     text,
     className = '',
-    speed = 100,
+    speed = 50,
     as: Component = 'span',
     children
 }: EncryptedTextProps) {

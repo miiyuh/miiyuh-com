@@ -182,7 +182,7 @@ img {
 }
 
 .lexical-content p {
-  font-family: var(--font-noto-serif), 'Noto Serif JP', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif;
+  font-family: var(--font-noto-serif), 'Noto Serif JP', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
   margin-bottom: 1.25rem;
   line-height: 1.75;
   color: var(--text-primary);

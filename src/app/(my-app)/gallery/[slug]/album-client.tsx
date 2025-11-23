@@ -120,7 +120,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                         className="block group relative overflow-hidden rounded-2xl glass-panel-pro hover:border-accent-primary/50 transition-all duration-500"
                                         data-sub-html={`<div class='text-center'><h4 class='text-lg font-bold mb-1'>${image.title || ''}</h4><p class='text-sm'>${image.description || ''}</p></div>`}
                                     >
-                                        <div className="relative w-full">
+                                        <div className="relative w-full aspect-square">
                                             {/* Skeleton Loader */}
                                             {!loadedImages.has(imgIndex) && (
                                                 <div className="absolute inset-0 bg-white/5 animate-pulse rounded-2xl" />
@@ -129,9 +129,8 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                             <Image
                                                 src={image.src}
                                                 alt={image.title || 'Gallery image'}
-                                                width={800}
-                                                height={600}
-                                                className={`w-full h-auto object-cover transition-all duration-700 group-hover:scale-105 ${loadedImages.has(imgIndex) ? 'opacity-100' : 'opacity-0'
+                                                fill
+                                                className={`w-full h-full object-cover transition-all duration-700 ${loadedImages.has(imgIndex) ? 'opacity-100' : 'opacity-0'
                                                     }`}
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                 quality={85}

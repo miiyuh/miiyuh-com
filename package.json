@@ -56,6 +56,7 @@
     "fastbench": "^1.0.1",
     "pino-elasticsearch": "^8.1.0",
     "rimraf": "^6.1.2",
+    "shadcn": "^3.5.0",
     "sonic-boom": "^4.2.0",
     "tailwindcss": "^4",
     "tailwindcss-motion": "^1.1.1",
