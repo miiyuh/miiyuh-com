@@ -39,18 +39,20 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
 
-        <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24">
+        <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24" style={{ paddingTop: '24px' }}>
 
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
             {/* Breadcrumb Navigation */}
-            <SimpleBreadcrumb
-              items={[
-                { label: 'home', href: '/' },
-                { label: 'gallery' },
-              ]}
-              className="mb-16"
-            />
+            <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+              <SimpleBreadcrumb
+                items={[
+                  { label: 'home', href: '/' },
+                  { label: 'gallery' },
+                ]}
+                className="mb-0"
+              />
+            </div>
 
             {/* Header */}
             <div className="mb-24 max-w-4xl">

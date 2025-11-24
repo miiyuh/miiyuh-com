@@ -53,19 +53,21 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
 
       {/* Main Content */}
-      <section className="relative grow py-24">
+      <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
 
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
           <div className="px-6 md:px-12 lg:px-24 xl:px-32 mb-12">
             {/* Breadcrumb Navigation */}
-            <SimpleBreadcrumb
-              items={[
-                { label: 'home', href: '/' },
-                { label: 'projects' },
-              ]}
-              className="mb-16"
-            />
+            <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+              <SimpleBreadcrumb
+                items={[
+                  { label: 'home', href: '/' },
+                  { label: 'projects' },
+                ]}
+                className="mb-0"
+              />
+            </div>
 
             {/* Header Section */}
             <div className="mb-24 max-w-4xl">

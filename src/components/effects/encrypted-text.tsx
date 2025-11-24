@@ -13,7 +13,7 @@ interface EncryptedTextProps {
 export function EncryptedText({
     text,
     className = '',
-    speed = 50,
+    speed = 20,
     as: Component = 'span',
     children
 }: EncryptedTextProps) {
@@ -42,7 +42,7 @@ export function EncryptedText({
                 clearInterval(interval)
             }
 
-            iteration += 1 / 3
+            iteration += 1
         }, speed)
 
         return () => clearInterval(interval)

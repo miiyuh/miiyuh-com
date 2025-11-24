@@ -171,15 +171,20 @@ export default function BlogClient({
 
   return (
     <main className="flex flex-col bg-bg-primary text-text-primary font-sans relative min-h-screen overflow-x-hidden">
-      <section className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24">
+      <section
+        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]"
+        style={{ paddingTop: '24px' }}
+      >
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <SimpleBreadcrumb
-            items={[
-              { label: 'home', href: '/' },
-              { label: 'blog' },
-            ]}
-            className="mb-16"
-          />
+          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+            <SimpleBreadcrumb
+              items={[
+                { label: 'home', href: '/' },
+                { label: 'blog' },
+              ]}
+              className="mb-0"
+            />
+          </div>
 
           <div className="mb-16">
             <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9]">

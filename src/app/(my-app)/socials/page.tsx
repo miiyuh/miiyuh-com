@@ -25,17 +25,22 @@ export default function SocialsPage() {
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-hidden">
 
       {/* Page Content */}
-      <section className="relative flex-grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]">
+      <section
+        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]"
+        style={{ paddingTop: '24px' }}
+      >
 
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Breadcrumb Navigation */}
-          <SimpleBreadcrumb
-            items={[
-              { label: 'home', href: '/' },
-              { label: 'socials' },
-            ]}
-            className="mb-16"
-          />
+          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+            <SimpleBreadcrumb
+              items={[
+                { label: 'home', href: '/' },
+                { label: 'socials' },
+              ]}
+              className="mb-0"
+            />
+          </div>
 
           {/* Header */}
           <div className="mb-20">
@@ -67,7 +72,7 @@ export default function SocialsPage() {
                   <div className="h-full min-h-[180px] p-6 glass-panel-pro rounded-3xl hover:border-accent-primary/30 transition-all duration-500 flex flex-col items-center justify-center gap-6 relative overflow-hidden">
 
                     {/* Hover Gradient Background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                     {/* Icon */}
                     <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500">
