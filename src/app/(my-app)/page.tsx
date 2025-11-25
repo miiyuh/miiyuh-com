@@ -8,7 +8,9 @@ import { NAVIGATION_LINKS } from '@/constants'
 import { useEffect, useState, useRef } from 'react'
 import { TypewriterText } from '@/components/effects/animated-text'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
+import { useRouteLoading } from '@/components/layout/route-loading-provider'
 export default function HomePage() {  const playClick = useSound('/sounds/click.mp3', 0.7)
+  const { startPortalLoading } = useRouteLoading()
   const [mounted, setMounted] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [hasMouseMoved, setHasMouseMoved] = useState(false)
@@ -80,7 +82,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                 alt="miiyuh - personal webpage logo"
                 width={480}
                 height={120}
-                className="mx-auto w-96 md:w-[30rem] transition-all duration-500 group-hover:scale-105"
+                className="mx-auto w-96 md:w-120 transition-all duration-500 group-hover:scale-105"
                 priority
                 quality={90}
                 style={{ backfaceVisibility: 'hidden' }}
@@ -98,7 +100,10 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
               >
                 <Link
                   href={link.href}
-                  onClick={playClick}
+                  onClick={() => {
+                    startPortalLoading(link.href)
+                    playClick()
+                  }}
                   className="group relative bg-[#FAF3E0]/5 backdrop-blur-sm rounded-lg p-4 hover:bg-[#FAF3E0]/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-[#FAF3E0]/10 hover:border-[#FAF3E0]/20 block focus:outline-none cursor-pointer"
                   data-cursor="hover"
                 >                  <div className="text-left">
@@ -122,7 +127,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                   </div>
                   
                   {/* Enhanced hover indicator */}
-                  <div className="absolute bottom-2 left-4 w-0 h-0.5 bg-gradient-to-r from-[#FAF3E0]/50 to-transparent group-hover:w-6 transition-all duration-300"></div>
+                  <div className="absolute bottom-2 left-4 w-0 h-0.5 bg-linear-to-r from-[#FAF3E0]/50 to-transparent group-hover:w-6 transition-all duration-300"></div>
                 </Link>
               </ScrollAnimation>
             ))}

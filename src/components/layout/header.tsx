@@ -5,9 +5,11 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
+import { useRouteLoading } from '@/components/layout/route-loading-provider'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { startHeaderLoading } = useRouteLoading()
 
   const playClick = useSound('/sounds/click.mp3', 0.7) // 🎵 your click sound
   const toggleMenu = () => {
@@ -15,7 +17,13 @@ export default function Header() {
     setMenuOpen(!menuOpen)
   }
 
+  const handleDesktopLinkClick = () => {
+    startHeaderLoading()
+    playClick()
+  }
+
   const handleMobileLinkClick = () => {
+    startHeaderLoading()
     playClick()
     setMenuOpen(false) // Close menu when link is clicked
   }
@@ -49,7 +57,7 @@ export default function Header() {
         <ul className="hidden lg:flex gap-6 text-lg font-bold font-serif">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} onClick={playClick} className="hover:underline">
+              <Link href={link.href} onClick={handleDesktopLinkClick} className="hover:underline">
                 {link.label}
               </Link>
             </li>
