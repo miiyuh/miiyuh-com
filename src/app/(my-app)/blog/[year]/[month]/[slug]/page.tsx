@@ -97,7 +97,7 @@ async function Page({ params }: PageProps) {
         />
 
         {/* Separator after breadcrumb */}
-        <Separator className="mb-8 bg-white/10" />
+        <Separator className="my-8 bg-white/10" />
 
         {/* Cover Image */}
         {coverImage && (

@@ -37,7 +37,7 @@ export default function PrivacyPolicyClient({ htmlContent, updatedAt }: PrivacyP
                                 Last updated: {formatDate(updatedAt)}
                             </p>
                         )}
-                        <Separator className="my-8 bg-white/10 h-[2px]" />
+                        <Separator className="my-8 bg-white/10" />
                         <div
                             ref={contentRef}
                             className="text-lg leading-relaxed text-[#FAF3E0]/90 lexical-content"
@@ -45,7 +45,7 @@ export default function PrivacyPolicyClient({ htmlContent, updatedAt }: PrivacyP
                         />
                     </div>
                 </section>
-                <Separator className="hidden lg:block bg-white/10 h-0.5" orientation="vertical" />
+                <div className="hidden lg:block w-px bg-white/10" />
                 <aside className="hidden lg:block w-64 flex-shrink-0">
                     <div className="sticky top-24">
                         <TableOfContents contentRef={contentRef} />
