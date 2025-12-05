@@ -29,44 +29,137 @@ async function seedProjects() {
   console.log('Connected to Payload CMS\n')
 
   const projectsData = [
-    // Personal Organizations
+    // Side projects
     {
-      name: 'studio shingeki',
-      slug: 'shingeki',
-      category: 'personal',
-      description: 'attack on titan inspired creative works and projects',
+      name: 'Miiyuh Portfolio v2',
+      slug: 'miiyuh-portfolio-v2',
+      category: 'side-project',
+      description: 'Next.js 16 + Tailwind v4 personal site with payload CMS, interactive animations, and gallery system.',
       order: 1,
+      projectDetails: {
+        techStack: [{ tech: 'Next.js' }, { tech: 'Tailwind' }, { tech: 'Payload' }, { tech: 'Bun' }],
+        status: 'active',
+        githubUrl: 'https://github.com/miiyuh/miiyuh-com',
+        liveUrl: 'https://miiyuh.com',
+      },
     },
     {
-      name: '2alpha',
-      slug: '2alpha',
-      category: 'personal',
-      description: 'development and experimental projects in alpha phase',
+      name: 'Shingeki Studio',
+      slug: 'shingeki-studio',
+      category: 'side-project',
+      description: 'AOT-inspired creative studio site with motion graphics and lore sections.',
       order: 2,
+      projectDetails: {
+        techStack: [{ tech: 'Next.js' }, { tech: 'GSAP' }, { tech: 'Three.js' }],
+        status: 'in-development',
+        githubUrl: 'https://github.com/miiyuh/shingeki',
+      },
     },
     {
-      name: 'miyabi',
-      slug: 'miyabi',
-      category: 'personal',
-      description: 'minecraft builds and architectural creations',
+      name: 'Miyabi Builds',
+      slug: 'miyabi-builds',
+      category: 'side-project',
+      description: 'Minecraft architecture showcase with shaders gallery and build blueprints.',
       order: 3,
+      projectDetails: {
+        techStack: [{ tech: 'Next.js' }, { tech: 'LightGallery' }, { tech: 'Payload' }],
+        status: 'active',
+        liveUrl: 'https://miyabi.example.com',
+      },
     },
-    // Academic Projects
     {
-      name: 'University Projects',
-      slug: 'academic',
-      category: 'academic',
-      description: 'academic coursework and research projects from university',
-      icon: '🎓',
+      name: '2alpha Utilities',
+      slug: '2alpha-utilities',
+      category: 'side-project',
+      description: 'A bundle of small developer utilities (CLI + UI) for quick experiments.',
+      order: 4,
+      projectDetails: {
+        techStack: [{ tech: 'TypeScript' }, { tech: 'Bun' }, { tech: 'CLI' }],
+        status: 'archived',
+        githubUrl: 'https://github.com/miiyuh/2alpha',
+      },
+    },
+
+    // University projects
+    {
+      name: 'Library Management System',
+      slug: 'library-management',
+      category: 'university-project',
+      description: 'Full-stack system for book lending with role-based access and overdue tracking.',
       order: 1,
+      universityDetails: {
+        course: 'Database Systems',
+        semester: 'Fall 2024',
+        grade: 'A-',
+      },
     },
     {
-      name: 'Research Papers',
-      slug: 'papers',
-      category: 'academic',
-      description: 'personal research papers and academic writings',
-      icon: '📄',
+      name: 'LockMe Encryption Suite',
+      slug: 'lockme-encryption',
+      category: 'university-project',
+      description: 'AES/RSA hybrid encryption lab with UI visualizing key exchange.',
       order: 2,
+      universityDetails: {
+        course: 'Network Security',
+        semester: 'Spring 2024',
+        grade: 'A',
+      },
+    },
+    {
+      name: 'Health & Wellbeing Tech',
+      slug: 'health-wellbeing-tech',
+      category: 'university-project',
+      description: 'UX case study exploring wearable data for wellbeing nudges.',
+      order: 3,
+      universityDetails: {
+        course: 'HCI',
+        semester: 'Fall 2023',
+        grade: 'A',
+      },
+    },
+
+    // Research papers
+    {
+      name: 'Ethical AI in Open Source',
+      slug: 'ethical-ai-open-source',
+      category: 'research-paper',
+      description: 'Exploring governance models for responsible AI contributions.',
+      order: 1,
+      paperDetails: {
+        author: 'miiyuh',
+        year: '2024',
+        abstract: 'A survey of community-led guardrails for AI in OSS.',
+        keywords: [{ keyword: 'AI' }, { keyword: 'Open Source' }, { keyword: 'Governance' }],
+        pages: 14,
+      },
+    },
+    {
+      name: 'Community Responsibility in Tech',
+      slug: 'community-responsibility-tech',
+      category: 'research-paper',
+      description: 'On the social contract between developers and users.',
+      order: 2,
+      paperDetails: {
+        author: 'miiyuh',
+        year: '2023',
+        abstract: 'Case studies of community stewardship in digital platforms.',
+        keywords: [{ keyword: 'Community' }, { keyword: 'Ethics' }],
+        pages: 11,
+      },
+    },
+    {
+      name: 'Sustainable Tech Futures',
+      slug: 'sustainable-tech',
+      category: 'research-paper',
+      description: 'Balancing performance and sustainability in modern stacks.',
+      order: 3,
+      paperDetails: {
+        author: 'miiyuh',
+        year: '2022',
+        abstract: 'Evaluating sustainable design choices for web apps.',
+        keywords: [{ keyword: 'Sustainability' }, { keyword: 'Web' }],
+        pages: 9,
+      },
     },
   ]
 

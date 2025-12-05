@@ -17,7 +17,8 @@
     "clear:gallery": "tsx scripts/clear-gallery.ts",
     "seed:gallery": "tsx scripts/seed-gallery.ts",
     "seed:projects": "tsx scripts/seed-projects.ts",
-    "seed:about": "tsx scripts/seed-about.ts"
+    "seed:about": "tsx scripts/seed-about.ts",
+    "clean:projects": "tsx scripts/clean-projects.ts"
   },
   "dependencies": {
     "@ark-ui/react": "^5.29.1",

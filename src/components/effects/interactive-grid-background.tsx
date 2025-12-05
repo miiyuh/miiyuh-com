@@ -1,146 +1,58 @@
 'use client'
 
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 interface InteractiveGridBackgroundProps {
-    belowHeader?: boolean
+  belowHeader?: boolean
 }
 
 export function InteractiveGridBackground({ belowHeader = false }: InteractiveGridBackgroundProps) {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
-    const headerHeight = useMemo(() => belowHeader ? 72 : 0, [belowHeader])
+  const headerHeight = useMemo(() => belowHeader ? 72 : 0, [belowHeader])
+  const [gridPadding, setGridPadding] = useState({ left: 32, right: 32 })
 
-    useEffect(() => {
-        const canvas = canvasRef.current
-        if (!canvas) return
+  useEffect(() => {
+    const computeOffset = () => {
+      const width = window.innerWidth
+      if (width < 640) return { left: 32, right: 32 }
+      return { left: 128, right: 128 }
+    }
 
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return
+    const handleResize = () => setGridPadding(computeOffset())
+    setGridPadding(computeOffset())
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-        let animationFrameId: number
-        let mouseX = 0
-        let mouseY = 0
+  const gridSize = 64
 
-        const resize = () => {
-            canvas.width = window.innerWidth
-            canvas.height = window.innerHeight - headerHeight
-        }
+  const gridStyle = {
+    backgroundImage: `
+      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)
+    `,
+    backgroundSize: `${gridSize}px ${gridSize}px`,
+    backgroundPosition: '0 0',
+    backgroundRepeat: 'repeat'
+  } as const
 
-        const handleMouseMove = (e: MouseEvent) => {
-            mouseX = e.clientX
-            mouseY = e.clientY - headerHeight
-        }
+  return (
+    <div
+      className="pointer-events-none absolute inset-x-0 top-0 z-0 overflow-hidden"
+      style={{ top: headerHeight, bottom: 0 }}
+    >
+      <div className="absolute inset-0 bg-[#070707]" />
 
-        // Grid configuration
-        const gridSize = 40
-        const influenceRadius = 150
+      <div className="absolute inset-y-0" style={{ left: gridPadding.left, right: gridPadding.right }}>
+        <div className="relative h-full w-full" style={{ backgroundAttachment: 'local' }}>
+          <div className="absolute inset-0 opacity-60" style={gridStyle} />
 
-        const draw = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height)
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04),transparent_75%)]" />
 
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'
-            ctx.lineWidth = 1
+          <div className="absolute inset-y-0 left-0 right-0 border-l border-r border-white/15" />
+        </div>
+      </div>
 
-            const cols = Math.ceil(canvas.width / gridSize) + 2
-            const rows = Math.ceil(canvas.height / gridSize) + 2
-
-            // Center the grid - calculate offset so grid is symmetrical
-            const totalGridWidth = cols * gridSize
-            const totalGridHeight = rows * gridSize
-            const offsetX = (canvas.width - totalGridWidth) / 2 + gridSize / 2
-            const offsetY = (canvas.height - totalGridHeight) / 2 + gridSize / 2
-
-            // Draw vertical lines
-            for (let i = 0; i <= cols; i++) {
-                ctx.beginPath()
-                for (let j = 0; j <= rows; j++) {
-                    const x = offsetX + i * gridSize
-                    const y = offsetY + j * gridSize
-
-                    // Calculate distance from mouse
-                    const dx = mouseX - x
-                    const dy = mouseY - y
-                    const distance = Math.sqrt(dx * dx + dy * dy)
-
-                    let drawX = x
-                    let drawY = y
-
-                    if (distance < influenceRadius) {
-                        const force = (influenceRadius - distance) / influenceRadius
-                        const angle = Math.atan2(dy, dx)
-                        const pushFactor = 20 * force
-
-                        drawX -= Math.cos(angle) * pushFactor
-                        drawY -= Math.sin(angle) * pushFactor
-                    }
-
-                    if (j === 0) {
-                        ctx.moveTo(drawX, drawY)
-                    } else {
-                        ctx.lineTo(drawX, drawY)
-                    }
-                }
-                ctx.stroke()
-            }
-
-            // Draw horizontal lines
-            for (let j = 0; j <= rows; j++) {
-                ctx.beginPath()
-                for (let i = 0; i <= cols; i++) {
-                    const x = offsetX + i * gridSize
-                    const y = offsetY + j * gridSize
-
-                    // Calculate distance from mouse
-                    const dx = mouseX - x
-                    const dy = mouseY - y
-                    const distance = Math.sqrt(dx * dx + dy * dy)
-
-                    let drawX = x
-                    let drawY = y
-
-                    if (distance < influenceRadius) {
-                        const force = (influenceRadius - distance) / influenceRadius
-                        const angle = Math.atan2(dy, dx)
-                        const pushFactor = 20 * force
-
-                        drawX -= Math.cos(angle) * pushFactor
-                        drawY -= Math.sin(angle) * pushFactor
-                    }
-
-                    if (i === 0) {
-                        ctx.moveTo(drawX, drawY)
-                    } else {
-                        ctx.lineTo(drawX, drawY)
-                    }
-                }
-                ctx.stroke()
-            }
-
-            animationFrameId = requestAnimationFrame(draw)
-        }
-
-        window.addEventListener('resize', resize)
-        window.addEventListener('mousemove', handleMouseMove)
-
-        resize()
-        draw()
-
-        return () => {
-            window.removeEventListener('resize', resize)
-            window.removeEventListener('mousemove', handleMouseMove)
-            cancelAnimationFrame(animationFrameId)
-        }
-    }, [headerHeight])
-
-    return (
-        <canvas
-            ref={canvasRef}
-            className="fixed inset-x-0 z-0 pointer-events-none"
-            style={{ 
-                opacity: 0.6,
-                top: headerHeight,
-                bottom: 0
-            }}
-        />
-    )
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#0b0b0b,transparent_80%)] opacity-50" />
+    </div>
+  )
 }

@@ -33,7 +33,7 @@ export default function SocialsPage() {
 
       {/* Page Content */}
       <section
-        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]"
+        className="relative grow px-6 md:px-12 lg:px-32 xl:px-32 py-24 min-h-[70vh]"
         style={{ paddingTop: '24px' }}
       >
 

@@ -65,10 +65,11 @@ const Projects: CollectionConfig = {
     },
     {
       name: 'icon',
-      type: 'text',
+      type: 'relationship',
+      relationTo: 'media',
       required: false,
       admin: {
-        description: 'Lucide icon name (e.g., "Globe", "Wrench", "BookOpen") or emoji fallback',
+        description: 'Icon image for the project (1:1 square, like a favicon)',
       },
     },
     {

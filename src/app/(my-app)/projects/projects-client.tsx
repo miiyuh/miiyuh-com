@@ -6,22 +6,8 @@ import { useEffect, useState } from 'react'
 import { useSound } from '@/hooks/useSound'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import * as lucideIcons from 'lucide-react'
-import { 
-  ArrowUpRight, 
-  Rocket, 
-  GraduationCap, 
-  FileText,
-  Github,
-  ExternalLink,
-  Calendar,
-  BookOpen,
-  Code,
-  Download
-} from 'lucide-react'
-
-// Map icon names to lucide components
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+import {
+  ArrowUpRight,
   Rocket,
   GraduationCap,
   FileText,
@@ -29,10 +15,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   ExternalLink,
   Calendar,
   BookOpen,
-  Code,
   Download,
-  ArrowUpRight,
-}
+} from 'lucide-react'
 
 interface Project {
   id: string
@@ -40,7 +24,11 @@ interface Project {
   slug: string
   category: 'side-project' | 'university-project' | 'research-paper'
   description: string
-  icon?: string
+  icon?: {
+    id: string
+    url?: string
+    alt?: string
+  }
   image?: {
     url?: string
     alt?: string
@@ -86,28 +74,42 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     setMounted(true)
   }, [])
 
-  // Helper function to render icon from name
-  const renderIcon = (iconName?: string) => {
-    if (!iconName) return '🚀'
-    const IconComponent = iconMap[iconName]
-    if (IconComponent) {
-      return <IconComponent className="w-6 h-6" />
-    }
-    return iconName
-  }
-
   // Separate projects by category and sort by order
   const sideProjects = projects
-    .filter(p => p.category === 'side-project')
+    .filter((p) => p.category === 'side-project')
     .sort((a, b) => a.order - b.order)
 
   const universityProjects = projects
-    .filter(p => p.category === 'university-project')
+    .filter((p) => p.category === 'university-project')
     .sort((a, b) => a.order - b.order)
 
   const researchPapers = projects
-    .filter(p => p.category === 'research-paper')
+    .filter((p) => p.category === 'research-paper')
     .sort((a, b) => a.order - b.order)
+
+  const sections = [
+    {
+      key: 'side-projects',
+      title: 'Side Projects',
+      subtitle: 'Web apps, tools, and experiments',
+      icon: Rocket,
+      items: sideProjects,
+    },
+    {
+      key: 'university-projects',
+      title: 'University Projects',
+      subtitle: 'Coursework, assignments, and labs',
+      icon: GraduationCap,
+      items: universityProjects,
+    },
+    {
+      key: 'research-papers',
+      title: 'Research Papers',
+      subtitle: 'Writing, abstracts, and findings',
+      icon: FileText,
+      items: researchPapers,
+    },
+  ]
 
   const getProjectHref = (project: Project) => {
     if (project.externalLink) return project.externalLink
@@ -126,6 +128,14 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
         return null
     }
   }
+
+  // Solid (non-transparent) gradient presets inspired by socials
+  const gradientPresets = [
+    'linear-gradient(135deg, hsl(220 70% 18%), hsl(255 70% 28%))',
+    'linear-gradient(135deg, hsl(280 70% 20%), hsl(320 70% 32%))',
+    'linear-gradient(135deg, hsl(190 70% 18%), hsl(150 70% 30%))',
+    'linear-gradient(135deg, hsl(30 80% 26%), hsl(0 75% 22%))',
+  ]
 
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
@@ -154,319 +164,172 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
               </p>
             </div>
           </div>
+        </div>
 
-          {/* ============================================ */}
-          {/* SIDE PROJECTS SECTION */}
-          {/* ============================================ */}
-          {sideProjects.length > 0 && (
-            <div className="px-6 md:px-12 lg:px-24 xl:px-32 mb-20">
-              <ScrollAnimation animation="fadeUp">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center border border-accent-primary/20">
-                    <Rocket className="w-5 h-5 text-accent-primary" />
+        <div className="px-6 md:px-12 lg:px-24 xl:px-32 space-y-20">
+          {sections.filter((s) => s.items.length > 0).map((section, sectionIndex) => (
+            <div key={section.key} className={sectionIndex > 0 ? 'border-t border-white/10 pt-12' : ''}>
+              <ScrollAnimation animation="fadeUp" delay={sectionIndex * 0.05}>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-inner shadow-black/30">
+                    <section.icon className="w-5 h-5 text-text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-serif font-bold text-text-primary">Side Projects</h2>
-                    <p className="text-sm text-text-muted">Websites and utilities I&apos;ve built</p>
+                    <h2 className="text-2xl font-serif font-bold text-text-primary">{section.title}</h2>
+                    <p className="text-sm text-text-muted">{section.subtitle}</p>
                   </div>
                 </div>
               </ScrollAnimation>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {sideProjects.map((project, index) => (
-                  <ScrollAnimation
-                    key={project.id}
-                    animation="fadeUp"
-                    delay={0.1 + (0.1 * index)}
-                  >
-                    <Link
-                      href={getProjectHref(project)}
-                      onClick={playClick}
-                      className="group block h-full"
-                      target={project.externalLink ? '_blank' : undefined}
-                      rel={project.externalLink ? 'noopener noreferrer' : undefined}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {section.items.map((project, index) => (
+                  <ScrollAnimation key={project.id} animation="fadeUp" delay={0.08 + 0.06 * index}>
+                    <article
+                      className="relative h-full rounded-3xl overflow-hidden border border-white/10 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.9)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_26px_90px_-55px_rgba(0,0,0,0.95)]"
+                      style={{ backgroundImage: gradientPresets[index % gradientPresets.length] }}
+                      data-cursor="link"
                     >
-                      <article className="h-full glass-panel-pro rounded-3xl overflow-hidden hover:border-accent-primary/30 transition-all duration-500 group-hover:-translate-y-2">
-                        {/* Cover Image */}
-                        {project.image?.url && (
-                          <div className="relative aspect-video overflow-hidden bg-white/5">
-                            <Image
-                              src={project.image.url}
-                              alt={project.image.alt || project.name}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                            <div className="absolute inset-0 bg-linear-to-t from-[#070707] via-transparent to-transparent" />
+                      {/* make whole card clickable via overlay link */}
+                      <Link
+                        href={getProjectHref(project)}
+                        onClick={playClick}
+                        className="absolute inset-0"
+                        target={project.externalLink ? '_blank' : undefined}
+                        rel={project.externalLink ? 'noopener noreferrer' : undefined}
+                        aria-label={`Open ${project.name}`}
+                      />
+
+                      {/* Cover Image (kept above gradient) */}
+                      {project.image?.url && (
+                        <div className="relative aspect-4/3 overflow-hidden bg-black/20">
+                          <Image
+                            src={project.image.url}
+                            alt={project.image.alt || project.name}
+                            fill
+                            className="object-cover"
+                            priority={index < 2}
+                          />
+                          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
+                          <div className="absolute top-3 left-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur border border-white/10 text-[11px] font-semibold uppercase tracking-wide text-white z-10">
+                            {section.title}
                           </div>
-                        )}
-                        
-                        <div className="p-6">
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex items-center gap-3">
-                              {!project.image?.url && (
-                                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-2xl border border-white/10">
-                                  {renderIcon(project.icon)}
-                                </div>
-                              )}
-                              <div>
-                                <h3 className="text-xl font-serif font-bold text-text-primary group-hover:text-accent-primary transition-colors">
-                                  {project.name}
-                                </h3>
-                                {project.projectDetails?.status && (
-                                  <div className="mt-1">
-                                    {getStatusBadge(project.projectDetails.status)}
-                                  </div>
-                                )}
+                        </div>
+                      )}
+
+                      <div className="relative z-10 p-6 space-y-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-3">
+                            {!project.image?.url && project.icon?.url && (
+                              <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/15 bg-black/20 shadow-inner shadow-black/30">
+                                <Image
+                                  src={project.icon.url}
+                                  alt={project.icon.alt || `${project.name} icon`}
+                                  width={48}
+                                  height={48}
+                                  className="w-12 h-12 object-cover"
+                                />
                               </div>
-                            </div>
-                            <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
-                          </div>
-                          
-                          <p className="text-sm text-text-secondary leading-relaxed mb-4 line-clamp-2">
-                            {project.description}
-                          </p>
-
-                          {/* Tech Stack */}
-                          {project.projectDetails?.techStack && project.projectDetails.techStack.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              {project.projectDetails.techStack.slice(0, 4).map((t, i) => (
-                                <span key={i} className="px-2 py-1 text-xs font-mono bg-white/5 text-text-muted rounded border border-white/10">
-                                  {t.tech}
-                                </span>
-                              ))}
-                              {project.projectDetails.techStack.length > 4 && (
-                                <span className="px-2 py-1 text-xs font-mono text-text-muted">
-                                  +{project.projectDetails.techStack.length - 4} more
-                                </span>
-                              )}
-                            </div>
-                          )}
-
-                          {/* Links */}
-                          <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-                            {project.projectDetails?.githubUrl && (
-                              <span className="flex items-center gap-1 text-xs text-text-muted">
-                                <Github className="w-3 h-3" />
-                                Source
-                              </span>
                             )}
-                            {project.projectDetails?.liveUrl && (
-                              <span className="flex items-center gap-1 text-xs text-text-muted">
-                                <ExternalLink className="w-3 h-3" />
-                                Live
-                              </span>
-                            )}
-                            <span className="ml-auto text-xs text-text-muted group-hover:text-accent-primary transition-colors flex items-center gap-1">
-                              View Project <ArrowUpRight className="w-3 h-3" />
-                            </span>
-                          </div>
-                        </div>
-                      </article>
-                    </Link>
-                  </ScrollAnimation>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ============================================ */}
-          {/* UNIVERSITY PROJECTS SECTION */}
-          {/* ============================================ */}
-          {universityProjects.length > 0 && (
-            <div className="px-6 md:px-12 lg:px-24 xl:px-32 mb-20">
-              <ScrollAnimation animation="fadeUp">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                    <GraduationCap className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-serif font-bold text-text-primary">University Projects</h2>
-                    <p className="text-sm text-text-muted">Final year and coursework projects</p>
-                  </div>
-                </div>
-              </ScrollAnimation>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {universityProjects.map((project, index) => (
-                  <ScrollAnimation
-                    key={project.id}
-                    animation="fadeUp"
-                    delay={0.1 + (0.1 * index)}
-                  >
-                    <Link
-                      href={getProjectHref(project)}
-                      onClick={playClick}
-                      className="group block h-full"
-                      target={project.externalLink ? '_blank' : undefined}
-                      rel={project.externalLink ? 'noopener noreferrer' : undefined}
-                    >
-                      <article className="h-full p-6 glass-panel-pro rounded-3xl hover:border-blue-500/30 transition-all duration-300 group-hover:-translate-y-2 flex flex-col">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-xl border border-blue-500/20">
-                            {renderIcon(project.icon)}
-                          </div>
-                          <div className="flex flex-col items-end gap-1">
-                            {project.universityDetails?.semester && (
-                              <span className="text-[10px] font-mono text-blue-400/80 flex items-center gap-1">
-                                <Calendar className="w-3 h-3" />
-                                {project.universityDetails.semester}
-                              </span>
-                            )}
-                            {project.universityDetails?.grade && (
-                              <span className="px-2 py-0.5 text-[10px] font-mono bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
-                                {project.universityDetails.grade}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <h3 className="text-lg font-serif font-bold text-text-primary mb-2 group-hover:text-blue-400 transition-colors">
-                          {project.name}
-                        </h3>
-                        
-                        {project.universityDetails?.course && (
-                          <p className="text-xs text-text-muted mb-3 flex items-center gap-1">
-                            <BookOpen className="w-3 h-3" />
-                            {project.universityDetails.course}
-                          </p>
-                        )}
-                        
-                        <p className="text-sm text-text-secondary line-clamp-3 leading-relaxed mb-4 grow">
-                          {project.description}
-                        </p>
-
-                        <div className="flex items-center gap-2 text-xs font-medium text-text-muted group-hover:text-text-primary transition-colors pt-4 border-t border-white/5 mt-auto">
-                          <Code className="w-3 h-3" />
-                          <span>View Project</span>
-                          <ArrowUpRight className="w-3 h-3 ml-auto group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </div>
-                      </article>
-                    </Link>
-                  </ScrollAnimation>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ============================================ */}
-          {/* RESEARCH PAPERS SECTION */}
-          {/* ============================================ */}
-          {researchPapers.length > 0 && (
-            <div className="px-6 md:px-12 lg:px-24 xl:px-32 mb-20">
-              <ScrollAnimation animation="fadeUp">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
-                    <FileText className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-serif font-bold text-text-primary">Research Papers</h2>
-                    <p className="text-sm text-text-muted">Academic writings and research</p>
-                  </div>
-                </div>
-              </ScrollAnimation>
-
-              <div className="space-y-4">
-                {researchPapers.map((project, index) => (
-                  <ScrollAnimation
-                    key={project.id}
-                    animation="fadeUp"
-                    delay={0.1 + (0.05 * index)}
-                  >
-                    <Link
-                      href={getProjectHref(project)}
-                      onClick={playClick}
-                      className="group block"
-                    >
-                      <article className="glass-panel-pro rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300 group-hover:-translate-y-1">
-                        <div className="flex flex-col lg:flex-row lg:items-start gap-6">
-                          {/* Paper Icon/Thumbnail */}
-                          <div className="shrink-0">
-                            <div className="w-16 h-20 lg:w-20 lg:h-24 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:border-purple-500/40 transition-colors">
-                              {project.icon ? (
-                                <div className="text-3xl lg:text-4xl">
-                                  {renderIcon(project.icon)}
-                                </div>
-                              ) : (
-                                <FileText className="w-8 h-8 text-purple-400" />
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Paper Content */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-4 mb-2">
-                              <h3 className="text-lg font-serif font-bold text-text-primary group-hover:text-purple-400 transition-colors line-clamp-2">
+                            <div>
+                              <h3 className="text-xl font-serif font-bold text-white group-hover:text-accent-primary transition-colors">
                                 {project.name}
                               </h3>
-                              <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-purple-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shrink-0" />
-                            </div>
-
-                            {/* Meta info */}
-                            <div className="flex flex-wrap items-center gap-3 text-xs text-text-muted mb-3">
-                              {project.paperDetails?.author && (
-                                <span>by {project.paperDetails.author}</span>
-                              )}
-                              {project.paperDetails?.year && (
-                                <>
-                                  <span className="text-white/20">•</span>
-                                  <span>{project.paperDetails.year}</span>
-                                </>
-                              )}
-                              {project.paperDetails?.pages && (
-                                <>
-                                  <span className="text-white/20">•</span>
-                                  <span>{project.paperDetails.pages} pages</span>
-                                </>
-                              )}
-                            </div>
-
-                            {/* Abstract preview */}
-                            {project.paperDetails?.abstract && (
-                              <p className="text-sm text-text-secondary leading-relaxed line-clamp-2 mb-3">
-                                {project.paperDetails.abstract}
+                              <p className="text-xs text-white/70">
+                                {project.category === 'university-project'
+                                  ? project.universityDetails?.course || 'Course project'
+                                  : project.category === 'research-paper'
+                                    ? `${project.paperDetails?.author || 'miiyuh'}${project.paperDetails?.year ? ` • ${project.paperDetails.year}` : ''}`
+                                    : project.projectDetails?.status
+                                      ? project.projectDetails.status.replace('-', ' ')
+                                      : 'Side project'}
                               </p>
-                            )}
-
-                            {/* Keywords */}
-                            {project.paperDetails?.keywords && project.paperDetails.keywords.length > 0 && (
-                              <div className="flex flex-wrap gap-2">
-                                {project.paperDetails.keywords.slice(0, 5).map((k, i) => (
-                                  <span key={i} className="px-2 py-0.5 text-[10px] font-mono bg-purple-500/10 text-purple-400/80 rounded border border-purple-500/20">
-                                    {k.keyword}
-                                  </span>
-                                ))}
-                                {project.paperDetails.keywords.length > 5 && (
-                                  <span className="text-[10px] text-text-muted">
-                                    +{project.paperDetails.keywords.length - 5} more
-                                  </span>
-                                )}
-                              </div>
-                            )}
+                            </div>
                           </div>
-
-                          {/* Actions */}
-                          <div className="flex lg:flex-col gap-2 lg:items-end">
-                            <span className="px-3 py-1.5 text-xs font-mono bg-purple-500/10 text-purple-400 rounded-lg border border-purple-500/20 flex items-center gap-1.5 group-hover:bg-purple-500/20 transition-colors">
-                              <Download className="w-3 h-3" />
-                              Read Paper
-                            </span>
-                          </div>
+                          <ArrowUpRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300" />
                         </div>
-                      </article>
-                    </Link>
+
+                        <p className="text-sm text-white/85 leading-relaxed line-clamp-3">
+                          {project.category === 'research-paper' && project.paperDetails?.abstract
+                            ? project.paperDetails.abstract
+                            : project.description}
+                        </p>
+
+                        {/* Meta rows */}
+                        <div className="flex flex-wrap gap-2 text-xs text-white/80">
+                          {project.category === 'side-project' && project.projectDetails?.techStack?.slice(0, 4).map((t, i) => (
+                            <span key={i} className="px-2 py-1 rounded border border-white/15 bg-black/25 font-mono">
+                              {t.tech}
+                            </span>
+                          ))}
+                          {project.category === 'university-project' && (
+                            <>
+                              {project.universityDetails?.semester && (
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded border border-white/15 bg-black/25">
+                                  <Calendar className="w-4 h-4" />
+                                  {project.universityDetails.semester}
+                                </span>
+                              )}
+                              {project.universityDetails?.grade && (
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded border border-white/15 bg-black/25">
+                                  <BookOpen className="w-4 h-4" />
+                                  {project.universityDetails.grade}
+                                </span>
+                              )}
+                            </>
+                          )}
+                          {project.category === 'research-paper' && project.paperDetails?.keywords?.slice(0, 3).map((k, i) => (
+                            <span key={i} className="px-2 py-1 rounded border border-white/15 bg-black/25 font-mono">
+                              {k.keyword}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Links */}
+                        <div className="flex items-center gap-3 text-sm text-white/85">
+                          {project.projectDetails?.githubUrl && (
+                            <a
+                              href={project.projectDetails.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1 hover:text-white transition-colors"
+                            >
+                              <Github className="w-4 h-4" />
+                              Code
+                            </a>
+                          )}
+                          {project.projectDetails?.liveUrl && (
+                            <a
+                              href={project.projectDetails.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1 hover:text-white transition-colors"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                              Live
+                            </a>
+                          )}
+                          {project.paperDetails?.pdfFile?.url && (
+                            <a
+                              href={project.paperDetails.pdfFile.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1 hover:text-white transition-colors"
+                            >
+                              <Download className="w-4 h-4" />
+                              PDF
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </article>
                   </ScrollAnimation>
                 ))}
               </div>
             </div>
-          )}
-
-          {/* Empty State */}
-          {sideProjects.length === 0 && universityProjects.length === 0 && researchPapers.length === 0 && (
-            <div className="px-6 md:px-12 lg:px-24 xl:px-32 py-20 text-center">
-              <p className="text-text-muted font-serif text-lg">No projects yet...</p>
-            </div>
-          )}
-
+          ))}
         </div>
       </section>
     </main>

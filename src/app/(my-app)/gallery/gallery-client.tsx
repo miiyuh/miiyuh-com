@@ -107,7 +107,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                                    quality={60}
+                                    quality={i === 0 ? 60 : 45}
                                     loading="lazy"
                                     placeholder="empty"
                                   />
