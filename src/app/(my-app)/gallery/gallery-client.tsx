@@ -64,8 +64,8 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
               </p>
             </div>
 
-            {/* Albums Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Albums Grid - borders act as grid lines */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-white/10">
               {collections.map((collection, index) => {
                 const images = galleryData[collection.slug] ?? [];
                 const stackImages: GalleryItem[] = images.slice(0, 3);
@@ -82,7 +82,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                       onClick={playClick}
                       className="group block w-full text-left h-full"
                     >
-                      <article className="h-full p-4 glass-panel-pro rounded-4xl hover:border-accent-primary/30 transition-all duration-500 flex flex-col relative overflow-visible group-hover:-translate-y-2">
+                      <article className="h-full p-6 border-r border-b border-white/10 bg-transparent hover:bg-white/5 transition-all duration-500 flex flex-col relative overflow-visible">
 
                         {/* Stacked Cover Images */}
                         <div className="w-full aspect-square relative mb-6 perspective-1000">

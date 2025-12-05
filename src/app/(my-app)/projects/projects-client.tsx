@@ -181,11 +181,26 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                 </div>
               </ScrollAnimation>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {/* Grid with gaps filled by hatched pattern */}
+              <div className="relative border-t border-white/10">
+                {/* Hatched pattern background for gaps */}
+                <div 
+                  className="absolute inset-0 opacity-60"
+                  style={{
+                    backgroundImage: `repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 4px,
+                      rgba(255, 255, 255, 0.05) 4px,
+                      rgba(255, 255, 255, 0.05) 8px
+                    )`
+                  }}
+                />
+                <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {section.items.map((project, index) => (
                   <ScrollAnimation key={project.id} animation="fadeUp" delay={0.08 + 0.06 * index}>
                     <article
-                      className="relative h-full rounded-3xl overflow-hidden border border-white/10 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.9)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_26px_90px_-55px_rgba(0,0,0,0.95)]"
+                      className="relative h-full overflow-hidden border border-white/10 transition-all duration-500 hover:z-10"
                       style={{ backgroundImage: gradientPresets[index % gradientPresets.length] }}
                       data-cursor="link"
                     >
@@ -327,6 +342,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                     </article>
                   </ScrollAnimation>
                 ))}
+                </div>
               </div>
             </div>
           ))}

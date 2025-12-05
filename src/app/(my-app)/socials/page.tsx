@@ -33,7 +33,7 @@ export default function SocialsPage() {
 
       {/* Page Content */}
       <section
-        className="relative grow px-6 md:px-12 lg:px-32 xl:px-32 py-24 min-h-[70vh]"
+        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]"
         style={{ paddingTop: '24px' }}
       >
 
@@ -65,10 +65,9 @@ export default function SocialsPage() {
             </p>
           </div>
 
-          {/* Staggered Grid Layout */}
-          <div className="relative w-full">
-            <div className="pointer-events-none absolute inset-0 -z-10 rounded-4xl border border-white/5 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(255,168,88,0.08),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(121,94,255,0.1),transparent_45%)]" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+          {/* Staggered Grid Layout - borders act as grid lines */}
+          <div className="relative w-full border-t border-white/10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {SOCIAL_PLATFORMS.map((social, index) => (
               <a
                 key={social}
@@ -80,7 +79,7 @@ export default function SocialsPage() {
                 data-cursor="link"
                 style={{ transitionDelay: mounted ? `${200 + index * 50}ms` : '0ms' }}
               >
-                  <div className="relative h-full aspect-square overflow-hidden rounded-3xl border border-white/8 bg-white/5/90 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.8)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_80px_-45px_rgba(0,0,0,0.9)]">
+                  <div className="relative h-full aspect-square overflow-hidden border-r border-b border-white/10 bg-transparent transition-all duration-500 hover:bg-white/5 hover:z-10">
                     <div className={`absolute inset-0 ${gradientPresets[index % gradientPresets.length]} opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
                     <div className="absolute inset-0 bg-linear-to-b from-white/8 via-white/5 to-transparent pointer-events-none" />
 

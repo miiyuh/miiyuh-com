@@ -18,6 +18,9 @@ export { ScrollAnimation } from './effects/scroll-animations'
 export { ParallaxElement } from './effects/parallax-effects'
 export { ReadingProgressBar } from './effects/reading-progress-bar'
 export { LoadingProgressBar } from './effects/loading-progress-bar'
+export { 
+  InteractiveGridBackground
+} from './effects/interactive-grid-background'
 
 // Debug components (only for development)
 export { default as FontDebug } from './debug/font-debug'
