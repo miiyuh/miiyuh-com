@@ -186,11 +186,11 @@ export default function BlogClient({
             />
           </div>
 
-          <div className="mb-16">
-            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9]">
-              the log.
+                    <div className="mb-16 max-w-4xl">
+            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9] select-none cursor-default">
+              blog.
             </h1>
-            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed">
+            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light select-none cursor-default">
               thoughts, stories, and experiments archived in time.
             </p>
           </div>

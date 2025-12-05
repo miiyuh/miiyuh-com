@@ -12,6 +12,7 @@ import GalleryCollections from './src/collections/GalleryCollections'
 import GalleryImages from './src/collections/GalleryImages'
 import Posts from './src/collections/Posts'
 import Projects from './src/collections/Projects'
+import AboutPage from './src/collections/AboutPage'
 import { LegalPages } from './src/globals/LegalPages'
 
 const filename = fileURLToPath(import.meta.url)
@@ -24,7 +25,7 @@ export default buildConfig({
       titleSuffix: ' - miiyuh CMS',
     },
   },
-  collections: [Users, Media, GalleryCollections, GalleryImages, Posts, Projects],
+  collections: [Users, Media, GalleryCollections, GalleryImages, Posts, Projects, AboutPage],
   globals: [LegalPages],
   plugins: [
     s3Storage({

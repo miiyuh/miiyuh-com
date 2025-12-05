@@ -1,103 +1,121 @@
-import { mergeProps } from "@base-ui-components/react/merge-props";
-import { useRender } from "@base-ui-components/react/use-render";
-import { ChevronRight, MoreHorizontal } from "lucide-react";
-import type * as React from "react";
+'use client'
 
-import { cn } from "@/lib/utils";
+import { Slot } from '@radix-ui/react-slot'
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
+import { ChevronRight, MoreHorizontal } from 'lucide-react'
 
-function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
-  return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
+import { cn } from '@/lib/utils'
+
+const Breadcrumb = forwardRef<HTMLElement, ComponentPropsWithoutRef<'nav'>>(
+  (props, ref) => {
+    return <nav aria-label="breadcrumb" data-slot="breadcrumb" ref={ref} {...props} />
+  },
+)
+Breadcrumb.displayName = 'Breadcrumb'
+
+const BreadcrumbList = forwardRef<HTMLOListElement, ComponentPropsWithoutRef<'ol'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <ol
+        className={cn(
+          'flex flex-wrap items-center gap-1.5 wrap-break-word text-muted-foreground text-sm sm:gap-2.5',
+          className,
+        )}
+        data-slot="breadcrumb-list"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+BreadcrumbList.displayName = 'BreadcrumbList'
+
+const BreadcrumbItem = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<'li'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <li
+        className={cn('inline-flex items-center gap-1.5', className)}
+        data-slot="breadcrumb-item"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+BreadcrumbItem.displayName = 'BreadcrumbItem'
+
+interface BreadcrumbLinkProps extends ComponentPropsWithoutRef<'a'> {
+  asChild?: boolean
 }
 
-function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
-  return (
-    <ol
-      className={cn(
-        "flex flex-wrap items-center gap-1.5 break-words text-muted-foreground text-sm sm:gap-2.5",
-        className,
-      )}
-      data-slot="breadcrumb-list"
-      {...props}
-    />
-  );
-}
+const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
+  ({ className, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'a'
+    return (
+      <Comp
+        className={cn('transition-colors hover:text-foreground', className)}
+        data-slot="breadcrumb-link"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+BreadcrumbLink.displayName = 'BreadcrumbLink'
 
-function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
-  return (
-    <li
-      className={cn("inline-flex items-center gap-1.5", className)}
-      data-slot="breadcrumb-item"
-      {...props}
-    />
-  );
-}
+const BreadcrumbPage = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<'span'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <span
+        aria-current="page"
+        aria-disabled="true"
+        className={cn('font-normal text-foreground', className)}
+        data-slot="breadcrumb-page"
+        role="link"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+BreadcrumbPage.displayName = 'BreadcrumbPage'
 
-function BreadcrumbLink({
-  className,
-  render,
-  ...props
-}: useRender.ComponentProps<"a">) {
-  const defaultProps = {
-    className: cn("transition-colors hover:text-foreground", className),
-    "data-slot": "breadcrumb-link",
-  };
+const BreadcrumbSeparator = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<'li'>>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <li
+        aria-hidden="true"
+        className={cn('opacity-72 [&>svg]:size-4', className)}
+        data-slot="breadcrumb-separator"
+        role="presentation"
+        ref={ref}
+        {...props}
+      >
+        {children ?? <ChevronRight />}
+      </li>
+    )
+  },
+)
+BreadcrumbSeparator.displayName = 'BreadcrumbSeparator'
 
-  return useRender({
-    defaultTagName: "a",
-    props: mergeProps<"a">(defaultProps, props),
-    render,
-  });
-}
-
-function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    // biome-ignore lint(a11y/useFocusableInteractive): known
-    <span
-      aria-current="page"
-      aria-disabled="true"
-      className={cn("font-normal text-foreground", className)}
-      data-slot="breadcrumb-page"
-      role="link"
-      {...props}
-    />
-  );
-}
-
-function BreadcrumbSeparator({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"li">) {
-  return (
-    <li
-      aria-hidden="true"
-      className={cn("opacity-72 [&>svg]:size-4", className)}
-      data-slot="breadcrumb-separator"
-      role="presentation"
-      {...props}
-    >
-      {children ?? <ChevronRight />}
-    </li>
-  );
-}
-
-function BreadcrumbEllipsis({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
-  return (
-    <span
-      aria-hidden="true"
-      className={className}
-      data-slot="breadcrumb-ellipsis"
-      role="presentation"
-      {...props}
-    >
-      <MoreHorizontal className="size-4" />
-      <span className="sr-only">More</span>
-    </span>
-  );
-}
+const BreadcrumbEllipsis = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<'span'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <span
+        aria-hidden="true"
+        className={className}
+        data-slot="breadcrumb-ellipsis"
+        role="presentation"
+        ref={ref}
+        {...props}
+      >
+        <MoreHorizontal className="size-4" />
+        <span className="sr-only">More</span>
+      </span>
+    )
+  },
+)
+BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'
 
 export {
   Breadcrumb,
@@ -107,4 +125,4 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-};
+}

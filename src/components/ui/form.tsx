@@ -1,17 +1,23 @@
-"use client";
+'use client'
 
-import { Form as FormPrimitive } from "@base-ui-components/react/form";
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
-function Form({ className, ...props }: FormPrimitive.Props) {
-  return (
-    <FormPrimitive
-      className={cn("flex w-full flex-col gap-4", className)}
-      data-slot="form"
-      {...props}
-    />
-  );
-}
+interface FormProps extends ComponentPropsWithoutRef<'form'> {}
 
-export { Form };
+const Form = forwardRef<HTMLFormElement, FormProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <form
+        className={cn('flex w-full flex-col gap-4', className)}
+        data-slot="form"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+Form.displayName = 'Form'
+
+export { Form }

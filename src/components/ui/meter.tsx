@@ -1,67 +1,106 @@
-"use client";
+'use client'
 
-import { Meter as MeterPrimitive } from "@base-ui-components/react/meter";
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
-function Meter({ className, children, ...props }: MeterPrimitive.Root.Props) {
-  return (
-    <MeterPrimitive.Root
-      className={cn("flex w-full flex-col gap-2", className)}
-      {...props}
-    >
-      {children ? (
-        children
-      ) : (
-        <MeterTrack>
-          <MeterIndicator />
-        </MeterTrack>
-      )}
-    </MeterPrimitive.Root>
-  );
+interface MeterProps extends ComponentPropsWithoutRef<'div'> {
+  value?: number
+  min?: number
+  max?: number
+  children?: React.ReactNode
 }
 
-function MeterLabel({ className, ...props }: MeterPrimitive.Label.Props) {
-  return (
-    <MeterPrimitive.Label
-      className={cn("font-medium text-sm", className)}
-      data-slot="meter-label"
-      {...props}
-    />
-  );
-}
+const Meter = forwardRef<HTMLDivElement, MeterProps>(
+  ({ className, value = 0, min = 0, max = 100, children, ...props }, ref) => {
+    const percentage = ((value - min) / (max - min)) * 100
 
-function MeterTrack({ className, ...props }: MeterPrimitive.Track.Props) {
-  return (
-    <MeterPrimitive.Track
-      className={cn("block h-2 w-full overflow-hidden bg-input", className)}
-      data-slot="meter-track"
-      {...props}
-    />
-  );
-}
+    return (
+      <div
+        className={cn('flex w-full flex-col gap-2', className)}
+        data-slot="meter"
+        role="meter"
+        aria-valuenow={value}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        ref={ref}
+        {...props}
+      >
+        {children ? (
+          children
+        ) : (
+          <MeterTrack>
+            <MeterIndicator style={{ width: `${percentage}%` }} />
+          </MeterTrack>
+        )}
+      </div>
+    )
+  },
+)
+Meter.displayName = 'Meter'
 
-function MeterIndicator({
-  className,
-  ...props
-}: MeterPrimitive.Indicator.Props) {
-  return (
-    <MeterPrimitive.Indicator
-      className={cn("bg-primary transition-all duration-500", className)}
-      data-slot="meter-indicator"
-      {...props}
-    />
-  );
-}
+interface MeterLabelProps extends ComponentPropsWithoutRef<'span'> {}
 
-function MeterValue({ className, ...props }: MeterPrimitive.Value.Props) {
-  return (
-    <MeterPrimitive.Value
-      className={cn("text-sm tabular-nums", className)}
-      data-slot="meter-value"
-      {...props}
-    />
-  );
-}
+const MeterLabel = forwardRef<HTMLSpanElement, MeterLabelProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <span
+        className={cn('font-medium text-sm', className)}
+        data-slot="meter-label"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+MeterLabel.displayName = 'MeterLabel'
 
-export { Meter, MeterLabel, MeterTrack, MeterIndicator, MeterValue };
+interface MeterTrackProps extends ComponentPropsWithoutRef<'div'> {}
+
+const MeterTrack = forwardRef<HTMLDivElement, MeterTrackProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('block h-2 w-full overflow-hidden rounded-full bg-input', className)}
+        data-slot="meter-track"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+MeterTrack.displayName = 'MeterTrack'
+
+interface MeterIndicatorProps extends ComponentPropsWithoutRef<'div'> {}
+
+const MeterIndicator = forwardRef<HTMLDivElement, MeterIndicatorProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('h-full bg-primary transition-all duration-500', className)}
+        data-slot="meter-indicator"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+MeterIndicator.displayName = 'MeterIndicator'
+
+interface MeterValueProps extends ComponentPropsWithoutRef<'span'> {}
+
+const MeterValue = forwardRef<HTMLSpanElement, MeterValueProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <span
+        className={cn('text-sm tabular-nums', className)}
+        data-slot="meter-value"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+MeterValue.displayName = 'MeterValue'
+
+export { Meter, MeterLabel, MeterTrack, MeterIndicator, MeterValue }

@@ -35,28 +35,64 @@ export function RouteLoadingProvider({ children }: { children: React.ReactNode }
     }
 
     setPortalProgress(0)
+    
+    // Quick initial progress
+    const quickStart = window.setTimeout(() => setPortalProgress(25), 50)
+    
     const interval = window.setInterval(() => {
       setPortalProgress((prev) => {
-        if (prev >= 95) return prev
-        return prev + Math.random() * 12 + 5
+        if (prev >= 85) return prev
+        return prev + Math.random() * 10 + 5
       })
-    }, 180)
+    }, 120)
 
-    return () => window.clearInterval(interval)
+    return () => {
+      window.clearTimeout(quickStart)
+      window.clearInterval(interval)
+    }
   }, [portalLoading])
 
+  // Complete portal loading quickly once pathname changes (navigation started)
+  // The destination page's loading.tsx will handle the rest of the loading state
   useEffect(() => {
     if (!portalLoading) return
-    if (portalTarget && portalTarget !== pathname) return
-
-    const timer = window.setTimeout(() => {
+    
+    // If we have a target and the pathname has changed to it, complete the animation
+    if (portalTarget && pathname === portalTarget) {
+      // Quick completion - the loading.tsx is now handling the loading state
       setPortalProgress(100)
-      setPortalLoading(false)
-      setPortalProgress(0)
-      setPortalTarget(null)
-    }, 400)
-
-    return () => window.clearTimeout(timer)
+      const timer = window.setTimeout(() => {
+        setPortalLoading(false)
+        setPortalProgress(0)
+        setPortalTarget(null)
+      }, 200)
+      return () => window.clearTimeout(timer)
+    }
+    
+    // If pathname changed to something else (navigation happened), also complete
+    if (portalTarget && pathname !== portalTarget && pathname !== '/') {
+      setPortalProgress(100)
+      const timer = window.setTimeout(() => {
+        setPortalLoading(false)
+        setPortalProgress(0)
+        setPortalTarget(null)
+      }, 200)
+      return () => window.clearTimeout(timer)
+    }
+    
+    // Fallback: if loading takes too long, complete anyway
+    const fallbackTimer = window.setTimeout(() => {
+      if (portalLoading) {
+        setPortalProgress(100)
+        window.setTimeout(() => {
+          setPortalLoading(false)
+          setPortalProgress(0)
+          setPortalTarget(null)
+        }, 200)
+      }
+    }, 5000)
+    
+    return () => window.clearTimeout(fallbackTimer)
   }, [pathname, portalLoading, portalTarget])
 
   useEffect(() => {
@@ -132,32 +168,53 @@ export function useRouteLoading() {
 function PortalTransitionOverlay({ active, progress }: { active: boolean; progress: number }) {
   return (
     <div
-      className={`fixed inset-0 z-70 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-70 transition-opacity duration-300 ${
         active ? 'opacity-100 pointer-events-none' : 'opacity-0 pointer-events-none'
       }`}
     >
-      <div className="absolute inset-0 bg-[#020202]/80 backdrop-blur-3xl" />
-      <div className="relative flex h-full flex-col items-center justify-center gap-6 text-center px-6">
-        <div className="relative">
-          <div className="h-48 w-48 rounded-full border border-accent-primary/10 animate-pulse" />
-          <div
-            className="absolute inset-4 rounded-full border border-accent-primary/60 animate-spin"
-            style={{ animationDuration: '2.2s' }}
+      <div className="absolute inset-0 bg-[#070707]/95 backdrop-blur-sm" />
+      <div className="relative flex h-full flex-col items-center justify-center gap-8">
+        {/* Simple loading indicator */}
+        <div className="relative flex items-center justify-center">
+          {/* Outer ring */}
+          <div 
+            className="absolute h-16 w-16 rounded-full border border-white/10"
           />
-          <div className="absolute inset-10 rounded-full bg-accent-primary/10 blur-3xl" />
-          <div className="absolute inset-12 rounded-full border border-white/10" />
-          <span className="absolute inset-0 flex items-center justify-center text-4xl font-serif text-white/80">
-            {Math.min(100, Math.round(progress))}%
+          {/* Progress ring */}
+          <svg className="h-16 w-16 -rotate-90" viewBox="0 0 64 64">
+            <circle
+              cx="32"
+              cy="32"
+              r="28"
+              fill="none"
+              stroke="rgba(250, 243, 224, 0.15)"
+              strokeWidth="2"
+            />
+            <circle
+              cx="32"
+              cy="32"
+              r="28"
+              fill="none"
+              stroke="rgba(250, 243, 224, 0.9)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeDasharray={`${Math.min(100, progress) * 1.76} 176`}
+              className="transition-all duration-200 ease-out"
+              style={{
+                filter: 'drop-shadow(0 0 8px rgba(250, 243, 224, 0.5))'
+              }}
+            />
+          </svg>
+          {/* Percentage */}
+          <span className="absolute text-lg font-mono text-white/90 tabular-nums">
+            {Math.min(100, Math.round(progress))}
           </span>
         </div>
-        <div className="space-y-2">
-          <p className="text-[0.65rem] uppercase tracking-[0.4em] text-white/60">
-            initiating jump
-          </p>
-          <p className="text-sm text-white/75 font-light">
-            preparing your next experience
-          </p>
-        </div>
+        
+        {/* Simple text */}
+        <p className="text-xs uppercase tracking-[0.3em] text-white/40 font-mono">
+          loading
+        </p>
       </div>
     </div>
   )

@@ -1,10 +1,14 @@
 "use client";
 
-import { Avatar as AvatarPrimitive } from "@base-ui-components/react/avatar";
+import { Avatar as AvatarPrimitive } from "@ark-ui/react/avatar";
+import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
 
-function Avatar({ className, ...props }: AvatarPrimitive.Root.Props) {
+function Avatar({
+  className,
+  ...props
+}: ComponentProps<typeof AvatarPrimitive.Root>) {
   return (
     <AvatarPrimitive.Root
       className={cn(
@@ -17,7 +21,10 @@ function Avatar({ className, ...props }: AvatarPrimitive.Root.Props) {
   );
 }
 
-function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
+function AvatarImage({
+  className,
+  ...props
+}: ComponentProps<typeof AvatarPrimitive.Image>) {
   return (
     <AvatarPrimitive.Image
       className={cn("size-full object-cover", className)}
@@ -30,7 +37,7 @@ function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
 function AvatarFallback({
   className,
   ...props
-}: AvatarPrimitive.Fallback.Props) {
+}: ComponentProps<typeof AvatarPrimitive.Fallback>) {
   return (
     <AvatarPrimitive.Fallback
       className={cn(

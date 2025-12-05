@@ -1,6 +1,6 @@
 # Copilot Instructions for miiyuh.com
 
-This repository is a **Next.js 15** personal portfolio focused on photography, artwork, and interactive animations. It uses **TypeScript**, **Tailwind CSS v4**, and the **App Router**.
+This repository is a **Next.js 16** personal portfolio focused on photography, artwork, and interactive animations. It uses **TypeScript**, **Tailwind CSS v4**, and the **App Router**.
 
 ## Project Structure
 - `src/app/(my-app)/` – All route folders (blog, projects, socials, etc.)
@@ -22,36 +22,36 @@ This repository is a **Next.js 15** personal portfolio focused on photography, a
 ## Development Workflow
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
-# Development server (TurboPack)
-pnpm run dev
+# Development server (Turbopack - Next.js 16 default)
+bun run dev
 
-# Production build
-pnpm run build
+# Production build (webpack - due to Payload CMS compatibility)
+bun run build
 
 # Lint and auto‑fix
-pnpm run lint:fix
+bun run lint:fix
 
 # TypeScript check
-pnpm run type-check
+bun run type-check
 
-# Clean build artifacts (uses npx rimraf for cross‑platform compatibility)
-pnpm run clean
+# Clean build artifacts
+bun run clean
 ```
 
 ### `package.json` scripts (relevant excerpt)
 ```json
 "scripts": {
-  "dev": "next dev",
+  "dev": "next dev --turbopack",
   "build": "next build",
   "lint": "next lint",
   "lint:fix": "next lint --fix",
   "type-check": "tsc --noEmit",
-  "clean": "npx rimraf .next"
+  "clean": "bun run --bun ./node_modules/.bin/rimraf .next"
 }
 ```
-> **Note**: The original `clean` script used the global `rimraf` command, which is not available on Windows. Using `npx rimraf` ensures the command works without a global install.
+> **Note**: Using `bun` as the package manager provides faster installations and native TypeScript support.
 
 ## Key Architectural Patterns
 1. **Client‑First Interactivity** – All interactive components start with `'use client'`.

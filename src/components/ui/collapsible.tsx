@@ -1,17 +1,20 @@
 "use client";
 
-import { Collapsible as CollapsiblePrimitive } from "@base-ui-components/react/collapsible";
+import { Collapsible as CollapsiblePrimitive } from "@ark-ui/react/collapsible";
+import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
 
-function Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {
+function Collapsible(
+  props: ComponentProps<typeof CollapsiblePrimitive.Root>
+) {
   return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />;
 }
 
 function CollapsibleTrigger({
   className,
   ...props
-}: CollapsiblePrimitive.Trigger.Props) {
+}: ComponentProps<typeof CollapsiblePrimitive.Trigger>) {
   return (
     <CollapsiblePrimitive.Trigger
       className={cn("cursor-pointer", className)}
@@ -24,11 +27,11 @@ function CollapsibleTrigger({
 function CollapsiblePanel({
   className,
   ...props
-}: CollapsiblePrimitive.Panel.Props) {
+}: ComponentProps<typeof CollapsiblePrimitive.Content>) {
   return (
-    <CollapsiblePrimitive.Panel
+    <CollapsiblePrimitive.Content
       className={cn(
-        "h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 data-ending-style:h-0 data-starting-style:h-0",
+        "h-(--height) overflow-hidden transition-[height] duration-200 data-[state=closed]:h-0",
         className,
       )}
       data-slot="collapsible-panel"

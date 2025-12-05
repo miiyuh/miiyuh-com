@@ -10,8 +10,9 @@ import type {
 } from '@/types/gallery'
 import { resolveMediaSrc } from '@/utils/media'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// ISR: Revalidate every 60 seconds for faster repeat visits
+// The loading.tsx will show a skeleton during the initial fetch
+export const revalidate = 60
 
 type PageParams = {
     slug: string

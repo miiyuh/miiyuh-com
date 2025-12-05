@@ -4,8 +4,7 @@ import { Noto_Sans, Noto_Serif, Noto_Serif_JP, Instrument_Serif, Noto_Sans_Mono,
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
 import { AppProvider } from '@/components/layout/app-provider'
-
-import { InteractiveGridBackground } from '@/components/effects/interactive-grid-background'
+import { ClientGridBackground } from '@/components/layout/client-grid-background'
 
 const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
 const notoSerif = Noto_Serif({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
@@ -49,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>
-        <InteractiveGridBackground />
+        <ClientGridBackground />
         <div className="relative z-10 flex flex-col min-h-screen">
           <AppProvider>{children}</AppProvider>
         </div>

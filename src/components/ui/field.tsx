@@ -1,10 +1,14 @@
 "use client";
 
-import { Field as FieldPrimitive } from "@base-ui-components/react/field";
+import { Field as FieldPrimitive } from "@ark-ui/react/field";
+import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
 
-function Field({ className, ...props }: FieldPrimitive.Root.Props) {
+function Field({
+  className,
+  ...props
+}: ComponentProps<typeof FieldPrimitive.Root>) {
   return (
     <FieldPrimitive.Root
       className={cn("flex flex-col items-start gap-2", className)}
@@ -14,7 +18,10 @@ function Field({ className, ...props }: FieldPrimitive.Root.Props) {
   );
 }
 
-function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
+function FieldLabel({
+  className,
+  ...props
+}: ComponentProps<typeof FieldPrimitive.Label>) {
   return (
     <FieldPrimitive.Label
       className={cn("inline-flex items-center gap-2 text-sm/4", className)}
@@ -27,9 +34,9 @@ function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
 function FieldDescription({
   className,
   ...props
-}: FieldPrimitive.Description.Props) {
+}: ComponentProps<typeof FieldPrimitive.HelperText>) {
   return (
-    <FieldPrimitive.Description
+    <FieldPrimitive.HelperText
       className={cn("text-muted-foreground text-xs", className)}
       data-slot="field-description"
       {...props}
@@ -37,9 +44,12 @@ function FieldDescription({
   );
 }
 
-function FieldError({ className, ...props }: FieldPrimitive.Error.Props) {
+function FieldError({
+  className,
+  ...props
+}: ComponentProps<typeof FieldPrimitive.ErrorText>) {
   return (
-    <FieldPrimitive.Error
+    <FieldPrimitive.ErrorText
       className={cn("text-destructive-foreground text-xs", className)}
       data-slot="field-error"
       {...props}
@@ -47,14 +57,13 @@ function FieldError({ className, ...props }: FieldPrimitive.Error.Props) {
   );
 }
 
-const FieldControl = FieldPrimitive.Control;
-const FieldValidity = FieldPrimitive.Validity;
+const FieldInput = FieldPrimitive.Input;
 
 export {
   Field,
   FieldLabel,
   FieldDescription,
   FieldError,
-  FieldControl,
-  FieldValidity,
+  FieldInput,
+  FieldInput as FieldControl,
 };

@@ -15,8 +15,8 @@ interface SimpleBreadcrumbProps {
 export function SimpleBreadcrumb({ items, className = '' }: SimpleBreadcrumbProps) {
     return (
         <nav
-            className={`mb-8 flex items-center gap-2 text-sm font-sans font-semibold text-[#FAF3E0]/60 overflow-hidden ${className}`}
-            style={{ fontFamily: INTER_FONT_STACK }}
+            className={`mb-8 flex items-center gap-2 text-sm font-sans font-semibold text-[#FAF3E0]/60 overflow-hidden select-none cursor-default ${className}`}
+            style={{ fontFamily: INTER_FONT_STACK, userSelect: 'none' }}
         >
             {items.map((item, index) => (
                 <span key={index} className="flex items-center gap-2">

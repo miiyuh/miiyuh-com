@@ -1,61 +1,47 @@
 "use client";
 
-import { Menu as MenuPrimitive } from "@base-ui-components/react/menu";
+import { Menu as MenuPrimitive } from "@ark-ui/react/menu";
+import { Portal } from "@ark-ui/react/portal";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
+import type { ComponentProps } from "react";
 import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
 const Menu = MenuPrimitive.Root;
 
-const MenuPortal = MenuPrimitive.Portal;
+const MenuPortal = Portal;
 
-function MenuTrigger(props: MenuPrimitive.Trigger.Props) {
+function MenuTrigger(props: ComponentProps<typeof MenuPrimitive.Trigger>) {
   return <MenuPrimitive.Trigger data-slot="menu-trigger" {...props} />;
 }
 
 function MenuPopup({
   className,
-  sideOffset = 4,
-  align = "center",
-  alignOffset = 0,
-  side = "bottom",
   ...props
-}: MenuPrimitive.Popup.Props & {
-  align?: MenuPrimitive.Positioner.Props["align"];
-  sideOffset?: MenuPrimitive.Positioner.Props["sideOffset"];
-  alignOffset?: MenuPrimitive.Positioner.Props["alignOffset"];
-  side?: MenuPrimitive.Positioner.Props["side"];
-}) {
+}: ComponentProps<typeof MenuPrimitive.Content>) {
   return (
-    <MenuPrimitive.Portal>
+    <Portal>
       <MenuPrimitive.Positioner
-        align={align}
-        alignOffset={alignOffset}
         className="z-50"
         data-slot="menu-positioner"
-        side={side}
-        sideOffset={sideOffset}
       >
-        <span
+        <MenuPrimitive.Content
           className={cn(
-            "relative flex origin-(--transform-origin) rounded-lg border bg-popover bg-clip-padding shadow-lg transition-[scale,opacity] before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] has-data-starting-style:scale-98 has-data-starting-style:opacity-0 dark:bg-clip-border dark:before:shadow-[0_-1px_--theme(--color-white/8%)]",
+            "relative flex origin-(--transform-origin) rounded-lg border bg-popover bg-clip-padding shadow-lg transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 dark:bg-clip-border",
             className,
           )}
+          data-slot="menu-popup"
         >
-          <MenuPrimitive.Popup
-            className="max-h-(--available-height) not-[class*='w-']:min-w-32 overflow-y-auto p-1"
-            data-slot="menu-popup"
-            {...props}
-          />
-        </span>
+          <div className="max-h-(--available-height) not-[class*='w-']:min-w-32 overflow-y-auto p-1" {...props} />
+        </MenuPrimitive.Content>
       </MenuPrimitive.Positioner>
-    </MenuPrimitive.Portal>
+    </Portal>
   );
 }
 
-function MenuGroup(props: MenuPrimitive.Group.Props) {
-  return <MenuPrimitive.Group data-slot="menu-group" {...props} />;
+function MenuGroup(props: ComponentProps<typeof MenuPrimitive.ItemGroup>) {
+  return <MenuPrimitive.ItemGroup data-slot="menu-group" {...props} />;
 }
 
 function MenuItem({
@@ -63,7 +49,7 @@ function MenuItem({
   inset,
   variant = "default",
   ...props
-}: MenuPrimitive.Item.Props & {
+}: ComponentProps<typeof MenuPrimitive.Item> & {
   inset?: boolean;
   variant?: "default" | "destructive";
 }) {
@@ -85,11 +71,13 @@ function MenuCheckboxItem({
   className,
   children,
   checked,
+  onCheckedChange,
   ...props
-}: MenuPrimitive.CheckboxItem.Props) {
+}: ComponentProps<typeof MenuPrimitive.CheckboxItem>) {
   return (
     <MenuPrimitive.CheckboxItem
       checked={checked}
+      onCheckedChange={onCheckedChange}
       className={cn(
         "grid in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-sm py-1 ps-2 pe-4 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:text-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
@@ -97,23 +85,23 @@ function MenuCheckboxItem({
       data-slot="menu-checkbox-item"
       {...props}
     >
-      <MenuPrimitive.CheckboxItemIndicator className="col-start-1">
+      <MenuPrimitive.ItemIndicator className="col-start-1">
         <CheckIcon />
-      </MenuPrimitive.CheckboxItemIndicator>
-      <span className="col-start-2">{children}</span>
+      </MenuPrimitive.ItemIndicator>
+      <MenuPrimitive.ItemText className="col-start-2">{children}</MenuPrimitive.ItemText>
     </MenuPrimitive.CheckboxItem>
   );
 }
 
-function MenuRadioGroup(props: MenuPrimitive.RadioGroup.Props) {
-  return <MenuPrimitive.RadioGroup data-slot="menu-radio-group" {...props} />;
+function MenuRadioGroup(props: ComponentProps<typeof MenuPrimitive.RadioItemGroup>) {
+  return <MenuPrimitive.RadioItemGroup data-slot="menu-radio-group" {...props} />;
 }
 
 function MenuRadioItem({
   className,
   children,
   ...props
-}: MenuPrimitive.RadioItem.Props) {
+}: ComponentProps<typeof MenuPrimitive.RadioItem>) {
   return (
     <MenuPrimitive.RadioItem
       className={cn(
@@ -123,10 +111,10 @@ function MenuRadioItem({
       data-slot="menu-radio-item"
       {...props}
     >
-      <MenuPrimitive.RadioItemIndicator className="col-start-1">
+      <MenuPrimitive.ItemIndicator className="col-start-1">
         <CheckIcon />
-      </MenuPrimitive.RadioItemIndicator>
-      <span className="col-start-2">{children}</span>
+      </MenuPrimitive.ItemIndicator>
+      <MenuPrimitive.ItemText className="col-start-2">{children}</MenuPrimitive.ItemText>
     </MenuPrimitive.RadioItem>
   );
 }
@@ -135,11 +123,11 @@ function MenuGroupLabel({
   className,
   inset,
   ...props
-}: MenuPrimitive.GroupLabel.Props & {
+}: ComponentProps<typeof MenuPrimitive.ItemGroupLabel> & {
   inset?: boolean;
 }) {
   return (
-    <MenuPrimitive.GroupLabel
+    <MenuPrimitive.ItemGroupLabel
       className={cn(
         "px-2 py-1.5 font-medium text-muted-foreground text-xs data-inset:ps-9 sm:data-inset:ps-8",
         className,
@@ -151,7 +139,10 @@ function MenuGroupLabel({
   );
 }
 
-function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
+function MenuSeparator({
+  className,
+  ...props
+}: ComponentProps<typeof MenuPrimitive.Separator>) {
   return (
     <MenuPrimitive.Separator
       className={cn("mx-2 my-1 h-px bg-border", className)}
@@ -174,20 +165,20 @@ function MenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
-function MenuSub(props: MenuPrimitive.SubmenuRoot.Props) {
-  return <MenuPrimitive.SubmenuRoot data-slot="menu-sub" {...props} />;
-}
+// Note: Ark UI doesn't have built-in submenu support like base-ui
+// For now we export a simplified version - submenus would need to be nested Menu.Root components
+const MenuSub = Menu;
 
 function MenuSubTrigger({
   className,
   inset,
   children,
   ...props
-}: MenuPrimitive.SubmenuTrigger.Props & {
+}: ComponentProps<typeof MenuPrimitive.TriggerItem> & {
   inset?: boolean;
 }) {
   return (
-    <MenuPrimitive.SubmenuTrigger
+    <MenuPrimitive.TriggerItem
       className={cn(
         "flex items-center gap-2 rounded-sm px-2 py-1 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-inset:ps-8 data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:text-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none",
         className,
@@ -198,28 +189,18 @@ function MenuSubTrigger({
     >
       {children}
       <ChevronRightIcon className="ms-auto" />
-    </MenuPrimitive.SubmenuTrigger>
+    </MenuPrimitive.TriggerItem>
   );
 }
 
 function MenuSubPopup({
   className,
-  sideOffset = 0,
-  alignOffset = -4,
-  align = "start",
   ...props
-}: MenuPrimitive.Popup.Props & {
-  align?: MenuPrimitive.Positioner.Props["align"];
-  sideOffset?: MenuPrimitive.Positioner.Props["sideOffset"];
-  alignOffset?: MenuPrimitive.Positioner.Props["alignOffset"];
-}) {
+}: ComponentProps<typeof MenuPrimitive.Content>) {
   return (
     <MenuPopup
-      align={align}
-      alignOffset={alignOffset}
       className={className}
       data-slot="menu-sub-content"
-      sideOffset={sideOffset}
       {...props}
     />
   );

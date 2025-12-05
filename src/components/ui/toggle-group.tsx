@@ -1,16 +1,13 @@
 "use client";
 
-import type { Toggle as TogglePrimitive } from "@base-ui-components/react/toggle";
-import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui-components/react/toggle-group";
+import { ToggleGroup as ToggleGroupPrimitive } from "@ark-ui/react/toggle-group";
 import type { VariantProps } from "class-variance-authority";
+import type { ComponentProps } from "react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import {
-  Toggle as ToggleComponent,
-  type toggleVariants,
-} from "@/components/ui/toggle";
+import { type toggleVariants } from "@/components/ui/toggle";
 
 const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants>
@@ -26,9 +23,10 @@ function ToggleGroup({
   orientation = "horizontal",
   children,
   ...props
-}: ToggleGroupPrimitive.Props & VariantProps<typeof toggleVariants>) {
+}: ComponentProps<typeof ToggleGroupPrimitive.Root> &
+  VariantProps<typeof toggleVariants>) {
   return (
-    <ToggleGroupPrimitive
+    <ToggleGroupPrimitive.Root
       className={cn(
         "flex w-fit *:focus-visible:z-10",
         orientation === "horizontal"
@@ -50,7 +48,7 @@ function ToggleGroup({
       <ToggleGroupContext.Provider value={{ size, variant }}>
         {children}
       </ToggleGroupContext.Provider>
-    </ToggleGroupPrimitive>
+    </ToggleGroupPrimitive.Root>
   );
 }
 
@@ -60,23 +58,31 @@ function Toggle({
   variant,
   size,
   ...props
-}: TogglePrimitive.Props & VariantProps<typeof toggleVariants>) {
+}: ComponentProps<typeof ToggleGroupPrimitive.Item> &
+  VariantProps<typeof toggleVariants>) {
   const context = React.useContext(ToggleGroupContext);
 
   const resolvedVariant = context.variant || variant;
   const resolvedSize = context.size || size;
 
   return (
-    <ToggleComponent
-      className={className}
+    <ToggleGroupPrimitive.Item
+      className={cn(
+        "relative inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium text-sm outline-none transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 hover:bg-accent/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-disabled:pointer-events-none data-disabled:opacity-64 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground data-[state=on]:transition-none dark:data-[state=on]:bg-input/80 dark:hover:bg-accent [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        resolvedSize === "default" && "h-8 min-w-8 px-[calc(--spacing(2)-1px)]",
+        resolvedSize === "lg" && "h-9 min-w-9 px-[calc(--spacing(2.5)-1px)]",
+        resolvedSize === "sm" && "h-7 min-w-7 px-[calc(--spacing(1.5)-1px)]",
+        resolvedVariant === "default" && "border-transparent",
+        resolvedVariant === "outline" &&
+          "border-border bg-clip-padding shadow-xs dark:bg-input/32 dark:hover:bg-input/64 [[data-disabled],:active,[data-state=on]]:shadow-none",
+        className,
+      )}
       data-size={resolvedSize}
       data-variant={resolvedVariant}
-      size={resolvedSize}
-      variant={resolvedVariant}
       {...props}
     >
       {children}
-    </ToggleComponent>
+    </ToggleGroupPrimitive.Item>
   );
 }
 

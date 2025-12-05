@@ -98,7 +98,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                 {collection.title}
                                 {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <JapanFlag className="ml-3 inline-block" />}
                             </h1>
-                            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed">
+                            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed select-none cursor-default">
                                 {collection.description}
                             </p>
                         </div>
@@ -132,8 +132,10 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                                 fill
                                                 className={`w-full h-full object-cover transition-all duration-700 ${loadedImages.has(imgIndex) ? 'opacity-100' : 'opacity-0'
                                                     }`}
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                quality={85}
+                                                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                                                quality={75}
+                                                loading={imgIndex < 6 ? 'eager' : 'lazy'}
+                                                priority={imgIndex === 0}
                                                 onLoad={() => handleImageLoad(imgIndex)}
                                             />
                                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>

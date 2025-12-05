@@ -11,7 +11,8 @@ import BlogPostContent from './blog-post-content'
 import type { BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
 
-export const dynamic = 'force-dynamic'
+// ISR: Revalidate every 60 seconds for faster repeat visits
+export const revalidate = 60
 
 type PageParams = { year: string; month: string; slug: string }
 

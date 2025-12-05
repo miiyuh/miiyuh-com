@@ -1,6 +1,7 @@
 "use client";
 
-import { Progress as ProgressPrimitive } from "@base-ui-components/react/progress";
+import { Progress as ProgressPrimitive } from "@ark-ui/react/progress";
+import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -8,7 +9,7 @@ function Progress({
   className,
   children,
   ...props
-}: ProgressPrimitive.Root.Props) {
+}: ComponentProps<typeof ProgressPrimitive.Root>) {
   return (
     <ProgressPrimitive.Root
       className={cn("flex w-full flex-col gap-2", className)}
@@ -26,7 +27,10 @@ function Progress({
   );
 }
 
-function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
+function ProgressLabel({
+  className,
+  ...props
+}: ComponentProps<typeof ProgressPrimitive.Label>) {
   return (
     <ProgressPrimitive.Label
       className={cn("font-medium text-sm", className)}
@@ -36,7 +40,10 @@ function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
   );
 }
 
-function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
+function ProgressTrack({
+  className,
+  ...props
+}: ComponentProps<typeof ProgressPrimitive.Track>) {
   return (
     <ProgressPrimitive.Track
       className={cn(
@@ -52,9 +59,9 @@ function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
 function ProgressIndicator({
   className,
   ...props
-}: ProgressPrimitive.Indicator.Props) {
+}: ComponentProps<typeof ProgressPrimitive.Range>) {
   return (
-    <ProgressPrimitive.Indicator
+    <ProgressPrimitive.Range
       className={cn("bg-primary transition-all duration-500", className)}
       data-slot="progress-indicator"
       {...props}
@@ -62,9 +69,12 @@ function ProgressIndicator({
   );
 }
 
-function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
+function ProgressValue({
+  className,
+  ...props
+}: ComponentProps<typeof ProgressPrimitive.ValueText>) {
   return (
-    <ProgressPrimitive.Value
+    <ProgressPrimitive.ValueText
       className={cn("text-sm tabular-nums", className)}
       data-slot="progress-value"
       {...props}

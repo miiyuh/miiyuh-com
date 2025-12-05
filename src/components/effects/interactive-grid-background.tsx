@@ -1,9 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 
-export function InteractiveGridBackground() {
+interface InteractiveGridBackgroundProps {
+    belowHeader?: boolean
+}
+
+export function InteractiveGridBackground({ belowHeader = false }: InteractiveGridBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const headerHeight = useMemo(() => belowHeader ? 72 : 0, [belowHeader])
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -18,12 +23,12 @@ export function InteractiveGridBackground() {
 
         const resize = () => {
             canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
+            canvas.height = window.innerHeight - headerHeight
         }
 
         const handleMouseMove = (e: MouseEvent) => {
             mouseX = e.clientX
-            mouseY = e.clientY
+            mouseY = e.clientY - headerHeight
         }
 
         // Grid configuration
@@ -36,15 +41,21 @@ export function InteractiveGridBackground() {
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'
             ctx.lineWidth = 1
 
-            const cols = Math.ceil(canvas.width / gridSize)
-            const rows = Math.ceil(canvas.height / gridSize)
+            const cols = Math.ceil(canvas.width / gridSize) + 2
+            const rows = Math.ceil(canvas.height / gridSize) + 2
+
+            // Center the grid - calculate offset so grid is symmetrical
+            const totalGridWidth = cols * gridSize
+            const totalGridHeight = rows * gridSize
+            const offsetX = (canvas.width - totalGridWidth) / 2 + gridSize / 2
+            const offsetY = (canvas.height - totalGridHeight) / 2 + gridSize / 2
 
             // Draw vertical lines
             for (let i = 0; i <= cols; i++) {
                 ctx.beginPath()
                 for (let j = 0; j <= rows; j++) {
-                    const x = i * gridSize
-                    const y = j * gridSize
+                    const x = offsetX + i * gridSize
+                    const y = offsetY + j * gridSize
 
                     // Calculate distance from mouse
                     const dx = mouseX - x
@@ -76,8 +87,8 @@ export function InteractiveGridBackground() {
             for (let j = 0; j <= rows; j++) {
                 ctx.beginPath()
                 for (let i = 0; i <= cols; i++) {
-                    const x = i * gridSize
-                    const y = j * gridSize
+                    const x = offsetX + i * gridSize
+                    const y = offsetY + j * gridSize
 
                     // Calculate distance from mouse
                     const dx = mouseX - x
@@ -119,13 +130,17 @@ export function InteractiveGridBackground() {
             window.removeEventListener('mousemove', handleMouseMove)
             cancelAnimationFrame(animationFrameId)
         }
-    }, [])
+    }, [headerHeight])
 
     return (
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 z-0 pointer-events-none"
-            style={{ opacity: 0.6 }}
+            className="fixed inset-x-0 z-0 pointer-events-none"
+            style={{ 
+                opacity: 0.6,
+                top: headerHeight,
+                bottom: 0
+            }}
         />
     )
 }

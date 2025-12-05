@@ -10,9 +10,9 @@ export const metadata = {
   description: 'thoughts, stories, and ideas',
 }
 
-// Use dynamic rendering to avoid Server Action caching issues
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// ISR: Revalidate every 60 seconds for faster repeat visits
+// The loading.tsx will show a skeleton during the initial fetch
+export const revalidate = 60
 
 const POSTS_PER_PAGE = 9
 

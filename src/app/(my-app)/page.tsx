@@ -59,7 +59,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
 
       {/* Interactive dots background */}
             {/* Main full height container */}
-      <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32" style={{ minHeight: 'calc(100vh - 120px)' }}>
+      <main className="relative flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 xl:px-32 flex-1" style={{ minHeight: 'auto' }}>
         {/* Inner content centered */}
         <div className={`flex flex-col items-center justify-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           
@@ -121,7 +121,7 @@ export default function HomePage() {  const playClick = useSound('/sounds/click.
                       {link.href === '/aboutme' && 'get to know me better'}
                       {link.href === '/socials' && 'find me everywhere'}
                       {link.href === '/gallery' && 'photos & artwork'}
-                      {link.href === '/projects' && 'creative organizations'}
+                      {link.href === '/projects' && 'things i\'ve built'}
                       {link.href === '/blog' && 'my thoughts & stories'}
                     </p>
                   </div>

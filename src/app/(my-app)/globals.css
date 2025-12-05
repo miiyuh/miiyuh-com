@@ -19,6 +19,32 @@ html {
   color: var(--text-primary);
 }
 
+/* Disable text selection on headings and navigation */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav,
+nav * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default !important;
+}
+
+/* Disable text cursor on page descriptions and breadcrumbs */
+p:not(a > *) {
+  cursor: default;
+}
+
+/* Ensure links stay clickable */
+a {
+  cursor: pointer;
+}
+
 .font-sans p {
   font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif !important;
 }

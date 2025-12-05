@@ -1,77 +1,115 @@
-"use client";
+'use client'
 
-import { Toolbar as ToolbarPrimitive } from "@base-ui-components/react/toolbar";
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
-function Toolbar({ className, ...props }: ToolbarPrimitive.Root.Props) {
-  return (
-    <ToolbarPrimitive.Root
-      className={cn(
-        "relative flex gap-2 rounded-xl border bg-card bg-clip-padding p-1 text-card-foreground",
-        className,
-      )}
-      data-slot="toolbar"
-      {...props}
-    />
-  );
+interface ToolbarProps extends ComponentPropsWithoutRef<'div'> {
+  orientation?: 'horizontal' | 'vertical'
 }
 
-function ToolbarButton({ className, ...props }: ToolbarPrimitive.Button.Props) {
-  return (
-    <ToolbarPrimitive.Button
-      className={cn(className)}
-      data-slot="toolbar-button"
-      {...props}
-    />
-  );
+const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
+  ({ className, orientation = 'horizontal', ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          "relative flex gap-2 rounded-xl border bg-card bg-clip-padding p-1 text-card-foreground",
+          orientation === 'vertical' && "flex-col",
+          className,
+        )}
+        data-slot="toolbar"
+        data-orientation={orientation}
+        role="toolbar"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+Toolbar.displayName = 'Toolbar'
+
+const ToolbarButton = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<'button'>>(
+  ({ className, type = 'button', ...props }, ref) => {
+    return (
+      <button
+        className={cn(className)}
+        data-slot="toolbar-button"
+        type={type}
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ToolbarButton.displayName = 'ToolbarButton'
+
+const ToolbarLink = forwardRef<HTMLAnchorElement, ComponentPropsWithoutRef<'a'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <a
+        className={cn(className)}
+        data-slot="toolbar-link"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ToolbarLink.displayName = 'ToolbarLink'
+
+const ToolbarInput = forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        className={cn(className)}
+        data-slot="toolbar-input"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ToolbarInput.displayName = 'ToolbarInput'
+
+const ToolbarGroup = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn("flex items-center gap-1", className)}
+        data-slot="toolbar-group"
+        role="group"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ToolbarGroup.displayName = 'ToolbarGroup'
+
+interface ToolbarSeparatorProps extends ComponentPropsWithoutRef<'div'> {
+  orientation?: 'horizontal' | 'vertical'
 }
 
-function ToolbarLink({ className, ...props }: ToolbarPrimitive.Link.Props) {
-  return (
-    <ToolbarPrimitive.Link
-      className={cn(className)}
-      data-slot="toolbar-link"
-      {...props}
-    />
-  );
-}
-
-function ToolbarInput({ className, ...props }: ToolbarPrimitive.Input.Props) {
-  return (
-    <ToolbarPrimitive.Input
-      className={cn(className)}
-      data-slot="toolbar-input"
-      {...props}
-    />
-  );
-}
-
-function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
-  return (
-    <ToolbarPrimitive.Group
-      className={cn("flex items-center gap-1", className)}
-      data-slot="toolbar-group"
-      {...props}
-    />
-  );
-}
-
-function ToolbarSeparator({
-  className,
-  ...props
-}: ToolbarPrimitive.Separator.Props) {
-  return (
-    <ToolbarPrimitive.Separator
-      className={cn(
-        "shrink-0 bg-border data-[orientation=horizontal]:my-0.5 data-[orientation=vertical]:my-1.5 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:not-[[class^='h-']]:not-[[class*='_h-']]:self-stretch",
-        className,
-      )}
-      data-slot="toolbar-separator"
-      {...props}
-    />
-  );
-}
+const ToolbarSeparator = forwardRef<HTMLDivElement, ToolbarSeparatorProps>(
+  ({ className, orientation = 'vertical', ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          "shrink-0 bg-border",
+          orientation === 'horizontal' && "my-0.5 h-px w-full",
+          orientation === 'vertical' && "mx-1.5 w-px self-stretch",
+          className,
+        )}
+        data-slot="toolbar-separator"
+        data-orientation={orientation}
+        role="separator"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ToolbarSeparator.displayName = 'ToolbarSeparator'
 
 export {
   Toolbar,
@@ -80,4 +118,4 @@ export {
   ToolbarButton,
   ToolbarLink,
   ToolbarInput,
-};
+}

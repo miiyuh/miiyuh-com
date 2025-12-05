@@ -55,11 +55,11 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
             </div>
 
             {/* Header */}
-            <div className="mb-24 max-w-4xl">
-              <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9]">
+            <div className="mb-16 max-w-4xl">
+              <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9] select-none cursor-default">
                 gallery.
               </h1>
-              <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light">
+              <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light select-none cursor-default">
                 A curated collection of moments, perspectives, and digital creations.
               </p>
             </div>
@@ -106,7 +106,10 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                                     alt={collection.title}
                                     fill
                                     className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                                    quality={60}
+                                    loading="lazy"
+                                    placeholder="empty"
                                   />
                                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
                                 </div>
