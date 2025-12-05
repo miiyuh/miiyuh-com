@@ -21,7 +21,7 @@ export default function TermsOfServiceClient({ htmlContent, updatedAt }: TermsOf
 
     return (
         <main className="flex flex-col text-[#FAF3E0] font-sans relative min-h-screen">
-            <div className="relative flex-grow flex px-6 py-12 min-h-screen max-w-7xl mx-auto gap-8 w-full">
+            <div className="relative grow flex px-6 py-12 min-h-screen max-w-7xl mx-auto gap-8 w-full">
                 <section className="flex-1 max-w-4xl">
                     <SimpleBreadcrumb
                         items={[
@@ -46,7 +46,7 @@ export default function TermsOfServiceClient({ htmlContent, updatedAt }: TermsOf
                     </div>
                 </section>
                 <div className="hidden lg:block w-px bg-white/10" />
-                <aside className="hidden lg:block w-64 flex-shrink-0">
+                <aside className="hidden lg:block w-64 shrink-0">
                     <div className="sticky top-24">
                         <TableOfContents contentRef={contentRef} />
                     </div>

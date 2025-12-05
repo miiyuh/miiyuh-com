@@ -122,7 +122,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                           )}
 
                           {/* Type Badge */}
-                          <div className="absolute top-4 left-4 z-40 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                          <div className="absolute top-16 left-4 z-40 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                             {type === 'photography' ? <Camera className="w-3 h-3" /> : <Palette className="w-3 h-3" />}
                             {type}
                           </div>

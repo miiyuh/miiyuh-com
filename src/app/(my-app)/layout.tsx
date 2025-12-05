@@ -42,9 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
-        {/* Preconnect to Inter font */}
+        {/* Inter font from rsms.me */}
         <link rel="preconnect" href="https://rsms.me/" />
-        {/* Load Inter CSS */}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} flex flex-col min-h-screen`}>

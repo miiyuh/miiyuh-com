@@ -75,6 +75,7 @@ export default function ComponentName() {
 ```
 - Export components from `src/components/index.ts` for clean imports.
 - Prefer Tailwind utility classes over custom CSS; only add bespoke styles when necessary.
+- When refining or changing layout components, do not alter the existing configuration for the breadcrumb navigation, the heading that follows it, or the descriptive text underneath them—they should stay as-is unless explicitly requested.
 
 ## Animation System
 - **InteractiveDotsBackground** – Canvas‑based mouse‑following dot grid.

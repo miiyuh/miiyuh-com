@@ -11,7 +11,19 @@
 
 /* Base styles - Inter for everything by default */
 html {
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: InterVariable, sans-serif;
+  }
+}
+
+:root {
+  --font-sans: InterVariable, Inter, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif';
+  --default-font-family: var(--font-sans);
 }
 
 ::selection {
@@ -32,11 +44,16 @@ nav * {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  cursor: default !important;
 }
 
-/* Disable text cursor on page descriptions and breadcrumbs */
-p:not(a > *) {
+/* Navigation links should be clickable */
+nav a,
+nav button {
+  cursor: pointer !important;
+}
+
+/* Disable text cursor on page descriptions and breadcrumbs, but keep clickable paragraphs interactive */
+p:not(a *) {
   cursor: default;
 }
 
@@ -70,17 +87,24 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif;
+  font-family: Inter, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif';
+}
+
+@supports (font-variation-settings: normal) {
+  h1, h2, h3, h4, h5, h6 { font-family: InterVariable, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif; }
+}
+
+body {
+  font-family: InterVariable, Inter, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif !important;
+}
+
+@supports (font-variation-settings: normal) {
+  body { font-family: InterVariable, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif; }
 }
 
 /* Only paragraphs with font-serif class use Noto Serif JP */
 p.font-serif {
   font-family: var(--font-noto-serif), 'Noto Serif JP', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
-}
-
-span,
-div {
-  font-family: inherit, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji);
 }
 
 /* Remove default focus outlines for mouse users, keep for keyboard users */
@@ -91,6 +115,21 @@ div {
 *:focus-visible {
   outline: 2px solid var(--text-primary);
   outline-offset: 2px;
+}
+
+/* Remove browser default glow on input fields */
+input:focus,
+input:focus-visible {
+  box-shadow: none !important;
+}
+
+/* Remove glow/filter effects on SVG icons */
+svg,
+svg *,
+.lucide,
+.lucide * {
+  filter: none !important;
+  -webkit-filter: none !important;
 }
 
 /* Optimize image loading */

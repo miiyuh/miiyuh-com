@@ -2,10 +2,9 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { SOCIAL_PLATFORMS } from '@/constants'
+import { SOCIAL_PLATFORMS, SOCIAL_USERNAMES } from '@/constants'
 import { useSound } from '@/hooks/useSound'
 import { ExternalLink } from 'lucide-react'
-import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 
 export default function SocialsPage() {
@@ -21,6 +20,14 @@ export default function SocialsPage() {
     return name.charAt(0).toUpperCase() + name.slice(1).replace('_', ' ')
   }
 
+  // Card gradient presets for variety on hover
+  const gradientPresets = [
+    'bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.15),transparent_55%),radial-gradient(circle_at_75%_15%,rgba(255,168,88,0.18),transparent_60%),radial-gradient(circle_at_50%_85%,rgba(121,94,255,0.16),transparent_65%)]',
+    'bg-[radial-gradient(circle_at_20%_35%,rgba(121,94,255,0.16),transparent_58%),radial-gradient(circle_at_78%_25%,rgba(72,225,182,0.18),transparent_62%),radial-gradient(circle_at_55%_75%,rgba(255,203,112,0.14),transparent_68%)]',
+    'bg-[radial-gradient(circle_at_28%_28%,rgba(255,110,180,0.15),transparent_56%),radial-gradient(circle_at_75%_30%,rgba(96,182,255,0.18),transparent_64%),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.12),transparent_70%)]',
+    'bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.14),transparent_52%),radial-gradient(circle_at_80%_18%,rgba(255,168,88,0.16),transparent_60%),radial-gradient(circle_at_50%_82%,rgba(72,225,182,0.16),transparent_68%)]'
+  ] as const
+
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-hidden">
 
@@ -30,9 +37,12 @@ export default function SocialsPage() {
         style={{ paddingTop: '24px' }}
       >
 
-        <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div>
           {/* Breadcrumb Navigation */}
-          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+          <div
+            className={`transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ marginBottom: 'calc(var(--spacing) * 8)' }}
+          >
             <SimpleBreadcrumb
               items={[
                 { label: 'home', href: '/' },
@@ -43,65 +53,73 @@ export default function SocialsPage() {
           </div>
 
           {/* Header */}
-          <div className="mb-20">
+          <div
+            className={`mb-20 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
+            style={{ transitionDelay: mounted ? '100ms' : '0ms' }}
+          >
             <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary">
               connect
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-xl font-light">
-              Find me across the digital landscape.
+              find me across the digital landscape.
             </p>
           </div>
 
           {/* Staggered Grid Layout */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto w-full">
+          <div className="relative w-full">
+            <div className="pointer-events-none absolute inset-0 -z-10 rounded-4xl border border-white/5 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(255,168,88,0.08),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(121,94,255,0.1),transparent_45%)]" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
             {SOCIAL_PLATFORMS.map((social, index) => (
-              <ScrollAnimation
+              <a
                 key={social}
-                animation="fadeUp"
-                delay={0.1 + (index * 0.05)}
-                className="w-full"
+                href={`/${social}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                className={`group/card block h-full transition-all duration-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                data-cursor="link"
+                style={{ transitionDelay: mounted ? `${200 + index * 50}ms` : '0ms' }}
               >
-                <a
-                  href={`/${social}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={playClick}
-                  className="group block h-full"
-                  data-cursor="link"
-                >
-                  <div className="h-full min-h-[180px] p-6 glass-panel-pro rounded-3xl hover:border-accent-primary/30 transition-all duration-500 flex flex-col items-center justify-center gap-6 relative overflow-hidden">
+                  <div className="relative h-full aspect-square overflow-hidden rounded-3xl border border-white/8 bg-white/5/90 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.8)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_80px_-45px_rgba(0,0,0,0.9)]">
+                    <div className={`absolute inset-0 ${gradientPresets[index % gradientPresets.length]} opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
+                    <div className="absolute inset-0 bg-linear-to-b from-white/8 via-white/5 to-transparent pointer-events-none" />
 
-                    {/* Hover Gradient Background */}
-                    <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative z-10 h-full flex flex-col justify-between p-6 gap-4">
+                      <div className="flex items-start justify-between">
+                        <div className="relative flex items-center justify-center">
+                          <div className="absolute inset-[-18px] rounded-full bg-white/5 blur-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
+                          <Image
+                            src={`/assets/img/social_media_icons/${social}.png`}
+                            alt={formatPlatformName(social)}
+                            width={80}
+                            height={80}
+                            className="w-14 h-14 md:w-16 md:h-16 object-contain grayscale group-hover/card:grayscale-0 transition-all duration-500 drop-shadow-lg"
+                            loading="lazy"
+                            quality={90}
+                          />
+                        </div>
+                        <ExternalLink className="w-4 h-4 text-accent-primary opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 translate-y-1" />
+                      </div>
 
-                    {/* Icon */}
-                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500">
-                      <Image
-                        src={`/assets/img/social_media_icons/${social}.png`}
-                        alt={formatPlatformName(social)}
-                        width={80}
-                        height={80}
-                        className="w-16 h-16 md:w-20 md:h-20 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-lg"
-                        loading="lazy"
-                        quality={90}
-                      />
-                    </div>
-
-                    {/* Label */}
-                    <div className="relative z-10">
-                      <span className="font-serif text-lg text-text-muted group-hover:text-text-primary transition-colors duration-300 border-b border-transparent group-hover:border-accent-primary/50 pb-1">
-                        {formatPlatformName(social)}
-                      </span>
-                    </div>
-
-                    {/* External Link Icon */}
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <ExternalLink className="w-4 h-4 text-accent-primary" />
+                      <div className="text-left space-y-2">
+                        <span
+                          className="block font-serif text-2xl text-text-primary tracking-tight group-hover/card:text-accent-primary transition-colors duration-300"
+                          style={{ fontVariant: 'small-caps' }}
+                        >
+                          {formatPlatformName(social)}
+                        </span>
+                        {SOCIAL_USERNAMES[social] && (
+                          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-[13px] font-mono text-text-secondary border border-white/10">
+                            <span className="lowercase">{SOCIAL_USERNAMES[social]}</span>
+                            <ExternalLink className="w-3.5 h-3.5 text-accent-primary" />
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </a>
-              </ScrollAnimation>
             ))}
+            </div>
           </div>
 
         </div>

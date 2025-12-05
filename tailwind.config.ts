@@ -7,6 +7,13 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+        fontFamily: {
+          sans: ['InterVariable', 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+          serif: ['var(--font-instrument-serif)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'serif'],
+          'noto-serif-jp': ['var(--font-noto-serif-jp)', 'serif'],
+          mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
+          emoji: ['Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-color-emoji)', 'sans-serif'],
+        },
     extend: {
       colors: {
         bg: {
@@ -30,13 +37,6 @@ const config: Config = {
         border: {
           glass: 'var(--border-glass)',
         },
-      },
-      fontFamily: {
-        sans: ['Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-sans)', 'sans-serif'],
-        serif: ['var(--font-instrument-serif)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'serif'],
-        'noto-serif-jp': ['var(--font-noto-serif-jp)', 'serif'],
-        mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
-        emoji: ['Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-color-emoji)', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
