@@ -22,6 +22,9 @@ out/
 build/
 dist/
 
+# Scripts (dev utilities)
+scripts/
+
 # Payload CMS build cache
 .payload
 payload-generated-types.d.ts
@@ -68,3 +71,6 @@ next-env.d.ts
 # Misc
 # =========================================
 *.pem
+
+
+scripts/

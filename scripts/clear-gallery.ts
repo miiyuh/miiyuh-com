@@ -40,7 +40,7 @@ async function clearGallery() {
         id: doc.id,
       })
     }
-    console.log(`✅ Deleted ${media.docs.length} media files`)
+    console.log(`Deleted ${media.docs.length} media files`)
 
     console.log('\nGallery cleared successfully!')
   } catch (error) {

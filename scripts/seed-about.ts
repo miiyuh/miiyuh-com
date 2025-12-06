@@ -11,7 +11,7 @@ const seedAboutEntries = async () => {
   
   const payload = await getPayload({ config })
 
-  console.log('🌱 Seeding about entries...')
+  console.log('Seeding about entries...')
 
   // Clear existing entries
   const existing = await payload.find({
@@ -26,7 +26,7 @@ const seedAboutEntries = async () => {
     })
   }
 
-  console.log('🗑️ Cleared existing entries')
+  console.log('Cleared existing entries')
 
   // Education entries
   const educationEntries = [
@@ -124,14 +124,14 @@ const seedAboutEntries = async () => {
       collection: 'about-entries',
       data: entry,
     })
-    console.log(`✅ Created: ${entry.title} (${entry.type})`)
+    console.log(`Created: ${entry.title} (${entry.type})`)
   }
 
-  console.log(`\n🎉 Successfully seeded ${allEntries.length} about entries!`)
+  console.log(`\nSuccessfully seeded ${allEntries.length} about entries!`)
   process.exit(0)
 }
 
 seedAboutEntries().catch((err) => {
-  console.error('❌ Seed failed:', err)
+  console.error('Seed failed:', err)
   process.exit(1)
 })

@@ -15,7 +15,7 @@ export default async function Page() {
   return RootPage({
     config,
     importMap,
-    params: Promise.resolve({}),
+    params: Promise.resolve({ segments: [] }),
     searchParams: Promise.resolve({}),
   })
 }

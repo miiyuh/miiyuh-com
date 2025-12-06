@@ -35,7 +35,6 @@ const Media: CollectionConfig = {
       },
     ],
     mimeTypes: ['image/*', 'application/pdf'],
-    skipValidation: false,
   },
   fields: [
     {

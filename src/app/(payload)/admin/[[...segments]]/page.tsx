@@ -20,10 +20,15 @@ export default async function Page({ params: paramsPromise, searchParams: search
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
 
+  const segments = Array.isArray(params?.segments) ? params.segments : []
+  const safeSearchParams = Object.fromEntries(
+    Object.entries(searchParams ?? {}).filter(([, value]) => value !== undefined),
+  ) as Record<string, string | string[]>
+
   return RootPage({
     config,
     importMap,
-    params: Promise.resolve(params || { segments: [] }),
-    searchParams: Promise.resolve(searchParams || {}),
+    params: Promise.resolve({ segments }),
+    searchParams: Promise.resolve(safeSearchParams),
   })
 }

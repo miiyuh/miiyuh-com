@@ -1,15 +1,11 @@
-import { fileURLToPath } from 'url'
 import path from 'path'
 import dotenv from 'dotenv'
 
 // Load environment variables
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
-
 async function createAdminUser() {
-  console.log('👤 Creating admin user...\n')
+  console.log('Creating admin user...\n')
 
   // Dynamic imports
   const config = (await import('../payload.config.js')).default
@@ -25,7 +21,7 @@ async function createAdminUser() {
     })
 
     if (existingUsers.docs.length > 0) {
-      console.log('✅ Admin user already exists!')
+      console.log('Admin user already exists!')
       console.log(`   Email: ${existingUsers.docs[0].email}`)
       process.exit(0)
     }
