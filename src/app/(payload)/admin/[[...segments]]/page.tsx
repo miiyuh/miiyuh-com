@@ -1,34 +1,24 @@
+/* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
+/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import type { Metadata } from 'next'
 
 import config from '@payload-config'
-import { RootPage } from '@payloadcms/next/views'
-
-import { importMap } from '../importMap'
-
-export const dynamic = 'force-dynamic'
-
-export const metadata: Metadata = {
-  title: 'Admin',
-}
+import { RootPage, generatePageMetadata } from '@payloadcms/next/views'
+import { importMap } from '../importMap.js'
 
 type Args = {
-  params: Promise<{ segments?: string[] }>
-  searchParams: Promise<Record<string, string | string[] | undefined>>
+  params: Promise<{
+    segments: string[]
+  }>
+  searchParams: Promise<{
+    [key: string]: string | string[]
+  }>
 }
 
-export default async function Page({ params: paramsPromise, searchParams: searchParamsPromise }: Args) {
-  const params = await paramsPromise
-  const searchParams = await searchParamsPromise
+export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
+  generatePageMetadata({ config, params, searchParams })
 
-  const segments = Array.isArray(params?.segments) ? params.segments : []
-  const safeSearchParams = Object.fromEntries(
-    Object.entries(searchParams ?? {}).filter(([, value]) => value !== undefined),
-  ) as Record<string, string | string[]>
+const Page = ({ params, searchParams }: Args) =>
+  RootPage({ config, params, searchParams, importMap })
 
-  return RootPage({
-    config,
-    importMap,
-    params: Promise.resolve({ segments }),
-    searchParams: Promise.resolve(safeSearchParams),
-  })
-}
+export default Page
