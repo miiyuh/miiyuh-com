@@ -15,7 +15,7 @@ async function seedGallery() {
   // Dynamic imports
   const config = (await import('../payload.config.js')).default
   const { getPayload } = await import('payload')
-  
+
   const payload = await getPayload({ config })
 
   // Read the existing gallery.json
@@ -52,23 +52,17 @@ async function seedGallery() {
         continue
       }
 
-      console.log(`\n📂 Processing collection: ${collectionInfo.title}`)
+      console.log(`\nProcessing collection: ${collectionInfo.title}`)
 
-      // Create GalleryCollection
-      const galleryCollection = await payload.create({
-        collection: 'gallery-collections',
-        data: {
-          title: collectionInfo.title,
-          slug: collectionInfo.slug,
-          description: collectionInfo.description,
-          displayOrder: Object.keys(collectionMappings).indexOf(key),
-          status: 'published',
-        },
-      })
+      // First, upload all images and collect their IDs
+      const uploadedImages: Array<{
+        image: string
+        title: string
+        description: string
+        displayOrder: number
+        published: boolean
+      }> = []
 
-      console.log(`Created collection: ${galleryCollection.id}`)
-
-      // Process each image in the collection
       let imageOrder = 0
       for (const item of items as Array<{ src: string; title: string; description: string }>) {
         const imagePath = path.resolve(dirname, '../public', item.src.substring(1)) // Remove leading /
@@ -100,25 +94,14 @@ async function seedGallery() {
 
           console.log(`Uploaded media: ${fileName} (ID: ${mediaDoc.id})`)
 
-          // Create GalleryImage linking to the media and collection
-          await payload.create({
-            collection: 'gallery-images',
-            data: {
-              title: item.title,
-              description: item.description,
-              image: mediaDoc.id,
-              galleryCollection: galleryCollection.id,
-              displayOrder: imageOrder++,
-              published: true,
-              tags: [
-                {
-                  tag: key.startsWith('photo') ? 'photography' : 'artwork',
-                },
-              ],
-            },
+          // Add to images array for the collection
+          uploadedImages.push({
+            image: String(mediaDoc.id),
+            title: item.title,
+            description: item.description,
+            displayOrder: imageOrder++,
+            published: true,
           })
-
-          console.log(`Created gallery image: ${item.title}`)
         } catch (error) {
           console.error(
             `Error processing ${item.src}:`,
@@ -127,6 +110,22 @@ async function seedGallery() {
         }
       }
 
+      // Create GalleryCollection with embedded images array
+      const galleryCollection = await payload.create({
+        collection: 'gallery-collections',
+        data: {
+          title: collectionInfo.title,
+          slug: collectionInfo.slug,
+          description: collectionInfo.description,
+          displayOrder: Object.keys(collectionMappings).indexOf(key),
+          status: 'published',
+          images: uploadedImages,
+        },
+      })
+
+      console.log(
+        `Created collection: ${galleryCollection.id} with ${uploadedImages.length} images`,
+      )
       console.log(`Completed collection: ${collectionInfo.title}`)
     }
 

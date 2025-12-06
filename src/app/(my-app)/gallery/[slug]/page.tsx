@@ -5,7 +5,6 @@ import AlbumClient from './album-client'
 import type {
     GalleryCollectionDocument,
     GalleryCollectionSummary,
-    GalleryImageDocument,
     GalleryItem,
 } from '@/types/gallery'
 import { resolveMediaSrc } from '@/utils/media'
@@ -54,6 +53,7 @@ export default async function AlbumPage({ params }: PageProps) {
     const { slug } = await params
     const payload = await getPayload({ config })
 
+    // Single query with depth: 2 to get full media objects within images array
     const { docs: collectionDocs } = await payload.find({
         collection: 'gallery-collections',
         where: {
@@ -70,6 +70,7 @@ export default async function AlbumPage({ params }: PageProps) {
                 },
             ],
         },
+        depth: 2,
         limit: 1,
     })
 
@@ -79,31 +80,12 @@ export default async function AlbumPage({ params }: PageProps) {
         notFound()
     }
 
-    const { docs: imageDocs } = await payload.find({
-        collection: 'gallery-images',
-        where: {
-            and: [
-                {
-                    galleryCollection: {
-                        equals: collection.id,
-                    },
-                },
-                {
-                    published: {
-                        equals: true,
-                    },
-                },
-            ],
-        },
-        depth: 1,
-        sort: 'displayOrder',
-    })
-
-    const images = imageDocs as GalleryImageDocument[]
-
-    const galleryImages: GalleryItem[] = images
-        .map((imgDoc) => {
-            const imageMedia = typeof imgDoc.image === 'object' ? imgDoc.image : null
+    // Transform embedded images array to GalleryItem format
+    const galleryImages: GalleryItem[] = (collection.images ?? [])
+        .filter((img) => img.published !== false)
+        .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+        .map((img) => {
+            const imageMedia = typeof img.image === 'object' ? img.image : null
 
             const src = resolveMediaSrc({
                 url: imageMedia?.url,
@@ -116,8 +98,8 @@ export default async function AlbumPage({ params }: PageProps) {
 
             return {
                 src,
-                title: imgDoc.title ?? imageMedia?.alt ?? '',
-                description: imgDoc.description ?? imageMedia?.caption ?? '',
+                title: img.title ?? imageMedia?.alt ?? '',
+                description: img.description ?? imageMedia?.caption ?? '',
             }
         })
         .filter((item): item is GalleryItem => Boolean(item))

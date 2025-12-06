@@ -5,35 +5,35 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 
 async function clearGallery() {
-  console.log('🧹 Clearing gallery data...\n')
+  console.log('Clearing gallery data...\n')
 
   // Dynamic imports
   const config = (await import('../payload.config.js')).default
   const { getPayload } = await import('payload')
-  
+
   const payload = await getPayload({ config })
 
   try {
-    // Delete all gallery images
-    const galleryImages = await payload.find({
-      collection: 'gallery-images',
+    // Delete all gallery collections (images are embedded, so they'll be deleted with the collection)
+    const collections = await payload.find({
+      collection: 'gallery-collections',
       limit: 1000,
     })
-    
-    for (const doc of galleryImages.docs) {
+
+    for (const doc of collections.docs) {
       await payload.delete({
-        collection: 'gallery-images',
+        collection: 'gallery-collections',
         id: doc.id,
       })
     }
-    console.log(`✅ Deleted ${galleryImages.docs.length} gallery images`)
+    console.log(`Deleted ${collections.docs.length} gallery collections`)
 
     // Delete all media
     const media = await payload.find({
       collection: 'media',
       limit: 1000,
     })
-    
+
     for (const doc of media.docs) {
       await payload.delete({
         collection: 'media',
@@ -42,23 +42,9 @@ async function clearGallery() {
     }
     console.log(`✅ Deleted ${media.docs.length} media files`)
 
-    // Delete all gallery collections
-    const collections = await payload.find({
-      collection: 'gallery-collections',
-      limit: 1000,
-    })
-    
-    for (const doc of collections.docs) {
-      await payload.delete({
-        collection: 'gallery-collections',
-        id: doc.id,
-      })
-    }
-    console.log(`✅ Deleted ${collections.docs.length} gallery collections`)
-
-    console.log('\n🎉 Gallery cleared successfully!')
+    console.log('\nGallery cleared successfully!')
   } catch (error) {
-    console.error('❌ Clear failed:', error)
+    console.error('Clear failed:', error)
     process.exit(1)
   } finally {
     process.exit(0)

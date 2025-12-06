@@ -9,10 +9,10 @@ import { buildConfig } from 'payload'
 import Users from './src/collections/Users'
 import Media from './src/collections/Media'
 import GalleryCollections from './src/collections/GalleryCollections'
-import GalleryImages from './src/collections/GalleryImages'
 import Posts from './src/collections/Posts'
 import Projects from './src/collections/Projects'
 import AboutPage from './src/collections/AboutPage'
+import Papers from './src/collections/Papers'
 import { LegalPages } from './src/globals/LegalPages'
 
 const filename = fileURLToPath(import.meta.url)
@@ -25,11 +25,25 @@ export default buildConfig({
       titleSuffix: ' - miiyuh CMS',
     },
   },
-  collections: [Users, Media, GalleryCollections, GalleryImages, Posts, Projects, AboutPage],
+  localization: {
+    locales: [
+      {
+        code: 'en',
+        label: 'English',
+      },
+      {
+        code: 'ms',
+        label: 'Malay (Malaysia)',
+      },
+    ],
+    defaultLocale: 'en',
+    fallback: true,
+  },
+  collections: [Users, Media, GalleryCollections, Posts, Projects, Papers, AboutPage],
   globals: [LegalPages],
-  plugins: [
+  plugins: process.env.NODE_ENV === 'production' ? [
     s3Storage({
-      enabled: process.env.NODE_ENV === 'production',
+      enabled: true,
       collections: {
         media: true,
       },
@@ -43,7 +57,7 @@ export default buildConfig({
         endpoint: process.env.R2_ENDPOINT || '',
       },
     }),
-  ],
+  ] : [],
   editor: lexicalEditor(),
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',

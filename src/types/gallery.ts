@@ -1,5 +1,25 @@
 export type GalleryStatus = 'draft' | 'published'
 
+// Media object from Payload
+export type MediaDocument = {
+  id: string | number
+  url?: string | null
+  filename?: string | null
+  alt?: string | null
+  caption?: string | null
+}
+
+// Image item within a gallery collection (embedded in array)
+export type GalleryImageItem = {
+  id?: string
+  image: MediaDocument | string | number
+  title?: string | null
+  description?: string | null
+  published?: boolean | null
+  displayOrder?: number | null
+}
+
+// Gallery collection with embedded images
 export type GalleryCollectionDocument = {
   id: string | number
   slug: string
@@ -7,23 +27,7 @@ export type GalleryCollectionDocument = {
   description?: string | null
   status: GalleryStatus
   displayOrder?: number | null
-}
-
-export type GalleryImageDocument = {
-  id: string | number
-  title: string
-  description?: string | null
-  galleryCollection: string | number | GalleryCollectionDocument
-  image:
-    | {
-        url?: string | null
-        filename?: string | null
-        alt?: string | null
-        caption?: string | null
-      }
-    | string
-  displayOrder?: number | null
-  published?: boolean | null
+  images?: GalleryImageItem[] | null
 }
 
 export type GalleryItem = {

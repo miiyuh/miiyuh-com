@@ -65,6 +65,20 @@ export function RouteLoadingProvider({ children }: { children: React.ReactNode }
     return () => window.clearTimeout(timer)
   }, [pathname, headerLoading, headerOrigin])
 
+  // Auto-complete header loading if on same page after a delay
+  useEffect(() => {
+    if (!headerLoading) return
+    if (!headerOrigin) return
+    if (pathname !== headerOrigin) return // Different page, handled by other effect
+
+    const timer = window.setTimeout(() => {
+      setHeaderLoading(false)
+      setHeaderOrigin(null)
+    }, 800)
+
+    return () => window.clearTimeout(timer)
+  }, [headerLoading, headerOrigin, pathname])
+
   const startHeaderLoading = useCallback(() => {
     setPortalLoading(false)
     setPortalTarget(null)

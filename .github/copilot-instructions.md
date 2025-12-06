@@ -96,5 +96,9 @@ export default function ComponentName() {
 - Lint, type‑check, and build run on each PR.
 - Deploy to Vercel on merge to `main`.
 
+## Emoji Usage Policy
+- **NEVER** use emojis in comments, commit messages, code, documentation, or responses unless the user explicitly instructs you to do so.
+- Emojis are only allowed when explicitly requested.
+
 ---
 *This file is kept up‑to‑date to guide Copilot and contributors on the project's conventions and tooling.*

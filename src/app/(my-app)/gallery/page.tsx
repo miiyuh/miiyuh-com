@@ -5,8 +5,9 @@ import type {
   GalleryCollectionDocument,
   GalleryCollectionSummary,
   GalleryDataMap,
-  GalleryImageDocument,
   GalleryItem,
+  GalleryImageItem,
+  MediaDocument,
 } from '@/types/gallery'
 import { resolveMediaSrc } from '@/utils/media'
 
@@ -31,73 +32,49 @@ export default async function GalleryPage() {
         equals: 'published',
       },
     },
-    depth: 0,
+    depth: 2, // Need depth 2 to get nested image media
     sort: 'displayOrder',
   })
 
   const collections = collectionDocs as GalleryCollectionDocument[]
 
-  const previewEntries = await Promise.all(
-    collections.map(async (collection) => {
-      const { docs: imageDocs } = await payload.find({
-        collection: 'gallery-images',
-        where: {
-          and: [
-            {
-              galleryCollection: {
-                equals: collection.id,
-              },
-            },
-            {
-              published: {
-                equals: true,
-              },
-            },
-          ],
-        },
-        depth: 1,
-        sort: 'displayOrder',
-        limit: PREVIEW_IMAGE_LIMIT,
-      })
-
-      const images = imageDocs as GalleryImageDocument[]
-
-      const previewItems = images
-        .map((imgDoc) => {
-          const imageMedia =
-            imgDoc.image && typeof imgDoc.image === 'object'
-              ? imgDoc.image
-              : null
-
-          const src = resolveMediaSrc({
-            url: imageMedia?.url,
-            filename: imageMedia?.filename,
-          })
-
-          if (!src) {
-            return null
-          }
-
-          return {
-            src,
-            title: imgDoc.title ?? imageMedia?.alt ?? '',
-            description: imgDoc.description ?? imageMedia?.caption ?? '',
-          }
-        })
-        .filter((item): item is GalleryItem => Boolean(item))
-
-      return {
-        slug: collection.slug,
-        items: previewItems,
-      }
-    })
-  )
-
+  // Build gallery data from embedded images
   const galleryData: GalleryDataMap = {}
   
-  previewEntries.forEach(({ slug, items }) => {
+  collections.forEach((collection) => {
+    if (!collection.images || collection.images.length === 0) return
+
+    // Sort images by displayOrder and take first 3 for preview
+    const sortedImages = [...collection.images].sort(
+      (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
+    )
+    
+    const previewImages = sortedImages.slice(0, PREVIEW_IMAGE_LIMIT)
+
+    const items: GalleryItem[] = previewImages
+      .map((imgItem: GalleryImageItem) => {
+        const imageMedia =
+          imgItem.image && typeof imgItem.image === 'object'
+            ? (imgItem.image as MediaDocument)
+            : null
+
+        const src = resolveMediaSrc({
+          url: imageMedia?.url,
+          filename: imageMedia?.filename,
+        })
+
+        if (!src) return null
+
+        return {
+          src,
+          title: imgItem.title ?? imageMedia?.alt ?? '',
+          description: imgItem.description ?? imageMedia?.caption ?? '',
+        }
+      })
+      .filter((item): item is GalleryItem => Boolean(item))
+
     if (items.length > 0) {
-      galleryData[slug] = items
+      galleryData[collection.slug] = items
     }
   })
 

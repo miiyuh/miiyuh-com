@@ -40,21 +40,21 @@ export function InteractiveGridBackground({ belowHeader = false }: InteractiveGr
 
       {/* Left edge line - extends element borders to infinity */}
       <div
-        className="absolute inset-y-0 w-px bg-white/15"
+        className="absolute inset-y-0 w-px bg-white/10"
         style={{ left: padding }}
       />
 
       {/* Right edge line - extends element borders to infinity */}
       <div
-        className="absolute inset-y-0 w-px bg-white/15"
+        className="absolute inset-y-0 w-px bg-white/10"
         style={{ right: padding }}
       />
 
       {/* Subtle center glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02),transparent_70%)]" />
+
 
       {/* Outer vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,#070707_95%)] opacity-50" />
+
     </div>
   )
 }

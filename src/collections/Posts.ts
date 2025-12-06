@@ -3,7 +3,7 @@ import { CollectionConfig } from 'payload'
 const Posts: CollectionConfig = {
   slug: 'posts',
   access: {
-    read: () => true, // Allow public read access
+    read: () => true,
   },
   admin: {
     useAsTitle: 'title',
@@ -14,6 +14,7 @@ const Posts: CollectionConfig = {
       const month = String(date.getMonth() + 1).padStart(2, '0')
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/blog/${year}/${month}/${doc.slug}`
     },
+    group: 'Content',
   },
   versions: {
     drafts: true,
@@ -23,6 +24,7 @@ const Posts: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'slug',
@@ -37,17 +39,22 @@ const Posts: CollectionConfig = {
       name: 'excerpt',
       type: 'textarea',
       required: true,
+      localized: true,
     },
     {
       name: 'coverImage',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'media',
       required: false,
+      admin: {
+        description: 'Featured image for the post',
+      },
     },
     {
       name: 'content',
       type: 'richText',
       required: true,
+      localized: true,
     },
     {
       name: 'publishedAt',
@@ -58,6 +65,14 @@ const Posts: CollectionConfig = {
         },
       },
       required: true,
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Display on homepage',
+      },
     },
     {
       name: 'tags',
@@ -78,15 +93,24 @@ const Posts: CollectionConfig = {
           name: 'metaTitle',
           type: 'text',
           required: false,
+          localized: true,
         },
         {
           name: 'metaDescription',
           type: 'textarea',
           required: false,
+          localized: true,
         },
       ],
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc, operation }) => {
+        console.log(`[Audit] Post "${doc.title}" was ${operation}d at ${new Date().toISOString()}`)
+      },
+    ],
+  },
 }
 
 export default Posts

@@ -11,6 +11,7 @@ const Projects: CollectionConfig = {
       if (!doc?.slug) return ''
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/projects/${doc.slug}`
     },
+    group: 'Content',
   },
   versions: {
     drafts: true,
@@ -20,6 +21,7 @@ const Projects: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         description: 'Name of the project',
       },
@@ -59,13 +61,14 @@ const Projects: CollectionConfig = {
       name: 'description',
       type: 'textarea',
       required: true,
+      localized: true,
       admin: {
         description: 'Short description shown on the projects listing page',
       },
     },
     {
       name: 'icon',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'media',
       required: false,
       admin: {
@@ -74,7 +77,7 @@ const Projects: CollectionConfig = {
     },
     {
       name: 'image',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'media',
       required: false,
       admin: {
@@ -85,6 +88,7 @@ const Projects: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: false,
+      localized: true,
       admin: {
         description: 'Detailed content for the project page',
       },
@@ -265,15 +269,26 @@ const Projects: CollectionConfig = {
           name: 'metaTitle',
           type: 'text',
           required: false,
+          localized: true,
         },
         {
           name: 'metaDescription',
           type: 'textarea',
           required: false,
+          localized: true,
         },
       ],
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc, operation }) => {
+        console.log(
+          `[Audit] Project "${doc.name}" was ${operation}d at ${new Date().toISOString()}`,
+        )
+      },
+    ],
+  },
 }
 
 export default Projects

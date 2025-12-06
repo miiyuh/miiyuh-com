@@ -1,0 +1,211 @@
+{
+  "exportedAt": "2025-12-06T08:52:38.445Z",
+  "collections": [
+    {
+      "id": "6933eeb46560403f34cfc02b",
+      "title": "2023 Artworks",
+      "slug": "artworks-2023",
+      "description": "digital art created in 2023",
+      "status": "published",
+      "displayOrder": 2
+    },
+    {
+      "id": "6933eeb36560403f34cfc01f",
+      "title": "2022 Artworks",
+      "slug": "artworks-2022",
+      "description": "digital art created in 2022",
+      "status": "published",
+      "displayOrder": 1
+    },
+    {
+      "id": "6933eeb16560403f34cfc013",
+      "title": "2025 Japan Trip",
+      "slug": "2025-japan-trip",
+      "description": "photos from our 2025 trip to Japan",
+      "status": "published",
+      "displayOrder": 0
+    }
+  ],
+  "images": [
+    {
+      "id": "6933eeb448e12263e83485f7",
+      "title": "miya sketch",
+      "description": "quick character study",
+      "galleryCollectionId": "6933eeb46560403f34cfc02b",
+      "collectionSlug": "artworks-2023",
+      "displayOrder": 0,
+      "media": {
+        "id": "6933eeb36560403f34cfc023",
+        "url": "http://localhost:3000/api/media/file/artwork_miya_01.png",
+        "filename": "artwork_miya_01.png",
+        "alt": "miya sketch",
+        "caption": "quick character study"
+      }
+    },
+    {
+      "id": "6933eeb448e12263e83485f8",
+      "title": "mikasa ackerman",
+      "description": "eren, come back to us.",
+      "galleryCollectionId": "6933eeb46560403f34cfc02b",
+      "collectionSlug": "artworks-2023",
+      "displayOrder": 1,
+      "media": {
+        "id": "6933eeb36560403f34cfc026",
+        "url": "http://localhost:3000/api/media/file/artwork_mikasa_01.png",
+        "filename": "artwork_mikasa_01.png",
+        "alt": "mikasa ackerman",
+        "caption": "eren, come back to us."
+      }
+    },
+    {
+      "id": "6933eeb448e12263e83485f9",
+      "title": "levi's gaze",
+      "description": "those piercing eyes",
+      "galleryCollectionId": "6933eeb46560403f34cfc02b",
+      "collectionSlug": "artworks-2023",
+      "displayOrder": 2,
+      "media": {
+        "id": "6933eeb36560403f34cfc029",
+        "url": "http://localhost:3000/api/media/file/artwork_levi_02.png",
+        "filename": "artwork_levi_02.png",
+        "alt": "levi's gaze",
+        "caption": "those piercing eyes"
+      }
+    },
+    {
+      "id": "6933eeb348e12263e83485f4",
+      "title": "captain levi",
+      "description": "humanity's strongest soldier",
+      "galleryCollectionId": "6933eeb36560403f34cfc01f",
+      "collectionSlug": "artworks-2022",
+      "displayOrder": 0,
+      "media": {
+        "id": "6933eeb26560403f34cfc017",
+        "url": "http://localhost:3000/api/media/file/artwork_levi_01.png",
+        "filename": "artwork_levi_01.png",
+        "alt": "captain levi",
+        "caption": "humanity's strongest soldier"
+      }
+    },
+    {
+      "id": "6933eeb348e12263e83485f5",
+      "title": "forest watcher",
+      "description": "dendro archon's protégé",
+      "galleryCollectionId": "6933eeb36560403f34cfc01f",
+      "collectionSlug": "artworks-2022",
+      "displayOrder": 1,
+      "media": {
+        "id": "6933eeb26560403f34cfc01a",
+        "url": "http://localhost:3000/api/media/file/artwork_tighnari_01.png",
+        "filename": "artwork_tighnari_01.png",
+        "alt": "forest watcher",
+        "caption": "dendro archon's protégé"
+      }
+    },
+    {
+      "id": "6933eeb348e12263e83485f6",
+      "title": "reformasi spirit",
+      "description": "change starts with us",
+      "galleryCollectionId": "6933eeb36560403f34cfc01f",
+      "collectionSlug": "artworks-2022",
+      "displayOrder": 2,
+      "media": {
+        "id": "6933eeb26560403f34cfc01d",
+        "url": "http://localhost:3000/api/media/file/artwork_reformasi_01.png",
+        "filename": "artwork_reformasi_01.png",
+        "alt": "reformasi spirit",
+        "caption": "change starts with us"
+      }
+    },
+    {
+      "id": "6933eeb148e12263e83485ee",
+      "title": "mikasa stans!",
+      "description": "mikasa, su casa",
+      "galleryCollectionId": "6933eeb16560403f34cfc013",
+      "collectionSlug": "2025-japan-trip",
+      "displayOrder": 0,
+      "media": {
+        "id": "6933eeaf6560403f34cfbfe1",
+        "url": "http://localhost:3000/api/media/file/1.png",
+        "filename": "1.png",
+        "alt": "mikasa stans!",
+        "caption": "mikasa, su casa"
+      }
+    },
+    {
+      "id": "6933eeb148e12263e83485ef",
+      "title": "morning walk",
+      "description": "going to the train station",
+      "galleryCollectionId": "6933eeb16560403f34cfc013",
+      "collectionSlug": "2025-japan-trip",
+      "displayOrder": 1,
+      "media": {
+        "id": "6933eeb06560403f34cfbff9",
+        "url": "http://localhost:3000/api/media/file/2.png",
+        "filename": "2.png",
+        "alt": "morning walk",
+        "caption": "going to the train station"
+      }
+    },
+    {
+      "id": "6933eeb148e12263e83485f0",
+      "title": "san-nin",
+      "description": "mirror selfie",
+      "galleryCollectionId": "6933eeb16560403f34cfc013",
+      "collectionSlug": "2025-japan-trip",
+      "displayOrder": 2,
+      "media": {
+        "id": "6933eeb06560403f34cfc002",
+        "url": "http://localhost:3000/api/media/file/3.png",
+        "filename": "3.png",
+        "alt": "san-nin",
+        "caption": "mirror selfie"
+      }
+    },
+    {
+      "id": "6933eeb148e12263e83485f1",
+      "title": "ginza clock",
+      "description": "infamous ginza clock",
+      "galleryCollectionId": "6933eeb16560403f34cfc013",
+      "collectionSlug": "2025-japan-trip",
+      "displayOrder": 3,
+      "media": {
+        "id": "6933eeb16560403f34cfc009",
+        "url": "http://localhost:3000/api/media/file/4.png",
+        "filename": "4.png",
+        "alt": "ginza clock",
+        "caption": "infamous ginza clock"
+      }
+    },
+    {
+      "id": "6933eeb148e12263e83485f2",
+      "title": "boku no chibi",
+      "description": "mha fans will get this",
+      "galleryCollectionId": "6933eeb16560403f34cfc013",
+      "collectionSlug": "2025-japan-trip",
+      "displayOrder": 4,
+      "media": {
+        "id": "6933eeb16560403f34cfc00e",
+        "url": "http://localhost:3000/api/media/file/5.png",
+        "filename": "5.png",
+        "alt": "boku no chibi",
+        "caption": "mha fans will get this"
+      }
+    },
+    {
+      "id": "6933eeb148e12263e83485f3",
+      "title": "tokyo river",
+      "description": "a river in tokyo",
+      "galleryCollectionId": "6933eeb16560403f34cfc013",
+      "collectionSlug": "2025-japan-trip",
+      "displayOrder": 5,
+      "media": {
+        "id": "6933eeb16560403f34cfc011",
+        "url": "http://localhost:3000/api/media/file/6.png",
+        "filename": "6.png",
+        "alt": "tokyo river",
+        "caption": "a river in tokyo"
+      }
+    }
+  ]
+}

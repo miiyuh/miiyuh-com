@@ -91,21 +91,21 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     {
       key: 'side-projects',
       title: 'Side Projects',
-      subtitle: 'Web apps, tools, and experiments',
+      subtitle: 'web apps, tools, and experiments',
       icon: Rocket,
       items: sideProjects,
     },
     {
       key: 'university-projects',
       title: 'University Projects',
-      subtitle: 'Coursework, assignments, and labs',
+      subtitle: 'coursework, assignments, and labs',
       icon: GraduationCap,
       items: universityProjects,
     },
     {
       key: 'research-papers',
       title: 'Research Papers',
-      subtitle: 'Writing, abstracts, and findings',
+      subtitle: 'writing, abstracts, and findings',
       icon: FileText,
       items: researchPapers,
     },
@@ -114,19 +114,6 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   const getProjectHref = (project: Project) => {
     if (project.externalLink) return project.externalLink
     return `/projects/${project.slug}`
-  }
-
-  const getStatusBadge = (status?: string) => {
-    switch (status) {
-      case 'active':
-        return <span className="px-2 py-0.5 text-[10px] font-mono bg-green-500/20 text-green-400 rounded-full border border-green-500/30">ACTIVE</span>
-      case 'in-development':
-        return <span className="px-2 py-0.5 text-[10px] font-mono bg-yellow-500/20 text-yellow-400 rounded-full border border-yellow-500/30">IN DEV</span>
-      case 'archived':
-        return <span className="px-2 py-0.5 text-[10px] font-mono bg-gray-500/20 text-gray-400 rounded-full border border-gray-500/30">ARCHIVED</span>
-      default:
-        return null
-    }
   }
 
   // Solid (non-transparent) gradient presets inspired by socials
@@ -160,7 +147,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                 projects.
               </h1>
               <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light">
-                Side projects, university work, and research papers — a collection of things I&apos;ve built and written.
+                side projects, university work, and research papers - the collection
               </p>
             </div>
           </div>
@@ -183,17 +170,20 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
 
               {/* Grid with gaps filled by hatched pattern */}
               <div className="relative border-t border-white/10">
-                {/* Hatched pattern background for gaps */}
+                {/* 45-degree diagonal hatched pattern */}
                 <div 
-                  className="absolute inset-0 opacity-60"
+                  className="absolute inset-0"
                   style={{
-                    backgroundImage: `repeating-linear-gradient(
-                      45deg,
-                      transparent,
-                      transparent 4px,
-                      rgba(255, 255, 255, 0.05) 4px,
-                      rgba(255, 255, 255, 0.05) 8px
-                    )`
+                    backgroundImage: `
+                      repeating-linear-gradient(
+                        -45deg,
+                        transparent,
+                        transparent 8px,
+                        rgba(255, 255, 255, 0.08) 8px,
+                        rgba(255, 255, 255, 0.08) 10px
+                      )
+                    `,
+                    opacity: 0.7
                   }}
                 />
                 <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

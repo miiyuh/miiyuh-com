@@ -50,8 +50,12 @@ export default function Header() {
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
         >
-          <svg className="w-6 h-6 text-[#FAF3E0]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16" />
+          <svg className="w-6 h-6 text-[#FAF3E0] transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" style={{ transform: menuOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+            <path d="M4 6h16" style={{ opacity: menuOpen ? 0 : 1, transition: 'opacity 200ms ease-in-out' }} />
+            <path d="M4 12h16" style={{ opacity: menuOpen ? 0 : 1, transition: 'opacity 200ms ease-in-out' }} />
+            <path d="M4 18h16" style={{ opacity: menuOpen ? 0 : 1, transition: 'opacity 200ms ease-in-out' }} />
+            <line x1="5" y1="5" x2="19" y2="19" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 200ms ease-in-out' }} />
+            <line x1="19" y1="5" x2="5" y2="19" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 200ms ease-in-out' }} />
           </svg>
         </button>        {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 text-lg font-bold font-serif">
@@ -65,8 +69,8 @@ export default function Header() {
         </ul>
       </div>
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 z-40 bg-[#070707] transition-all duration-500 ease-in-out flex flex-col justify-center items-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} lg:hidden`}>
-        <ul className="flex flex-col gap-8 text-4xl font-serif font-bold text-center">
+      <div className={`fixed top-16 left-0 right-0 bottom-0 z-30 bg-[#070707] transition-all duration-500 ease-in-out flex flex-col justify-center items-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} lg:hidden`}>
+        <ul className="flex flex-col gap-8 text-4xl font-serif font-bold text-center" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 300ms ease-in-out 200ms' }}>
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} onClick={handleMobileLinkClick} className="hover:text-accent-primary transition-colors">

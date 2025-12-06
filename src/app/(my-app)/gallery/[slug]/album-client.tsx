@@ -75,22 +75,24 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
     return (
         <ErrorBoundary>
             <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
-                <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24">
+                <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24" style={{ paddingTop: '24px' }}>
                     <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
                         {/* Breadcrumb Navigation */}
-                        <SimpleBreadcrumb
-                            items={[
-                                { label: 'home', href: '/' },
-                                { label: 'gallery', href: '/gallery' },
-                                { label: collection.title },
-                            ]}
-                            className="mb-16"
-                        />
+                        <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+                            <SimpleBreadcrumb
+                                items={[
+                                    { label: 'home', href: '/' },
+                                    { label: 'gallery', href: '/gallery' },
+                                    { label: collection.title },
+                                ]}
+                                className="mb-0"
+                            />
+                        </div>
 
                         {/* Collection Header */}
                         <div className="mb-16 max-w-4xl">
-                            <div className="flex items-center gap-3 mb-4 text-accent-primary font-mono text-sm uppercase tracking-widest">
+                            <div className="flex items-center gap-3 mb-4 text-accent-primary font-mono text-sm">
                                 {getSectionType(collection.slug) === 'photography' ? <Camera className="w-4 h-4" /> : <Palette className="w-4 h-4" />}
                                 {getSectionType(collection.slug)}
                             </div>
@@ -104,16 +106,24 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                         </div>
 
                         {/* Images Grid */}
-                        <div
-                            id={`lightgallery-${collection.slug}`}
-                            className="columns-3 md:columns-2 lg:columns-3 gap-2 md:gap-6 space-y-2 md:space-y-6"
-                        >
+                        <div className="relative">
+                            {/* Hatching pattern background */}
+                            <div
+                                className="absolute inset-0 pointer-events-none"
+                                style={{
+                                    backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255, 255, 255, 0.08) 8px, rgba(255, 255, 255, 0.08) 10px)`,
+                                    opacity: 0.7,
+                                }}
+                            />
+                            <div
+                                id={`lightgallery-${collection.slug}`}
+                                className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4"
+                            >
                             {images.map((image, imgIndex) => (
                                 <ScrollAnimation
                                     key={`${collection.slug}-${imgIndex}`}
                                     animation="fadeUp"
                                     delay={0.1 + (imgIndex % 5) * 0.05}
-                                    className="break-inside-avoid"
                                 >
                                     <a
                                         href={image.src}
@@ -150,6 +160,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                     </a>
                                 </ScrollAnimation>
                             ))}
+                            </div>
                         </div>
                     </div>
                 </main>
