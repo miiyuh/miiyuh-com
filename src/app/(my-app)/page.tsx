@@ -59,7 +59,7 @@ export default function HomePage() {
                 height={200}
                 className="object-contain w-full h-auto"
                 priority
-                quality={90}
+                unoptimized
               />
             </div>
           </div>
