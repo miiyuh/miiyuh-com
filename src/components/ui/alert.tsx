@@ -4,7 +4,7 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative grid w-full items-start gap-x-2 gap-y-0.5 rounded-xl border px-3.5 py-3 text-card-foreground text-sm has-[>svg]:has-data-[slot=alert-action]:grid-cols-[calc(var(--spacing)*4)_1fr_auto] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-data-[slot=alert-action]:grid-cols-[1fr_auto] has-[>svg]:gap-x-2 [&>svg]:h-[1lh] [&>svg]:w-4",
+  "relative grid w-full items-start gap-x-2 gap-y-0.5 rounded-xl border border-white/10 px-3.5 py-3 text-white text-sm backdrop-blur-sm has-[>svg]:has-data-[slot=alert-action]:grid-cols-[calc(var(--spacing)*4)_1fr_auto] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-data-[slot=alert-action]:grid-cols-[1fr_auto] has-[>svg]:gap-x-2 [&>svg]:h-[1lh] [&>svg]:w-4",
   {
     defaultVariants: {
       variant: "default",
@@ -12,12 +12,12 @@ const alertVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-transparent dark:bg-input/32 [&>svg]:text-muted-foreground",
+          "bg-white/5 [&>svg]:text-white/70",
         error:
-          "border-destructive/32 bg-destructive/4 [&>svg]:text-destructive",
-        info: "border-info/32 bg-info/4 [&>svg]:text-info",
-        success: "border-success/32 bg-success/4 [&>svg]:text-success",
-        warning: "border-warning/32 bg-warning/4 [&>svg]:text-warning",
+          "border-red-400/30 bg-red-500/10 [&>svg]:text-red-400",
+        info: "border-sky-400/30 bg-sky-500/10 [&>svg]:text-sky-400",
+        success: "border-emerald-400/30 bg-emerald-500/10 [&>svg]:text-emerald-400",
+        warning: "border-amber-400/30 bg-amber-500/10 [&>svg]:text-amber-400",
       },
     },
   },
@@ -41,7 +41,7 @@ function Alert({
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("font-medium [svg~&]:col-start-2", className)}
+      className={cn("font-medium text-white [svg~&]:col-start-2", className)}
       data-slot="alert-title"
       {...props}
     />
@@ -55,7 +55,7 @@ function AlertDescription({
   return (
     <div
       className={cn(
-        "flex flex-col gap-2.5 text-muted-foreground [svg~&]:col-start-2",
+        "flex flex-col gap-2.5 text-white/70 [svg~&]:col-start-2",
         className,
       )}
       data-slot="alert-description"

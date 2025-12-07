@@ -13,7 +13,7 @@ function Accordion(props: ComponentProps<typeof AccordionPrimitive.Root>) {
 function AccordionItem({ className, ...props }: ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionPrimitive.Item
-      className={cn("border-b last:border-b-0", className)}
+      className={cn("border-b border-white/10 last:border-b-0", className)}
       data-slot="accordion-item"
       {...props}
     />
@@ -28,7 +28,7 @@ function AccordionTrigger({
   return (
     <AccordionPrimitive.ItemTrigger
       className={cn(
-        "flex flex-1 w-full cursor-pointer items-start justify-between gap-4 rounded-md py-4 text-left font-medium text-sm outline-none transition-all focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-64 [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 w-full cursor-pointer items-start justify-between gap-4 rounded-md py-4 text-left font-medium text-sm text-white outline-none transition-all focus-visible:ring-[3px] focus-visible:ring-amber-300/50 hover:text-white/80 disabled:pointer-events-none disabled:opacity-60 [&[data-state=open]>svg]:rotate-180",
         className,
       )}
       data-slot="accordion-trigger"
@@ -49,7 +49,7 @@ function AccordionPanel({
 }: ComponentProps<typeof AccordionPrimitive.ItemContent>) {
   return (
     <AccordionPrimitive.ItemContent
-      className="overflow-hidden text-muted-foreground text-sm transition-[height] duration-200 ease-in-out data-[state=closed]:animate-collapse data-[state=open]:animate-expand"
+      className="overflow-hidden text-white/70 text-sm transition-[height] duration-200 ease-in-out data-[state=closed]:animate-collapse data-[state=open]:animate-expand"
       data-slot="accordion-panel"
       {...props}
     >

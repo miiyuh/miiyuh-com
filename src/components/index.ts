@@ -10,7 +10,7 @@ export { default as PageLayout } from './layout/page-layout'
 export { default as ErrorBoundary } from './ui/error-boundary'
 export { default as ScrollToTopButton } from './ui/scroll-to-top-button'
 export { HeadingWithHash } from './ui/heading-with-hash'
-export { TableOfContents } from './ui/table-of-contents'
+export { PageTOC } from './ui/page-toc'
 
 // Effects and animations
 export { TypewriterText, AnimatedHeading } from './effects/animated-text'

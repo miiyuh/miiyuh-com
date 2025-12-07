@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         className={
           cn(
             !unstyled &&
-              "relative inline-flex w-full rounded-lg border border-input bg-background bg-clip-padding text-base/5 shadow-xs ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] has-focus-visible:border-ring has-disabled:opacity-64 has-focus-visible:ring-[3px] has-aria-invalid:border-destructive/36 has-focus-visible:has-aria-invalid:border-destructive/64 has-focus-visible:has-aria-invalid:ring-destructive/16 sm:text-sm dark:bg-input/32 dark:has-aria-invalid:ring-destructive/24",
+              "relative inline-flex w-full rounded-xl border border-white/15 bg-white/4 backdrop-blur-md text-base/5 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] ring-amber-300/30 transition-all before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] has-focus-visible:border-amber-300/70 has-disabled:opacity-60 has-focus-visible:ring-[3px] has-aria-invalid:border-red-400/60 has-focus-visible:has-aria-invalid:ring-red-300/40 sm:text-sm",
             className,
           ) || undefined
         }
@@ -26,7 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "w-full min-w-0 rounded-[inherit] px-[calc(var(--spacing)*3-1px)] py-[calc(var(--spacing)*1.5-1px)] outline-none placeholder:text-muted-foreground/64 bg-transparent",
+            "w-full min-w-0 rounded-[inherit] px-[calc(var(--spacing)*3-1px)] py-[calc(var(--spacing)*1.5-1px)] outline-none bg-transparent text-white placeholder:text-white/50",
             size === 'sm' &&
               "px-[calc(var(--spacing)*2.5-1px)] py-[calc(var(--spacing)*1-1px)]",
             size === 'lg' && "py-[calc(var(--spacing)*2-1px)]",

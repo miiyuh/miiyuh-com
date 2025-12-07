@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import BlogPostContent from './blog-post-content'
 import type { BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
+import { extractTocFromLexical } from '@/utils/extract-toc'
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60
@@ -83,7 +84,7 @@ async function Page({ params }: PageProps) {
       <ReadingProgressBar />
 
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up">
+      <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up border-l border-r border-white/10 lg:border-0">
         {/* Breadcrumbs */}
         <SimpleBreadcrumb
           items={[
@@ -95,9 +96,6 @@ async function Page({ params }: PageProps) {
           ]}
           className="mb-8"
         />
-
-        {/* Separator after breadcrumb */}
-        <Separator className="my-8 bg-white/10" />
 
         {/* Cover Image */}
         {coverImage && (
@@ -153,7 +151,7 @@ async function Page({ params }: PageProps) {
         <Separator className="my-8 bg-white/10" />
 
         {/* Post Content */}
-        <BlogPostContent content={post.content ?? null} />
+        <BlogPostContent content={post.content ?? null} toc={extractTocFromLexical(post.content)} />
 
         {/* Back to Blog */}
         <footer className="mt-12 border-t border-[#FAF3E0]/20 pt-8">

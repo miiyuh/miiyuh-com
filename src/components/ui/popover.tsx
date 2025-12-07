@@ -25,14 +25,14 @@ function PopoverPopup({
   return (
     <Portal>
       <PopoverPrimitive.Positioner
-        className="z-50"
+        className="z-100"
         data-slot="popover-positioner"
       >
         <PopoverPrimitive.Content
           className={cn(
-            "relative flex origin-(--transform-origin) rounded-lg border bg-popover bg-clip-padding shadow-lg transition-[scale,opacity] not-[class*='w-']:[min-w-80] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 dark:bg-clip-border",
+            "relative flex origin-(--transform-origin) rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl text-white shadow-2xl transition-[scale,opacity] not-[class*='w-']:[min-w-80] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             tooltipStyle &&
-              "w-fit text-balance rounded-md text-xs shadow-black/5 shadow-md",
+              "w-fit text-balance rounded-lg text-xs shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)]",
             className,
           )}
           data-slot="popover-content"
@@ -67,7 +67,7 @@ function PopoverTitle({
 }: ComponentProps<typeof PopoverPrimitive.Title>) {
   return (
     <PopoverPrimitive.Title
-      className={cn("font-semibold text-lg leading-none", className)}
+      className={cn("font-semibold text-lg text-white leading-none", className)}
       data-slot="popover-title"
       {...props}
     />
@@ -80,7 +80,7 @@ function PopoverDescription({
 }: ComponentProps<typeof PopoverPrimitive.Description>) {
   return (
     <PopoverPrimitive.Description
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-white/70 text-sm", className)}
       data-slot="popover-description"
       {...props}
     />

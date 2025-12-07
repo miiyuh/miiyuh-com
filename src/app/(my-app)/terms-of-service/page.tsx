@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { renderLexicalContent } from '@/utils/lexical-renderer'
+import { extractTocFromLexical } from '@/utils/extract-toc'
 import TermsOfServiceClient from './terms-of-service-client'
 
 export const dynamic = 'force-dynamic'
@@ -19,14 +20,16 @@ export default async function TermsOfService() {
     return (
       <TermsOfServiceClient
         htmlContent="<div class='text-center p-8'><p class='text-lg'>Content not yet available. Please populate the Terms of Service in the CMS admin at <a href='/admin' class='text-accent-primary underline'>/admin</a>.</p></div>"
+        toc={[]}
         updatedAt={updatedAt}
       />
     )
   }
 
   const htmlContent = renderLexicalContent(content)
+  const toc = extractTocFromLexical(content)
 
   return (
-    <TermsOfServiceClient htmlContent={htmlContent} updatedAt={updatedAt} />
+    <TermsOfServiceClient htmlContent={htmlContent} toc={toc} updatedAt={updatedAt} />
   )
 }

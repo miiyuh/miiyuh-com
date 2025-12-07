@@ -23,7 +23,6 @@
   "dependencies": {
     "@ark-ui/react": "^5.29.1",
     "@aws-sdk/client-s3": "^3.937.0",
-    "@base-ui-components/react": "1.0.0-beta.6",
     "@payloadcms/db-mongodb": "3.67.0",
     "@payloadcms/next": "3.67.0",
     "@payloadcms/richtext-lexical": "3.67.0",
@@ -35,6 +34,8 @@
     "animejs": "^4.2.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fumadocs-core": "^16.2.3",
+    "fumadocs-ui": "^16.2.3",
     "graphql": "^16.11.0",
     "howler": "^2.2.4",
     "lightgallery": "^2.8.3",

@@ -27,7 +27,7 @@ function Radio({
     <RadioGroupPrimitive.Item
       value={value}
       className={cn(
-        "relative inline-flex size-4 shrink-0 items-center justify-center rounded-full border border-input bg-background bg-clip-padding shadow-xs outline-none transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-64 data-invalid:border-destructive/36 focus-visible:data-invalid:border-destructive/64 focus-visible:data-invalid:ring-destructive/48 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=unchecked]:bg-input/32 dark:bg-clip-border dark:data-invalid:ring-destructive/24 [[data-disabled],[data-state=checked],[data-invalid]]:shadow-none",
+        "relative inline-flex size-4 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 shadow-sm outline-none transition-all before:pointer-events-none before:absolute before:inset-0 before:rounded-full focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-[#070707] data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:border-red-500/50 focus-visible:data-invalid:ring-red-500/50 data-[state=checked]:border-amber-500 data-[state=checked]:bg-amber-500 data-[state=checked]:text-white",
         className,
       )}
       data-slot="radio"

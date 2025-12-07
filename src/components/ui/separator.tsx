@@ -1,10 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import { Separator as BaseSeparator } from '@base-ui-components/react'
 import { cn } from '@/lib/utils'
 
-interface SeparatorProps extends React.ComponentProps<typeof BaseSeparator> {
+interface SeparatorProps extends React.ComponentProps<'div'> {
   orientation?: 'horizontal' | 'vertical'
   className?: string
 }
@@ -15,10 +14,11 @@ function Separator({
   ...props
 }: SeparatorProps) {
   return (
-    <BaseSeparator
-      orientation={orientation}
+    <div
+      role="separator"
+      aria-orientation={orientation}
       className={cn(
-        'shrink-0',
+        'shrink-0 bg-white/12',
         orientation === 'horizontal' ? 'h-px w-full' : 'h-auto w-px',
         className,
       )}

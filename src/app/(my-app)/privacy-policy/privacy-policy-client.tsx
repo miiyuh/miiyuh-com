@@ -1,18 +1,17 @@
 'use client'
 
-import { useRef } from 'react'
+import type { TOCItemType } from 'fumadocs-core/toc'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { TableOfContents } from '@/components/ui/table-of-contents'
 import { Separator } from '@/components/ui/separator'
+import { PageTOC } from '@/components/ui/page-toc'
 
 interface PrivacyPolicyClientProps {
     htmlContent: string
+    toc: TOCItemType[]
     updatedAt?: string
 }
 
-export default function PrivacyPolicyClient({ htmlContent, updatedAt }: PrivacyPolicyClientProps) {
-    const contentRef = useRef<HTMLDivElement>(null)
-
+export default function PrivacyPolicyClient({ htmlContent, toc, updatedAt }: PrivacyPolicyClientProps) {
     const formatDate = (dateString?: string) => {
         if (!dateString) return null
         const date = new Date(dateString)
@@ -39,7 +38,6 @@ export default function PrivacyPolicyClient({ htmlContent, updatedAt }: PrivacyP
                         )}
                         <Separator className="my-8 bg-white/10" />
                         <div
-                            ref={contentRef}
                             className="text-lg leading-relaxed text-[#FAF3E0]/90 lexical-content"
                             dangerouslySetInnerHTML={{ __html: htmlContent }}
                         />
@@ -48,7 +46,7 @@ export default function PrivacyPolicyClient({ htmlContent, updatedAt }: PrivacyP
                 <div className="hidden lg:block w-px bg-white/10" />
                 <aside className="hidden lg:block w-64 shrink-0">
                     <div className="sticky top-24">
-                        <TableOfContents contentRef={contentRef} />
+                        <PageTOC toc={toc} />
                     </div>
                 </aside>
             </div>

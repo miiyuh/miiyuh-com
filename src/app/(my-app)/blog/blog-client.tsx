@@ -157,13 +157,6 @@ export default function BlogClient({
     })
   }
 
-  const resultLowerBound = pagination.totalDocs === 0
-    ? 0
-    : (pagination.page - 1) * pagination.pageSize + 1
-  const resultUpperBound = pagination.totalDocs === 0
-    ? 0
-    : resultLowerBound + posts.length - 1
-
   const pageNumbers = useMemo(() => {
     return Array.from({ length: Math.max(pagination.totalPages, 1) }, (_, index) => index + 1)
   }, [pagination.totalPages])
@@ -171,11 +164,11 @@ export default function BlogClient({
   return (
     <main className="flex flex-col bg-bg-primary text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section
-        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24 min-h-[70vh]"
+        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 min-h-[70vh]"
         style={{ paddingTop: '24px' }}
       >
         <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }} className="px-6 md:px-0">
             <SimpleBreadcrumb
               items={[
                 { label: 'home', href: '/' },
@@ -185,7 +178,7 @@ export default function BlogClient({
             />
           </div>
 
-                    <div className="mb-12">
+          <div className="mb-12 px-0 md:px-0">
             <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight mb-4 text-text-primary leading-tight">
               blog.
             </h1>
@@ -194,90 +187,10 @@ export default function BlogClient({
             </p>
           </div>
 
-          {/* Main Layout: Sidebar + Content */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-            {/* Sidebar - Search & Topics */}
-            <aside className="lg:w-64 xl:w-72 shrink-0 order-1 lg:order-2">
-              <div className="lg:sticky lg:top-24 space-y-6">
-                {/* Combined Search & Topics Card */}
-                <div className="backdrop-blur-md bg-bg-primary/80 border border-white/10 rounded-lg p-4">
-                  {/* Search Bar */}
-                  <label className="text-xs font-sans font-medium text-text-muted uppercase tracking-wider mb-3 block">
-                    Search
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Search className="h-4 w-4 text-text-muted" />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Search posts..."
-                      value={searchInput}
-                      onChange={(e) => setSearchInput(e.target.value)}
-                      className="w-full font-sans backdrop-blur-sm bg-white/10 rounded-md py-2 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary/50 focus:box-shadow-none transition-all duration-200"
-                      style={{ boxShadow: 'none' }}
-                    />
-                  </div>
-
-                  {/* Separator */}
-                  {allTopics.length > 0 && (
-                    <div className="my-4 h-px bg-white/10" />
-                  )}
-
-                  {/* Topic Tags */}
-                  {allTopics.length > 0 && (
-                    <>
-                      <label className="text-xs font-sans font-medium text-text-muted uppercase tracking-wider mb-3 block">
-                        Topics
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        <button
-                          onClick={clearFilters}
-                          className={`px-3 py-1.5 text-xs font-sans rounded-md transition-all duration-200 backdrop-blur-sm ${selectedTopics.length === 0
-                            ? 'bg-accent-primary/30 text-accent-primary border border-accent-primary/40'
-                            : 'bg-white/10 text-text-muted hover:text-text-secondary hover:bg-white/15'
-                            }`}
-                        >
-                          all
-                        </button>
-                        {allTopics.map((topic) => (
-                          <button
-                            key={topic.value}
-                            onClick={() => toggleTopic(topic.value)}
-                                className={`px-3 py-1.5 text-xs font-sans rounded-md transition-all duration-200 backdrop-blur-sm ${selectedTopics.includes(topic.value)
-                                  ? 'bg-accent-primary/30 text-accent-primary border border-accent-primary/40'
-                                  : 'bg-white/10 text-text-muted hover:text-text-secondary hover:bg-white/15'
-                                  }`}
-                          >
-                            {topic.label.toLowerCase()}
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Results Info */}
-                {hasActiveFilters && (
-                  <div className="backdrop-blur-md bg-bg-primary/80 border border-white/10 rounded-lg p-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-text-muted">
-                        {pagination.totalDocs} {pagination.totalDocs === 1 ? 'post' : 'posts'}
-                      </span>
-                      <button
-                        onClick={clearFilters}
-                        className="text-accent-primary hover:underline underline-offset-4 text-xs"
-                      >
-                        Clear
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </aside>
-
-            {/* Blog Posts - Main Content */}
-            <div className="flex-1 order-2 lg:order-1">
+          {/* Main Layout: CSS Grid - 4 columns (3 for posts, 1 for sidebar) */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-0">
+            {/* Blog Posts - 3 columns on desktop, full width on mobile */}
+            <div className="md:col-span-3 order-2 md:order-1 border-t border-white/10 md:border-b">
               {posts.length > 0 ? (
                 <div className="flex flex-col divide-y divide-white/10">
                   {posts.map((post, index) => (
@@ -285,11 +198,11 @@ export default function BlogClient({
                       key={post.id}
                       animation="fadeUp"
                       delay={index * 0.03}
-                      className="py-6 first:pt-0 last:pb-0"
+                      className="first:pt-0 last:pb-0"
                     >
                       <Link
                         href={getPostUrl(post)}
-                        className="group block backdrop-blur-md bg-bg-primary/80 rounded-lg overflow-hidden hover:bg-bg-primary/90 transition-all duration-200"
+                        className="group block rounded-lg overflow-hidden transition-all duration-200 hover:opacity-80"
                       >
                         <div className="flex flex-col sm:flex-row">
                           {/* Cover Image - 4:3 aspect ratio */}
@@ -384,6 +297,80 @@ export default function BlogClient({
                 </nav>
               )}
             </div>
+
+            {/* Sidebar - Search & Topics */}
+            <aside className="md:col-span-1 order-1 md:order-2 md:border-l border-white/10">
+              <div className="md:sticky md:top-24 space-y-6">
+                {/* Combined Search & Topics Card */}
+                <div className="border-t md:border-b border-white/10 rounded-lg p-0">
+                  {/* Search Bar */}
+                  <div className="relative mb-4 pr-px">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-text-muted" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search posts"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      className="w-full font-sans bg-white/10 rounded-md py-2 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:box-shadow-none transition-all duration-200"
+                      style={{ boxShadow: 'none' }}
+                    />
+                  </div>
+
+                  {/* Topic Tags */}
+                  {allTopics.length > 0 && (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xl font-serif font-medium text-text-muted mb-2 block">
+                          Topics
+                        </label>
+                      </div>
+                      <div className={`flex md:flex-wrap gap-2 mb-4 transition-all duration-200`}>
+                        <button
+                          onClick={clearFilters}
+                          className={`px-3 py-1.5 text-xs font-sans rounded-md transition-all duration-200 backdrop-blur-sm ${selectedTopics.length === 0
+                            ? 'bg-accent-primary/30 text-accent-primary border border-accent-primary/40'
+                            : 'bg-white/10 text-text-muted hover:text-text-secondary hover:bg-white/15'
+                            }`}
+                        >
+                          all
+                        </button>
+                        {allTopics.map((topic) => (
+                          <button
+                            key={topic.value}
+                            onClick={() => toggleTopic(topic.value)}
+                                className={`px-3 py-1.5 text-xs font-sans rounded-md transition-all duration-200 backdrop-blur-sm ${selectedTopics.includes(topic.value)
+                                  ? 'bg-accent-primary/30 text-accent-primary border border-accent-primary/40'
+                                  : 'bg-white/10 text-text-muted hover:text-text-secondary hover:bg-white/15'
+                                  }`}
+                          >
+                            {topic.label.toLowerCase()}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Results Info */}
+                {hasActiveFilters && (
+                  <div className="border-t md:border-b border-white/10 rounded-lg p-4">
+                    <div className="flex items-center justify-between text-xl">
+                      <span className="font-serif font-medium text-text-muted">
+                        {pagination.totalDocs} {pagination.totalDocs === 1 ? 'post' : 'posts'}
+                      </span>
+                      <button
+                        onClick={clearFilters}
+                        className="text-accent-primary hover:underline underline-offset-4 text-sm border-l pl-4 border-white/10"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </aside>
           </div>
         </div>
       </section>

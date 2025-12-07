@@ -30,17 +30,17 @@ const buttonVariants = cva(
       },
       variant: {
         default:
-          "border-primary bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 active:shadow-none data-pressed:shadow-none",
+          "border-white/80 bg-white text-black shadow-sm hover:bg-white/90 hover:border-white/90 active:shadow-none data-pressed:shadow-none",
         destructive:
-          "border-destructive bg-destructive text-white shadow-xs hover:bg-destructive/90 active:shadow-none data-pressed:shadow-none",
+          "border-red-500 bg-red-500 text-white shadow-sm hover:bg-red-400 hover:border-red-400 active:shadow-none data-pressed:shadow-none",
         "destructive-outline":
-          "border-border bg-transparent text-destructive-foreground shadow-xs hover:border-destructive/32 hover:bg-destructive/4 data-pressed:border-destructive/32 data-pressed:bg-destructive/4 dark:bg-input/32",
-        ghost: "border-transparent hover:bg-accent data-pressed:bg-accent",
-        link: "border-transparent underline-offset-4 hover:underline",
+          "border-red-400 bg-transparent text-red-300 shadow-xs hover:bg-red-500/10 data-pressed:bg-red-500/15",
+        ghost: "border-transparent text-white hover:bg-white/10 data-pressed:bg-white/14",
+        link: "border-transparent text-sky-300 underline-offset-4 hover:underline",
         outline:
-          "border-border bg-background shadow-xs hover:bg-accent/50 data-pressed:bg-accent/50 dark:bg-input/32 dark:hover:bg-input/64 dark:data-pressed:bg-input/64",
+          "border-white/50 bg-transparent text-white shadow-xs hover:bg-white/8 data-pressed:bg-white/12",
         secondary:
-          "border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/90 data-pressed:bg-secondary/90",
+          "border-white/20 bg-white/8 text-white hover:bg-white/16 data-pressed:bg-white/20",
       },
     },
   },

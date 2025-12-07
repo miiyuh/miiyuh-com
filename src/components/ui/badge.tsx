@@ -7,7 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const badgeVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-sm border border-transparent font-medium outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-64 [&_svg:not([class*='size-'])]:size-3 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "relative inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-md border font-medium outline-none transition-all focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60 [&_svg:not([class*='size-'])]:size-3 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     defaultVariants: {
       size: "default",
@@ -15,24 +15,24 @@ const badgeVariants = cva(
     },
     variants: {
       size: {
-        default: "px-[calc(var(--spacing)*1-1px)] text-xs",
-        lg: "px-[calc(var(--spacing)*1.5-1px)] text-sm",
-        sm: "rounded-[calc(var(--radius-sm)-2px)] px-[calc(var(--spacing)*1-1px)] text-[.625rem]",
+        default: "px-2 py-0.5 text-xs",
+        lg: "px-2.5 py-1 text-sm",
+        sm: "px-1.5 py-0.5 text-[.625rem]",
       },
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/90",
+          "border-white/70 bg-white text-black hover:bg-white/90",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90",
+          "border-red-400/50 bg-red-500/20 text-red-300 hover:bg-red-500/30",
         error:
-          "bg-destructive/8 text-destructive-foreground dark:bg-destructive/16",
-        info: "bg-info/8 text-info-foreground dark:bg-info/16",
+          "border-red-400/30 bg-red-500/15 text-red-300",
+        info: "border-sky-400/30 bg-sky-500/15 text-sky-300",
         outline:
-          "border-border bg-transparent dark:bg-input/32 hover:bg-accent/50 dark:hover:bg-input/48",
+          "border-white/30 bg-transparent text-white hover:bg-white/10",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/90",
-        success: "bg-success/8 text-success-foreground dark:bg-success/16",
-        warning: "bg-warning/8 text-warning-foreground dark:bg-warning/16",
+          "border-white/15 bg-white/10 text-white hover:bg-white/15",
+        success: "border-emerald-400/30 bg-emerald-500/15 text-emerald-300",
+        warning: "border-amber-400/30 bg-amber-500/15 text-amber-300",
       },
     },
   },

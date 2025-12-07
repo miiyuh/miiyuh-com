@@ -18,7 +18,7 @@ const BreadcrumbList = forwardRef<HTMLOListElement, ComponentPropsWithoutRef<'ol
     return (
       <ol
         className={cn(
-          'flex flex-wrap items-center gap-1.5 wrap-break-word text-muted-foreground text-sm sm:gap-2.5',
+          'flex flex-wrap items-center gap-1.5 wrap-break-word text-white/60 text-sm sm:gap-2.5',
           className,
         )}
         data-slot="breadcrumb-list"
@@ -53,7 +53,7 @@ const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
     const Comp = asChild ? Slot : 'a'
     return (
       <Comp
-        className={cn('transition-colors hover:text-foreground', className)}
+        className={cn('transition-colors hover:text-white', className)}
         data-slot="breadcrumb-link"
         ref={ref}
         {...props}
@@ -69,7 +69,7 @@ const BreadcrumbPage = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<'spa
       <span
         aria-current="page"
         aria-disabled="true"
-        className={cn('font-normal text-foreground', className)}
+        className={cn('font-normal text-white', className)}
         data-slot="breadcrumb-page"
         role="link"
         ref={ref}

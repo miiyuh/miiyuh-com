@@ -23,17 +23,17 @@ function MenuPopup({
   return (
     <Portal>
       <MenuPrimitive.Positioner
-        className="z-50"
+        className="z-100"
         data-slot="menu-positioner"
       >
         <MenuPrimitive.Content
           className={cn(
-            "relative flex origin-(--transform-origin) rounded-lg border bg-popover bg-clip-padding shadow-lg transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 dark:bg-clip-border",
+            "relative flex origin-(--transform-origin) rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             className,
           )}
           data-slot="menu-popup"
         >
-          <div className="max-h-(--available-height) not-[class*='w-']:min-w-32 overflow-y-auto p-1" {...props} />
+          <div className="max-h-(--available-height) not-[class*='w-']:min-w-32 overflow-y-auto p-1.5" {...props} />
         </MenuPrimitive.Content>
       </MenuPrimitive.Positioner>
     </Portal>
@@ -56,7 +56,7 @@ function MenuItem({
   return (
     <MenuPrimitive.Item
       className={cn(
-        "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-inset:ps-8 data-[variant=destructive]:text-destructive-foreground data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:text-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "flex cursor-default select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-white/90 outline-none transition-colors data-disabled:pointer-events-none data-highlighted:bg-white/8 data-inset:ps-8 data-[variant=destructive]:text-red-400 data-highlighted:text-white data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
       data-inset={inset}
@@ -79,7 +79,7 @@ function MenuCheckboxItem({
       checked={checked}
       onCheckedChange={onCheckedChange}
       className={cn(
-        "grid in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-sm py-1 ps-2 pe-4 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:text-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "grid in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-lg py-1.5 ps-2.5 pe-4 text-sm text-white/90 outline-none transition-colors data-disabled:pointer-events-none data-highlighted:bg-white/8 data-highlighted:text-white data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
       data-slot="menu-checkbox-item"
@@ -105,7 +105,7 @@ function MenuRadioItem({
   return (
     <MenuPrimitive.RadioItem
       className={cn(
-        "grid in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-sm py-1 ps-2 pe-4 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:text-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "grid in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-lg py-1.5 ps-2.5 pe-4 text-sm text-white/90 outline-none transition-colors data-disabled:pointer-events-none data-highlighted:bg-white/8 data-highlighted:text-white data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
       data-slot="menu-radio-item"
@@ -129,7 +129,7 @@ function MenuGroupLabel({
   return (
     <MenuPrimitive.ItemGroupLabel
       className={cn(
-        "px-2 py-1.5 font-medium text-muted-foreground text-xs data-inset:ps-9 sm:data-inset:ps-8",
+        "px-2.5 py-1.5 font-medium text-white/50 text-xs data-inset:ps-9 sm:data-inset:ps-8",
         className,
       )}
       data-inset={inset}
@@ -145,7 +145,7 @@ function MenuSeparator({
 }: ComponentProps<typeof MenuPrimitive.Separator>) {
   return (
     <MenuPrimitive.Separator
-      className={cn("mx-2 my-1 h-px bg-border", className)}
+      className={cn("mx-2 my-1 h-px bg-white/12", className)}
       data-slot="menu-separator"
       {...props}
     />
@@ -156,7 +156,7 @@ function MenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       className={cn(
-        "ms-auto text-muted-foreground/64 text-xs tracking-widest",
+        "ms-auto text-white/40 text-xs tracking-widest",
         className,
       )}
       data-slot="menu-shortcut"
@@ -180,7 +180,7 @@ function MenuSubTrigger({
   return (
     <MenuPrimitive.TriggerItem
       className={cn(
-        "flex items-center gap-2 rounded-sm px-2 py-1 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-inset:ps-8 data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:text-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none",
+        "flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-white/90 outline-none transition-colors data-disabled:pointer-events-none data-highlighted:bg-white/8 data-inset:ps-8 data-highlighted:text-white data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none",
         className,
       )}
       data-inset={inset}

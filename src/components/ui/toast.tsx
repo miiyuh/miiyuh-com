@@ -57,7 +57,7 @@ function ToastProvider({
             <Toast.Root
               key={toast.id}
               className={cn(
-                "relative z-50 select-none rounded-lg border bg-popover bg-clip-padding px-3.5 py-3 text-popover-foreground shadow-lg transition-all duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full dark:bg-clip-border",
+                "relative z-50 select-none rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl px-3.5 py-3 text-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-all duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full",
               )}
             >
               <div className="flex items-center justify-between gap-1.5 text-sm">
@@ -80,7 +80,7 @@ function ToastProvider({
                   <div className="flex flex-col gap-0.5">
                     <Toast.Title className="font-medium" data-slot="toast-title" />
                     <Toast.Description
-                      className="text-muted-foreground"
+                      className="text-white/60"
                       data-slot="toast-description"
                     />
                   </div>

@@ -1,15 +1,15 @@
 'use client'
 
-import { useRef } from 'react'
+import type { TOCItemType } from 'fumadocs-core/toc'
 import { renderLexicalContent, type LexicalContent } from '@/utils/lexical-renderer'
-import { TableOfContents } from '@/components/ui/table-of-contents'
+import { PageTOC } from '@/components/ui/page-toc'
 
 type BlogPostContentProps = {
   content: LexicalContent | null
+  toc: TOCItemType[]
 }
 
-export default function BlogPostContent({ content }: BlogPostContentProps) {
-  const contentRef = useRef<HTMLDivElement>(null)
+export default function BlogPostContent({ content, toc }: BlogPostContentProps) {
   const htmlContent = renderLexicalContent(content)
 
   return (
@@ -17,7 +17,6 @@ export default function BlogPostContent({ content }: BlogPostContentProps) {
       {/* Main content */}
       <article className="prose prose-invert max-w-none">
         <div
-          ref={contentRef}
           className="lexical-content"
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
@@ -26,7 +25,7 @@ export default function BlogPostContent({ content }: BlogPostContentProps) {
       {/* Table of contents sidebar - visible only on large screens */}
       <div className="hidden lg:block relative h-full border-l border-white/10 pl-8">
         <div className="sticky top-24 w-64">
-          <TableOfContents contentRef={contentRef} />
+          <PageTOC toc={toc} />
         </div>
       </div>
     </div>

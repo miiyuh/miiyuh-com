@@ -85,7 +85,7 @@ function ComboboxInput({
   return (
     <ComboboxPrimitive.Input
       className={cn(
-        "w-full min-w-0 rounded-lg border border-input bg-background px-3 py-2 text-base outline-none ring-ring/24 transition-shadow placeholder:text-muted-foreground/64 focus:border-ring focus:ring-[3px] sm:text-sm",
+        "w-full min-w-0 rounded-lg border border-white/12 bg-white/5 px-3 py-2 text-base text-white outline-none ring-amber-400/30 transition-all placeholder:text-white/40 focus:border-white/20 focus:bg-white/8 focus:ring-2 sm:text-sm",
         size === 'sm' && "px-2.5 py-1",
         size === 'lg' && "py-2.5",
         className,
@@ -134,7 +134,7 @@ function ComboboxContent({
       <ComboboxPrimitive.Positioner className="z-50">
         <ComboboxPrimitive.Content
           className={cn(
-            "relative flex max-h-[min(var(--available-height),23rem)] w-(--reference-width) min-w-32 origin-(--transform-origin) flex-col overflow-hidden rounded-lg border bg-popover shadow-lg transition-all duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+            "relative flex max-h-[min(var(--available-height),23rem)] w-(--reference-width) min-w-32 origin-(--transform-origin) flex-col overflow-hidden rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-all duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
             className,
           )}
           data-slot="combobox-content"
@@ -160,7 +160,7 @@ function ComboboxItem({
   return (
     <ComboboxPrimitive.Item
       className={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+        "relative flex cursor-default select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-white/90 outline-none transition-colors data-highlighted:bg-white/8 data-highlighted:text-white data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
       )}
       data-slot="combobox-item"
@@ -194,7 +194,7 @@ function ComboboxItemGroupLabel({
   return (
     <ComboboxPrimitive.ItemGroupLabel
       className={cn(
-        "px-2 py-1.5 font-medium text-muted-foreground text-xs",
+        "px-2.5 py-1.5 font-medium text-white/50 text-xs",
         className,
       )}
       data-slot="combobox-group-label"

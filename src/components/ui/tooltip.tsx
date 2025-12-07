@@ -21,10 +21,10 @@ function TooltipPopup({
   ...props
 }: ComponentProps<typeof TooltipPrimitive.Content>) {
   return (
-    <TooltipPrimitive.Positioner className="z-50" data-slot="tooltip-positioner">
+    <TooltipPrimitive.Positioner className="z-100" data-slot="tooltip-positioner">
       <TooltipPrimitive.Content
         className={cn(
-          "relative flex w-fit origin-(--transform-origin) text-balance rounded-md border bg-[#070707] bg-clip-padding px-2 py-1 text-popover-foreground text-xs shadow-black/5 shadow-md transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 dark:bg-clip-border",
+          "relative flex w-fit origin-(--transform-origin) text-balance rounded-lg border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl px-2.5 py-1.5 text-white text-xs shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
           className,
         )}
         data-slot="tooltip-content"
