@@ -20,9 +20,9 @@ export const generateMetadata = ({ params, searchParams }: Args): Promise<Metada
     return generatePageMetadata({ config, params, searchParams })
   } catch (error) {
     console.error('Error generating metadata:', error)
-    return {
+    return Promise.resolve({
       title: 'Admin - miiyuh.com CMS',
-    }
+    })
   }
 }
 
@@ -30,6 +30,11 @@ const Page = async ({ params, searchParams }: Args) => {
   try {
     return await RootPage({ config, params, searchParams, importMap })
   } catch (error) {
+    // Re-throw Next.js redirect errors
+    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+      throw error
+    }
+    
     console.error('Error rendering admin page:', error)
     return (
       <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
