@@ -15,10 +15,37 @@ type Args = {
   }>
 }
 
-export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
-  generatePageMetadata({ config, params, searchParams })
+export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> => {
+  try {
+    return generatePageMetadata({ config, params, searchParams })
+  } catch (error) {
+    console.error('Error generating metadata:', error)
+    return {
+      title: 'Admin - miiyuh.com CMS',
+    }
+  }
+}
 
-const Page = ({ params, searchParams }: Args) =>
-  RootPage({ config, params, searchParams, importMap })
+const Page = async ({ params, searchParams }: Args) => {
+  try {
+    return await RootPage({ config, params, searchParams, importMap })
+  } catch (error) {
+    console.error('Error rendering admin page:', error)
+    return (
+      <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+        <h1>Admin Panel - Error</h1>
+        <p>Failed to load the admin interface. Please check the server logs.</p>
+        <pre style={{ 
+          background: '#f5f5f5', 
+          padding: '10px', 
+          borderRadius: '4px',
+          overflow: 'auto'
+        }}>
+          {error instanceof Error ? error.message : String(error)}
+        </pre>
+      </div>
+    )
+  }
+}
 
 export default Page
