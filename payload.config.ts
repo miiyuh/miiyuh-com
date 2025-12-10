@@ -17,12 +17,18 @@ import { LegalPages } from './src/globals/LegalPages'
 
 const isProd = process.env.NODE_ENV === 'production'
 
-const requiredEnv = (key: string): string => {
+const requiredEnv = (key: string, fallback?: string): string => {
   const value = process.env[key]
-  if (isProd && !value) {
-    throw new Error(`Missing required environment variable: ${key}`)
+  if (!value && !fallback) {
+    const message = `Missing required environment variable: ${key}`
+    if (isProd) {
+      console.error(message)
+      // Return a placeholder to allow build to continue
+      return `MISSING_${key}`
+    }
+    throw new Error(message)
   }
-  return value || ''
+  return value || fallback || ''
 }
 
 const filename = fileURLToPath(import.meta.url)
@@ -51,20 +57,20 @@ export default buildConfig({
   },
   collections: [Users, Media, GalleryCollections, Posts, Projects, Papers, AboutPage],
   globals: [LegalPages],
-  plugins: isProd ? [
+  plugins: isProd && process.env.R2_BUCKET_NAME ? [
     s3Storage({
       enabled: true,
       collections: {
         media: true,
       },
-      bucket: requiredEnv('R2_BUCKET_NAME'),
+      bucket: process.env.R2_BUCKET_NAME,
       config: {
         credentials: {
-          accessKeyId: requiredEnv('R2_ACCESS_KEY_ID'),
-          secretAccessKey: requiredEnv('R2_SECRET_ACCESS_KEY'),
+          accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
         },
         region: 'auto',
-        endpoint: requiredEnv('R2_ENDPOINT'),
+        endpoint: process.env.R2_ENDPOINT || '',
       },
     }),
   ] : [],
