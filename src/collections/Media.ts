@@ -1,12 +1,24 @@
 import { CollectionConfig } from 'payload'
 
+const isProd = process.env.NODE_ENV === 'production'
+
 const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    singular: 'Media File',
+    plural: 'Media Library',
+  },
   access: {
     read: () => true,
   },
+  admin: {
+    description: 'Upload and manage images and documents',
+    group: 'Media',
+  },
   upload: {
-    staticDir: 'media',
+    // Uploads are handled by R2 in production via the s3Storage plugin
+    // In development, files are stored locally
+    staticDir: isProd ? undefined : 'media',
     adminThumbnail: 'thumbnail',
     imageSizes: [
       {

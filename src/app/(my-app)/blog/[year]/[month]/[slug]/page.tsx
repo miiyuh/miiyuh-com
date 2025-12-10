@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
-    collection: 'posts',
+    collection: 'blog-posts',
     where: { slug: { equals: slug } },
     depth: 1,
   })
@@ -54,7 +54,7 @@ async function Page({ params }: PageProps) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
-    collection: 'posts',
+    collection: 'blog-posts',
     where: { slug: { equals: slug } },
     depth: 1,
   })

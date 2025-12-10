@@ -2,13 +2,19 @@ import { CollectionConfig } from 'payload'
 
 const AboutPage: CollectionConfig = {
   slug: 'about-entries',
+  labels: {
+    singular: 'About Entry',
+    plural: 'About Entries',
+  },
   access: {
     read: () => true,
   },
   admin: {
     useAsTitle: 'title',
-    group: 'Content',
+    defaultColumns: ['title', 'type', 'startDate', 'endDate', 'isCurrent'],
     description: 'Manage education, experience, and volunteering entries for the About page',
+    listSearchableFields: ['title', 'subtitle', 'description'],
+    group: 'Pages',
   },
   fields: [
     {

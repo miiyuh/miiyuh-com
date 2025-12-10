@@ -9,11 +9,12 @@ import { buildConfig } from 'payload'
 import Users from './src/collections/Users'
 import Media from './src/collections/Media'
 import GalleryCollections from './src/collections/GalleryCollections'
-import Posts from './src/collections/Posts'
+import BlogPosts from './src/collections/BlogPosts'
 import Projects from './src/collections/Projects'
 import AboutPage from './src/collections/AboutPage'
 import Papers from './src/collections/Papers'
-import { LegalPages } from './src/globals/LegalPages'
+import { PrivacyPolicy } from './src/globals/PrivacyPolicy'
+import { TermsOfService } from './src/globals/TermsOfService'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -55,8 +56,8 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
-  collections: [Users, Media, GalleryCollections, Posts, Projects, Papers, AboutPage],
-  globals: [LegalPages],
+  collections: [Users, Media, GalleryCollections, BlogPosts, Projects, Papers, AboutPage],
+  globals: [PrivacyPolicy, TermsOfService],
   plugins: isProd && process.env.R2_BUCKET_NAME ? [
     s3Storage({
       enabled: true,

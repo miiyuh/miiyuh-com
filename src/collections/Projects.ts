@@ -2,11 +2,18 @@ import { CollectionConfig } from 'payload'
 
 const Projects: CollectionConfig = {
   slug: 'projects',
+  labels: {
+    singular: 'Project',
+    plural: 'Projects',
+  },
   access: {
     read: () => true,
   },
   admin: {
     useAsTitle: 'name',
+    defaultColumns: ['name', 'category', 'status', '_status'],
+    description: 'Manage portfolio projects, side projects, and university work',
+    listSearchableFields: ['name', 'slug', 'description'],
     preview: (doc) => {
       if (!doc?.slug) return ''
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/projects/${doc.slug}`

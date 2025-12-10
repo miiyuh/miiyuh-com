@@ -25,6 +25,9 @@ dist/
 # Scripts (dev utilities)
 scripts/
 
+# Local media uploads (only used in development)
+media/
+
 # Payload CMS build cache
 .payload
 payload-generated-types.d.ts

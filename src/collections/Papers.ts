@@ -11,8 +11,9 @@ const Papers: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'publishedDate', 'status'],
+    defaultColumns: ['title', 'category', 'publishedDate', '_status'],
     description: 'Manage academic papers and research documents',
+    listSearchableFields: ['title', 'slug', 'abstract'],
     group: 'Content',
   },
   versions: {

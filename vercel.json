@@ -1,12 +1,6 @@
 {
   "buildCommand": "bun run build",
   "installCommand": "bun install",
-  "rewrites": [
-    {
-      "source": "/favicon-16x16.png",
-      "destination": "/assets/img/favicons/favicon-16x16.png"
-    }
-  ],
   "redirects": [
     {
       "source": "/anilist",

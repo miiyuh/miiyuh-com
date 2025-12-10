@@ -8,12 +8,13 @@ export const dynamic = 'force-dynamic'
 
 export default async function TermsOfService() {
   const payload = await getPayload({ config })
-  const legalPages = await payload.findGlobal({
-    slug: 'legal-pages',
+  const termsOfService = await payload.findGlobal({
+    slug: 'terms-of-service',
   })
 
-  const content = legalPages.termsOfService
-  const updatedAt = legalPages.updatedAt
+  const content = termsOfService.content
+  const lastUpdated = termsOfService.lastUpdated
+  const updatedAt = termsOfService.updatedAt
 
   // If content is empty, show a message
   if (!content) {
@@ -21,7 +22,7 @@ export default async function TermsOfService() {
       <TermsOfServiceClient
         htmlContent="<div class='text-center p-8'><p class='text-lg'>Content not yet available. Please populate the Terms of Service in the CMS admin at <a href='/admin' class='text-accent-primary underline'>/admin</a>.</p></div>"
         toc={[]}
-        updatedAt={updatedAt}
+        updatedAt={lastUpdated || updatedAt}
       />
     )
   }
@@ -30,6 +31,6 @@ export default async function TermsOfService() {
   const toc = extractTocFromLexical(content)
 
   return (
-    <TermsOfServiceClient htmlContent={htmlContent} toc={toc} updatedAt={updatedAt} />
+    <TermsOfServiceClient htmlContent={htmlContent} toc={toc} updatedAt={lastUpdated || updatedAt} />
   )
 }

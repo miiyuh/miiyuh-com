@@ -2,12 +2,18 @@ import { CollectionConfig } from 'payload'
 
 const Users: CollectionConfig = {
   slug: 'users',
+  labels: {
+    singular: 'User',
+    plural: 'Users',
+  },
   auth: {
     loginWithUsername: true,
   },
   admin: {
     useAsTitle: 'username',
     defaultColumns: ['username', 'email', 'role', 'updatedAt'],
+    description: 'Manage CMS user accounts and permissions',
+    group: 'Admin',
   },
   hooks: {
     beforeValidate: [

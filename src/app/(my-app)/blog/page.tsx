@@ -88,7 +88,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
 
   const executePostsQuery = (page: number) =>
     payload.find({
-      collection: 'posts',
+      collection: 'blog-posts',
       where: {
         and: filterConditions as Where[],
       },
@@ -138,7 +138,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
   })
 
   const { docs: tagDocs } = await payload.find({
-    collection: 'posts',
+    collection: 'blog-posts',
     where: {
       _status: {
         equals: 'published',
