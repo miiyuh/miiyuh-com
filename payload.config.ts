@@ -82,7 +82,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  serverURL: process.env.NEXT_PUBLIC_PAYLOAD_URL,
+  serverURL: process.env.NEXT_PUBLIC_PAYLOAD_URL || (isProd ? undefined : 'http://localhost:3000'),
   secret: requiredEnv('PAYLOAD_SECRET'),
   sharp,
 })

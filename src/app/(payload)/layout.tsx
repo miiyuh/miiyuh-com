@@ -15,17 +15,38 @@ type Args = {
 
 const serverFunction: ServerFunctionClient = async function (args) {
   'use server'
-  return handleServerFunctions({
-    ...args,
-    config,
-    importMap,
-  })
+  try {
+    return handleServerFunctions({
+      ...args,
+      config,
+      importMap,
+    })
+  } catch (error) {
+    console.error('[Payload] Server function error:', error)
+    throw error
+  }
 }
 
-const Layout = ({ children }: Args) => (
-  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    {children}
-  </RootLayout>
-)
+const Layout = ({ children }: Args) => {
+  if (!config) {
+    console.error('[Payload] Config not loaded')
+    return (
+      <html>
+        <body>
+          <div style={{ padding: '20px' }}>
+            <h1>Configuration Error</h1>
+            <p>Payload CMS configuration failed to load.</p>
+          </div>
+        </body>
+      </html>
+    )
+  }
+
+  return (
+    <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+      {children}
+    </RootLayout>
+  )
+}
 
 export default Layout

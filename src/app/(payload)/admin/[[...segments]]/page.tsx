@@ -28,25 +28,42 @@ export const generateMetadata = ({ params, searchParams }: Args): Promise<Metada
 
 const Page = async ({ params, searchParams }: Args) => {
   try {
-    return await RootPage({ config, params, searchParams, importMap })
+    const config = await import('@payload-config')
+    if (!config) {
+      throw new Error('Payload config failed to load')
+    }
+    return await RootPage({ config: config.default, params, searchParams, importMap })
   } catch (error) {
     // Re-throw Next.js redirect errors
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
       throw error
     }
     
-    console.error('Error rendering admin page:', error)
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    const errorStack = error instanceof Error ? error.stack : ''
+    
+    console.error('Error rendering admin page:', errorMessage)
+    console.error('Error stack:', errorStack)
+    console.error('Environment check:', {
+      NODE_ENV: process.env.NODE_ENV,
+      DATABASE_URI_SET: !!process.env.DATABASE_URI,
+      PAYLOAD_SECRET_SET: !!process.env.PAYLOAD_SECRET,
+      PAYLOAD_URL: process.env.NEXT_PUBLIC_PAYLOAD_URL,
+    })
+    
     return (
       <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
         <h1>Admin Panel - Error</h1>
-        <p>Failed to load the admin interface. Please check the server logs.</p>
+        <p>Failed to load the admin interface. Check server logs for details.</p>
+        <h3>Error Details:</h3>
         <pre style={{ 
           background: '#f5f5f5', 
           padding: '10px', 
           borderRadius: '4px',
-          overflow: 'auto'
+          overflow: 'auto',
+          fontSize: '12px'
         }}>
-          {error instanceof Error ? error.message : String(error)}
+          {errorMessage}
         </pre>
       </div>
     )
