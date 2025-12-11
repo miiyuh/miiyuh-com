@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { projectEditor } from '../editor/richTextEditor'
 
 const Projects: CollectionConfig = {
   slug: 'projects',
@@ -96,6 +97,7 @@ const Projects: CollectionConfig = {
       type: 'richText',
       required: false,
       localized: true,
+      editor: projectEditor,
       admin: {
         description: 'Detailed content for the project page',
       },

@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { blogEditor } from '../editor/richTextEditor'
 
 const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
@@ -97,6 +98,7 @@ const BlogPosts: CollectionConfig = {
               type: 'richText',
               required: true,
               localized: true,
+              editor: blogEditor,
             },
           ],
         },

@@ -1,7 +1,6 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { buildConfig } from 'payload'
@@ -15,6 +14,7 @@ import AboutPage from './src/collections/AboutPage'
 import Papers from './src/collections/Papers'
 import { PrivacyPolicy } from './src/globals/PrivacyPolicy'
 import { TermsOfService } from './src/globals/TermsOfService'
+import { fullFeaturedEditor } from './src/editor/richTextEditor'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -75,7 +75,7 @@ export default buildConfig({
       },
     }),
   ] : [],
-  editor: lexicalEditor(),
+  editor: fullFeaturedEditor,
   db: mongooseAdapter({
     url: requiredEnv('DATABASE_URI'),
   }),

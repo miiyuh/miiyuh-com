@@ -1,4 +1,5 @@
 import { GlobalConfig } from 'payload'
+import { legalEditor } from '../editor/richTextEditor'
 
 export const PrivacyPolicy: GlobalConfig = {
   slug: 'privacy-policy',
@@ -27,6 +28,7 @@ export const PrivacyPolicy: GlobalConfig = {
       type: 'richText',
       required: true,
       localized: true,
+      editor: legalEditor,
       admin: {
         description: 'Privacy policy content with full rich text support',
       },
