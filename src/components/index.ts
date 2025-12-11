@@ -12,6 +12,10 @@ export { default as ScrollToTopButton } from './ui/scroll-to-top-button'
 export { HeadingWithHash } from './ui/heading-with-hash'
 export { PageTOC } from './ui/page-toc'
 
+// Forms components
+export { FormRenderer } from './forms/form-renderer'
+export { FormBlock, FormBlockServer } from './forms/form-block'
+
 // Effects and animations
 export { TypewriterText, AnimatedHeading } from './effects/animated-text'
 export { ScrollAnimation } from './effects/scroll-animations'

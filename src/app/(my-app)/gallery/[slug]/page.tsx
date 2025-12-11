@@ -1,6 +1,8 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
+import { Fragment } from 'react'
+import { RefreshRouteOnSave } from '@/components/live-preview'
 import AlbumClient from './album-client'
 import type {
     GalleryCollectionDocument,
@@ -112,5 +114,10 @@ export default async function AlbumPage({ params }: PageProps) {
         status: collection.status,
     }
 
-    return <AlbumClient collection={collectionData} images={galleryImages} />
+    return (
+        <Fragment>
+            <RefreshRouteOnSave />
+            <AlbumClient collection={collectionData} images={galleryImages} />
+        </Fragment>
+    )
 }

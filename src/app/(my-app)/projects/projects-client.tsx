@@ -144,7 +144,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
             {/* Header Section */}
             <div className="mb-16 max-w-4xl">
               <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9]">
-                projects.
+                projects
               </h1>
               <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light">
                 side projects, university work, and research papers - the collection

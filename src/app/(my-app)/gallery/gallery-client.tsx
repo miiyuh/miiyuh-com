@@ -55,9 +55,9 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
             </div>
 
             {/* Header */}
-            <div className="mb-16 max-w-4xl">
+            <div className="mb-8 max-w-4xl">
               <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9] select-none cursor-default">
-                gallery.
+                gallery
               </h1>
               <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light select-none cursor-default">
                 A curated collection of moments, perspectives, and digital creations.

@@ -180,7 +180,7 @@ export default function BlogClient({
 
           <div className="mb-12 px-0 md:px-0">
             <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight mb-4 text-text-primary leading-tight">
-              blog.
+              blog
             </h1>
             <p className="text-base text-text-secondary max-w-xl leading-relaxed">
               thoughts, stories, and experiments archived in time.

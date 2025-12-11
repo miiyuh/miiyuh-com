@@ -58,7 +58,7 @@ export default function Header() {
             <line x1="19" y1="5" x2="5" y2="19" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 200ms ease-in-out' }} />
           </svg>
         </button>        {/* Desktop Menu */}
-        <ul className="hidden lg:flex gap-6 text-lg font-bold font-serif">
+        <ul className="hidden lg:flex gap-8 text-xl font-bold font-serif">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} onClick={handleDesktopLinkClick} className="hover:underline">

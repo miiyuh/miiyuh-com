@@ -1,6 +1,8 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
+import { Fragment } from 'react'
+import { RefreshRouteOnSave } from '@/components/live-preview'
 import ProjectWrapper from './project-wrapper'
 
 export const revalidate = 60
@@ -99,5 +101,10 @@ export default async function ProjectPage({ params }: PageProps) {
       : undefined,
   }
 
-  return <ProjectWrapper project={transformedProject} />
+  return (
+    <Fragment>
+      <RefreshRouteOnSave />
+      <ProjectWrapper project={transformedProject} />
+    </Fragment>
+  )
 }

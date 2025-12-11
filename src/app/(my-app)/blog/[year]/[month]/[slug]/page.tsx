@@ -3,10 +3,12 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Fragment } from 'react'
 
 import { ReadingProgressBar } from '@/components/effects/reading-progress-bar'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Separator } from '@/components/ui/separator'
+import { RefreshRouteOnSave } from '@/components/live-preview'
 import BlogPostContent from './blog-post-content'
 import type { BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
@@ -80,7 +82,9 @@ async function Page({ params }: PageProps) {
   const publishedAtDate = post.publishedAt ? new Date(post.publishedAt) : null
 
   return (
-    <main className="relative min-h-screen text-[#FAF3E0]">
+    <Fragment>
+      <RefreshRouteOnSave />
+      <main className="relative min-h-screen text-[#FAF3E0]">
       <ReadingProgressBar />
 
 
@@ -165,6 +169,7 @@ async function Page({ params }: PageProps) {
         </footer>
       </div>
     </main>
+    </Fragment>
   )
 }
 
