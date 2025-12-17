@@ -19,8 +19,8 @@ export function ScrollAnimation({
   delay = 0,
   threshold = 0.1,
   className = '',
-  duration = 800,
-  easing = 'out-expo'
+  duration = 600,
+  easing = 'easeInOutQuad'
 }: ScrollAnimationProps) {
   const elementRef = useRef<HTMLDivElement>(null)
   const hasAnimatedRef = useRef(false)
@@ -53,8 +53,8 @@ export function ScrollAnimation({
         case 'rotate':
           set(element, { opacity: 0, rotate: '-10deg' })
           break
-        default: // fadeIn
-          set(element, { opacity: 0 })
+        default: // fadeIn - pop instantly onto screen
+          set(element, { opacity: 1 })
       }
     }
 
@@ -63,40 +63,41 @@ export function ScrollAnimation({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimatedRef.current) {
-          // Get animation target and properties
-          setTimeout(() => {
-            const animProps: Record<string, number | string> = {
-              opacity: 1,
-              duration,
-              easing
-            }
-
-            switch (animation) {
-              case 'fadeUp':
-                animProps.translateY = '0px'
-                break
-              case 'fadeDown':
-                animProps.translateY = '0px'
-                break
-              case 'fadeLeft':
-                animProps.translateX = '0px'
-                break
-              case 'fadeRight':
-                animProps.translateX = '0px'
-                break
-              case 'scale':
-                animProps.scale = 1
-                break
-              case 'rotate':
-                animProps.rotate = '0deg'
-                break
-            }
-
-            // Trigger animation
-            animate(element, animProps)
-          }, delay * 1000)
-
           hasAnimatedRef.current = true
+          // For fadeIn (default), element is already visible, no animation needed
+          if (animation !== 'fadeIn') {
+            setTimeout(() => {
+              const animProps: Record<string, number | string> = {
+                opacity: 1,
+                duration,
+                easing
+              }
+
+              switch (animation) {
+                case 'fadeUp':
+                  animProps.translateY = '0px'
+                  break
+                case 'fadeDown':
+                  animProps.translateY = '0px'
+                  break
+                case 'fadeLeft':
+                  animProps.translateX = '0px'
+                  break
+                case 'fadeRight':
+                  animProps.translateX = '0px'
+                  break
+                case 'scale':
+                  animProps.scale = 1
+                  break
+                case 'rotate':
+                  animProps.rotate = '0deg'
+                  break
+              }
+
+              // Trigger animation
+              animate(element, animProps)
+            }, delay * 1000)
+          }
         }
       },
       { threshold }

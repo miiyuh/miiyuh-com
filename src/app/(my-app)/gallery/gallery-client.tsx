@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { JapanFlag } from '@/utils';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { ScrollAnimation } from '@/components/effects/scroll-animations';
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb';
@@ -55,12 +54,12 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
             </div>
 
             {/* Header */}
-            <div className="mb-8 max-w-4xl">
-              <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9] select-none cursor-default">
+            <div className="mb-8">
+              <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
                 gallery
               </h1>
-              <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light select-none cursor-default">
-                A curated collection of moments, perspectives, and digital creations.
+              <p className="text-lg md:text-xl text-text-secondary">
+                from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork.
               </p>
             </div>
 
@@ -133,7 +132,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                           <div className="flex items-start justify-between mb-2">
                             <h2 className="text-2xl font-serif font-bold text-text-primary group-hover:text-accent-primary transition-colors">
                               {collection.title}
-                              {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <JapanFlag className="ml-2 inline-block" />}
+                              {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <span className="ml-2 inline-block">🇯🇵</span>}
                             </h2>
                             <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                           </div>

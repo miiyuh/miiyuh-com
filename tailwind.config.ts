@@ -70,7 +70,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-motion')],
+  plugins: [],
 }
 
 export default config

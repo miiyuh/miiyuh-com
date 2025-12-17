@@ -179,11 +179,11 @@ export default function BlogClient({
           </div>
 
           <div className="mb-12 px-0 md:px-0">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight mb-4 text-text-primary leading-tight">
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
               blog
             </h1>
-            <p className="text-base text-text-secondary max-w-xl leading-relaxed">
-              thoughts, stories, and experiments archived in time.
+            <p className="text-lg md:text-xl text-text-secondary">
+              little thoughts, big ideas, lofty dreams, all sorts!
             </p>
           </div>
 

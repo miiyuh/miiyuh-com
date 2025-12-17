@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { ShieldUser, Handshake } from 'lucide-react'
-import { MalaysiaFlag } from '@/utils'
 
 export default function Footer() {
   return (
@@ -10,7 +9,7 @@ export default function Footer() {
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         {/* Left side - Copyright */}
         <p className="text-center sm:text-left">
-          © 2025 miiyuh 🍁 | made in malaysia! <MalaysiaFlag />
+          © 2025 miiyuh 🍁 | made in malaysia! 🇲🇾
         </p>
 
         {/* Right side - Legal links with icons */}

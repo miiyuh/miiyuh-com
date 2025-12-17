@@ -58,7 +58,7 @@ export default function Header() {
             <line x1="19" y1="5" x2="5" y2="19" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 200ms ease-in-out' }} />
           </svg>
         </button>        {/* Desktop Menu */}
-        <ul className="hidden lg:flex gap-8 text-xl font-bold font-serif">
+        <ul className="hidden lg:flex gap-8 text-xl font-serif">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} onClick={handleDesktopLinkClick} className="hover:underline">
@@ -70,7 +70,7 @@ export default function Header() {
       </div>
       {/* Mobile Menu */}
       <div className={`fixed top-16 left-0 right-0 bottom-0 z-30 bg-[#070707] transition-all duration-500 ease-in-out flex flex-col justify-center items-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} lg:hidden`}>
-        <ul className="flex flex-col gap-8 text-4xl font-serif font-bold text-center" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 300ms ease-in-out 200ms' }}>
+        <ul className="flex flex-col gap-8 text-5xl font-serif text-left" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 300ms ease-in-out 200ms' }}>
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} onClick={handleMobileLinkClick} className="hover:text-accent-primary transition-colors">

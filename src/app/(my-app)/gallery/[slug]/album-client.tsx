@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
-import { JapanFlag } from '@/utils'
 import ErrorBoundary from '@/components/ui/error-boundary'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
@@ -98,7 +97,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                             </div>
                             <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9]">
                                 {collection.title}
-                                {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <JapanFlag className="ml-3 inline-block" />}
+                                {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <span className="ml-3 inline-block">🇯🇵</span>}
                             </h1>
                             <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed select-none cursor-default">
                                 {collection.description}

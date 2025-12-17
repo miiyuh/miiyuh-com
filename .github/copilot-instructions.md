@@ -15,7 +15,7 @@ This repository is a **Next.js 16** personal portfolio focused on photography, a
 
 ## Core Design System
 - **Theme**: Dark aesthetic with `#070707` primary background and subtle glass‑morphism panels.
-- **Typography**: Inter (primary) and Noto families loaded via Next.js Google Fonts with `display: 'swap'`. Emoji fallback hierarchy: Apple → Noto → Segoe UI.
+- **Typography**: Inter (primary), Instrument Serif, and Noto families loaded via Next.js Google Fonts with `display: 'swap'`. Emoji fallback hierarchy: Apple → Noto → Segoe UI.
 - **Colors**: Defined in `src/styles/theme.css` using HSL variables for easy theming.
 - **Spacing**: Tailwind spacing scale, with custom utilities for glass panels (`glass-panel-pro`).
 
@@ -78,7 +78,6 @@ export default function ComponentName() {
 - When refining or changing layout components, do not alter the existing configuration for the breadcrumb navigation, the heading that follows it, or the descriptive text underneath them—they should stay as-is unless explicitly requested.
 
 ## Animation System
-- **InteractiveDotsBackground** – Canvas‑based mouse‑following dot grid.
 - **ScrollAnimation** – IntersectionObserver wrapper for reveal animations.
 - **EncryptedText** – Typing‑like decryption effect (no unused state variables).
 

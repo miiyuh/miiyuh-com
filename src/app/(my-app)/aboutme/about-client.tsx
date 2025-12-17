@@ -145,16 +145,16 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                   <EncryptedText
                     text="about "
                     as="h1"
-                    className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9]"
+                    className="text-5xl md:text-7xl lg:text-8xl font-serif tracking-tight mb-6 text-text-primary leading-[0.9]"
                     speed={5}
                   >
-                    <span className="text-text-muted italic">miiyuh.</span>
+                    <span className="text-text-muted italic">miiyuh</span>
                   </EncryptedText>
                   <EncryptedText
                     text="Computer forensics student, creative developer, and photographer based in Malaysia. Building digital experiences that matter."
                     as="p"
                     className="text-lg md:text-xl text-text-secondary max-w-xl leading-relaxed font-light mb-8 font-sans"
-                    speed={5}
+                    speed={15}
                   />
 
                   <div className="flex flex-wrap gap-3">
@@ -272,7 +272,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                     <Briefcase className="w-12 h-12 text-text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-text-primary">Experience</h2>
+                    <h2 className="text-4xl md:text-5xl font-serif text-text-primary">Experience</h2>
                     <p className="text-sm text-text-muted">professional journey & work history</p>
                   </div>
                 </div>
@@ -328,7 +328,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1">
                             <div>
-                              <h3 className="text-xl font-serif font-bold text-text-primary">{entry.title}</h3>
+                              <h3 className="text-xl font-serif text-text-primary">{entry.title}</h3>
                               {entry.subtitle && (
                                 <p className="text-accent-primary text-sm font-medium">{entry.subtitle}</p>
                               )}
@@ -387,7 +387,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                     <GraduationCap className="w-12 h-12 text-text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-text-primary">Education</h2>
+                    <h2 className="text-4xl md:text-5xl font-serif text-text-primary">Education</h2>
                     <p className="text-sm text-text-muted">academic journey & qualifications</p>
                   </div>
                 </div>
@@ -443,7 +443,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1">
                             <div>
-                              <h3 className="text-xl font-serif font-bold text-text-primary">{entry.title}</h3>
+                              <h3 className="text-xl font-serif text-text-primary">{entry.title}</h3>
                               {entry.subtitle && (
                                 <p className="text-accent-primary text-sm font-medium">{entry.subtitle}</p>
                               )}
@@ -491,7 +491,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                     <Heart className="w-12 h-12 text-text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-text-primary">Volunteering</h2>
+                    <h2 className="text-4xl md:text-5xl font-serif text-text-primary">Volunteering</h2>
                     <p className="text-sm text-text-muted">giving back to the community</p>
                   </div>
                 </div>
@@ -547,7 +547,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                             <div className="flex-1 min-w-0">
                               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1">
                                 <div>
-                                  <h3 className="text-xl font-serif font-bold text-text-primary">{entry.title}</h3>
+                                  <h3 className="text-xl font-serif text-text-primary">{entry.title}</h3>
                                   {entry.subtitle && (
                                     <p className="text-accent-primary text-sm font-medium">{entry.subtitle}</p>
                                   )}
@@ -588,7 +588,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                     )) : (
                       <div className="p-8 glass-panel-pro text-center text-text-muted">
                         <Heart className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                        <p>Volunteering entries coming soon...</p>
+                        <p>What should I volunteer for?</p>
                       </div>
                     )}
                   </div>

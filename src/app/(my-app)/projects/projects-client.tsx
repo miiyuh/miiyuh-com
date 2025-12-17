@@ -143,10 +143,10 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
 
             {/* Header Section */}
             <div className="mb-16 max-w-4xl">
-              <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9]">
+              <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
                 projects
               </h1>
-              <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light">
+              <p className="text-lg md:text-xl text-text-secondary">
                 side projects, university work, and research papers - the collection
               </p>
             </div>
@@ -162,14 +162,14 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                     <section.icon className="w-5 h-5 text-text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-serif font-bold text-text-primary">{section.title}</h2>
+                    <h2 className="text-2xl font-serif text-text-primary">{section.title}</h2>
                     <p className="text-sm text-text-muted">{section.subtitle}</p>
                   </div>
                 </div>
               </ScrollAnimation>
 
               {/* Grid with gaps filled by hatched pattern */}
-              <div className="relative border-t border-white/10">
+              <div className="relative border-y border-white/10">
                 {/* 45-degree diagonal hatched pattern */}
                 <div 
                   className="absolute inset-0"
@@ -236,7 +236,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                               </div>
                             )}
                             <div>
-                              <h3 className="text-xl font-serif font-bold text-white group-hover:text-accent-primary transition-colors">
+                              <h3 className="text-xl font-serif text-white group-hover:text-accent-primary transition-colors">
                                 {project.name}
                               </h3>
                               <p className="text-xs text-white/70">

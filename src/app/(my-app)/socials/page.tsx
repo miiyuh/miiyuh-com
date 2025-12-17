@@ -57,11 +57,11 @@ export default function SocialsPage() {
             className={`mb-8 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
             style={{ transitionDelay: mounted ? '100ms' : '0ms' }}
           >
-            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary">
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
               socials
             </h1>
-            <p className="text-lg md:text-xl text-text-secondary max-w-xl font-light">
-              find me across the digital landscape.
+            <p className="text-lg md:text-xl text-text-secondary">
+              im on these platforms (or do i?)
             </p>
           </div>
 
