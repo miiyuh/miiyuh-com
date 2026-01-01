@@ -76,4 +76,4 @@ next-env.d.ts
 *.pem
 
 
-scripts/
+scripts/package-lock.json
