@@ -10,12 +10,21 @@ export { default as PageLayout } from './layout/page-layout'
 export { default as ErrorBoundary } from './ui/error-boundary'
 export { default as ScrollToTopButton } from './ui/scroll-to-top-button'
 export { HeadingWithHash } from './ui/heading-with-hash'
+export { PageTOC } from './ui/page-toc'
+
+// Forms components
+export { FormRenderer } from './forms/form-renderer'
+export { FormBlock, FormBlockServer } from './forms/form-block'
 
 // Effects and animations
 export { TypewriterText, AnimatedHeading } from './effects/animated-text'
 export { ScrollAnimation } from './effects/scroll-animations'
 export { ParallaxElement } from './effects/parallax-effects'
-export { InteractiveDotsBackground } from './effects/interactive-dots-background'
+export { ReadingProgressBar } from './effects/reading-progress-bar'
+export { LoadingProgressBar } from './effects/loading-progress-bar'
+export { 
+  InteractiveGridBackground
+} from './effects/interactive-grid-background'
 
 // Debug components (only for development)
 export { default as FontDebug } from './debug/font-debug'

@@ -1,2 +1,1 @@
-// Utils index file
-export { SimpleEmoji, EmojiWithFallback, MalaysiaFlag, JapanFlag, FlagEmoji } from './emoji-fallback'
+// emoji-fallback removed - using global Noto Color Emoji font override instead
