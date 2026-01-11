@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import Image from 'next/image'
 import ErrorBoundary from '@/components/ui/error-boundary'
 import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Camera, Palette } from 'lucide-react'
+import { OptimizedGalleryImage } from '@/components/gallery/optimized-gallery-image'
 import type { GalleryCollectionSummary, GalleryItem } from '@/types/gallery'
 
 // LightGallery imports
@@ -33,9 +33,32 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
     const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set())
     const galleryRef = useRef<ReturnType<typeof lightGallery> | null>(null)
 
-    useEffect(() => {
+useEffect(() => {
         setMounted(true)
-    }, [])
+        
+        // Preload critical images (first 3)
+        const preloadImages = async () => {
+            const criticalImages = images.slice(0, 3)
+            const preloadPromises = criticalImages.map((image) => {
+                return new Promise<void>((resolve, reject) => {
+                    const img = document.createElement('img')
+                    img.onload = () => resolve()
+                    img.onerror = () => reject(new Error(`Failed to load image: ${image.src}`))
+                    img.src = image.src
+                })
+            })
+            
+            try {
+                await Promise.all(preloadPromises)
+            } catch (error) {
+                console.warn('Failed to preload some images:', error)
+            }
+        }
+        
+        if (images.length > 0) {
+            preloadImages()
+        }
+    }, [images])
 
     useEffect(() => {
         const containerId = `lightgallery-${collection.slug}`
@@ -67,8 +90,13 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
         return 'gallery'
     }
 
-    const handleImageLoad = (index: number) => {
-        setLoadedImages(prev => new Set(prev).add(index))
+const handleImageLoad = (index: number) => {
+        setLoadedImages((prev: Set<number>) => new Set(prev).add(index))
+    }
+
+    const handleImageVisible = (index: number) => {
+        // Image is now visible and will start loading
+        // This function can be used for future analytics or preloading logic
     }
 
     return (
@@ -118,7 +146,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                 id={`lightgallery-${collection.slug}`}
                                 className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4"
                             >
-                            {images.map((image, imgIndex) => (
+{images.map((image, imgIndex) => (
                                 <ScrollAnimation
                                     key={`${collection.slug}-${imgIndex}`}
                                     animation="fadeUp"
@@ -129,29 +157,18 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                                         className="block group relative overflow-hidden rounded-2xl glass-panel-pro hover:border-accent-primary/50 transition-all duration-500"
                                         data-sub-html={`<div class='text-center'><h4 class='text-lg font-bold mb-1'>${image.title || ''}</h4><p class='text-sm'>${image.description || ''}</p></div>`}
                                     >
-                                        <div className="relative w-full aspect-square">
-                                            {/* Skeleton Loader */}
-                                            {!loadedImages.has(imgIndex) && (
-                                                <div className="absolute inset-0 bg-white/5 animate-pulse rounded-2xl" />
-                                            )}
-
-                                            <Image
-                                                src={image.src}
-                                                alt={image.title || 'Gallery image'}
-                                                fill
-                                                className={`w-full h-full object-cover transition-all duration-700 ${loadedImages.has(imgIndex) ? 'opacity-100' : 'opacity-0'
-                                                    }`}
-                                                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                                                quality={75}
-                                                loading={imgIndex < 6 ? 'eager' : 'lazy'}
-                                                priority={imgIndex === 0}
-                                                onLoad={() => handleImageLoad(imgIndex)}
-                                            />
-                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
-                                        </div>
+                                        <OptimizedGalleryImage
+                                            image={image}
+                                            index={imgIndex}
+                                            onLoad={handleImageLoad}
+                                            onVisible={handleImageVisible}
+                                            quality={75}
+                                            priority={imgIndex === 0}
+                                        />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none"></div>
 
                                         {(image.title || image.description) && (
-                                            <div className="p-4 border-t border-white/5 bg-black/20 backdrop-blur-sm absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                            <div className="p-4 border-t border-white/5 bg-black/20 backdrop-blur-sm absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
                                                 {image.title && <h3 className="font-bold text-white text-sm truncate">{image.title}</h3>}
                                                 {image.description && <p className="text-white/70 text-xs truncate">{image.description}</p>}
                                             </div>
