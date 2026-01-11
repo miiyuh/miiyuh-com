@@ -127,7 +127,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
-        <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div>
 
           <div className="px-6 md:px-12 lg:px-24 xl:px-32 mb-12">
             {/* Breadcrumb Navigation */}
@@ -156,7 +156,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
         <div className="px-6 md:px-12 lg:px-24 xl:px-32 space-y-20">
           {sections.filter((s) => s.items.length > 0).map((section, sectionIndex) => (
             <div key={section.key} className={sectionIndex > 0 ? 'border-t border-white/10 pt-12' : ''}>
-              <ScrollAnimation animation="fadeUp" delay={sectionIndex * 0.05}>
+              <ScrollAnimation animation="fadeIn" delay={sectionIndex * 0.05}>
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-inner shadow-black/30">
                     <section.icon className="w-5 h-5 text-text-primary" />
@@ -188,7 +188,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                 />
                 <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {section.items.map((project, index) => (
-                  <ScrollAnimation key={project.id} animation="fadeUp" delay={0.08 + 0.06 * index}>
+                  <ScrollAnimation key={project.id} animation="fadeIn" delay={0.08 + 0.06 * index}>
                     <article
                       className="relative h-full overflow-hidden border border-white/10 transition-all duration-500 hover:z-10"
                       style={{ backgroundImage: gradientPresets[index % gradientPresets.length] }}

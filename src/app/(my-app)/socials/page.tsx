@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { SOCIAL_PLATFORMS, SOCIAL_USERNAMES } from '@/constants'
 import { useSound } from '@/hooks/useSound'
-import { ExternalLink } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 
 export default function SocialsPage() {
@@ -40,7 +40,6 @@ export default function SocialsPage() {
         <div>
           {/* Breadcrumb Navigation */}
           <div
-            className={`transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ marginBottom: 'calc(var(--spacing) * 8)' }}
           >
             <SimpleBreadcrumb
@@ -54,7 +53,7 @@ export default function SocialsPage() {
 
           {/* Header */}
           <div
-            className={`mb-8 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
+            className="mb-8"
             style={{ transitionDelay: mounted ? '100ms' : '0ms' }}
           >
             <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
@@ -67,7 +66,7 @@ export default function SocialsPage() {
 
           {/* Staggered Grid Layout - borders act as grid lines */}
           <div className="relative w-full border-t border-white/10">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {SOCIAL_PLATFORMS.map((social, index) => (
               <a
                 key={social}
@@ -75,15 +74,15 @@ export default function SocialsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={playClick}
-                className={`group/card block h-full transition-all duration-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className="group/card block h-full transition-all duration-500"
                 data-cursor="link"
                 style={{ transitionDelay: mounted ? `${200 + index * 50}ms` : '0ms' }}
               >
-                  <div className="relative h-full aspect-square overflow-hidden border-r border-b border-white/10 bg-transparent transition-all duration-500 hover:bg-white/5 hover:z-10">
+                  <div className="relative h-full min-h-44 sm:min-h-56 md:min-h-60 md:aspect-square overflow-visible border-r border-b border-white/10 bg-transparent transition-all duration-500 hover:bg-white/5 hover:z-10">
                     <div className={`absolute inset-0 ${gradientPresets[index % gradientPresets.length]} opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
                     <div className="absolute inset-0 bg-linear-to-b from-white/8 via-white/5 to-transparent pointer-events-none" />
 
-                    <div className="relative z-10 h-full flex flex-col justify-between p-6 gap-4">
+                    <div className="relative z-10 h-full flex flex-col justify-between p-4 sm:p-5 md:p-6 gap-3 sm:gap-4">
                       <div className="flex items-start justify-between">
                         <div className="relative flex items-center justify-center">
                           <div className="absolute inset-[-18px] rounded-full bg-white/5 blur-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
@@ -92,25 +91,24 @@ export default function SocialsPage() {
                             alt={formatPlatformName(social)}
                             width={80}
                             height={80}
-                            className="w-14 h-14 md:w-16 md:h-16 object-contain grayscale group-hover/card:grayscale-0 transition-all duration-500 drop-shadow-lg"
+                            className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 object-contain grayscale group-hover/card:grayscale-0 transition-all duration-500 drop-shadow-lg"
                             loading="lazy"
                             quality={90}
                           />
                         </div>
-                        <ExternalLink className="w-4 h-4 text-accent-primary opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 translate-y-1" />
+                        <ArrowUpRight className="w-4 h-4 sm:w-6 sm:h-6 text-accent-primary opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 translate-y-1 shrink-0" />
                       </div>
 
-                      <div className="text-left space-y-2">
+                      <div className="text-left space-y-1.5 sm:space-y-2 min-w-0">
                         <span
-                          className="block font-serif text-2xl text-text-primary tracking-tight group-hover/card:text-accent-primary transition-colors duration-300"
+                          className="block font-serif text-lg sm:text-xl md:text-2xl text-text-primary tracking-tight group-hover/card:text-accent-primary transition-colors duration-300 truncate"
                           style={{ fontVariant: 'small-caps' }}
                         >
                           {formatPlatformName(social)}
                         </span>
                         {SOCIAL_USERNAMES[social] && (
-                          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-[13px] font-mono text-text-secondary border border-white/10">
-                            <span className="lowercase">{SOCIAL_USERNAMES[social]}</span>
-                            <ExternalLink className="w-3.5 h-3.5 text-accent-primary" />
+                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/5 text-[11px] sm:text-[13px] font-mono text-text-secondary border border-white/10 truncate">
+                            <span className="lowercase truncate">{SOCIAL_USERNAMES[social]}</span>
                           </span>
                         )}
                       </div>

@@ -58,26 +58,26 @@ export function useImageQuality({
         viewportWidth
       })
 
-      // Calculate optimal quality
+      // Calculate optimal quality - more aggressive reduction for thumbnails
       let optimalQuality = baseQuality
 
       // Reduce quality for mobile devices
       if (isMobile) {
-        optimalQuality -= 10
+        optimalQuality -= 15
       }
 
       // Reduce quality for slow connections
       if (isSlowConnection) {
-        optimalQuality -= 15
+        optimalQuality -= 20
       }
 
-      // Increase quality for high DPI displays (but not on mobile)
+      // Small increase for high DPI displays (but not on mobile)
       if (isHighDPI && !isMobile) {
         optimalQuality += 5
       }
 
-      // Ensure quality stays within reasonable bounds
-      optimalQuality = Math.max(30, Math.min(90, optimalQuality))
+      // Ensure quality stays within reasonable bounds (minimum 20 for thumbnails)
+      optimalQuality = Math.max(20, Math.min(80, optimalQuality))
       
       setQuality(optimalQuality)
     }

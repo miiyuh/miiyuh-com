@@ -196,7 +196,7 @@ export default function BlogClient({
                   {posts.map((post, index) => (
                     <ScrollAnimation
                       key={post.id}
-                      animation="fadeUp"
+                      animation="fadeIn"
                       delay={index * 0.03}
                       className="first:pt-0 last:pb-0"
                     >

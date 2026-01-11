@@ -22,8 +22,8 @@ export function OptimizedGalleryImage({
   onLoad,
   onVisible,
   className = "",
-  sizes = "(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw",
-  quality = 75,
+  sizes = "(max-width: 640px) 45vw, (max-width: 1024px) 20vw, 15vw",
+  quality = 80,
   priority = false
 }: OptimizedGalleryImageProps) {
   const [hasError, setHasError] = useState(false)
@@ -51,7 +51,7 @@ export function OptimizedGalleryImage({
       },
       {
         threshold: 0.01,
-        rootMargin: '200px'
+        rootMargin: '100px' // Reduced from 200px for more aggressive lazy loading
       }
     )
 
@@ -92,11 +92,6 @@ export function OptimizedGalleryImage({
 
   return (
     <div ref={elementRef} className={`w-full aspect-square relative ${className}`}>
-      {/* Skeleton loader */}
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-white/5 animate-pulse rounded-2xl z-10" />
-      )}
-      
       <Image
         src={image.src}
         alt={image.title || 'Gallery image'}
@@ -108,8 +103,6 @@ export function OptimizedGalleryImage({
         quality={priority ? quality : adaptiveQuality}
         loading={priority ? 'eager' : 'lazy'}
         priority={priority}
-        placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A"
         onLoad={handleLoad}
         onError={handleError}
       />

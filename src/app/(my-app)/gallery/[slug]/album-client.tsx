@@ -35,30 +35,9 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
 
 useEffect(() => {
         setMounted(true)
-        
-        // Preload critical images (first 3)
-        const preloadImages = async () => {
-            const criticalImages = images.slice(0, 3)
-            const preloadPromises = criticalImages.map((image) => {
-                return new Promise<void>((resolve, reject) => {
-                    const img = document.createElement('img')
-                    img.onload = () => resolve()
-                    img.onerror = () => reject(new Error(`Failed to load image: ${image.src}`))
-                    img.src = image.src
-                })
-            })
-            
-            try {
-                await Promise.all(preloadPromises)
-            } catch (error) {
-                console.warn('Failed to preload some images:', error)
-            }
-        }
-        
-        if (images.length > 0) {
-            preloadImages()
-        }
-    }, [images])
+        // Full resolution images are loaded on-demand when clicking via LightGallery
+        // Thumbnails are optimized via Next.js Image with low quality settings
+    }, [])
 
     useEffect(() => {
         const containerId = `lightgallery-${collection.slug}`
@@ -103,7 +82,7 @@ const handleImageLoad = (index: number) => {
         <ErrorBoundary>
             <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
                 <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24" style={{ paddingTop: '24px' }}>
-                    <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                    <div>
 
                         {/* Breadcrumb Navigation */}
                         <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
@@ -149,7 +128,7 @@ const handleImageLoad = (index: number) => {
 {images.map((image, imgIndex) => (
                                 <ScrollAnimation
                                     key={`${collection.slug}-${imgIndex}`}
-                                    animation="fadeUp"
+                                    animation="fadeIn"
                                     delay={0.1 + (imgIndex % 5) * 0.05}
                                 >
                                     <a
@@ -162,8 +141,9 @@ const handleImageLoad = (index: number) => {
                                             index={imgIndex}
                                             onLoad={handleImageLoad}
                                             onVisible={handleImageVisible}
-                                            quality={75}
-                                            priority={imgIndex === 0}
+                                            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 20vw, 15vw"
+                                            quality={imgIndex < 3 ? 85 : 80}
+                                            priority={imgIndex < 3}
                                         />
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none"></div>
 

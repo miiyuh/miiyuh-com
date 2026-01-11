@@ -46,7 +46,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-0 border-t border-white/10 mt-6 md:mt-0 mb-0">
           {/* Logo - 2 columns on md+, full width on mobile */}
           <div
-            className={`relative border-b border-white/10 transition-all duration-700 md:col-span-2 group/logo ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
+            className="relative border-b border-white/10 md:col-span-2 group/logo"
             style={{ transitionDelay: mounted ? '100ms' : '0ms' }}
           >
             {/* Iridescent hover background */}
@@ -66,7 +66,7 @@ export default function HomePage() {
 
           {/* Text area - spans 3 columns on md+, full width on mobile */}
           <div
-            className={`relative border-b md:border-l border-white/10 md:col-span-3 transition-all duration-700 group/text ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
+            className="relative border-b md:border-l border-white/10 md:col-span-3 group/text"
             style={{ transitionDelay: mounted ? '200ms' : '0ms' }}
           >
             {/* Iridescent hover background */}
@@ -98,7 +98,7 @@ export default function HomePage() {
                   startPortalLoading(link.href)
                   playClick()
                 }}
-                className={`group/card block transition-all duration-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className="group/card block transition-all duration-500"
                 data-cursor="hover"
                 style={{ transitionDelay: mounted ? `${300 + index * 50}ms` : '0ms' }}
               >

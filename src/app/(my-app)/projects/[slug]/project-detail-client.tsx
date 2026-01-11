@@ -156,7 +156,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
-        <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div>
           
           <div className="px-6 md:px-12 lg:px-24 xl:px-32">
             {/* Breadcrumb Navigation */}

@@ -266,7 +266,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
           {/* SECTION 2: EXPERIENCE */}
           <section id="experience" className="w-full border-t border-white/10 pt-12">
             <div className="max-w-7xl mx-auto">
-              <ScrollAnimation animation="fadeUp">
+              <ScrollAnimation animation="fadeIn">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-16 h-16 bg-white/5 flex items-center justify-center border border-white/10">
                     <Briefcase className="w-12 h-12 text-text-primary" />
@@ -278,7 +278,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation animation="fadeUp" delay={0.1}>
+              <ScrollAnimation animation="fadeIn" delay={0.1}>
                 {/* Hatching pattern between cards */}
                 <div className="relative border-y border-white/10 py-4">
                   <div className="relative flex flex-col gap-0 px-1">
@@ -381,7 +381,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
           {/* SECTION 3: EDUCATION */}
           <section id="education" className="w-full border-t border-white/10 pt-12">
             <div className="max-w-7xl mx-auto">
-              <ScrollAnimation animation="fadeUp">
+              <ScrollAnimation animation="fadeIn">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-16 h-16 bg-white/5 flex items-center justify-center border border-white/10">
                     <GraduationCap className="w-12 h-12 text-text-primary" />
@@ -393,7 +393,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation animation="fadeUp" delay={0.1}>
+              <ScrollAnimation animation="fadeIn" delay={0.1}>
                 {/* Hatching pattern between cards */}
                 <div className="relative border-y border-white/10 py-4">
                   <div className="relative flex flex-col gap-0 px-1">
@@ -485,7 +485,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
           {/* SECTION 4: VOLUNTEERING */}
           <section id="volunteering" className="w-full border-t border-white/10 pt-12">
             <div className="max-w-7xl mx-auto">
-              <ScrollAnimation animation="fadeUp">
+              <ScrollAnimation animation="fadeIn">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-16 h-16 bg-white/5 flex items-center justify-center border border-white/10">
                     <Heart className="w-12 h-12 text-text-primary" />
@@ -497,7 +497,7 @@ export default function AboutClient({ education, experience, volunteering }: Abo
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation animation="fadeUp" delay={0.1}>
+              <ScrollAnimation animation="fadeIn" delay={0.1}>
                 {/* Hatching pattern between cards */}
                 <div className="relative border-y border-white/10 py-4">
                   <div className="relative flex flex-col gap-0 px-1">
