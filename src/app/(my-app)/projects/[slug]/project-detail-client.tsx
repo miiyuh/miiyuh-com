@@ -354,7 +354,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                   <div className="glass-panel-pro rounded-2xl p-6">
                     <h3 className="text-sm font-mono text-text-muted mb-4 uppercase tracking-wider">Document Preview</h3>
                     <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-purple-400" /></div>}>
-                      <PDFViewer pdfUrl={project.paperDetails.pdfFile.url} onClose={() => {}} />
+                      <PDFViewer pdfUrl={project.paperDetails.pdfFile.url} />
                     </Suspense>
                   </div>
                 )}
