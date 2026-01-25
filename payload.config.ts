@@ -513,7 +513,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  serverURL: process.env.NEXT_PUBLIC_PAYLOAD_URL || (isProd ? undefined : 'http://localhost:3000'),
+  serverURL: process.env.NEXT_PUBLIC_PAYLOAD_URL || 'https://miiyuh.com',
   secret: requiredEnv('PAYLOAD_SECRET'),
   sharp,
 })

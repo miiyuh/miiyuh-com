@@ -8,6 +8,9 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@ark-ui/react'],
   },
 
+  // Required for Payload CMS on Vercel
+  serverExternalPackages: ['sharp', 'graphql'],
+
   // Turbopack configuration
   turbopack: {
     rules: {
@@ -37,6 +40,19 @@ const nextConfig = {
 
   // Enable gzip compression (still valid)
   compress: true,
+
+  // Webpack configuration to handle Payload favicon correctly
+  webpack: (config, { isServer }) => {
+    // Fix for Payload favicon duplicate requests - exclude it from bundling
+    config.module.rules.push({
+      test: /payload-favicon.*\.png/,
+      type: 'asset',
+      generator: {
+        emit: false, // Don't emit favicon, prevent duplicate requests
+      },
+    })
+    return config
+  },
 }
 
 export default withPayload(nextConfig)

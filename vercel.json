@@ -1,6 +1,14 @@
 {
   "buildCommand": "bun run build",
   "installCommand": "bun install",
+  "functions": {
+    "src/app/(payload)/admin/**/*.tsx": {
+      "maxDuration": 60
+    },
+    "src/app/(payload)/api/**/*.ts": {
+      "maxDuration": 60
+    }
+  },
   "redirects": [
     {
       "source": "/anilist",
