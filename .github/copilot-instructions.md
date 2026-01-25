@@ -26,9 +26,11 @@ bun install
 
 # Development server (Turbopack - Next.js 16 default)
 bun run dev
+[Note: Do not run unless told to do so.]
 
 # Production build (webpack - due to Payload CMS compatibility)
 bun run build
+[Note: Do not run unless told to do so.]
 
 # Lint and auto‑fix
 bun run lint:fix

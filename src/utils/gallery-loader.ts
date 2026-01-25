@@ -1,16 +1,8 @@
 import lightGallery from 'lightgallery';
-import lgZoom from 'lightgallery/plugins/zoom';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgFullscreen from 'lightgallery/plugins/fullscreen';
-import lgRotate from 'lightgallery/plugins/rotate';
-import lgShare from 'lightgallery/plugins/share';
 
 import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
 import 'lightgallery/css/lg-thumbnail.css';
-import 'lightgallery/css/lg-fullscreen.css';
-import 'lightgallery/css/lg-rotate.css';
-import 'lightgallery/css/lg-share.css';
 
 export interface GalleryImage {
   src: string;
@@ -116,17 +108,7 @@ export const initializeGallery = async (containerId: string, images: GalleryImag
       if (!containerWithLg.lgGallery && container.children.length > 0) {
         try {
           const lgInstance = lightGallery(container, {
-            plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgShare], // Removed autoplay and pager for speed
-            speed: 300, // Faster transitions
-            download: false,
-            selector: 'a',
-            preload: 1, // Reduced preload for speed
-            hideControlOnEnd: true,
-            closable: true,
-            mousewheel: true,
-            loadYouTubeThumbnail: false, // Disable if not needed
-            youTubePlayerParams: false,
-            vimeoPlayerParams: false,
+            plugins: [lgThumbnail], // Only load thumbnail plugin to reduce bundle
           }) as LightGalleryInstance;
           
           containerWithLg.lgGallery = lgInstance;

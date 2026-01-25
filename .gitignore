@@ -76,3 +76,5 @@ next-env.d.ts
 *.pem
 
 package-lock.json
+
+.github/

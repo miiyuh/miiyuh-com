@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, memo } from 'react'
 import Image from 'next/image'
 import { useImageQuality } from '@/hooks/use-image-quality'
 import type { GalleryItem } from '@/types/gallery'
@@ -16,7 +16,7 @@ interface OptimizedGalleryImageProps {
   priority?: boolean
 }
 
-export function OptimizedGalleryImage({
+function OptimizedGalleryImageComponent({
   image,
   index,
   onLoad,
@@ -109,3 +109,14 @@ export function OptimizedGalleryImage({
     </div>
   )
 }
+
+// Memoize to prevent unnecessary re-renders of thumbnails
+export const OptimizedGalleryImage = memo(OptimizedGalleryImageComponent, (prevProps, nextProps) => {
+  // Return true if props are equal (skip re-render), false if they differ (re-render needed)
+  return (
+    prevProps.image.src === nextProps.image.src &&
+    prevProps.index === nextProps.index &&
+    prevProps.priority === nextProps.priority &&
+    prevProps.quality === nextProps.quality
+  )
+})

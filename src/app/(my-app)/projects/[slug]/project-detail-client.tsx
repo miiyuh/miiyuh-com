@@ -1,11 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Document, Page, pdfjs } from 'react-pdf'
-import 'react-pdf/dist/Page/AnnotationLayer.css'
-import 'react-pdf/dist/Page/TextLayer.css'
 import { useSound } from '@/hooks/useSound'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { 
@@ -19,15 +17,11 @@ import {
   Calendar,
   BookOpen,
   Download,
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
-  ZoomOut,
   Loader2
 } from 'lucide-react'
 
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
+// Lazy load PDF viewer component
+const PDFViewer = dynamic(() => import('@/components/pdf-viewer'), { ssr: false })
 
 interface ProjectDetailProps {
   project: {
@@ -71,41 +65,10 @@ interface ProjectDetailProps {
 export default function ProjectDetailClient({ project }: ProjectDetailProps) {
   const [mounted, setMounted] = useState(false)
   const playClick = useSound('/sounds/click.mp3', 0.7)
-  
-  // PDF state
-  const [numPages, setNumPages] = useState<number | null>(null)
-  const [pageNumber, setPageNumber] = useState(1)
-  const [scale, setScale] = useState(1.0)
-  const [pdfLoading, setPdfLoading] = useState(true)
 
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages)
-    setPdfLoading(false)
-  }
-
-  const goToPrevPage = () => {
-    setPageNumber(prev => Math.max(prev - 1, 1))
-    playClick()
-  }
-
-  const goToNextPage = () => {
-    setPageNumber(prev => Math.min(prev + 1, numPages || 1))
-    playClick()
-  }
-
-  const zoomIn = () => {
-    setScale(prev => Math.min(prev + 0.2, 2.0))
-    playClick()
-  }
-
-  const zoomOut = () => {
-    setScale(prev => Math.max(prev - 0.2, 0.5))
-    playClick()
-  }
 
   const getCategoryIcon = () => {
     switch (project.category) {
@@ -387,96 +350,12 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                 )}
 
                 {/* PDF Viewer */}
-                {project.paperDetails?.pdfFile?.url && (
+                {project.paperDetails?.pdfFile?.url && mounted && (
                   <div className="glass-panel-pro rounded-2xl p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-sm font-mono text-text-muted uppercase tracking-wider">Document Preview</h3>
-                      
-                      {/* PDF Controls */}
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={zoomOut}
-                          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                          title="Zoom out"
-                        >
-                          <ZoomOut className="w-4 h-4" />
-                        </button>
-                        <span className="text-xs font-mono text-text-muted px-2">
-                          {Math.round(scale * 100)}%
-                        </span>
-                        <button
-                          onClick={zoomIn}
-                          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                          title="Zoom in"
-                        >
-                          <ZoomIn className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* PDF Document */}
-                    <div className="relative bg-[#1a1a1a] rounded-xl overflow-hidden min-h-[600px]">
-                      {pdfLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-[#1a1a1a]">
-                          <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
-                        </div>
-                      )}
-                      
-                      <div className="overflow-auto max-h-[80vh] flex justify-center p-4">
-                        <Document
-                          file={project.paperDetails.pdfFile.url}
-                          onLoadSuccess={onDocumentLoadSuccess}
-                          loading={
-                            <div className="flex items-center justify-center p-8">
-                              <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
-                            </div>
-                          }
-                          error={
-                            <div className="text-center p-8 text-text-muted">
-                              <p>Failed to load PDF.</p>
-                              <a
-                                href={project.paperDetails.pdfFile.url}
-                                download
-                                className="text-purple-400 hover:underline mt-2 inline-block"
-                              >
-                                Download instead
-                              </a>
-                            </div>
-                          }
-                        >
-                          <Page
-                            pageNumber={pageNumber}
-                            scale={scale}
-                            renderTextLayer={true}
-                            renderAnnotationLayer={true}
-                            className="shadow-2xl"
-                          />
-                        </Document>
-                      </div>
-
-                      {/* Page Navigation */}
-                      {numPages && numPages > 1 && (
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-[#0a0a0a]/90 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                          <button
-                            onClick={goToPrevPage}
-                            disabled={pageNumber <= 1}
-                            className="p-1 hover:bg-white/10 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                          >
-                            <ChevronLeft className="w-5 h-5" />
-                          </button>
-                          <span className="text-sm font-mono">
-                            {pageNumber} / {numPages}
-                          </span>
-                          <button
-                            onClick={goToNextPage}
-                            disabled={pageNumber >= numPages}
-                            className="p-1 hover:bg-white/10 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                          >
-                            <ChevronRight className="w-5 h-5" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                    <h3 className="text-sm font-mono text-text-muted mb-4 uppercase tracking-wider">Document Preview</h3>
+                    <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-purple-400" /></div>}>
+                      <PDFViewer pdfUrl={project.paperDetails.pdfFile.url} onClose={() => {}} />
+                    </Suspense>
                   </div>
                 )}
               </div>

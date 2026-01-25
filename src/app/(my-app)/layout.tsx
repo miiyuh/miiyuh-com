@@ -42,9 +42,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
-        {/* Inter font from rsms.me */}
+        {/* Preload critical fonts */}
         <link rel="preconnect" href="https://rsms.me/" />
+        <link rel="preload" as="style" href="https://rsms.me/inter/inter.css" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+        
+        {/* Preload Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} relative flex flex-col min-h-screen`}>
         <ClientGridBackground />
