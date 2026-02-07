@@ -3,35 +3,24 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useSound } from '@/hooks/useSound'
 import { NAVIGATION_LINKS } from '@/constants'
-import { useRouteLoading } from '@/components/layout/route-loading-provider'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const { startHeaderLoading } = useRouteLoading()
 
-  const playClick = useSound('/sounds/click.mp3', 0.7) // 🎵 your click sound
   const toggleMenu = () => {
-    playClick()
     setMenuOpen(!menuOpen)
   }
 
-  const handleDesktopLinkClick = () => {
-    startHeaderLoading()
-    playClick()
-  }
-
   const handleMobileLinkClick = () => {
-    startHeaderLoading()
-    playClick()
-    setMenuOpen(false) // Close menu when link is clicked
+    setMenuOpen(false)
   }
 
   return (
-    <header className="bg-[#070707] px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-[#FAF3E0]/20 relative">
+    <header className="bg-[#070707]/80 backdrop-blur-xl px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-white/8 relative">
       <div className="flex items-center justify-between">
-        {/* Logo */}        <Link href="/" onClick={playClick}>
+        {/* Logo */}
+        <Link href="/">
           <Image
             src="/assets/img/logo_miiyuh_v4-white.png"
             alt="miiyuh - return to homepage"
@@ -61,7 +50,7 @@ export default function Header() {
         <ul className="hidden lg:flex gap-8 text-xl font-serif">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} onClick={handleDesktopLinkClick} className="hover:underline">
+              <Link href={link.href} className="hover:underline">
                 {link.label}
               </Link>
             </li>
@@ -69,7 +58,7 @@ export default function Header() {
         </ul>
       </div>
       {/* Mobile Menu */}
-      <div className={`fixed top-16 left-0 right-0 bottom-0 z-30 bg-[#070707] transition-all duration-500 ease-in-out flex flex-col justify-center items-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} lg:hidden`}>
+      <div className={`fixed top-16 left-0 right-0 bottom-0 z-30 bg-[#070707]/95 backdrop-blur-xl transition-all duration-500 ease-in-out flex flex-col justify-center items-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} lg:hidden`}>
         <ul className="flex flex-col gap-8 text-5xl font-serif text-left" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 300ms ease-in-out 200ms' }}>
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>

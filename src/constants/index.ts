@@ -1,10 +1,9 @@
 // Shared constants and navigation items
 export const NAVIGATION_LINKS = [
-  { href: '/aboutme', label: 'about me' },
-  { href: '/socials', label: 'socials' },
   { href: '/gallery', label: 'gallery' },
   { href: '/projects', label: 'projects' },
   { href: '/blog', label: 'blog' },
+  { href: '/surveys', label: 'surveys' },
 ] as const
 
 export const SOCIAL_PLATFORMS = [

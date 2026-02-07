@@ -4,7 +4,6 @@ import { Noto_Sans, Noto_Serif, Noto_Serif_JP, Instrument_Serif, Noto_Sans_Mono,
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from "@vercel/analytics/react"
 import { AppProvider } from '@/components/layout/app-provider'
-import { ClientGridBackground } from '@/components/layout/client-grid-background'
 
 const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
 const notoSerif = Noto_Serif({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
@@ -52,10 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} relative flex flex-col min-h-screen`}>
-        <ClientGridBackground />
-        <div className="relative z-10 flex flex-col min-h-screen">
-          <AppProvider>{children}</AppProvider>
-        </div>
+        <AppProvider>{children}</AppProvider>
         <SpeedInsights />
         <Analytics />
       </body>

@@ -2,7 +2,6 @@
 
 import type { TOCItemType } from 'fumadocs-core/toc'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { Separator } from '@/components/ui/separator'
 import { PageTOC } from '@/components/ui/page-toc'
 
 interface PrivacyPolicyClientProps {
@@ -19,37 +18,45 @@ export default function PrivacyPolicyClient({ htmlContent, toc, updatedAt }: Pri
     }
 
     return (
-        <main className="flex flex-col text-[#FAF3E0] font-sans relative min-h-screen">
-            <div className="relative grow flex px-6 py-12 min-h-screen max-w-7xl mx-auto gap-8 w-full">
-                <section className="flex-1 max-w-4xl">
+        <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
+            <section className="relative grow px-6 md:px-12 lg:px-24 xl:px-32" style={{ paddingTop: '24px' }}>
+                <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
                     <SimpleBreadcrumb
                         items={[
                             { label: 'home', href: '/' },
                             { label: 'privacy policy' },
                         ]}
-                        className="mb-16"
+                        className="mb-0"
                     />
-                    <div className="prose prose-invert max-w-none font-noto-serif-jp">
-                        <h2 className="text-4xl font-bold tracking-tight font-serif mb-3 text-[#FAF3E0]">privacy policy</h2>
-                        {updatedAt && (
-                            <p className="text-sm text-[#FAF3E0]/60 mb-6">
-                                Last updated: {formatDate(updatedAt)}
-                            </p>
-                        )}
-                        <Separator className="my-8 bg-white/10" />
+                </div>
+
+                <div className="mb-8">
+                    <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+                        privacy policy
+                    </h1>
+                    {updatedAt && (
+                        <p className="text-sm text-text-muted/60">
+                            Last updated: {formatDate(updatedAt)}
+                        </p>
+                    )}
+                </div>
+
+                <div className="border-t border-white/8 pt-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
                         <div
-                            className="text-lg leading-relaxed text-[#FAF3E0]/90 lexical-content"
+                            className="text-base leading-relaxed text-text-secondary lexical-content prose prose-invert max-w-none"
                             dangerouslySetInnerHTML={{ __html: htmlContent }}
                         />
+                        {toc.length > 0 && (
+                            <aside className="hidden lg:block">
+                                <div className="sticky top-24">
+                                    <PageTOC toc={toc} />
+                                </div>
+                            </aside>
+                        )}
                     </div>
-                </section>
-                <div className="hidden lg:block w-px bg-white/10" />
-                <aside className="hidden lg:block w-64 shrink-0">
-                    <div className="sticky top-24">
-                        <PageTOC toc={toc} />
-                    </div>
-                </aside>
-            </div>
+                </div>
+            </section>
         </main>
     )
 }

@@ -3,7 +3,7 @@ import { ShieldUser, Handshake } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="font-serif text-base border-t border-white/10 text-[#FAF3E0]/70 py-6 px-6 md:px-12 lg:px-24 xl:px-32">
+    <footer className="font-serif text-base border-t border-white/8 text-[#FAF3E0]/70 py-8 px-6 md:px-12 lg:px-24 xl:px-32">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         {/* Left side - Copyright */}
         <p className="text-center sm:text-left">

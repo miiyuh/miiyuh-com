@@ -158,10 +158,6 @@ img {
   .animate-smooth-scale {
     animation: smoothScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
-
-  .animate-glitch-load {
-    animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3;
-  }
 }
 
 @keyframes smoothFadeIn {
@@ -207,38 +203,6 @@ img {
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-    text-shadow: 0 0 0 transparent;
-  }
-
-  20% {
-    transform: translate(-2px, 2px);
-    text-shadow: 2px 0 #ff0000, -2px 0 #0000ff;
-  }
-
-  40% {
-    transform: translate(-2px, -2px);
-    text-shadow: 2px 0 #0000ff, -2px 0 #ff0000;
-  }
-
-  60% {
-    transform: translate(2px, 2px);
-    text-shadow: 2px 0 #ff0000, -2px 0 #0000ff;
-  }
-
-  80% {
-    transform: translate(2px, -2px);
-    text-shadow: 2px 0 #0000ff, -2px 0 #ff0000;
-  }
-
-  100% {
-    transform: translate(0);
-    text-shadow: 0 0 0 transparent;
   }
 }
 
@@ -351,7 +315,3 @@ img {
   text-decoration: underline;
 }
 
-/* Global Sharp Edges */
-* {
-  border-radius: 0 !important;
-}

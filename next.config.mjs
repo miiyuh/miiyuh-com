@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
 
   experimental: {
-    optimizePackageImports: ['lucide-react', '@ark-ui/react', 'motion', 'animejs', 'fumadocs-core', 'fumadocs-ui'],
+    optimizePackageImports: ['lucide-react', '@ark-ui/react', 'fumadocs-core', 'fumadocs-ui'],
   },
 
   // Required for Payload CMS on Vercel

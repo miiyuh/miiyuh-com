@@ -92,7 +92,7 @@ export default async function SurveyPage({ params }: SurveyPageProps) {
           <div className="grid gap-6 md:gap-8 md:grid-cols-4">
             {/* Form - 3 columns */}
             <div className="md:col-span-3 order-2 md:order-1">
-              <div className="rounded-lg border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-sm">
+              <div className="rounded-xl border border-white/8 bg-white/3 p-6 sm:p-8 backdrop-blur-sm">
                 <FormBlockServer form={form} />
               </div>
 
@@ -107,9 +107,9 @@ export default async function SurveyPage({ params }: SurveyPageProps) {
             </div>
 
             {/* Sidebar - 1 column */}
-            <aside className="md:col-span-1 order-1 md:order-2 md:border-l border-white/10">
+            <aside className="md:col-span-1 order-1 md:order-2 md:border-l border-white/8">
               <div className="md:sticky md:top-24 space-y-6">
-                <div className="border-t md:border-b border-white/10 rounded-lg p-0 md:pl-6 pt-4 md:pt-0">
+                <div className="border-t md:border-b border-white/8 rounded-lg p-0 md:pl-6 pt-4 md:pt-0">
                   <h3 className="text-lg font-serif font-medium text-text-muted mb-3">
                     Before You Start
                   </h3>

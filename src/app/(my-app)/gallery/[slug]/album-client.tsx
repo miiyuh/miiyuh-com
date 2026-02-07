@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import ErrorBoundary from '@/components/ui/error-boundary'
-import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Camera, Palette } from 'lucide-react'
 import { OptimizedGalleryImage } from '@/components/gallery/optimized-gallery-image'
@@ -29,12 +28,9 @@ interface AlbumClientProps {
 }
 
 export default function AlbumClient({ collection, images }: AlbumClientProps) {
-    const [mounted, setMounted] = useState(false)
-    const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set())
     const galleryRef = useRef<ReturnType<typeof lightGallery> | null>(null)
 
 useEffect(() => {
-        setMounted(true)
         // Full resolution images are loaded on-demand when clicking via LightGallery
         // Thumbnails are optimized via Next.js Image with low quality settings
     }, [])
@@ -69,11 +65,11 @@ useEffect(() => {
         return 'gallery'
     }
 
-const handleImageLoad = (index: number) => {
-        setLoadedImages((prev: Set<number>) => new Set(prev).add(index))
+const handleImageLoad = (_index: number) => {
+        // Image loaded callback
     }
 
-    const handleImageVisible = (index: number) => {
+    const handleImageVisible = (_index: number) => {
         // Image is now visible and will start loading
         // This function can be used for future analytics or preloading logic
     }
@@ -113,23 +109,13 @@ const handleImageLoad = (index: number) => {
 
                         {/* Images Grid */}
                         <div className="relative">
-                            {/* Hatching pattern background */}
-                            <div
-                                className="absolute inset-0 pointer-events-none"
-                                style={{
-                                    backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255, 255, 255, 0.08) 8px, rgba(255, 255, 255, 0.08) 10px)`,
-                                    opacity: 0.7,
-                                }}
-                            />
                             <div
                                 id={`lightgallery-${collection.slug}`}
-                                className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4"
+                                className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4"
                             >
 {images.map((image, imgIndex) => (
-                                <ScrollAnimation
+                                <div
                                     key={`${collection.slug}-${imgIndex}`}
-                                    animation="fadeIn"
-                                    delay={0.1 + (imgIndex % 5) * 0.05}
                                 >
                                     <a
                                         href={image.src}
@@ -154,7 +140,7 @@ const handleImageLoad = (index: number) => {
                                             </div>
                                         )}
                                     </a>
-                                </ScrollAnimation>
+                                </div>
                             ))}
                             </div>
                         </div>

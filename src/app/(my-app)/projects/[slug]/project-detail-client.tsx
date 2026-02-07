@@ -4,7 +4,6 @@ import { useEffect, useState, Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useSound } from '@/hooks/useSound'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { 
   ArrowLeft,
@@ -64,7 +63,6 @@ interface ProjectDetailProps {
 
 export default function ProjectDetailClient({ project }: ProjectDetailProps) {
   const [mounted, setMounted] = useState(false)
-  const playClick = useSound('/sounds/click.mp3', 0.7)
 
   useEffect(() => {
     setMounted(true)
@@ -135,7 +133,6 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
             {/* Back button */}
             <Link
               href="/projects"
-              onClick={playClick}
               className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary transition-colors mb-12"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -170,7 +167,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
               <div className="space-y-8">
                 {/* Cover Image */}
                 {project.image?.url && (
-                  <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/8">
                     <Image
                       src={project.image.url}
                       alt={project.image.alt || project.name}
@@ -186,7 +183,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                     <h3 className="text-sm font-mono text-text-muted mb-4 uppercase tracking-wider">Tech Stack</h3>
                     <div className="flex flex-wrap gap-2">
                       {project.projectDetails.techStack.map((t, i) => (
-                        <span key={i} className="px-3 py-1.5 text-sm font-mono bg-white/5 text-text-primary rounded-lg border border-white/10">
+                        <span key={i} className="px-3 py-1.5 text-sm font-mono bg-white/5 text-text-primary rounded-lg border border-white/8">
                           {t.tech}
                         </span>
                       ))}
@@ -201,8 +198,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       href={project.projectDetails.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={playClick}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors"
                     >
                       <Github className="w-4 h-4" />
                       View Source
@@ -213,7 +209,6 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       href={project.projectDetails.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={playClick}
                       className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary rounded-xl border border-accent-primary/20 transition-colors"
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -231,7 +226,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
               <div className="space-y-8">
                 {/* Cover Image */}
                 {project.image?.url && (
-                  <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/8">
                     <Image
                       src={project.image.url}
                       alt={project.image.alt || project.name}
@@ -273,7 +268,6 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                     href={project.externalLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={playClick}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-xl border border-blue-500/20 transition-colors"
                   >
                     <ArrowUpRight className="w-4 h-4" />
@@ -314,7 +308,6 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                         <a
                           href={project.paperDetails.pdfFile.url}
                           download
-                          onClick={playClick}
                           className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/20 transition-colors"
                         >
                           <Download className="w-4 h-4" />

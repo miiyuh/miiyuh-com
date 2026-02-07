@@ -2,9 +2,6 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { useSound } from '@/hooks/useSound'
-import { ScrollAnimation } from '@/components/effects/scroll-animations'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import {
   ArrowUpRight,
@@ -67,12 +64,6 @@ interface ProjectsClientProps {
 }
 
 export default function ProjectsClient({ projects }: ProjectsClientProps) {
-  const [mounted, setMounted] = useState(false)
-  const playClick = useSound('/sounds/click.mp3', 0.7)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   // Separate projects by category and sort by order
   const sideProjects = projects
@@ -127,77 +118,54 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
-        <div>
+        <div className="px-6 md:px-12 lg:px-24 xl:px-32">
+          {/* Breadcrumb Navigation */}
+          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+            <SimpleBreadcrumb
+              items={[
+                { label: 'home', href: '/' },
+                { label: 'projects' },
+              ]}
+              className="mb-0"
+            />
+          </div>
 
-          <div className="px-6 md:px-12 lg:px-24 xl:px-32 mb-12">
-            {/* Breadcrumb Navigation */}
-            <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
-              <SimpleBreadcrumb
-                items={[
-                  { label: 'home', href: '/' },
-                  { label: 'projects' },
-                ]}
-                className="mb-0"
-              />
-            </div>
-
-            {/* Header Section */}
-            <div className="mb-16 max-w-4xl">
-              <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
-                projects
-              </h1>
-              <p className="text-lg md:text-xl text-text-secondary">
-                side projects, university work, and research papers - the collection
-              </p>
-            </div>
+          {/* Header Section */}
+          <div className="mb-8">
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+              projects
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary">
+              side projects, university work, and research papers - the collection
+            </p>
           </div>
         </div>
 
         <div className="px-6 md:px-12 lg:px-24 xl:px-32 space-y-20">
           {sections.filter((s) => s.items.length > 0).map((section, sectionIndex) => (
-            <div key={section.key} className={sectionIndex > 0 ? 'border-t border-white/10 pt-12' : ''}>
-              <ScrollAnimation animation="fadeIn" delay={sectionIndex * 0.05}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-inner shadow-black/30">
-                    <section.icon className="w-5 h-5 text-text-primary" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-serif text-text-primary">{section.title}</h2>
-                    <p className="text-sm text-text-muted">{section.subtitle}</p>
-                  </div>
+            <div key={section.key} className={sectionIndex > 0 ? 'border-t border-white/8 pt-12' : ''}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/8">
+                  <section.icon className="w-5 h-5 text-text-primary" />
                 </div>
-              </ScrollAnimation>
+                <div>
+                  <h2 className="text-2xl font-serif text-text-primary">{section.title}</h2>
+                  <p className="text-sm text-text-muted">{section.subtitle}</p>
+                </div>
+              </div>
 
-              {/* Grid with gaps filled by hatched pattern */}
-              <div className="relative border-y border-white/10">
-                {/* 45-degree diagonal hatched pattern */}
-                <div 
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: `
-                      repeating-linear-gradient(
-                        -45deg,
-                        transparent,
-                        transparent 8px,
-                        rgba(255, 255, 255, 0.08) 8px,
-                        rgba(255, 255, 255, 0.08) 10px
-                      )
-                    `,
-                    opacity: 0.7
-                  }}
-                />
+              <div className="relative border-y border-white/8 rounded-xl overflow-hidden">
                 <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {section.items.map((project, index) => (
-                  <ScrollAnimation key={project.id} animation="fadeIn" delay={0.08 + 0.06 * index}>
                     <article
-                      className="relative h-full overflow-hidden border border-white/10 transition-all duration-500 hover:z-10"
+                      key={project.id}
+                      className="relative h-full overflow-hidden rounded-xl border border-white/8 transition-all duration-500 hover:z-10 hover:border-white/15"
                       style={{ backgroundImage: gradientPresets[index % gradientPresets.length] }}
                       data-cursor="link"
                     >
                       {/* make whole card clickable via overlay link */}
                       <Link
                         href={getProjectHref(project)}
-                        onClick={playClick}
                         className="absolute inset-0"
                         target={project.externalLink ? '_blank' : undefined}
                         rel={project.externalLink ? 'noopener noreferrer' : undefined}
@@ -215,7 +183,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                             priority={index < 2}
                           />
                           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
-                          <div className="absolute top-3 left-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur border border-white/10 text-[11px] font-semibold uppercase tracking-wide text-white z-10">
+                          <div className="absolute top-3 left-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur border border-white/8 text-[11px] font-semibold uppercase tracking-wide text-white z-10">
                             {section.title}
                           </div>
                         </div>
@@ -225,7 +193,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-center gap-3">
                             {!project.image?.url && project.icon?.url && (
-                              <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/15 bg-black/20 shadow-inner shadow-black/30">
+                              <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/12 bg-black/20">
                                 <Image
                                   src={project.icon.url}
                                   alt={project.icon.alt || `${project.name} icon`}
@@ -330,7 +298,6 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                         </div>
                       </div>
                     </article>
-                  </ScrollAnimation>
                 ))}
                 </div>
               </div>

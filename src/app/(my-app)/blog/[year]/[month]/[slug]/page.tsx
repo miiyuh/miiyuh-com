@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Fragment } from 'react'
 
-import { ReadingProgressBar } from '@/components/effects/reading-progress-bar'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { RefreshRouteOnSave } from '@/components/live-preview'
@@ -85,10 +84,9 @@ async function Page({ params }: PageProps) {
     <Fragment>
       <RefreshRouteOnSave />
       <main className="relative min-h-screen text-[#FAF3E0]">
-      <ReadingProgressBar />
 
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up border-l border-r border-white/10 lg:border-0">
+      <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up">
         {/* Breadcrumbs */}
         <SimpleBreadcrumb
           items={[
@@ -158,7 +156,7 @@ async function Page({ params }: PageProps) {
         <BlogPostContent content={post.content ?? null} toc={extractTocFromLexical(post.content)} />
 
         {/* Back to Blog */}
-        <footer className="mt-12 border-t border-[#FAF3E0]/20 pt-8">
+        <footer className="mt-12 border-t border-[#FAF3E0]/10 pt-8">
           <Link
             href="/blog"
             className="inline-flex items-centre gap-2 text-[#FAF3E0] hover:text-[#FAF3E0]/80 transition-colours"
