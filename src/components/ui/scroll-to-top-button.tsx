@@ -1,21 +1,26 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false)
+  const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setVisible(true)
-      } else {
-        setVisible(false)
-      }
+      if (rafRef.current) return
+      rafRef.current = requestAnimationFrame(() => {
+        const shouldShow = window.scrollY > 300
+        setVisible(prev => prev !== shouldShow ? shouldShow : prev)
+        rafRef.current = null
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
   }, [])
 
   const scrollToTop = () => {

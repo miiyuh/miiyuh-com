@@ -17,17 +17,18 @@ export function useIntersectionObserver({
 
   useEffect(() => {
     const element = elementRef.current
-    if (!element) return
+    if (!element || hasLoaded) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasLoaded) {
+        if (entry.isIntersecting) {
           setIsVisible(true)
           if (triggerOnce) {
             setHasLoaded(true)
+            observer.disconnect()
           }
         } else if (!triggerOnce) {
-          setIsVisible(entry.isIntersecting)
+          setIsVisible(false)
         }
       },
       {
@@ -39,7 +40,7 @@ export function useIntersectionObserver({
     observer.observe(element)
 
     return () => {
-      observer.unobserve(element)
+      observer.disconnect()
     }
   }, [threshold, rootMargin, triggerOnce, hasLoaded])
 

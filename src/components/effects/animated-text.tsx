@@ -33,6 +33,8 @@ export function TypewriterText({
   useEffect(() => {
     if (!mounted) return
     
+    let innerTimeout: ReturnType<typeof setTimeout> | null = null
+    
     const timeout = setTimeout(() => {
       if (isTyping) {
         if (currentIndex < currentText.length) {
@@ -40,7 +42,7 @@ export function TypewriterText({
           setCurrentIndex(currentIndex + 1)
         } else {
           if (repeat && textArray.length > 1) {
-            setTimeout(() => {
+            innerTimeout = setTimeout(() => {
               setIsTyping(false)
             }, 1000)
           }
@@ -56,7 +58,10 @@ export function TypewriterText({
       }
     }, delay > 0 && currentIndex === 0 ? delay : (isTyping ? speed : speed / 2))
     
-    return () => clearTimeout(timeout)
+    return () => {
+      clearTimeout(timeout)
+      if (innerTimeout) clearTimeout(innerTimeout)
+    }
   }, [mounted, currentIndex, isTyping, currentText, speed, repeat, textArray, textArrayIndex, delay])
   
   if (!mounted) {

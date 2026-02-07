@@ -10,6 +10,8 @@ interface EncryptedTextProps {
     children?: React.ReactNode
 }
 
+const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?'
+
 export function EncryptedText({
     text,
     className = '',
@@ -18,9 +20,6 @@ export function EncryptedText({
     children
 }: EncryptedTextProps) {
     const [displayText, setDisplayText] = useState('')
-    // Removed unused isDecrypting state
-
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?'
 
     useEffect(() => {
         let iteration = 0
@@ -33,7 +32,7 @@ export function EncryptedText({
                         if (index < iteration) {
                             return text[index]
                         }
-                        return characters[Math.floor(Math.random() * characters.length)]
+                        return CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)]
                     })
                     .join('')
             )

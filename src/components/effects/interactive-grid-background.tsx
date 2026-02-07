@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 interface InteractiveGridBackgroundProps {
   belowHeader?: boolean
@@ -19,15 +19,23 @@ function getPadding(width: number): number {
 export function InteractiveGridBackground({ belowHeader = false }: InteractiveGridBackgroundProps) {
   const headerHeight = useMemo(() => (belowHeader ? 72 : 0), [belowHeader])
   const [padding, setPadding] = useState(128)
+  const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
     const handleResize = () => {
-      setPadding(getPadding(window.innerWidth))
+      if (rafRef.current) return
+      rafRef.current = requestAnimationFrame(() => {
+        setPadding(getPadding(window.innerWidth))
+        rafRef.current = null
+      })
     }
 
     handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize, { passive: true })
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
   }, [])
 
   return (

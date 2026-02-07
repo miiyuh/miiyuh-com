@@ -1,5 +1,22 @@
 import { useState, useEffect } from 'react'
 
+interface NetworkConnection {
+  effectiveType: string
+  addEventListener: (event: string, handler: () => void) => void
+  removeEventListener: (event: string, handler: () => void) => void
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: NetworkConnection
+  mozConnection?: NetworkConnection
+  webkitConnection?: NetworkConnection
+}
+
+function getNetworkConnection(): NetworkConnection | undefined {
+  const nav = navigator as NavigatorWithConnection
+  return nav.connection || nav.mozConnection || nav.webkitConnection
+}
+
 interface UseImageQualityProps {
   baseQuality?: number
   enableAdaptiveQuality?: boolean
@@ -28,22 +45,7 @@ export function useImageQuality({
       const isHighDPI = window.devicePixelRatio > 1
       const viewportWidth = window.innerWidth
       
-      // Check for slow connection (can be enhanced with Network Information API)
-      const connection = (navigator as unknown as { 
-        connection?: { effectiveType: string }
-        mozConnection?: { effectiveType: string }
-        webkitConnection?: { effectiveType: string }
-      }).connection || 
-                        (navigator as unknown as { 
-                          connection?: { effectiveType: string }
-                          mozConnection?: { effectiveType: string }
-                          webkitConnection?: { effectiveType: string }
-                        }).mozConnection || 
-                        (navigator as unknown as { 
-                          connection?: { effectiveType: string }
-                          mozConnection?: { effectiveType: string }
-                          webkitConnection?: { effectiveType: string }
-                        }).webkitConnection
+      const connection = getNetworkConnection()
       
       const isSlowConnection = connection ? 
         (connection.effectiveType === 'slow-2g' || 
@@ -85,22 +87,8 @@ export function useImageQuality({
     updateDeviceInfo()
     window.addEventListener('resize', updateDeviceInfo)
     
-// Listen for connection changes if available
-      const connection = (navigator as unknown as { 
-        connection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-        mozConnection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-        webkitConnection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-      }).connection || 
-                      (navigator as unknown as { 
-                        connection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-                        mozConnection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-                        webkitConnection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-                      }).mozConnection || 
-                      (navigator as unknown as { 
-                        connection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-                        mozConnection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-                        webkitConnection?: { effectiveType: string; addEventListener: (event: string, handler: () => void) => void; removeEventListener: (event: string, handler: () => void) => void }
-                      }).webkitConnection
+    // Listen for connection changes if available
+    const connection = getNetworkConnection()
     
     if (connection) {
       connection.addEventListener('change', updateDeviceInfo)

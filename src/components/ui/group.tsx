@@ -1,5 +1,3 @@
-'use client'
-
 import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 

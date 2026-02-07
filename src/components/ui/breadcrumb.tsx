@@ -1,5 +1,3 @@
-'use client'
-
 import { Slot } from '@radix-ui/react-slot'
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
