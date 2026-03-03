@@ -3,7 +3,6 @@ export const NAVIGATION_LINKS = [
   { href: '/gallery', label: 'gallery' },
   { href: '/projects', label: 'projects' },
   { href: '/blog', label: 'blog' },
-  { href: '/surveys', label: 'surveys' },
 ] as const
 
 export const SOCIAL_PLATFORMS = [

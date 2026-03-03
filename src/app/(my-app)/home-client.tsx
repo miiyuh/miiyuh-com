@@ -28,7 +28,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
-      <div className="px-6 md:px-12 lg:px-24 xl:px-32 py-12 flex flex-col gap-16">
+      <div className="px-6 md:px-12 lg:px-24 xl:px-48 py-12 flex flex-col gap-16">
 
         {/* Hero Section: Portrait + Bio + Social Links */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-start">
@@ -104,7 +104,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Navigation Cards */}
         <section className="border-t border-white/8 pt-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {NAVIGATION_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -121,7 +121,6 @@ export default function HomeClient({ education, experience, volunteering }: Home
                   {link.href === '/gallery' && 'photos & artwork'}
                   {link.href === '/projects' && "things i've built"}
                   {link.href === '/blog' && 'my thoughts & stories'}
-                  {link.href === '/surveys' && 'feedback & polls'}
                 </p>
               </Link>
             ))}

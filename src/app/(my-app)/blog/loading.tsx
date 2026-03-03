@@ -51,7 +51,7 @@ export default function BlogLoading() {
             {Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
-                className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/[0.02] animate-pulse"
+                className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 animate-pulse"
               >
                 {/* Image Skeleton */}
                 <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden bg-white/5" />

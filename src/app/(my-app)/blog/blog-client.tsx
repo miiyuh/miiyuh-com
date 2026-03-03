@@ -132,9 +132,6 @@ export default function BlogClient({
     updateRoute({ page })
   }
 
-  const hasActiveFilters =
-    selectedTopics.length > 0 || searchInput.trim().length > 0
-
   const getPostUrl = (post: BlogPostCard) => {
     if (!post.publishedAt) return `/blog/${post.slug}`
     const date = new Date(post.publishedAt)
