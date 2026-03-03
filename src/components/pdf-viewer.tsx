@@ -5,7 +5,6 @@ import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Loader2 } from 'lucide-react'
-import { useSound } from '@/hooks/useSound'
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
@@ -15,7 +14,6 @@ interface PDFViewerProps {
 }
 
 export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
-  const playClick = useSound('/sounds/click.mp3', 0.7)
   const [numPages, setNumPages] = useState<number | null>(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [scale, setScale] = useState(1.0)
@@ -28,23 +26,19 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
 
   const goToPrevPage = useCallback(() => {
     setPageNumber(prev => Math.max(prev - 1, 1))
-    playClick()
-  }, [playClick])
+  }, [])
 
   const goToNextPage = useCallback(() => {
     setPageNumber(prev => Math.min(prev + 1, numPages || 1))
-    playClick()
-  }, [playClick, numPages])
+  }, [numPages])
 
   const zoomIn = useCallback(() => {
     setScale(prev => Math.min(prev + 0.2, 2.0))
-    playClick()
-  }, [playClick])
+  }, [])
 
   const zoomOut = useCallback(() => {
     setScale(prev => Math.max(prev - 0.2, 0.5))
-    playClick()
-  }, [playClick])
+  }, [])
 
   if (!pdfUrl) {
     return null

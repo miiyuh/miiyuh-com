@@ -1,13 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ErrorBoundary from '@/components/ui/error-boundary';
-import { ScrollAnimation } from '@/components/effects/scroll-animations';
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb';
 import { Camera, Palette, Grid, ArrowUpRight } from 'lucide-react';
-import { useSound } from '@/hooks/useSound';
 import type {
   GalleryCollectionSummary,
   GalleryDataMap,
@@ -20,12 +17,6 @@ interface GalleryClientProps {
 }
 
 export default function GalleryClient({ galleryData, collections }: GalleryClientProps) {
-  const [mounted, setMounted] = useState(false);
-  const playClick = useSound('/sounds/click.mp3', 0.7);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Helper to determine section type
   const getSectionType = (slug: string) => {
@@ -63,24 +54,21 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
             </div>
 
             {/* Albums Grid - borders act as grid lines */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-white/10">
-              {collections.map((collection, index) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-white/8">
+              {collections.map((collection) => {
                 const images = galleryData[collection.slug] ?? [];
                 const stackImages: GalleryItem[] = images.slice(0, 3);
                 const type = getSectionType(collection.slug);
 
                 return (
-                  <ScrollAnimation
+                  <div
                     key={collection.id}
-                    animation="fadeIn"
-                    delay={index * 0.1}
                   >
                     <Link
                       href={`/gallery/${collection.slug}`}
-                      onClick={playClick}
                       className="group block w-full text-left h-full"
                     >
-                      <article className="h-full p-6 border-r border-b border-white/10 bg-transparent hover:bg-white/5 transition-all duration-500 flex flex-col relative overflow-visible">
+                      <article className="h-full p-6 border-r border-b border-white/8 bg-transparent hover:bg-white/3 transition-all duration-500 flex flex-col relative overflow-visible">
 
                         {/* Stacked Cover Images */}
                         <div className="w-full aspect-square relative mb-6 perspective-1000">
@@ -95,7 +83,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                                   transform: `translateY(${i * 8}px) scale(${1 - i * 0.05})`,
                                 }}
                               >
-                                <div className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/10 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
+                                <div className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
                                   ${i === 1 ? 'group-hover:-rotate-6 group-hover:-translate-x-8' : ''}
                                   ${i === 2 ? 'group-hover:rotate-6 group-hover:translate-x-8' : ''}
                                 `}>
@@ -113,13 +101,13 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                               </div>
                             ))
                           ) : (
-                            <div className="w-full h-full rounded-2xl bg-white/5 flex items-center justify-center text-text-muted border border-white/10">
+                            <div className="w-full h-full rounded-2xl bg-white/5 flex items-center justify-center text-text-muted border border-white/8">
                               <Grid className="w-12 h-12 opacity-20" />
                             </div>
                           )}
 
                           {/* Type Badge */}
-                          <div className="absolute top-16 left-4 z-40 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                          <div className="absolute top-16 left-4 z-40 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/8 text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                             {type === 'photography' ? <Camera className="w-3 h-3" /> : <Palette className="w-3 h-3" />}
                             {type}
                           </div>
@@ -146,7 +134,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                         </div>
                       </article>
                     </Link>
-                  </ScrollAnimation>
+                  </div>
                 );
               })}
             </div>

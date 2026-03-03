@@ -33,92 +33,56 @@ export default function SurveysClient({ surveys }: SurveysClientProps) {
           </div>
 
           {/* Header Section */}
-          <div className="mb-8 max-w-4xl">
-            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-8 text-text-primary leading-[0.9]">
+          <div className="mb-8">
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
               surveys
             </h1>
-            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light">
+            <p className="text-lg md:text-xl text-text-secondary">
               help me understand what matters to you. take a quick survey and share your feedback.
             </p>
           </div>
 
-          {/* Main Content Grid (matching blog layout) */}
-          <div className="grid gap-0 md:grid-cols-4">
-            {/* Surveys List - 3 columns */}
-            <div className="md:col-span-3 order-2 md:order-1">
-              {surveys.length > 0 ? (
-                <ul className="divide-y divide-white/10">
-                  {surveys.map((survey) => (
-                    <li key={survey.id}>
-                      <Link
-                        href={`/surveys/${survey.slug}`}
-                        className="group flex flex-col py-6 md:py-8 transition-colors hover:bg-white/5 -mx-4 px-4 rounded-lg"
-                      >
-                        <div className="flex items-start gap-4">
-                          {/* Icon */}
-                          <div className="shrink-0 p-3 rounded-lg bg-accent-primary/10 text-accent-primary border border-accent-primary/20">
-                            <ClipboardList className="size-5" />
-                          </div>
-                          
-                          {/* Content */}
-                          <div className="flex-1 min-w-0">
-                            <h2 className="text-lg md:text-xl font-serif font-medium text-text-primary group-hover:text-accent-primary transition-colors mb-2">
-                              {survey.title}
-                            </h2>
-                            <p className="text-sm text-text-muted font-light">
-                              {survey.fieldCount} {survey.fieldCount === 1 ? 'question' : 'questions'}
-                            </p>
-                          </div>
+          {/* Surveys List */}
+          <div>
+            {surveys.length > 0 ? (
+              <div className="space-y-3">
+                {surveys.map((survey) => (
+                  <Link
+                    key={survey.id}
+                    href={`/surveys/${survey.slug}`}
+                    className="group block"
+                  >
+                    <div className="flex items-center gap-4 p-4 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
+                      {/* Icon */}
+                      <div className="shrink-0 w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center group-hover:bg-accent-primary/15 transition-colors">
+                        <ClipboardList className="w-5 h-5 text-accent-primary" />
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <h2 className="text-base font-medium text-text-primary group-hover:text-accent-primary transition-colors">
+                          {survey.title}
+                        </h2>
+                        <p className="text-xs text-text-muted/60 mt-0.5">
+                          {survey.fieldCount} {survey.fieldCount === 1 ? 'question' : 'questions'}
+                        </p>
+                      </div>
 
-                          {/* Arrow */}
-                          <div className="shrink-0 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 transition-all">
-                            <ArrowRight className="size-5" />
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className=" border-y border-white/10 rounded-lg py-20 text-center">
-                  <MessageSquare className="size-12 mx-auto text-text-muted mb-4" />
-                  <p className="text-text-muted mb-2 text-xl font-sans font-bold">No surveys available yet.</p>
-                  <p className="text-sm text-text-muted/70">Check back soon for new surveys and feedback forms.</p>
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar - 1 column */}
-            <aside className="md:col-span-1 order-1 md:order-2 md:border-l border-white/10">
-              <div className="md:sticky md:top-24 space-y-6">
-                {/* Info Card */}
-                <div className="border-t md:border-b border-white/10 rounded-lg p-0 md:pl-0 pt-4 md:pt-0">
-                  <p className="text-sm text-text-muted/80 leading-relaxed mb-4">
-                    These are quick forms to gather your thoughts and opinions. Your responses help me understand what you care about and improve future content.
-                  </p>
-                  <div className="text-sm text-text-muted/80 leading-relaxed mb-4">
-                    <div className="flex items-center gap-2">
-                      <span className="size-1.5 rounded-full bg-green-500/60"></span>
-                      <span>Anonymous responses</span>
+                      {/* Arrow */}
+                      <div className="shrink-0 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 transition-all">
+                        <ArrowRight className="w-5 h-5" />
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="size-1.5 rounded-full bg-green-500/60"></span>
-                      <span>Takes 1-2 minutes</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Stats */}
-                {surveys.length > 0 && (
-                  <div className="md:pl-6">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-serif font-bold text-text-primary">{surveys.length}</span>
-                      <span className="text-sm text-text-muted">active {surveys.length === 1 ? 'survey' : 'surveys'}</span>
-                    </div>
-                  </div>
-                )}
+                  </Link>
+                ))}
               </div>
-            </aside>
+            ) : (
+              <div className="border border-white/8 rounded-lg py-20 text-center">
+                <MessageSquare className="w-12 h-12 mx-auto text-text-muted mb-4" />
+                <p className="text-text-muted mb-2">No surveys available yet.</p>
+                <p className="text-sm text-text-muted/60">Check back soon for new surveys and feedback forms.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

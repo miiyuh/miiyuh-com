@@ -202,7 +202,7 @@ function FormFieldRenderer({
   // Message blocks render as static content
   if (field.blockType === 'message') {
     return (
-      <div className="rounded-lg border border-white/10 bg-white/5 p-4 text-white/80">
+      <div className="rounded-xl border border-white/8 bg-white/3 p-4 text-white/80">
         {/* TODO: Render rich text message content */}
         <p className="text-sm">Message content</p>
       </div>
