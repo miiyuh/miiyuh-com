@@ -3,7 +3,7 @@ import config from '@payload-config'
 import HomeClient from './home-client'
 import type { AboutEntry } from '@/types/about'
 
-export const revalidate = 60
+export const revalidate = 3600  // 1 hour instead of 60 seconds for better cache efficiency
 
 async function getAboutData(): Promise<{
   education: AboutEntry[]
@@ -13,18 +13,29 @@ async function getAboutData(): Promise<{
   try {
     const payload = await getPayload({ config })
 
-    const { docs } = await payload.find({
-      collection: 'about-entries',
-      limit: 100,
-      sort: 'order',
-    })
-
-    const entries = docs as unknown as AboutEntry[]
+    // Fetch each category separately at DB level instead of fetching all and filtering in JS
+    const [educationResult, experienceResult, volunteeringResult] = await Promise.all([
+      payload.find({
+        collection: 'about-entries',
+        where: { type: { equals: 'education' } },
+        sort: 'order',
+      }),
+      payload.find({
+        collection: 'about-entries',
+        where: { type: { equals: 'experience' } },
+        sort: 'order',
+      }),
+      payload.find({
+        collection: 'about-entries',
+        where: { type: { equals: 'volunteering' } },
+        sort: 'order',
+      }),
+    ])
 
     return {
-      education: entries.filter((e) => e.type === 'education').sort((a, b) => (a.order || 0) - (b.order || 0)),
-      experience: entries.filter((e) => e.type === 'experience').sort((a, b) => (a.order || 0) - (b.order || 0)),
-      volunteering: entries.filter((e) => e.type === 'volunteering').sort((a, b) => (a.order || 0) - (b.order || 0)),
+      education: educationResult.docs as unknown as AboutEntry[],
+      experience: experienceResult.docs as unknown as AboutEntry[],
+      volunteering: volunteeringResult.docs as unknown as AboutEntry[],
     }
   } catch (error) {
     console.error('Failed to fetch about data:', error)

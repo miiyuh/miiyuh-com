@@ -47,15 +47,11 @@ export default function BlogClient({
   const searchParams = useSearchParams()
   const searchParamsString = searchParams?.toString() ?? ''
 
-
-  const selectedTagsKey = useMemo(() => selectedTags.join('|'), [selectedTags])
+  // Consolidate prop syncing into single effect to avoid multiple re-renders
   useEffect(() => {
     setSelectedTopics(selectedTags)
-  }, [selectedTagsKey, selectedTags])
-
-  useEffect(() => {
     setSearchInput(searchQuery)
-  }, [searchQuery])
+  }, [selectedTags, searchQuery])
 
   const updateRoute = useCallback(
     (updates: { search?: string; tags?: string[]; page?: number }) => {
@@ -135,8 +131,8 @@ export default function BlogClient({
   const getPostUrl = (post: BlogPostCard) => {
     if (!post.publishedAt) return `/blog/${post.slug}`
     const date = new Date(post.publishedAt)
-    const year = date.getUTCFullYear()
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
     return `/blog/${year}/${month}/${post.slug}`
   }
 
@@ -250,6 +246,8 @@ export default function BlogClient({
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-300"
                             sizes="(max-width: 640px) 100vw, 192px"
+                            quality={75}
+                            loading="lazy"
                           />
                         </div>
                       )}

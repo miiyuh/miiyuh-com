@@ -11,7 +11,7 @@ export default function ScrollToTopButton() {
       if (rafRef.current) return
       rafRef.current = requestAnimationFrame(() => {
         const shouldShow = window.scrollY > 300
-        setVisible(prev => prev !== shouldShow ? shouldShow : prev)
+        setVisible(shouldShow)
         rafRef.current = null
       })
     }

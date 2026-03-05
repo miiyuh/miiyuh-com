@@ -173,6 +173,8 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       alt={project.image.alt || project.name}
                       fill
                       className="object-cover"
+                      quality={75}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
                     />
                   </div>
                 )}
@@ -232,6 +234,8 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       alt={project.image.alt || project.name}
                       fill
                       className="object-cover"
+                      quality={75}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
                     />
                   </div>
                 )}

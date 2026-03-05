@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { NAVIGATION_LINKS } from '@/constants'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev)
-  const closeMenu = () => setMenuOpen(false)
+  const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), [])
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Header() {
               height={40}
               className="h-10 w-auto"
               priority
-              quality={90}
+              quality={75}
             />
           </Link>
 

@@ -18,8 +18,8 @@ const BlogPosts: CollectionConfig = {
     preview: (doc) => {
       if (!doc?.slug || !doc?.publishedAt) return ''
       const date = new Date(doc.publishedAt as string)
-      const year = date.getUTCFullYear()
-      const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/blog/${year}/${month}/${doc.slug}`
     },
     group: 'Content',

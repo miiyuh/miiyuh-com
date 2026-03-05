@@ -94,7 +94,8 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                                     className="object-cover"
                                     sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                                     quality={i === 0 ? 80 : 75}
-                                    loading="lazy"
+                                    priority={i === 0}
+                                    loading={i === 0 ? 'eager' : 'lazy'}
                                   />
                                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
                                 </div>

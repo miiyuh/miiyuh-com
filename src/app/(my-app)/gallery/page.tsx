@@ -16,9 +16,8 @@ export const metadata = {
   description: 'photography and artwork gallery',
 }
 
-// ISR: Revalidate every 60 seconds for faster repeat visits
-// The loading.tsx will show a skeleton during the initial fetch
-export const revalidate = 60
+// ISR: Revalidate every 1 hour for optimal cache efficiency
+export const revalidate = 3600
 
 const PREVIEW_IMAGE_LIMIT = 3
 
@@ -32,7 +31,7 @@ export default async function GalleryPage() {
         equals: 'published',
       },
     },
-    depth: 2, // Need depth 2 to get nested image media
+    depth: 2, // Need depth 2 to get nested image media (note: fetches all images per collection, but we only use first 3. Optimization: could use field selection or separate queries)
     sort: 'displayOrder',
   })
 

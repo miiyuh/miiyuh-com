@@ -11,8 +11,8 @@ import {
   GraduationCap,
   Briefcase,
   Heart,
-  ExternalLink,
 } from 'lucide-react'
+import { EntryCard } from '@/components/ui/entry-card'
 import type { AboutEntry } from '@/types/about'
 
 interface HomeClientProps {
@@ -40,7 +40,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                 alt="Profile"
                 fill
                 className="object-cover"
-                quality={85}
+                quality={75}
                 priority
                 sizes="(max-width: 768px) 200px, 200px"
               />
@@ -91,7 +91,8 @@ export default function HomeClient({ education, experience, volunteering }: Home
                     height={24}
                     className="w-6 h-6 object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
                     loading="lazy"
-                    quality={90}
+                    quality={80}
+                    sizes="24px"
                   />
                   <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white/20 backdrop-blur text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     {formatPlatformName(social)}
@@ -173,61 +174,5 @@ export default function HomeClient({ education, experience, volunteering }: Home
         )}
       </div>
     </main>
-  )
-}
-
-function EntryCard({ entry, fallbackIcon }: { entry: AboutEntry; fallbackIcon: React.ReactNode }) {
-  return (
-    <div className="group relative p-5 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 flex items-center justify-center shrink-0">
-          {entry.logo?.url ? (
-            <Image
-              src={entry.logo.url}
-              alt={entry.logo.alt || entry.title}
-              width={48}
-              height={48}
-              className="w-full h-full object-contain"
-              unoptimized
-            />
-          ) : (
-            fallbackIcon
-          )}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-            <h2 className="text-base font-medium text-text-primary">{entry.title}</h2>
-            <span className="font-serif text-lg text-text-muted/60 whitespace-nowrap tracking-wider">
-              {entry.startDate}{entry.endDate ? ` - ${entry.endDate}` : ''}
-            </span>
-          </div>
-          {entry.subtitle && (
-            <p className="text-sm text-accent-primary/80 mt-2">{entry.subtitle}</p>
-          )}
-          {entry.description && (
-            <p className="text-text-secondary/70 text-sm leading-relaxed mt-2">{entry.description}</p>
-          )}
-          {entry.tags && entry.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-3">
-              {entry.tags.map((t, i) => (
-                <span key={i} className="text-[11px] px-2 py-0.5 text-text-muted/50 rounded-full bg-white/4">
-                  {t.tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      {entry.link && (
-        <Link
-          href={entry.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute top-4 right-4 p-2 bg-white/5 rounded-lg hover:bg-accent-primary hover:text-bg-primary transition-colors"
-        >
-          <ExternalLink className="w-4 h-4" />
-        </Link>
-      )}
-    </div>
   )
 }

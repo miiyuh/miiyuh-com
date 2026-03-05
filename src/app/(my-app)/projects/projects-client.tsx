@@ -141,6 +141,8 @@ function ProjectCard({
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             priority={priority}
+            quality={75}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
         </div>
@@ -158,6 +160,7 @@ function ProjectCard({
                   width={40}
                   height={40}
                   className="w-10 h-10 object-cover"
+                  quality={75}
                 />
               </div>
             )}
@@ -240,7 +243,7 @@ function ProjectDetail({ project }: { project: Project }) {
       {/* Cover image */}
       {project.image?.url && (
         <div className="relative aspect-video overflow-hidden rounded-xl border border-white/8">
-          <Image src={project.image.url} alt={project.image.alt || project.name} fill className="object-cover" />
+          <Image src={project.image.url} alt={project.image.alt || project.name} fill className="object-cover" quality={75} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
       )}
 

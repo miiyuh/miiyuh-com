@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo, useCallback } from 'react'
 import Link from 'next/link'
 
 interface HeadingWithHashProps {
@@ -10,10 +10,10 @@ interface HeadingWithHashProps {
   children: React.ReactNode
 }
 
-export function HeadingWithHash({ id, level, className = '', children }: HeadingWithHashProps) {
+const HeadingWithHashComponent = memo(function HeadingWithHash({ id, level, className = '', children }: HeadingWithHashProps) {
   const [copied, setCopied] = useState(false)
 
-  const copyToClipboard = async () => {
+  const copyToClipboard = useCallback(async () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`
     try {
       await navigator.clipboard.writeText(url)
@@ -22,7 +22,7 @@ export function HeadingWithHash({ id, level, className = '', children }: Heading
     } catch (err) {
       console.error('Failed to copy: ', err)
     }
-  }
+  }, [id])
 
   const Component = level
 
@@ -62,4 +62,8 @@ export function HeadingWithHash({ id, level, className = '', children }: Heading
       </Link>
     </Component>
   )
-}
+})
+
+HeadingWithHashComponent.displayName = 'HeadingWithHash'
+
+export const HeadingWithHash = HeadingWithHashComponent
