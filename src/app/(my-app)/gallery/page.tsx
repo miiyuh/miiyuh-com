@@ -31,8 +31,9 @@ export default async function GalleryPage() {
         equals: 'published',
       },
     },
-    depth: 2, // Need depth 2 to get nested image media (note: fetches all images per collection, but we only use first 3. Optimization: could use field selection or separate queries)
-    sort: 'displayOrder',
+    depth: 2,
+    sort: '-albumDate',
+    limit: 0,
   })
 
   const collections = collectionDocs as GalleryCollectionDocument[]

@@ -26,7 +26,7 @@ export type GalleryCollectionDocument = {
   title: string
   description?: string | null
   status: GalleryStatus
-  displayOrder?: number | null
+  albumDate?: string | null
   images?: GalleryImageItem[] | null
 }
 

@@ -75,12 +75,16 @@ const GalleryCollections: CollectionConfig = {
               type: 'row',
               fields: [
                 {
-                  name: 'displayOrder',
-                  type: 'number',
-                  defaultValue: 0,
+                  name: 'albumDate',
+                  type: 'date',
+                  required: true,
                   admin: {
                     width: '50%',
-                    description: 'Lower numbers appear first',
+                    description: 'Date of the event or album (used for sorting — newest first)',
+                    date: {
+                      pickerAppearance: 'dayOnly',
+                      displayFormat: 'd MMM yyyy',
+                    },
                   },
                 },
                 {
@@ -127,27 +131,12 @@ const GalleryCollections: CollectionConfig = {
                   },
                 },
                 {
-                  type: 'row',
-                  fields: [
-                    {
-                      name: 'title',
-                      type: 'text',
-                      required: false,
-                      admin: {
-                        width: '50%',
-                        placeholder: 'Image title (optional)',
-                      },
-                    },
-                    {
-                      name: 'displayOrder',
-                      type: 'number',
-                      defaultValue: 0,
-                      admin: {
-                        width: '50%',
-                        description: 'Order within album',
-                      },
-                    },
-                  ],
+                  name: 'title',
+                  type: 'text',
+                  required: false,
+                  admin: {
+                    placeholder: 'Image title (optional)',
+                  },
                 },
                 {
                   name: 'description',
@@ -202,13 +191,13 @@ const GalleryCollections: CollectionConfig = {
     },
   ],
   hooks: {
-    // Auto-set displayOrder for new images
+    // Persist image order from drag position (displayOrder = array index)
     beforeChange: [
       ({ data }) => {
         if (data?.images) {
           data.images = data.images.map((img: { displayOrder?: number }, index: number) => ({
             ...img,
-            displayOrder: img.displayOrder ?? index,
+            displayOrder: index,
           }))
         }
         return data
