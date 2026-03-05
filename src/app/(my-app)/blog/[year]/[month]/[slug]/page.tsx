@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: PageProps) {
 
   // Verify the post matches the year/month
   const postDate = new Date(post.publishedAt as string)
-  const postYear = postDate.getFullYear().toString()
-  const postMonth = String(postDate.getMonth() + 1).padStart(2, '0')
+  const postYear = postDate.getUTCFullYear().toString()
+  const postMonth = String(postDate.getUTCMonth() + 1).padStart(2, '0')
 
   if (postYear !== year || postMonth !== month) {
     return { title: 'Post Not Found - miiyuh' }
@@ -65,8 +65,8 @@ async function Page({ params }: PageProps) {
 
   // Verify the post matches the year/month in the URL
   const postDate = new Date(post.publishedAt as string)
-  const postYear = postDate.getFullYear().toString()
-  const postMonth = String(postDate.getMonth() + 1).padStart(2, '0')
+  const postYear = postDate.getUTCFullYear().toString()
+  const postMonth = String(postDate.getUTCMonth() + 1).padStart(2, '0')
 
   if (postYear !== year || postMonth !== month) {
     notFound()
