@@ -28,6 +28,18 @@ import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e0
 import { RelationshipFeatureClient as RelationshipFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { S3ClientUploadHandler as S3ClientUploadHandler_7ef1de2a2c2e4e0c498b1a7e2cfe1e8a } from '@payloadcms/storage-s3/client'
+import { CollectionCards as CollectionCards_2d5d560b0ae2b818251ecbf085fc645e } from '@payloadcms/next/rsc'
+import { FolderField as FolderField_2d5d560b0ae2b818251ecbf085fc645e } from '@payloadcms/next/rsc'
+import { FolderTableCell as FolderTableCell_2d5d560b0ae2b818251ecbf085fc645e } from '@payloadcms/next/rsc'
+import { FolderTypeField as FolderTypeField_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { SlugField as SlugField_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsAccessCell as QueryPresetsAccessCell_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsColumnField as QueryPresetsColumnField_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsGroupByCell as QueryPresetsGroupByCell_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsGroupByField as QueryPresetsGroupByField_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsWhereCell as QueryPresetsWhereCell_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
+import { QueryPresetsWhereField as QueryPresetsWhereField_0e98e498fd5cc89f25571e48c8730f9f } from '@payloadcms/next/client'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -59,5 +71,17 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#RelationshipFeatureClient": RelationshipFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_7ef1de2a2c2e4e0c498b1a7e2cfe1e8a
+  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_7ef1de2a2c2e4e0c498b1a7e2cfe1e8a,
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_2d5d560b0ae2b818251ecbf085fc645e,
+  "@payloadcms/next/rsc#FolderField": FolderField_2d5d560b0ae2b818251ecbf085fc645e,
+  "@payloadcms/next/rsc#FolderTableCell": FolderTableCell_2d5d560b0ae2b818251ecbf085fc645e,
+  "@payloadcms/next/client#FolderTypeField": FolderTypeField_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#SlugField": SlugField_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsAccessCell": QueryPresetsAccessCell_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsColumnField": QueryPresetsColumnField_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsColumnsCell": QueryPresetsColumnsCell_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsGroupByCell": QueryPresetsGroupByCell_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsGroupByField": QueryPresetsGroupByField_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsWhereCell": QueryPresetsWhereCell_0e98e498fd5cc89f25571e48c8730f9f,
+  "@payloadcms/next/client#QueryPresetsWhereField": QueryPresetsWhereField_0e98e498fd5cc89f25571e48c8730f9f
 }
