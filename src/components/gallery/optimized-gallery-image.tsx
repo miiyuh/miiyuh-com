@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, memo } from 'react'
 import Image from 'next/image'
-import { useImageQuality } from '@/hooks/use-image-quality'
 import type { GalleryItem } from '@/types/gallery'
 
 interface OptimizedGalleryImageProps {
@@ -22,7 +21,7 @@ function OptimizedGalleryImageComponent({
   onLoad,
   onVisible,
   className = "",
-  sizes = "(max-width: 640px) 45vw, (max-width: 1024px) 20vw, 15vw",
+  sizes = "(max-width: 768px) 45vw, (max-width: 1024px) 30vw, 20vw",
   quality = 80,
   priority = false
 }: OptimizedGalleryImageProps) {
@@ -30,10 +29,6 @@ function OptimizedGalleryImageComponent({
   const [isLoaded, setIsLoaded] = useState(false)
   const [isVisible, setIsVisible] = useState(priority)
   const elementRef = useRef<HTMLDivElement>(null)
-  const { quality: adaptiveQuality } = useImageQuality({ 
-    baseQuality: quality,
-    enableAdaptiveQuality: !priority 
-  })
 
   useEffect(() => {
     if (priority) return
@@ -51,7 +46,7 @@ function OptimizedGalleryImageComponent({
       },
       {
         threshold: 0.01,
-        rootMargin: '100px' // Reduced from 200px for more aggressive lazy loading
+        rootMargin: '300px',
       }
     )
 
@@ -71,7 +66,6 @@ function OptimizedGalleryImageComponent({
     setHasError(true)
   }
 
-  // Don't render image until it's visible (unless priority)
   if (!priority && !isVisible) {
     return (
       <div ref={elementRef} className={`w-full aspect-square ${className}`}>
@@ -96,11 +90,11 @@ function OptimizedGalleryImageComponent({
         src={image.src}
         alt={image.title || 'Gallery image'}
         fill
-        className={`w-full h-full object-cover transition-all duration-700 ${
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         sizes={sizes}
-        quality={priority ? quality : adaptiveQuality}
+        quality={quality}
         loading={priority ? 'eager' : 'lazy'}
         priority={priority}
         onLoad={handleLoad}
@@ -110,9 +104,7 @@ function OptimizedGalleryImageComponent({
   )
 }
 
-// Memoize to prevent unnecessary re-renders of thumbnails
 export const OptimizedGalleryImage = memo(OptimizedGalleryImageComponent, (prevProps, nextProps) => {
-  // Return true if props are equal (skip re-render), false if they differ (re-render needed)
   return (
     prevProps.image.src === nextProps.image.src &&
     prevProps.index === nextProps.index &&

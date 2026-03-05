@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb';
-import { Camera, Palette, Grid, ArrowUpRight } from 'lucide-react';
+import { Grid, ArrowUpRight } from 'lucide-react';
 import type {
   GalleryCollectionSummary,
   GalleryDataMap,
@@ -17,13 +17,6 @@ interface GalleryClientProps {
 }
 
 export default function GalleryClient({ galleryData, collections }: GalleryClientProps) {
-
-  // Helper to determine section type
-  const getSectionType = (slug: string) => {
-    if (slug.includes('photo') || slug.includes('2025') || slug.includes('japan')) return 'photography';
-    if (slug.includes('artwork')) return 'artwork';
-    return 'gallery';
-  }
 
   return (
     <ErrorBoundary>
@@ -58,7 +51,6 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
               {collections.map((collection) => {
                 const images = galleryData[collection.slug] ?? [];
                 const stackImages: GalleryItem[] = images.slice(0, 3);
-                const type = getSectionType(collection.slug);
 
                 return (
                   <div

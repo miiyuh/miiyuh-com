@@ -127,9 +127,9 @@ const handleImageLoad = (_index: number) => {
                                             index={imgIndex}
                                             onLoad={handleImageLoad}
                                             onVisible={handleImageVisible}
-                                            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 20vw, 15vw"
-                                            quality={imgIndex < 3 ? 85 : 80}
-                                            priority={imgIndex < 3}
+                                            sizes="(max-width: 768px) 45vw, (max-width: 1024px) 30vw, 20vw"
+                                            quality={imgIndex < 6 ? 85 : 80}
+                                            priority={imgIndex < 6}
                                         />
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none"></div>
 
