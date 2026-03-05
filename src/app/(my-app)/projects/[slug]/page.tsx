@@ -1,9 +1,10 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
-import { Fragment } from 'react'
+import { Fragment, Suspense } from 'react'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import ProjectWrapper from './project-wrapper'
+import { ProjectDetailSkeleton } from './project-detail-skeleton'
 
 export const revalidate = 60
 
@@ -38,7 +39,7 @@ export async function generateStaticParams() {
   return docs.map((doc) => ({ slug: doc.slug }))
 }
 
-export default async function ProjectPage({ params }: PageProps) {
+async function ProjectPageContent({ params }: PageProps) {
   const { slug } = await params
   const payload = await getPayload({ config })
 
@@ -106,5 +107,13 @@ export default async function ProjectPage({ params }: PageProps) {
       <RefreshRouteOnSave />
       <ProjectWrapper project={transformedProject} />
     </Fragment>
+  )
+}
+
+export default function ProjectPage({ params }: PageProps) {
+  return (
+    <Suspense fallback={<ProjectDetailSkeleton />}>
+      <ProjectPageContent params={params} />
+    </Suspense>
   )
 }

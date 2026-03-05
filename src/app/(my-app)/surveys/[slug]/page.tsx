@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { FormBlockServer } from '@/components/forms/form-block'
 import { RefreshRouteOnSave } from '@/components/live-preview'
+import { SurveySkeleton } from './survey-skeleton'
 import { getAllForms } from '@/utils/forms'
 import { ArrowLeft, Clock, HelpCircle } from 'lucide-react'
 
@@ -37,7 +39,7 @@ export async function generateMetadata({
   }
 }
 
-export default async function SurveyPage({ params }: SurveyPageProps) {
+async function SurveyPageContent({ params }: SurveyPageProps) {
   const { slug } = await params
   const forms = await getAllForms()
   const form = forms.find((f) => generateSlug(f.title) === slug)
@@ -52,7 +54,7 @@ export default async function SurveyPage({ params }: SurveyPageProps) {
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       {/* Live Preview - refreshes page when survey is saved in admin */}
       <RefreshRouteOnSave />
-      
+
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
         <div className="px-6 md:px-12 lg:px-24 xl:px-32">
           {/* Breadcrumb Navigation */}
@@ -134,5 +136,13 @@ export default async function SurveyPage({ params }: SurveyPageProps) {
         </div>
       </section>
     </main>
+  )
+}
+
+export default function SurveyPage({ params }: SurveyPageProps) {
+  return (
+    <Suspense fallback={<SurveySkeleton />}>
+      <SurveyPageContent params={params} />
+    </Suspense>
   )
 }

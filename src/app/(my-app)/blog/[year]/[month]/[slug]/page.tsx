@@ -3,12 +3,13 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Fragment } from 'react'
+import { Fragment, Suspense } from 'react'
 
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import BlogPostContent from './blog-post-content'
+import { BlogPostSkeleton } from './blog-post-skeleton'
 import type { BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
 import { extractTocFromLexical } from '@/utils/extract-toc'
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-async function Page({ params }: PageProps) {
+async function PageContent({ params }: PageProps) {
   const { year, month, slug } = await params
   const payload = await getPayload({ config })
 
@@ -170,6 +171,14 @@ async function Page({ params }: PageProps) {
       </div>
     </main>
     </Fragment>
+  )
+}
+
+function Page({ params }: PageProps) {
+  return (
+    <Suspense fallback={<BlogPostSkeleton />}>
+      <PageContent params={params} />
+    </Suspense>
   )
 }
 

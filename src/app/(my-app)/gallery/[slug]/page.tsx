@@ -1,9 +1,10 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
-import { Fragment } from 'react'
+import { Fragment, Suspense } from 'react'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import AlbumClient from './album-client'
+import { GalleryAlbumSkeleton } from './gallery-album-skeleton'
 import type {
     GalleryCollectionDocument,
     GalleryCollectionSummary,
@@ -12,7 +13,6 @@ import type {
 import { resolveMediaSrc } from '@/utils/media'
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
-// The loading.tsx will show a skeleton during the initial fetch
 export const revalidate = 60
 
 type PageParams = {
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps) {
     }
 }
 
-export default async function AlbumPage({ params }: PageProps) {
+async function AlbumPageContent({ params }: PageProps) {
     const { slug } = await params
     const payload = await getPayload({ config })
 
@@ -121,3 +121,12 @@ export default async function AlbumPage({ params }: PageProps) {
         </Fragment>
     )
 }
+
+export default function AlbumPage({ params }: PageProps) {
+    return (
+        <Suspense fallback={<GalleryAlbumSkeleton />}>
+            <AlbumPageContent params={params} />
+        </Suspense>
+    )
+}
+
