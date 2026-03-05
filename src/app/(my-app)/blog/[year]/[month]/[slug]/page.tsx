@@ -35,10 +35,10 @@ export async function generateMetadata({ params }: PageProps) {
   const [post] = docs as BlogPostDocument[]
   if (!post) return { title: 'Post Not Found - miiyuh' }
 
-  // Verify the post matches the year/month
-  const postDate = new Date(post.publishedAt as string)
-  const postYear = postDate.getFullYear().toString()
-  const postMonth = String(postDate.getMonth() + 1).padStart(2, '0')
+  // Verify the post matches the year/month (using Malaysia timezone)
+  const [postYear, postMonth] = new Date(post.publishedAt as string)
+    .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
+    .split('-')
 
   if (postYear !== year || postMonth !== month) {
     return { title: 'Post Not Found - miiyuh' }
@@ -63,10 +63,10 @@ async function Page({ params }: PageProps) {
   const [post] = docs as BlogPostDocument[]
   if (!post) notFound()
 
-  // Verify the post matches the year/month in the URL
-  const postDate = new Date(post.publishedAt as string)
-  const postYear = postDate.getFullYear().toString()
-  const postMonth = String(postDate.getMonth() + 1).padStart(2, '0')
+  // Verify the post matches the year/month in the URL (using Malaysia timezone)
+  const [postYear, postMonth] = new Date(post.publishedAt as string)
+    .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
+    .split('-')
 
   if (postYear !== year || postMonth !== month) {
     notFound()
@@ -123,7 +123,7 @@ async function Page({ params }: PageProps) {
           <div className="flex flex-wrap items-centre gap-4 text-sm text-[#FAF3E0]/60">
             {publishedAtDate && (
               <time dateTime={publishedAtDate.toISOString()}>
-                {publishedAtDate.toISOString().split('T')[0]}
+                {publishedAtDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })}
               </time>
             )}
 

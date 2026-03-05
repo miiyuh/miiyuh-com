@@ -17,9 +17,9 @@ const BlogPosts: CollectionConfig = {
     listSearchableFields: ['title', 'slug', 'excerpt'],
     preview: (doc) => {
       if (!doc?.slug || !doc?.publishedAt) return ''
-      const date = new Date(doc.publishedAt as string)
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const [year, month] = new Date(doc.publishedAt as string)
+        .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
+        .split('-')
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/blog/${year}/${month}/${doc.slug}`
     },
     group: 'Content',

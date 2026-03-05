@@ -130,15 +130,16 @@ export default function BlogClient({
 
   const getPostUrl = (post: BlogPostCard) => {
     if (!post.publishedAt) return `/blog/${post.slug}`
-    const date = new Date(post.publishedAt)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const [year, month] = new Date(post.publishedAt)
+      .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
+      .split('-')
     return `/blog/${year}/${month}/${post.slug}`
   }
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return ''
     return new Date(dateString).toLocaleDateString('en-GB', {
+      timeZone: 'Asia/Kuala_Lumpur',
       day: 'numeric',
       month: 'long',
       year: 'numeric',
