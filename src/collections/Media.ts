@@ -1,7 +1,5 @@
 import { CollectionConfig } from 'payload'
 
-const isProd = process.env.NODE_ENV === 'production'
-
 const Media: CollectionConfig = {
   slug: 'media',
   labels: {
@@ -18,7 +16,7 @@ const Media: CollectionConfig = {
   upload: {
     // Uploads are handled by R2 in production via the s3Storage plugin
     // In development, files are stored locally
-    staticDir: isProd ? undefined : 'media',
+    staticDir: process.env.R2_BUCKET_NAME ? undefined : 'media',
     adminThumbnail: 'thumbnail',
     imageSizes: [
       {

@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useWebHaptics } from 'web-haptics/react'
 
 export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false)
   const rafRef = useRef<number | null>(null)
+  const haptic = useWebHaptics()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +26,7 @@ export default function ScrollToTopButton() {
   }, [])
 
   const scrollToTop = () => {
+    haptic.trigger('light')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 

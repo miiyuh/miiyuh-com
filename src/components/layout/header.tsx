@@ -4,12 +4,20 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect, useCallback } from 'react'
 import { NAVIGATION_LINKS } from '@/constants'
+import { useWebHaptics } from 'web-haptics/react'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const haptic = useWebHaptics()
 
-  const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), [])
-  const closeMenu = useCallback(() => setMenuOpen(false), [])
+  const toggleMenu = useCallback(() => {
+    haptic.trigger('light')
+    setMenuOpen((prev) => !prev)
+  }, [haptic])
+  const closeMenu = useCallback(() => {
+    haptic.trigger('light')
+    setMenuOpen(false)
+  }, [haptic])
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -22,7 +30,7 @@ export default function Header() {
       <header className="bg-[#070707]/80 backdrop-blur-xl px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-white/8 relative z-40">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" onClick={closeMenu}>
+          <Link href="/" onClick={() => { haptic.trigger('light'); closeMenu() }}>
             <Image
               src="/assets/img/logo_miiyuh_v4-white.png"
               alt="miiyuh - return to homepage"
@@ -62,7 +70,7 @@ export default function Header() {
           <ul className="hidden lg:flex gap-8 text-xl font-serif">
             {NAVIGATION_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="hover:underline">
+                <Link href={link.href} className="hover:underline" onClick={() => haptic.trigger('light')}>
                   {link.label}
                 </Link>
               </li>

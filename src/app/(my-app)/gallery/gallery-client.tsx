@@ -5,6 +5,7 @@ import Image from 'next/image';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb';
 import { Grid, ArrowUpRight } from 'lucide-react';
+import { useWebHaptics } from 'web-haptics/react';
 import type {
   GalleryCollectionSummary,
   GalleryDataMap,
@@ -17,6 +18,7 @@ interface GalleryClientProps {
 }
 
 export default function GalleryClient({ galleryData, collections }: GalleryClientProps) {
+  const haptic = useWebHaptics()
 
   return (
     <ErrorBoundary>
@@ -59,6 +61,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                     <Link
                       href={`/gallery/${collection.slug}`}
                       className="group block w-full text-left h-full"
+                      onClick={() => haptic.trigger('medium')}
                     >
                       <article className="h-full p-6 border-r border-b border-white/8 bg-transparent hover:bg-white/3 transition-all duration-500 flex flex-col relative overflow-visible">
 

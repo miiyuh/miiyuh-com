@@ -13,6 +13,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Search } from 'lucide-react'
 import type { BlogPostCard } from '@/types/blog'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface TagOption {
   value: string
@@ -41,6 +42,7 @@ export default function BlogClient({
 }: BlogClientProps) {
   const [selectedTopics, setSelectedTopics] = useState<string[]>(selectedTags)
   const [searchInput, setSearchInput] = useState(searchQuery)
+  const haptic = useWebHaptics()
 
   const router = useRouter()
   const pathname = usePathname()
@@ -109,6 +111,7 @@ export default function BlogClient({
   )
 
   const toggleTopic = (topicValue: string) => {
+    haptic.trigger('selection')
     const exists = selectedTopics.includes(topicValue)
     const next = exists
       ? selectedTopics.filter((t) => t !== topicValue)
@@ -125,6 +128,7 @@ export default function BlogClient({
 
   const handlePageChange = (page: number) => {
     if (page === pagination.page || page < 1 || page > pagination.totalPages) return
+    haptic.trigger('selection')
     updateRoute({ page })
   }
 
@@ -201,7 +205,7 @@ export default function BlogClient({
                   </label>
                   <div className="flex flex-wrap gap-2">
                     <button
-                      onClick={clearFilters}
+                      onClick={() => { haptic.trigger('selection'); clearFilters() }}
                       className={`px-3 py-1.5 text-xs rounded-full transition-all duration-200 ${selectedTopics.length === 0
                         ? 'bg-accent-primary/20 text-accent-primary border border-accent-primary/30'
                         : 'bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6'
@@ -236,6 +240,7 @@ export default function BlogClient({
                     key={post.id}
                     href={getPostUrl(post)}
                     className="group block"
+                    onClick={() => haptic.trigger('medium')}
                   >
                     <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
                       {/* Cover Image */}
@@ -288,7 +293,7 @@ export default function BlogClient({
               <div className="border border-white/8 rounded-lg py-20 text-center">
                 <p className="text-text-muted mb-4">No posts found.</p>
                 <button
-                  onClick={clearFilters}
+                  onClick={() => { haptic.trigger('light'); clearFilters() }}
                   className="text-sm text-accent-primary hover:underline underline-offset-4"
                 >
                   Clear all filters

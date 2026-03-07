@@ -1,6 +1,9 @@
+'use client'
+
 import { Slot } from '@radix-ui/react-slot'
-import { forwardRef, type ComponentPropsWithoutRef } from 'react'
+import { forwardRef, useCallback, type ComponentPropsWithoutRef } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { useWebHaptics } from 'web-haptics/react'
 
 import { cn } from '@/lib/utils'
 
@@ -51,14 +54,32 @@ interface ButtonProps
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, type = 'button', ...props }, ref) => {
+  ({ className, variant, size, asChild = false, type = 'button', onClick, ...props }, ref) => {
+    const haptic = useWebHaptics()
     const Comp = asChild ? Slot : 'button'
+
+    const hapticType =
+      variant === 'destructive' || variant === 'destructive-outline'
+        ? 'warning'
+        : variant === 'default' || !variant
+          ? 'medium'
+          : 'light'
+
+    const handleClick = useCallback(
+      (e: Parameters<NonNullable<typeof onClick>>[0]) => {
+        haptic.trigger(hapticType)
+        onClick?.(e)
+      },
+      [haptic, hapticType, onClick]
+    )
+
     return (
       <Comp
         className={cn(buttonVariants({ className, size, variant }))}
         data-slot="button"
         type={asChild ? undefined : type}
         ref={ref}
+        onClick={handleClick}
         {...props}
       />
     )

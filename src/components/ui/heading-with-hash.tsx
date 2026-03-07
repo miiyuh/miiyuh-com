@@ -2,6 +2,7 @@
 
 import { useState, memo, useCallback } from 'react'
 import Link from 'next/link'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface HeadingWithHashProps {
   id: string
@@ -12,17 +13,19 @@ interface HeadingWithHashProps {
 
 const HeadingWithHashComponent = memo(function HeadingWithHash({ id, level, className = '', children }: HeadingWithHashProps) {
   const [copied, setCopied] = useState(false)
+  const haptic = useWebHaptics()
 
   const copyToClipboard = useCallback(async () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`
     try {
       await navigator.clipboard.writeText(url)
+      haptic.trigger('success')
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy: ', err)
     }
-  }, [id])
+  }, [id, haptic])
 
   const Component = level
 

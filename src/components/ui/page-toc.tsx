@@ -3,6 +3,7 @@
 import { useRef, useCallback, useEffect } from 'react'
 import { AnchorProvider, ScrollProvider, TOCItem, type TOCItemType } from 'fumadocs-core/toc'
 import { cn } from '@/lib/utils'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface PageTOCProps {
   toc: TOCItemType[]
@@ -69,10 +70,12 @@ function TocThumb({
 
 function TOCContent({ toc, scrollOffset = 100, className }: PageTOCProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const haptic = useWebHaptics()
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
       e.preventDefault()
+      haptic.trigger('selection')
       const id = url.replace('#', '')
       const element = document.getElementById(id)
       if (!element) return
@@ -89,7 +92,7 @@ function TOCContent({ toc, scrollOffset = 100, className }: PageTOCProps) {
       element.setAttribute('tabindex', '-1')
       element.focus({ preventScroll: true })
     },
-    [scrollOffset]
+    [scrollOffset, haptic]
   )
 
   return (

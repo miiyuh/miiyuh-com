@@ -487,8 +487,8 @@ export default buildConfig({
         },
       },
     }),
-    // S3 Storage (production only)
-    ...(isProd && process.env.R2_BUCKET_NAME ? [
+    // S3 Storage (enabled whenever R2 env vars are present)
+    ...(process.env.R2_BUCKET_NAME ? [
       s3Storage({
         enabled: true,
         collections: {

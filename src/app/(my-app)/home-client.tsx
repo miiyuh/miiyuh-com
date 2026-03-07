@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { EntryCard } from '@/components/ui/entry-card'
 import type { AboutEntry } from '@/types/about'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface HomeClientProps {
   education: AboutEntry[]
@@ -22,6 +23,8 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ education, experience, volunteering }: HomeClientProps) {
+  const haptic = useWebHaptics()
+
   const formatPlatformName = (name: string) => {
     return name.charAt(0).toUpperCase() + name.slice(1).replace('_', ' ')
   }
@@ -83,6 +86,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative inline-block"
+                  onClick={() => haptic.trigger('light')}
                 >
                   <Image
                     src={`/assets/img/social_media_icons/${social}.png`}
@@ -111,6 +115,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                 key={link.href}
                 href={link.href}
                 className="group flex flex-col h-full p-6 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/15 transition-all duration-300"
+                onClick={() => haptic.trigger('medium')}
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <h3 className="font-serif text-xl text-text-primary group-hover:text-accent-primary transition-colors">

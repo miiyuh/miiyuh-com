@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 import type { AboutEntry } from '@/types/about'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface EntryCardProps {
   entry: AboutEntry
@@ -11,6 +12,7 @@ interface EntryCardProps {
 }
 
 export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
+  const haptic = useWebHaptics()
   return (
     <div className="group relative p-5 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
       <div className="flex items-start gap-4">
@@ -58,6 +60,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
           target="_blank"
           rel="noopener noreferrer"
           className="absolute top-4 right-4 p-2 bg-white/5 rounded-lg hover:bg-accent-primary hover:text-bg-primary transition-colors"
+          onClick={() => haptic.trigger('light')}
         >
           <ExternalLink className="w-4 h-4" />
         </Link>

@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useWebHaptics } from 'web-haptics/react'
 
 const INTER_FONT_STACK = "'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif"
 
@@ -13,6 +16,7 @@ interface SimpleBreadcrumbProps {
 }
 
 export function SimpleBreadcrumb({ items, className = '' }: SimpleBreadcrumbProps) {
+    const haptic = useWebHaptics()
     return (
         <nav
             className={`mb-8 flex items-center gap-2 text-sm font-sans font-regular text-[#FAF3E0]/60 overflow-hidden ${className}`}
@@ -21,7 +25,7 @@ export function SimpleBreadcrumb({ items, className = '' }: SimpleBreadcrumbProp
             {items.map((item, index) => (
                 <span key={index} className="flex items-center gap-2">
                     {item.href ? (
-                        <Link href={item.href} className="hover:text-[#FAF3E0] transition-colors whitespace-nowrap">
+                        <Link href={item.href} className="hover:text-[#FAF3E0] transition-colors whitespace-nowrap" onClick={() => haptic.trigger('light')}>
                             {item.label}
                         </Link>
                     ) : (

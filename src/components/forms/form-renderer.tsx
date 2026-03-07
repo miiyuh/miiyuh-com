@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Loader2, CheckCircle2, AlertCircle, Send } from 'lucide-react'
+import { useWebHaptics } from 'web-haptics/react'
 import type {
   FormDocument,
   FormField,
@@ -64,6 +65,7 @@ export function FormRenderer({
     isSuccess: false,
     error: null,
   })
+  const haptic = useWebHaptics()
 
   const handleChange = useCallback(
     (name: string, value: string | boolean | number) => {
@@ -98,21 +100,24 @@ export function FormRenderer({
         if (!response.ok) {
           const errorMessage =
             result.errors?.[0]?.message || 'Failed to submit form'
+          haptic.trigger('error')
           setState({ isSubmitting: false, isSuccess: false, error: errorMessage })
           onError?.(errorMessage)
           return
         }
 
+        haptic.trigger('success')
         setState({ isSubmitting: false, isSuccess: true, error: null })
         onSuccess?.(result)
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : 'An unexpected error occurred'
+        haptic.trigger('error')
         setState({ isSubmitting: false, isSuccess: false, error: errorMessage })
         onError?.(errorMessage)
       }
     },
-    [form.id, values, onSuccess, onError]
+    [form.id, values, onSuccess, onError, haptic]
   )
 
   // Success state

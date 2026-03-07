@@ -1,15 +1,13 @@
-<img src="https://miiyuh.com/assets/img/logo_miiyuh_v4-white_with-border.png" alt="resume on the web" height="80px" />
+<img src="https://miiyuh.com/assets/img/logo_miiyuh_v4-white_with-border.png" alt="miiyuh's logo" height="80px" />
 
-A modern personal portfolio website featuring photography, artwork, and blog content with interactive animations.
+My personal portfolio website featuring photography, artwork, and blog content.
 
 ## 🛠 Tech Stack
 
-- **Next.js 16** - React framework with App Router
+- **Next.js** - React framework with App Router
 - **TypeScript** - Type-safe development
-- **Tailwind CSS 4** - Modern utility styling
-- **Payload CMS v3.68.2** - Headless CMS with MongoDB
-- **anime.js** - Scroll animations and effects
-- **Cloudflare R2** - Media asset storage
+- **Tailwind CSS** - Modern utility styling
+- **Payload CMS** - Headless CMS with MongoDB
 
 ## 📜 License
 

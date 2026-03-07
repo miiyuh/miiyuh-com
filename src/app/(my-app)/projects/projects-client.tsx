@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { useWebHaptics } from 'web-haptics/react'
 import {
   Dialog,
   DialogPopup,
@@ -120,16 +121,17 @@ function ProjectCard({
   onSelect: () => void
   priority: boolean
 }) {
+  const haptic = useWebHaptics()
   const status = project.projectDetails?.status ? STATUS_STYLES[project.projectDetails.status] : null
   const subtitle = getSubtitle(project)
 
   return (
     <article
       className="group relative border-r border-b border-white/8 bg-transparent hover:bg-white/3 transition-all duration-500 cursor-pointer flex flex-col"
-      onClick={onSelect}
+      onClick={() => { haptic.trigger('medium'); onSelect() }}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect() } }}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); haptic.trigger('medium'); onSelect() } }}
       aria-label={`View details for ${project.name}`}
     >
       {/* Cover image */}
@@ -231,6 +233,7 @@ function ProjectCard({
 // ---------------------------------------------------------------------------
 
 function ProjectDetail({ project }: { project: Project }) {
+  const haptic = useWebHaptics()
   const hasLinks = !!(
     project.projectDetails?.githubUrl ||
     project.projectDetails?.liveUrl ||
@@ -340,22 +343,22 @@ function ProjectDetail({ project }: { project: Project }) {
       {hasLinks && (
         <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/8">
           {project.projectDetails?.githubUrl && (
-            <a href={project.projectDetails.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors duration-200">
+            <a href={project.projectDetails.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors duration-200" onClick={() => haptic.trigger('light')}>
               <Github className="w-4 h-4" /> Source
             </a>
           )}
           {project.projectDetails?.liveUrl && (
-            <a href={project.projectDetails.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary rounded-xl border border-accent-primary/20 transition-colors duration-200">
+            <a href={project.projectDetails.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary rounded-xl border border-accent-primary/20 transition-colors duration-200" onClick={() => haptic.trigger('light')}>
               <ExternalLink className="w-4 h-4" /> Live
             </a>
           )}
           {project.paperDetails?.pdfFile?.url && (
-            <a href={project.paperDetails.pdfFile.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/20 transition-colors duration-200">
+            <a href={project.paperDetails.pdfFile.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/20 transition-colors duration-200" onClick={() => haptic.trigger('light')}>
               <Download className="w-4 h-4" /> PDF
             </a>
           )}
           {project.externalLink && (
-            <a href={project.externalLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors duration-200">
+            <a href={project.externalLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors duration-200" onClick={() => haptic.trigger('light')}>
               <ArrowUpRight className="w-4 h-4" /> Open
             </a>
           )}

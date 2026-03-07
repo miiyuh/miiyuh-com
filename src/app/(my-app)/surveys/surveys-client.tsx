@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { ArrowRight, ClipboardList, MessageSquare } from 'lucide-react'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface Survey {
   id: string
@@ -17,6 +18,7 @@ interface SurveysClientProps {
 }
 
 export default function SurveysClient({ surveys }: SurveysClientProps) {
+  const haptic = useWebHaptics()
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
@@ -51,6 +53,7 @@ export default function SurveysClient({ surveys }: SurveysClientProps) {
                     key={survey.id}
                     href={`/surveys/${survey.slug}`}
                     className="group block"
+                    onClick={() => haptic.trigger('medium')}
                   >
                     <div className="flex items-center gap-4 p-4 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
                       {/* Icon */}
