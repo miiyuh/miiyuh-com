@@ -35,6 +35,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'miiyuh.com' },
       { protocol: 'https', hostname: 'preview.miiyuh.com' },
       { protocol: 'https', hostname: '*.r2.cloudflarestorage.com' },
+      { protocol: 'https', hostname: '*.r2.dev' },
     ],
   },
 
