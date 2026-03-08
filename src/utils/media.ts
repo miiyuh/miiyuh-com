@@ -1,4 +1,5 @@
 const API_MEDIA_SEGMENT = '/api/media/'
+const R2_BASE_URL = process.env.NEXT_PUBLIC_R2_BASE_URL || ''
 
 const ensureLeadingSlash = (value: string) =>
   value.startsWith('/') ? value : `/${value}`
@@ -26,6 +27,11 @@ export const resolveMediaSrc = ({
   url?: string | null
   filename?: string | null
 }): string | undefined => {
+  // Prefer direct R2 URLs when configured and filename is available
+  if (R2_BASE_URL && filename) {
+    return `${R2_BASE_URL}/${filename}`
+  }
+
   const normalized = normalizeMediaUrl(url)
   if (normalized) {
     return normalized
