@@ -13,6 +13,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Search } from 'lucide-react'
 import type { BlogPostCard } from '@/types/blog'
+import { resolveMediaSrc } from '@/utils/media'
 import { useWebHaptics } from 'web-haptics/react'
 
 interface TagOption {
@@ -235,59 +236,65 @@ export default function BlogClient({
           <div>
             {posts.length > 0 ? (
               <div className="space-y-6">
-                {posts.map((post) => (
-                  <Link
-                    key={post.id}
-                    href={getPostUrl(post)}
-                    className="group block"
-                    onClick={() => haptic.trigger('medium')}
-                  >
-                    <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
-                      {/* Cover Image */}
-                      {post.coverImage?.url && (
-                        <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
-                          <Image
-                            src={post.coverImage.url}
-                            alt={post.coverImage.alt || post.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            sizes="(max-width: 640px) 100vw, 192px"
-                            quality={75}
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
-                      {/* Content */}
-                      <div className="flex-1 min-w-0 flex flex-col justify-between">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
-                            <time className="text-xs text-text-muted/60">
-                              {post.publishedAt && formatDate(post.publishedAt)}
-                            </time>
-                            {post.tags && post.tags.length > 0 && (
-                              <>
-                                {post.tags.slice(0, 2).map((tagItem, tagIndex) => (
-                                  <span
-                                    key={tagIndex}
-                                    className="text-[11px] text-text-muted/50 rounded-full bg-white/4 px-2 py-0.5"
-                                  >
-                                    {tagItem?.tag}
-                                  </span>
-                                ))}
-                              </>
-                            )}
+                {posts.map((post) => {
+                  const coverSrc = resolveMediaSrc({
+                    url: post.coverImage?.url,
+                  })
+
+                  return (
+                    <Link
+                      key={post.id}
+                      href={getPostUrl(post)}
+                      className="group block"
+                      onClick={() => haptic.trigger('medium')}
+                    >
+                      <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
+                        {/* Cover Image */}
+                        {coverSrc && (
+                          <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
+                            <Image
+                              src={coverSrc}
+                              alt={post.coverImage?.alt || post.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              sizes="(max-width: 640px) 100vw, 192px"
+                              quality={75}
+                              loading="lazy"
+                            />
                           </div>
-                          <h2 className="text-lg font-medium text-text-primary group-hover:text-accent-primary transition-colors duration-200 mb-2">
-                            {post.title}
-                          </h2>
-                          <p className="text-sm text-text-secondary/70 line-clamp-2 leading-relaxed">
-                            {post.excerpt}
-                          </p>
+                        )}
+                        {/* Content */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-between">
+                          <div>
+                            <div className="flex flex-wrap items-center gap-2 mb-3">
+                              <time className="text-xs text-text-muted/60">
+                                {post.publishedAt && formatDate(post.publishedAt)}
+                              </time>
+                              {post.tags && post.tags.length > 0 && (
+                                <>
+                                  {post.tags.slice(0, 2).map((tagItem, tagIndex) => (
+                                    <span
+                                      key={tagIndex}
+                                      className="text-[11px] text-text-muted/50 rounded-full bg-white/4 px-2 py-0.5"
+                                    >
+                                      {tagItem?.tag}
+                                    </span>
+                                  ))}
+                                </>
+                              )}
+                            </div>
+                            <h2 className="text-lg font-medium text-text-primary group-hover:text-accent-primary transition-colors duration-200 mb-2">
+                              {post.title}
+                            </h2>
+                            <p className="text-sm text-text-secondary/70 line-clamp-2 leading-relaxed">
+                              {post.excerpt}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  )
+                })}
               </div>
             ) : (
               <div className="border border-white/8 rounded-lg py-20 text-center">
