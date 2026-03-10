@@ -13,6 +13,7 @@
 html {
   font-family: Inter, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1;
+  scrollbar-gutter: stable;
 }
 
 @supports (font-variation-settings: normal) {
@@ -158,6 +159,19 @@ img {
   .animate-smooth-scale {
     animation: smoothScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
+
+  /* Skip rendering off-screen content — pair with contain-intrinsic-size so the
+     browser has a height estimate and the scrollbar doesn't jump. The `auto`
+     prefix remembers the real size after first render. */
+  .content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
+  }
+
+  .content-auto-sm {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 160px;
+  }
 }
 
 @keyframes smoothFadeIn {
@@ -203,6 +217,18 @@ img {
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
   }
 }
 

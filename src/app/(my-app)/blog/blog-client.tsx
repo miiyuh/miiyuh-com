@@ -245,7 +245,7 @@ export default function BlogClient({
                     <Link
                       key={post.id}
                       href={getPostUrl(post)}
-                      className="group block"
+                      className="group block content-auto-sm"
                       onClick={() => haptic.trigger('medium')}
                     >
                       <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">

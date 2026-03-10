@@ -57,6 +57,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                 return (
                   <div
                     key={collection.id}
+                    className="content-auto"
                   >
                     <Link
                       href={`/gallery/${collection.slug}`}
