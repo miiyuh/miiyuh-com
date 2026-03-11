@@ -202,13 +202,20 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
         {/* Toggle button */}
         <button
           onClick={() => { setOpen((v) => !v); haptic.trigger('selection') }}
-          className="flex items-center justify-between w-full px-6 py-3 gap-4"
+          className="flex items-center justify-between w-full px-6 py-3 gap-4 relative"
           aria-expanded={open}
           aria-label="Toggle table of contents"
         >
-          <span className="text-sm text-text-secondary/70 truncate">
-            {activeTitle ?? <span className="text-text-muted/30 text-xs font-mono uppercase tracking-widest">Contents</span>}
-          </span>
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className={cn(
+              'truncate transition-colors duration-200',
+              activeTitle 
+                ? 'text-sm text-text-primary' 
+                : 'text-sm text-text-muted/30 font-mono uppercase tracking-widest'
+            )}>
+              {activeTitle ?? 'Contents'}
+            </span>
+          </div>
           <ChevronDown
             className={cn(
               'w-3.5 h-3.5 text-text-muted/40 transition-transform duration-200 shrink-0',
@@ -238,8 +245,8 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
                       onClick={(e) => handleClick(e, item.url)}
                       className={cn(
                         'py-1.5 leading-snug transition-colors duration-150 border-l-2 border-transparent',
-                        'text-text-muted/45 hover:text-text-secondary hover:border-white/10',
-                        'data-[active=true]:text-text-primary data-[active=true]:border-text-primary/60',
+                        'text-text-muted/45 hover:text-text-secondary hover:border-white/20',
+                        'data-[active=true]:text-text-primary data-[active=true]:border-(--accent-primary)',
                         item.depth <= 2 ? 'ps-3 text-sm' : item.depth === 3 ? 'ps-6 text-[13px]' : 'ps-8 text-[13px]'
                       )}
                     >

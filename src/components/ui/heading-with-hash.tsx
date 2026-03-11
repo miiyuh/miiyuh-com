@@ -57,7 +57,7 @@ const HeadingWithHashComponent = memo(function HeadingWithHash({ id, level, clas
       >
         <span>{children}</span>
         <span 
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[#FAF3E0]/40 hover:text-[#FAF3E0]/80 cursor-pointer select-none text-sm"
+          className="opacity-0 scale-90 blur-[2px] group-hover:opacity-100 group-hover:scale-100 group-hover:blur-0 transition-all duration-200 text-[#FAF3E0]/40 hover:text-[#FAF3E0]/80 cursor-pointer select-none text-sm"
           title={copied ? 'Copied to clipboard!' : 'Copy link to this section'}
         >
           {copied ? '✓' : '#'}

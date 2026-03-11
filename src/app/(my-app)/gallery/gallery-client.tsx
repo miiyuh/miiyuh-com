@@ -39,17 +39,17 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
             </div>
 
             {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+            <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
                 gallery
               </h1>
-              <p className="text-lg md:text-xl text-text-secondary">
+              <p className="text-lg md:text-xl text-text-secondary text-pretty">
                 from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork.
               </p>
             </div>
 
             {/* Albums Grid - borders act as grid lines */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-white/8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-white/8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
               {collections.map((collection) => {
                 const images = galleryData[collection.slug] ?? [];
                 const stackImages: GalleryItem[] = images.slice(0, 3);

@@ -82,7 +82,7 @@ export default function Header() {
       {/* Mobile Menu Overlay — rendered outside header to avoid stacking context issues */}
       <div
         className={`fixed inset-0 z-30 bg-[#070707]/95 backdrop-blur-xl flex flex-col justify-center items-center transition-all duration-300 ease-in-out lg:hidden ${
-          menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          menuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
         }`}
       >
         <ul className="flex flex-col gap-8 text-5xl font-serif text-left">

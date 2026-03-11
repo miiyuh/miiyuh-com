@@ -34,7 +34,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
       <div className="px-6 md:px-12 lg:px-24 xl:px-48 py-12 flex flex-col gap-16">
 
         {/* Hero Section: Portrait + Bio + Social Links */}
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-start">
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-start animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Portrait */}
           <div className="flex justify-self-center md:justify-start">
             <div className="relative w-58 h-58 rounded-full overflow-hidden border border-white/8 shrink-0">
@@ -54,10 +54,10 @@ export default function HomeClient({ education, experience, volunteering }: Home
           {/* Bio + Tags + Socials */}
           <div className="md:col-span-3 flex flex-col gap-6">
             <div>
-              <h1 className="text-4xl md:text-5xl font-serif tracking-tight mb-4 text-text-primary leading-[0.95]">
+              <h1 className="text-4xl md:text-5xl font-serif tracking-tight mb-4 text-text-primary leading-[0.95] text-balance">
                 Muhamad Azri
               </h1>
-              <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-light">
+              <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-light text-pretty">
                 Computer forensics student, creative developer, and photographer based in Malaysia. Building digital experiences that matter.
               </p>
             </div>
@@ -108,7 +108,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
         </section>
 
         {/* Navigation Cards */}
-        <section className="border-t border-white/8 pt-8">
+        <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {NAVIGATION_LINKS.map((link) => (
               <Link
@@ -135,7 +135,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Experience Section */}
         {experience.length > 0 && (
-          <section className="border-t border-white/8 pt-8">
+          <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
               <Briefcase className="w-6 h-6 text-text-primary" />
               <h2 className="text-3xl font-serif text-text-primary">Experience</h2>
@@ -150,7 +150,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Education Section */}
         {education.length > 0 && (
-          <section className="border-t border-white/8 pt-8">
+          <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
               <GraduationCap className="w-6 h-6 text-text-primary" />
               <h2 className="text-3xl font-serif text-text-primary">Education</h2>
@@ -165,7 +165,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Volunteering Section */}
         {volunteering.length > 0 && (
-          <section className="border-t border-white/8 pt-8">
+          <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
               <Heart className="w-6 h-6 text-text-primary" />
               <h2 className="text-3xl font-serif text-text-primary">Volunteering</h2>

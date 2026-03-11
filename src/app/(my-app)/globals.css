@@ -7,6 +7,8 @@
   --text-secondary: rgba(250, 243, 224, 0.7);
   --text-muted: rgba(250, 243, 224, 0.9);
   --border: rgba(255, 255, 255, 0.1);
+  --accent-primary: #4ade80;
+  --accent-hover: #86efac;
 }
 
 /* Base styles - Inter for everything by default */

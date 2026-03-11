@@ -405,11 +405,11 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
             />
           </div>
 
-          <div className="mb-8">
-            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
               projects
             </h1>
-            <p className="text-lg md:text-xl text-text-secondary">
+            <p className="text-lg md:text-xl text-text-secondary text-pretty">
               side projects, university work, and research papers - the collection
             </p>
           </div>

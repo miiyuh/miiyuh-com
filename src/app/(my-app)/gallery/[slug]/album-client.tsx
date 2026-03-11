@@ -98,11 +98,11 @@ const handleImageLoad = (_index: number) => {
                                 {getSectionType(collection.slug) === 'photography' ? <Camera className="w-4 h-4" /> : <Palette className="w-4 h-4" />}
                                 {getSectionType(collection.slug)}
                             </div>
-                            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9]">
+                            <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9] text-balance">
                                 {collection.title}
                                 {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <span className="ml-3 inline-block">🇯🇵</span>}
                             </h1>
-                            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed select-none cursor-default">
+                            <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed select-none cursor-default text-pretty">
                                 {collection.description}
                             </p>
                         </div>
@@ -119,7 +119,7 @@ const handleImageLoad = (_index: number) => {
                                 >
                                     <a
                                         href={image.src}
-                                        className="block group relative overflow-hidden rounded-2xl glass-panel-pro hover:border-accent-primary/50 transition-all duration-500"
+                                        className="block group relative overflow-hidden rounded-2xl glass-panel-pro shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)] hover:border-accent-primary/50 transition-all duration-500"
                                         data-sub-html={`<div class='text-center'><h4 class='text-lg font-bold mb-1'>${image.title || ''}</h4><p class='text-sm'>${image.description || ''}</p></div>`}
                                     >
                                         <OptimizedGalleryImage

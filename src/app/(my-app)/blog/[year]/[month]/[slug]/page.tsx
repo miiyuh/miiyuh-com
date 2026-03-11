@@ -117,7 +117,7 @@ async function PageContent({ params }: PageProps) {
 
         {/* Post Header */}
         <header className="mb-8 space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl font-serif">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl font-serif text-balance">
             {post.title}
           </h1>
 

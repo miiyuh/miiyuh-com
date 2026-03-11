@@ -47,7 +47,7 @@ function AlertDialogPopup({
         <div className="flex h-dvh flex-col items-center overflow-hidden pt-6 max-sm:before:flex-1 sm:overflow-y-auto sm:p-4 sm:after:flex-1 sm:before:basis-[20vh]">
           <AlertDialogPrimitive.Content
             className={cn(
-              "row-start-2 grid w-full min-w-0 origin-top gap-4 border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl p-6 text-white shadow-2xl transition-all duration-200 ease-in-out will-change-transform max-sm:overflow-y-auto max-sm:border-none sm:max-w-lg sm:rounded-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+              "row-start-2 grid w-full min-w-0 origin-top gap-4 border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl p-6 text-white shadow-2xl transition-all duration-200 ease-in-out will-change-transform max-sm:overflow-y-auto max-sm:border-none sm:max-w-lg sm:rounded-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:zoom-in-95",
               className,
             )}
             data-slot="alert-dialog-popup"
