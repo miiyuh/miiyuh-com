@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import type { Where } from 'payload'
+import { unstable_cache } from 'next/cache'
 import config from '@payload-config'
 import BlogClient from './blog-client'
 import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
@@ -26,6 +27,32 @@ type SearchParams = Record<string, string | string[] | undefined>
 type PageProps = {
   searchParams?: Promise<SearchParams>
 }
+
+const getCachedPublishedTagDocs = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config })
+
+    const { docs } = await payload.find({
+      collection: 'blog-posts',
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
+      depth: 0,
+      pagination: false,
+      select: {
+        tags: true,
+      },
+    })
+
+    return docs as Pick<BlogPostDocument, 'tags'>[]
+  },
+  ['blog-published-tags'],
+  {
+    revalidate: 3600,
+  }
+)
 
 export default async function BlogPage({ searchParams }: PageProps) {
   const payload = await getPayload({ config })
@@ -96,6 +123,14 @@ export default async function BlogPage({ searchParams }: PageProps) {
       sort: '-publishedAt',
       limit: POSTS_PER_PAGE,
       page,
+      select: {
+        title: true,
+        slug: true,
+        excerpt: true,
+        coverImage: true,
+        publishedAt: true,
+        tags: true,
+      },
     })
 
   let postsQuery = await executePostsQuery(currentPage)
@@ -137,23 +172,11 @@ export default async function BlogPage({ searchParams }: PageProps) {
     }
   })
 
-  const { docs: tagDocs } = await payload.find({
-    collection: 'blog-posts',
-    where: {
-      _status: {
-        equals: 'published',
-      },
-    },
-    depth: 0,
-    pagination: false,
-    select: {
-      tags: true,
-    },
-  })
+  const tagDocs = await getCachedPublishedTagDocs()
 
   const tagOptionsMap = new Map<string, TagOption>()
 
-  ;(tagDocs as Pick<BlogPostDocument, 'tags'>[]).forEach((doc) => {
+  tagDocs.forEach((doc) => {
     doc.tags?.forEach((tag) => {
       const rawValue = tag?.tag
       if (!rawValue || rawValue.trim().length === 0) return
