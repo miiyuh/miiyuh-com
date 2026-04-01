@@ -7,7 +7,7 @@ import { FormBlockServer } from '@/components/forms/form-block'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import { SurveySkeleton } from './survey-skeleton'
 import { getAllForms } from '@/utils/forms'
-import { ArrowLeft, Clock, Question } from '@phosphor-icons/react'
+import { ArrowLeft, Clock, HelpCircle } from 'lucide-react'
 
 type SurveyPageProps = {
   params: Promise<{
@@ -80,7 +80,7 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
             {/* Quick Info */}
             <div className="flex flex-wrap gap-4 text-sm text-text-muted">
               <div className="flex items-center gap-1.5">
-                <Question className="size-4" />
+                <HelpCircle className="size-4" />
                 <span>{fieldCount} {fieldCount === 1 ? 'question' : 'questions'}</span>
               </div>
               <div className="flex items-center gap-1.5">
