@@ -16,8 +16,8 @@ export const metadata = {
   description: 'photography and artwork gallery',
 }
 
-// ISR: Revalidate every 1 hour for optimal cache efficiency
-export const revalidate = 3600
+// ISR: Revalidate every 5 minutes with collection hooks forcing faster updates on save
+export const revalidate = 300
 
 const PREVIEW_IMAGE_LIMIT = 3
 
@@ -31,7 +31,7 @@ export default async function GalleryPage() {
         equals: 'published',
       },
     },
-    depth: 2,
+    depth: 1,
     sort: '-albumDate',
     limit: 0,
   })

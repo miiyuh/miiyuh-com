@@ -8,7 +8,7 @@ export const revalidate = 60
 export async function generateMetadata() {
   return {
     title: 'Projects - miiyuh',
-    description: 'Side projects, university work, and research papers — a collection of things I\'ve built and written.',
+    description: 'Side projects and university work — a collection of things I\'ve built.',
   }
 }
 
@@ -17,8 +17,9 @@ async function ProjectsPage() {
 
   const { docs } = await payload.find({
     collection: 'projects',
-    depth: 2,
+    depth: 1,
     sort: 'order',
+    limit: 100,
     where: {
       category: {
         not_equals: 'research-paper',

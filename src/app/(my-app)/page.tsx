@@ -3,7 +3,7 @@ import config from '@payload-config'
 import HomeClient from './home-client'
 import type { AboutEntry } from '@/types/about'
 
-export const revalidate = 3600  // 1 hour instead of 60 seconds for better cache efficiency
+export const revalidate = 300
 
 async function getAboutData(): Promise<{
   education: AboutEntry[]
@@ -18,16 +18,22 @@ async function getAboutData(): Promise<{
       payload.find({
         collection: 'about-entries',
         where: { type: { equals: 'education' } },
+        depth: 1,
+        limit: 100,
         sort: 'order',
       }),
       payload.find({
         collection: 'about-entries',
         where: { type: { equals: 'experience' } },
+        depth: 1,
+        limit: 100,
         sort: 'order',
       }),
       payload.find({
         collection: 'about-entries',
         where: { type: { equals: 'volunteering' } },
+        depth: 1,
+        limit: 100,
         sort: 'order',
       }),
     ])

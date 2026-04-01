@@ -1,5 +1,19 @@
 import { CollectionConfig } from 'payload'
 
+const revalidateGalleryRoutes = async (slug?: string | null) => {
+  try {
+    const { revalidatePath } = await import('next/cache')
+
+    revalidatePath('/gallery')
+
+    if (slug) {
+      revalidatePath(`/gallery/${slug}`)
+    }
+  } catch {
+    // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+  }
+}
+
 const GalleryCollections: CollectionConfig = {
   slug: 'gallery-collections',
   labels: {
@@ -85,6 +99,7 @@ const GalleryCollections: CollectionConfig = {
                   name: 'albumDate',
                   type: 'date',
                   required: true,
+                  index: true,
                   admin: {
                     width: '50%',
                     description: 'Date of the event or album (used for sorting — newest first)',
@@ -97,6 +112,7 @@ const GalleryCollections: CollectionConfig = {
                 {
                   name: 'status',
                   type: 'select',
+                  index: true,
                   options: [
                     { label: 'Draft', value: 'draft' },
                     { label: 'Published', value: 'published' },
@@ -125,7 +141,7 @@ const GalleryCollections: CollectionConfig = {
               minRows: 1,
               admin: {
                 description: 'First three (3) images will be used as album cover stack. Drag to reorder.',
-                initCollapsed: false,
+                initCollapsed: true,
               },
               fields: [
                 {
@@ -211,10 +227,13 @@ const GalleryCollections: CollectionConfig = {
       },
     ],
     afterChange: [
-      async ({ doc, operation }) => {
-        console.log(
-          `[Audit] Gallery "${doc.title}" was ${operation}d at ${new Date().toISOString()}`,
-        )
+      async ({ doc }) => {
+        await revalidateGalleryRoutes(doc?.slug)
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        await revalidateGalleryRoutes(doc?.slug)
       },
     ],
   },

@@ -1,6 +1,20 @@
 import { CollectionConfig } from 'payload'
 import { projectEditor } from '../editor/richTextEditor'
 
+const revalidateProjectRoutes = async (slug?: string | null) => {
+  try {
+    const { revalidatePath } = await import('next/cache')
+
+    revalidatePath('/projects')
+
+    if (slug) {
+      revalidatePath(`/projects/${slug}`)
+    }
+  } catch {
+    // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+  }
+}
+
 const Projects: CollectionConfig = {
   slug: 'projects',
   labels: {
@@ -120,6 +134,7 @@ const Projects: CollectionConfig = {
           type: 'array',
           admin: {
             description: 'Technologies used in the project',
+            initCollapsed: true,
           },
           fields: [
             {
@@ -191,6 +206,7 @@ const Projects: CollectionConfig = {
       name: 'order',
       type: 'number',
       required: false,
+      index: true,
       admin: {
         description: 'Order in which the project appears (lower numbers appear first)',
       },
@@ -233,10 +249,13 @@ const Projects: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      async ({ doc, operation }) => {
-        console.log(
-          `[Audit] Project "${doc.name}" was ${operation}d at ${new Date().toISOString()}`,
-        )
+      async ({ doc }) => {
+        await revalidateProjectRoutes(doc?.slug)
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        await revalidateProjectRoutes(doc?.slug)
       },
     ],
   },

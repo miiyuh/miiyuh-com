@@ -14,6 +14,10 @@ const Papers: CollectionConfig = {
     defaultColumns: ['title', 'category', 'publishedDate', '_status'],
     description: 'Manage academic papers and research documents',
     listSearchableFields: ['title', 'slug', 'abstract'],
+    pagination: {
+      defaultLimit: 10,
+      limits: [5, 10, 20, 50],
+    },
     group: 'Content',
   },
   versions: {
@@ -31,6 +35,7 @@ const Papers: CollectionConfig = {
               type: 'text',
               required: true,
               localized: true,
+              index: true,
               admin: {
                 description: 'Title of the academic paper',
               },
@@ -40,6 +45,7 @@ const Papers: CollectionConfig = {
               type: 'text',
               required: true,
               unique: true,
+              index: true,
               admin: {
                 description: 'URL-friendly identifier',
               },
@@ -64,6 +70,7 @@ const Papers: CollectionConfig = {
                   name: 'category',
                   type: 'select',
                   required: true,
+                  index: true,
                   options: [
                     { label: 'Computer Science', value: 'computer-science' },
                     { label: 'Data Science', value: 'data-science' },
@@ -79,6 +86,7 @@ const Papers: CollectionConfig = {
                   name: 'publishedDate',
                   type: 'date',
                   required: true,
+                  index: true,
                   admin: {
                     width: '50%',
                     date: {
@@ -93,6 +101,7 @@ const Papers: CollectionConfig = {
               type: 'textarea',
               required: true,
               localized: true,
+              index: true,
               admin: {
                 description: 'Brief abstract or summary of the paper',
               },
@@ -208,6 +217,7 @@ const Papers: CollectionConfig = {
               name: 'status',
               type: 'select',
               required: true,
+              index: true,
               defaultValue: 'draft',
               options: [
                 { label: 'Draft', value: 'draft' },
@@ -220,13 +230,6 @@ const Papers: CollectionConfig = {
       ],
     },
   ],
-  hooks: {
-    afterChange: [
-      async ({ doc, operation }) => {
-        console.log(`[Audit] Paper "${doc.title}" was ${operation}d at ${new Date().toISOString()}`)
-      },
-    ],
-  },
 }
 
 export default Papers

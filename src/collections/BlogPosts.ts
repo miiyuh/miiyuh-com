@@ -1,6 +1,39 @@
 import { CollectionConfig } from 'payload'
 import { blogEditor } from '../editor/richTextEditor'
 
+const revalidateBlogRoutes = async (
+  doc?: {
+    slug?: string
+    publishedAt?: string | Date | null
+  } | null
+) => {
+  try {
+    const { revalidatePath, revalidateTag } = await import('next/cache')
+
+    revalidatePath('/blog')
+    revalidateTag('blog-published-tag-options', 'max')
+
+    const slug = doc?.slug
+    const publishedAt = doc?.publishedAt
+
+    if (!slug || !publishedAt) {
+      return
+    }
+
+    const [year, month] = new Date(publishedAt)
+      .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
+      .split('-')
+
+    if (!year || !month) {
+      return
+    }
+
+    revalidatePath(`/blog/${year}/${month}/${slug}`)
+  } catch {
+    // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+  }
+}
+
 const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
   labels: {
@@ -145,6 +178,7 @@ const BlogPosts: CollectionConfig = {
               type: 'array',
               admin: {
                 description: 'Add tags to categorize the post',
+                initCollapsed: true,
               },
               fields: [
                 {
@@ -187,6 +221,18 @@ const BlogPosts: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        await revalidateBlogRoutes(doc)
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        await revalidateBlogRoutes(doc)
+      },
+    ],
+  },
 }
 
 export default BlogPosts

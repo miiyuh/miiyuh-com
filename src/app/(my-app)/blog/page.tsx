@@ -77,6 +77,7 @@ const getCachedPublishedTagOptions = unstable_cache(
   ['blog-published-tag-options'],
   {
     revalidate: 3600,
+    tags: ['blog-published-tag-options'],
   }
 )
 

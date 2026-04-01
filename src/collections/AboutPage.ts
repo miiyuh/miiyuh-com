@@ -14,6 +14,10 @@ const AboutPage: CollectionConfig = {
     defaultColumns: ['title', 'type', 'startDate', 'endDate', 'isCurrent'],
     description: 'Manage education, experience, and volunteering entries for the About page',
     listSearchableFields: ['title', 'subtitle', 'description'],
+    pagination: {
+      defaultLimit: 20,
+      limits: [10, 20, 50],
+    },
     group: 'Pages',
   },
   fields: [
@@ -21,6 +25,7 @@ const AboutPage: CollectionConfig = {
       name: 'type',
       type: 'select',
       required: true,
+      index: true,
       options: [
         { label: 'Education', value: 'education' },
         { label: 'Experience', value: 'experience' },
@@ -34,6 +39,7 @@ const AboutPage: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      index: true,
       admin: {
         description: 'Main title (e.g., institution name, company, or activity)',
       },
@@ -41,6 +47,7 @@ const AboutPage: CollectionConfig = {
     {
       name: 'subtitle',
       type: 'text',
+      index: true,
       admin: {
         description: 'Subtitle (e.g., degree name, job title)',
       },
@@ -48,6 +55,7 @@ const AboutPage: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
+      index: true,
       admin: {
         description: 'Brief description of the entry',
       },
@@ -87,12 +95,14 @@ const AboutPage: CollectionConfig = {
       type: 'array',
       admin: {
         description: 'Tags/skills/modules related to this entry',
+        initCollapsed: true,
       },
       fields: [
         {
           name: 'tag',
           type: 'text',
           required: true,
+          index: true,
         },
       ],
     },
@@ -106,12 +116,35 @@ const AboutPage: CollectionConfig = {
     {
       name: 'order',
       type: 'number',
+      index: true,
       defaultValue: 0,
       admin: {
         description: 'Display order (lower numbers appear first)',
       },
     },
   ],
+  hooks: {
+    afterChange: [
+      async () => {
+        try {
+          const { revalidatePath } = await import('next/cache')
+          revalidatePath('/')
+        } catch {
+          // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+        }
+      },
+    ],
+    afterDelete: [
+      async () => {
+        try {
+          const { revalidatePath } = await import('next/cache')
+          revalidatePath('/')
+        } catch {
+          // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+        }
+      },
+    ],
+  },
 }
 
 export default AboutPage

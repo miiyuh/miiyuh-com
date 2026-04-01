@@ -11,6 +11,18 @@ export const PrivacyPolicy: GlobalConfig = {
   access: {
     read: () => true,
   },
+  hooks: {
+    afterChange: [
+      async () => {
+        try {
+          const { revalidatePath } = await import('next/cache')
+          revalidatePath('/privacy-policy')
+        } catch {
+          // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+        }
+      },
+    ],
+  },
   fields: [
     {
       name: 'lastUpdated',

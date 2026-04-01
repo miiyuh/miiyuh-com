@@ -6,7 +6,7 @@ import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
 import PrivacyPolicyClient from './privacy-policy-client'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export default async function PrivacyPolicy() {
   const payload = await getPayload({ config })

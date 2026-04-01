@@ -30,11 +30,25 @@ export async function generateMetadata({ params }: PageProps) {
     const { docs: collectionDocs } = await payload.find({
         collection: 'gallery-collections',
         where: {
-            slug: {
-                equals: slug,
-            },
+            and: [
+                {
+                    slug: {
+                        equals: slug,
+                    },
+                },
+                {
+                    status: {
+                        equals: 'published',
+                    },
+                },
+            ],
         },
+        depth: 0,
         limit: 1,
+        select: {
+            title: true,
+            description: true,
+        },
     })
 
     const [collection] = collectionDocs as GalleryCollectionDocument[]
@@ -55,7 +69,7 @@ async function AlbumPageContent({ params }: PageProps) {
     const { slug } = await params
     const payload = await getPayload({ config })
 
-    // Single query with depth: 2 to get full media objects within images array
+    // Single query with depth: 1 to resolve media objects within images array
     const { docs: collectionDocs } = await payload.find({
         collection: 'gallery-collections',
         where: {
@@ -72,7 +86,7 @@ async function AlbumPageContent({ params }: PageProps) {
                 },
             ],
         },
-        depth: 2,
+        depth: 1,
         limit: 1,
     })
 

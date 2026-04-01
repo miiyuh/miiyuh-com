@@ -26,15 +26,28 @@ export async function generateMetadata({ params }: PageProps) {
         { category: { not_equals: 'research-paper' } },
       ],
     },
+    depth: 0,
     limit: 1,
+    select: {
+      name: true,
+      description: true,
+      seo: true,
+    },
   })
 
   const project = docs[0]
   if (!project) return { title: 'Project Not Found - miiyuh' }
 
+  const seo = project.seo as
+    | {
+        metaTitle?: string | null
+        metaDescription?: string | null
+      }
+    | undefined
+
   return {
-    title: project.seo?.metaTitle || `${project.name} - Projects - miiyuh`,
-    description: project.seo?.metaDescription || project.description,
+    title: seo?.metaTitle || `${project.name} - Projects - miiyuh`,
+    description: seo?.metaDescription || project.description,
   }
 }
 
@@ -42,11 +55,15 @@ export async function generateStaticParams() {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'projects',
-    limit: 100,
+    depth: 0,
+    limit: 200,
     where: {
       category: {
         not_equals: 'research-paper',
       },
+    },
+    select: {
+      slug: true,
     },
   })
   return docs.map((doc) => ({ slug: doc.slug }))
@@ -64,7 +81,7 @@ async function ProjectPageContent({ params }: PageProps) {
         { category: { not_equals: 'research-paper' } },
       ],
     },
-    depth: 2,
+    depth: 1,
     limit: 1,
   })
 

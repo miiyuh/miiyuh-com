@@ -29,8 +29,20 @@ export async function generateMetadata({ params }: PageProps) {
 
   const { docs } = await payload.find({
     collection: 'blog-posts',
-    where: { slug: { equals: slug } },
-    depth: 1,
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        { _status: { equals: 'published' } },
+      ],
+    },
+    depth: 0,
+    limit: 1,
+    select: {
+      title: true,
+      excerpt: true,
+      seo: true,
+      publishedAt: true,
+    },
   })
 
   const [post] = docs as BlogPostDocument[]
@@ -57,8 +69,14 @@ async function PageContent({ params }: PageProps) {
 
   const { docs } = await payload.find({
     collection: 'blog-posts',
-    where: { slug: { equals: slug } },
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        { _status: { equals: 'published' } },
+      ],
+    },
     depth: 1,
+    limit: 1,
   })
 
   const [post] = docs as BlogPostDocument[]

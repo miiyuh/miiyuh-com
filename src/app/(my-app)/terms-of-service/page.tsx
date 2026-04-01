@@ -6,7 +6,7 @@ import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
 import TermsOfServiceClient from './terms-of-service-client'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export default async function TermsOfService() {
   const payload = await getPayload({ config })
