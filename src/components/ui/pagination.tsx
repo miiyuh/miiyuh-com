@@ -1,10 +1,10 @@
 import { Slot } from '@radix-ui/react-slot'
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MoreHorizontalIcon,
-} from 'lucide-react'
+  CaretLeft,
+  CaretRight,
+  DotsThree,
+} from '@phosphor-icons/react'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants, type Button } from '@/components/ui/button'
@@ -84,7 +84,7 @@ const PaginationPrevious = forwardRef<HTMLAnchorElement, PaginationLinkProps>(
         ref={ref}
         {...props}
       >
-        <ChevronLeftIcon className="sm:-ms-1" />
+        <CaretLeft className="sm:-ms-1" />
         <span className="max-sm:hidden">Previous</span>
       </PaginationLink>
     )
@@ -103,7 +103,7 @@ const PaginationNext = forwardRef<HTMLAnchorElement, PaginationLinkProps>(
         {...props}
       >
         <span className="max-sm:hidden">Next</span>
-        <ChevronRightIcon className="sm:-me-1" />
+        <CaretRight className="sm:-me-1" />
       </PaginationLink>
     )
   },
@@ -120,7 +120,7 @@ const PaginationEllipsis = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<
         ref={ref}
         {...props}
       >
-        <MoreHorizontalIcon className="size-4" />
+        <DotsThree className="size-4" />
         <span className="sr-only">More pages</span>
       </span>
     )

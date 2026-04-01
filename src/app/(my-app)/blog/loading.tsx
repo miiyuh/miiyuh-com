@@ -1,15 +1,15 @@
 'use client'
 
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { Search } from 'lucide-react'
+import { MagnifyingGlass } from '@phosphor-icons/react'
 
 export default function BlogLoading() {
   return (
     <main className="flex flex-col bg-bg-primary text-text-primary font-sans relative min-h-screen overflow-x-hidden">
-      <section className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 min-h-[70vh]" style={{ paddingTop: '24px' }}>
+      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 min-h-[70vh]" style={{ paddingTop: '24px' }}>
         <div>
           {/* Breadcrumb */}
-          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }} className="px-6 md:px-0">
+          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
             <SimpleBreadcrumb
               items={[
                 { label: 'home', href: '/' },
@@ -30,7 +30,7 @@ export default function BlogLoading() {
             <div className="space-y-4">
               {/* Search Skeleton */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted opacity-50" />
+                <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted opacity-50" />
                 <div className="w-full h-10 bg-white/5 rounded-lg animate-pulse" />
               </div>
 

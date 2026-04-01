@@ -19,7 +19,7 @@ export default function PrivacyPolicyClient({ htmlContent, toc, updatedAt }: Pri
 
     return (
         <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
-            <section className="relative grow px-6 md:px-12 lg:px-24 xl:px-32" style={{ paddingTop: '24px' }}>
+            <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80" style={{ paddingTop: '24px' }}>
                 <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
                     <SimpleBreadcrumb
                         items={[

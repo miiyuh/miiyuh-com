@@ -15,7 +15,7 @@ import {
   createListCollection,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-import { Loader2, CheckCircle2, AlertCircle, Send } from 'lucide-react'
+import { Spinner, CheckCircle, WarningCircle, PaperPlaneRight } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 import type {
   FormDocument,
@@ -86,7 +86,7 @@ export function FormRenderer({
           value: String(value),
         }))
 
-        const response = await fetch('/api/form-submissions', {
+        const response = await fetch('/api/survey-responses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -129,7 +129,7 @@ export function FormRenderer({
           className
         )}
       >
-        <CheckCircle2 className="mx-auto mb-4 size-12 text-green-400" />
+        <CheckCircle weight="fill" className="mx-auto mb-4 size-12 text-green-400" />
         <h3 className="mb-2 text-xl font-medium text-white">Thank You!</h3>
         <p className="text-white/70">
           Your submission has been received successfully.
@@ -147,7 +147,7 @@ export function FormRenderer({
       {/* Error Alert */}
       {state.error && (
         <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4 backdrop-blur-md">
-          <AlertCircle className="mt-0.5 size-5 shrink-0 text-red-400" />
+          <WarningCircle weight="fill" className="mt-0.5 size-5 shrink-0 text-red-400" />
           <p className="text-sm text-red-300">{state.error}</p>
         </div>
       )}
@@ -176,12 +176,12 @@ export function FormRenderer({
       >
         {state.isSubmitting ? (
           <>
-            <Loader2 className="animate-spin" />
+            <Spinner weight="bold" className="animate-spin" />
             Submitting...
           </>
         ) : (
           <>
-            <Send className="size-4" />
+            <PaperPlaneRight className="size-4" />
             {form.submitButtonLabel || 'Submit'}
           </>
         )}

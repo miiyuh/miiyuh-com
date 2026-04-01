@@ -11,10 +11,14 @@ const GalleryCollections: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'imageCount', 'status', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'imageCount', 'status'],
     description: 'Create and manage photo albums with multiple images',
     group: 'Gallery',
     listSearchableFields: ['title', 'slug', 'description'],
+    pagination: {
+      defaultLimit: 12,
+      limits: [12, 24, 48],
+    },
   },
   fields: [
     {
@@ -31,6 +35,7 @@ const GalleryCollections: CollectionConfig = {
                   name: 'title',
                   type: 'text',
                   required: true,
+                  index: true,
                   admin: {
                     width: '50%',
                     placeholder: 'e.g., Japan Trip 2025',
@@ -41,6 +46,7 @@ const GalleryCollections: CollectionConfig = {
                   type: 'text',
                   required: true,
                   unique: true,
+                  index: true,
                   admin: {
                     width: '50%',
                     description: 'URL-friendly identifier (e.g., japan-trip-2025)',
@@ -67,6 +73,7 @@ const GalleryCollections: CollectionConfig = {
               name: 'description',
               type: 'textarea',
               required: false,
+              index: true,
               admin: {
                 placeholder: 'Brief description of this album...',
               },

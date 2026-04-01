@@ -37,7 +37,7 @@ const Meter = forwardRef<HTMLDivElement, MeterProps>(
 )
 Meter.displayName = 'Meter'
 
-interface MeterLabelProps extends ComponentPropsWithoutRef<'span'> {}
+type MeterLabelProps = ComponentPropsWithoutRef<'span'>
 
 const MeterLabel = forwardRef<HTMLSpanElement, MeterLabelProps>(
   ({ className, ...props }, ref) => {
@@ -53,7 +53,7 @@ const MeterLabel = forwardRef<HTMLSpanElement, MeterLabelProps>(
 )
 MeterLabel.displayName = 'MeterLabel'
 
-interface MeterTrackProps extends ComponentPropsWithoutRef<'div'> {}
+type MeterTrackProps = ComponentPropsWithoutRef<'div'>
 
 const MeterTrack = forwardRef<HTMLDivElement, MeterTrackProps>(
   ({ className, ...props }, ref) => {
@@ -69,7 +69,7 @@ const MeterTrack = forwardRef<HTMLDivElement, MeterTrackProps>(
 )
 MeterTrack.displayName = 'MeterTrack'
 
-interface MeterIndicatorProps extends ComponentPropsWithoutRef<'div'> {}
+type MeterIndicatorProps = ComponentPropsWithoutRef<'div'>
 
 const MeterIndicator = forwardRef<HTMLDivElement, MeterIndicatorProps>(
   ({ className, ...props }, ref) => {
@@ -85,7 +85,7 @@ const MeterIndicator = forwardRef<HTMLDivElement, MeterIndicatorProps>(
 )
 MeterIndicator.displayName = 'MeterIndicator'
 
-interface MeterValueProps extends ComponentPropsWithoutRef<'span'> {}
+type MeterValueProps = ComponentPropsWithoutRef<'span'>
 
 const MeterValue = forwardRef<HTMLSpanElement, MeterValueProps>(
   ({ className, ...props }, ref) => {

@@ -2,7 +2,7 @@
 
 import { Combobox as ComboboxPrimitive, useListCollection } from '@ark-ui/react/combobox'
 import { Portal } from '@ark-ui/react/portal'
-import { ChevronsUpDownIcon, XIcon, CheckIcon } from 'lucide-react'
+import { CaretUpDown, X, Check } from '@phosphor-icons/react'
 import * as React from 'react'
 import type { ComponentProps } from 'react'
 
@@ -17,7 +17,7 @@ const ComboboxContext = React.createContext<{
   multiple: false,
 })
 
-interface ComboboxRootProps<T> extends ComponentProps<typeof ComboboxPrimitive.Root<T>> {}
+type ComboboxRootProps<T> = ComponentProps<typeof ComboboxPrimitive.Root<T>>
 
 function Combobox<T>(props: ComboboxRootProps<T>) {
   return (
@@ -56,7 +56,7 @@ function ComboboxControl({
             showClear && 'hidden',
           )}
         >
-          <ChevronsUpDownIcon />
+          <CaretUpDown />
         </ComboboxTrigger>
       )}
       {showClear && (
@@ -66,7 +66,7 @@ function ComboboxControl({
             size === 'sm' ? 'end-0' : 'end-0.5',
           )}
         >
-          <XIcon />
+          <X />
         </ComboboxClearTrigger>
       )}
     </ComboboxPrimitive.Control>
@@ -122,7 +122,7 @@ function ComboboxClearTrigger({
   )
 }
 
-interface ComboboxContentProps extends ComponentProps<typeof ComboboxPrimitive.Content> {}
+type ComboboxContentProps = ComponentProps<typeof ComboboxPrimitive.Content>
 
 function ComboboxContent({
   className,
@@ -150,7 +150,7 @@ function ComboboxContent({
 // Alias for backwards compatibility
 const ComboboxPopup = ComboboxContent
 
-interface ComboboxItemProps extends ComponentProps<typeof ComboboxPrimitive.Item> {}
+type ComboboxItemProps = ComponentProps<typeof ComboboxPrimitive.Item>
 
 function ComboboxItem({
   className,
@@ -167,7 +167,7 @@ function ComboboxItem({
       {...props}
     >
       <ComboboxPrimitive.ItemIndicator className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-        <CheckIcon className="size-4" />
+        <Check className="size-4" />
       </ComboboxPrimitive.ItemIndicator>
       <ComboboxPrimitive.ItemText className="pl-6">{children}</ComboboxPrimitive.ItemText>
     </ComboboxPrimitive.Item>

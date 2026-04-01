@@ -15,6 +15,10 @@ const BlogPosts: CollectionConfig = {
     defaultColumns: ['title', 'publishedAt', 'featured', '_status'],
     description: 'Create and manage blog posts with rich content',
     listSearchableFields: ['title', 'slug', 'excerpt'],
+    pagination: {
+      defaultLimit: 10,
+      limits: [5, 10, 20, 50],
+    },
     preview: (doc) => {
       if (!doc?.slug || !doc?.publishedAt) return ''
       const [year, month] = new Date(doc.publishedAt as string)
@@ -43,6 +47,7 @@ const BlogPosts: CollectionConfig = {
                   type: 'text',
                   required: true,
                   localized: true,
+                  index: true,
                   admin: {
                     width: '60%',
                     placeholder: 'Enter post title...',
@@ -53,6 +58,7 @@ const BlogPosts: CollectionConfig = {
                   type: 'text',
                   required: true,
                   unique: true,
+                  index: true,
                   admin: {
                     width: '40%',
                     description: 'URL-friendly identifier',
@@ -79,6 +85,7 @@ const BlogPosts: CollectionConfig = {
               type: 'textarea',
               required: true,
               localized: true,
+              index: true,
               admin: {
                 placeholder: 'Brief summary of the post...',
                 description: 'Short description shown in listings',
@@ -113,6 +120,7 @@ const BlogPosts: CollectionConfig = {
                   name: 'publishedAt',
                   type: 'date',
                   required: true,
+                  index: true,
                   admin: {
                     width: '50%',
                     date: {
@@ -143,6 +151,7 @@ const BlogPosts: CollectionConfig = {
                   name: 'tag',
                   type: 'text',
                   required: true,
+                  index: true,
                   admin: {
                     placeholder: 'e.g., technology, tutorial',
                   },
@@ -178,13 +187,6 @@ const BlogPosts: CollectionConfig = {
       ],
     },
   ],
-  hooks: {
-    afterChange: [
-      async ({ doc, operation }) => {
-        console.log(`[Audit] Blog post "${doc.title}" was ${operation}d at ${new Date().toISOString()}`)
-      },
-    ],
-  },
 }
 
 export default BlogPosts

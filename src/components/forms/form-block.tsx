@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { FormRenderer } from './form-renderer'
-import { Loader2 } from 'lucide-react'
+import { Spinner } from '@phosphor-icons/react'
 import type { FormDocument } from '@/types/forms'
 import { cn } from '@/lib/utils'
 
@@ -28,12 +28,12 @@ export function FormBlock({ formId, className, introContent }: FormBlockProps) {
     async function fetchForm() {
       try {
         // First try fetching by ID
-        let response = await fetch(`/api/forms/${formId}`)
+        let response = await fetch(`/api/surveys/${formId}`)
 
         // If not found by ID, try fetching by title
         if (!response.ok) {
           response = await fetch(
-            `/api/forms?where[title][equals]=${encodeURIComponent(formId)}&limit=1`
+            `/api/surveys?where[title][equals]=${encodeURIComponent(formId)}&limit=1`
           )
           if (response.ok) {
             const data = await response.json()
@@ -60,7 +60,7 @@ export function FormBlock({ formId, className, introContent }: FormBlockProps) {
   if (isLoading) {
     return (
       <div className={cn('flex items-center justify-center py-12', className)}>
-        <Loader2 className="size-8 animate-spin text-white/50" />
+        <Spinner weight="bold" className="size-8 animate-spin text-white/50" />
       </div>
     )
   }

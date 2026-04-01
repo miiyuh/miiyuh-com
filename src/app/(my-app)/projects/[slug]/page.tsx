@@ -20,7 +20,12 @@ export async function generateMetadata({ params }: PageProps) {
 
   const { docs } = await payload.find({
     collection: 'projects',
-    where: { slug: { equals: slug } },
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        { category: { not_equals: 'research-paper' } },
+      ],
+    },
     limit: 1,
   })
 
@@ -35,7 +40,15 @@ export async function generateMetadata({ params }: PageProps) {
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'projects', limit: 100 })
+  const { docs } = await payload.find({
+    collection: 'projects',
+    limit: 100,
+    where: {
+      category: {
+        not_equals: 'research-paper',
+      },
+    },
+  })
   return docs.map((doc) => ({ slug: doc.slug }))
 }
 
@@ -45,7 +58,12 @@ async function ProjectPageContent({ params }: PageProps) {
 
   const { docs } = await payload.find({
     collection: 'projects',
-    where: { slug: { equals: slug } },
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        { category: { not_equals: 'research-paper' } },
+      ],
+    },
     depth: 2,
     limit: 1,
   })
@@ -58,7 +76,7 @@ async function ProjectPageContent({ params }: PageProps) {
     id: String(project.id),
     name: project.name,
     slug: project.slug,
-    category: project.category as 'side-project' | 'university-project' | 'research-paper',
+    category: project.category as 'side-project' | 'university-project',
     description: project.description,
     icon: project.icon,
     image: project.image
@@ -82,22 +100,6 @@ async function ProjectPageContent({ params }: PageProps) {
           course: (project.universityDetails as { course?: string }).course,
           semester: (project.universityDetails as { semester?: string }).semester,
           grade: (project.universityDetails as { grade?: string }).grade,
-        }
-      : undefined,
-    paperDetails: project.category === 'research-paper' && project.paperDetails
-      ? {
-          author: (project.paperDetails as { author?: string }).author,
-          year: (project.paperDetails as { year?: string }).year,
-          abstract: (project.paperDetails as { abstract?: string }).abstract,
-          keywords: (project.paperDetails as { keywords?: { keyword: string }[] }).keywords,
-          pages: (project.paperDetails as { pages?: number }).pages,
-          pdfFile: (() => {
-            const pdfFile = (project.paperDetails as { pdfFile?: { url?: string; filename?: string } | string }).pdfFile
-            if (pdfFile && typeof pdfFile === 'object' && 'url' in pdfFile) {
-              return { url: pdfFile.url, filename: pdfFile.filename }
-            }
-            return undefined
-          })(),
         }
       : undefined,
   }

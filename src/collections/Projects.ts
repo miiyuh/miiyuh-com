@@ -12,9 +12,13 @@ const Projects: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'category', 'status', '_status'],
+    defaultColumns: ['name', 'category', '_status'],
     description: 'Manage portfolio projects, side projects, and university work',
     listSearchableFields: ['name', 'slug', 'description'],
+    pagination: {
+      defaultLimit: 10,
+      limits: [5, 10, 20, 50],
+    },
     preview: (doc) => {
       if (!doc?.slug) return ''
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/projects/${doc.slug}`
@@ -30,6 +34,7 @@ const Projects: CollectionConfig = {
       type: 'text',
       required: true,
       localized: true,
+      index: true,
       admin: {
         description: 'Name of the project',
       },
@@ -39,6 +44,7 @@ const Projects: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      index: true,
       admin: {
         description: 'URL-friendly identifier (e.g., "utilities-my", "library-management")',
       },
@@ -47,6 +53,7 @@ const Projects: CollectionConfig = {
       name: 'category',
       type: 'select',
       required: true,
+      index: true,
       options: [
         {
           label: 'Side Project',
@@ -55,10 +62,6 @@ const Projects: CollectionConfig = {
         {
           label: 'University Project',
           value: 'university-project',
-        },
-        {
-          label: 'Research Paper',
-          value: 'research-paper',
         },
       ],
       admin: {
@@ -70,6 +73,7 @@ const Projects: CollectionConfig = {
       type: 'textarea',
       required: true,
       localized: true,
+      index: true,
       admin: {
         description: 'Short description shown on the projects listing page',
       },
@@ -101,68 +105,6 @@ const Projects: CollectionConfig = {
       admin: {
         description: 'Detailed content for the project page',
       },
-    },
-    // Research paper specific fields
-    {
-      name: 'paperDetails',
-      type: 'group',
-      admin: {
-        description: 'Research paper specific fields',
-        condition: (data) => data.category === 'research-paper',
-      },
-      fields: [
-        {
-          name: 'author',
-          type: 'text',
-          defaultValue: 'miiyuh',
-          admin: {
-            description: 'Paper author',
-          },
-        },
-        {
-          name: 'year',
-          type: 'text',
-          admin: {
-            description: 'Publication year',
-          },
-        },
-        {
-          name: 'abstract',
-          type: 'textarea',
-          admin: {
-            description: 'Paper abstract',
-          },
-        },
-        {
-          name: 'keywords',
-          type: 'array',
-          admin: {
-            description: 'Keywords/tags for the paper',
-          },
-          fields: [
-            {
-              name: 'keyword',
-              type: 'text',
-              required: true,
-            },
-          ],
-        },
-        {
-          name: 'pages',
-          type: 'number',
-          admin: {
-            description: 'Number of pages',
-          },
-        },
-        {
-          name: 'pdfFile',
-          type: 'upload',
-          relationTo: 'media',
-          admin: {
-            description: 'Upload the PDF file',
-          },
-        },
-      ],
     },
     // Side project specific fields
     {

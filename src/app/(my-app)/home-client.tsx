@@ -3,15 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { NAVIGATION_LINKS, SOCIAL_PLATFORMS } from '@/constants'
-import { ArrowUpRight } from 'lucide-react'
-import {
-  MapPin,
-  Code2,
-  Camera,
-  GraduationCap,
-  Briefcase,
-  Heart,
-} from 'lucide-react'
+import { MapPinIcon, CodeIcon, CameraIcon, GraduationCapIcon, BriefcaseIcon, HeartIcon, ArrowUpRightIcon } from '@phosphor-icons/react'
 import { EntryCard } from '@/components/ui/entry-card'
 import type { AboutEntry } from '@/types/about'
 import { useWebHaptics } from 'web-haptics/react'
@@ -31,13 +23,13 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
-      <div className="px-6 md:px-12 lg:px-24 xl:px-48 py-12 flex flex-col gap-16">
+      <div className="px-8 md:px-32 lg:px-56 xl:px-80 py-12 flex flex-col gap-16">
 
         {/* Hero Section: Portrait + Bio + Social Links */}
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-start animate-in fade-in slide-in-from-bottom-4 duration-700">
-          {/* Portrait */}
-          <div className="flex justify-self-center md:justify-start">
-            <div className="relative w-58 h-58 rounded-full overflow-hidden border border-white/8 shrink-0">
+        <section className="flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-8 items-start animate-in fade-in slide-in-from-bottom-4 duration-700">
+          {/* Portrait - Full width mobile, column 1 desktop */}
+          <div className="flex justify-center items-start w-full md:w-auto md:col-span-1">
+            <div className="relative w-48 h-48 md:w-full md:h-full md:aspect-square rounded-full overflow-hidden border border-white/8 shrink-0">
               <Image
                 src="/assets/img/personal-profile-pic.png"
                 alt="Profile"
@@ -45,40 +37,42 @@ export default function HomeClient({ education, experience, volunteering }: Home
                 className="object-cover"
                 quality={75}
                 priority
-                sizes="(max-width: 768px) 200px, 200px"
+                sizes="(max-width: 768px) 96px, (max-width: 1024px) 176px, 192px"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
             </div>
           </div>
 
-          {/* Bio + Tags + Socials */}
-          <div className="md:col-span-3 flex flex-col gap-6">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-serif tracking-tight mb-4 text-text-primary leading-[0.95] text-balance">
-                Muhamad Azri
-              </h1>
-              <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-light text-pretty">
-                Computer forensics student, creative developer, and photographer based in Malaysia. Building digital experiences that matter.
-              </p>
-            </div>
+          {/* Bio + Tags + Socials - Full width mobile, spans 3 columns desktop */}
+          <div className="flex flex-col gap-4 md:gap-5 w-full md:col-span-3 md:h-full md:justify-between">
+            {/* Name */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif tracking-tight text-text-primary leading-[1.1] text-balance">
+              Muhamad Azri
+            </h1>
 
-            <div className="flex flex-wrap gap-3">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/5 text-sm text-text-secondary font-serif">
-                <MapPin className="w-4 h-4 text-accent-primary" />
+            {/* Description */}
+            <p className="text-sm md:text-base lg:text-lg text-text-secondary leading-relaxed font-light text-pretty">
+              Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.
+            </p>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 md:gap-2.5 justify-start md:justify-start">
+              <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-2 rounded-full bg-white/5 border border-white/5 text-xs md:text-sm text-text-secondary font-serif">
+                <MapPinIcon className="w-3 md:w-4 h-3 md:h-4 text-accent-primary" />
                 Malaysia
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/5 text-sm text-text-secondary font-serif">
-                <Code2 className="w-4 h-4 text-accent-primary" />
+              <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-2 rounded-full bg-white/5 border border-white/5 text-xs md:text-sm text-text-secondary font-serif">
+                <CodeIcon className="w-3 md:w-4 h-3 md:h-4 text-accent-primary" />
                 Developer
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/5 text-sm text-text-secondary font-serif">
-                <Camera className="w-4 h-4 text-accent-primary" />
+              <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-2 rounded-full bg-white/5 border border-white/5 text-xs md:text-sm text-text-secondary font-serif">
+                <CameraIcon className="w-3 md:w-4 h-3 md:h-4 text-accent-primary" />
                 Photographer
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 md:gap-4 justify-start">
               {SOCIAL_PLATFORMS.map((social) => (
                 <a
                   key={social}
@@ -108,7 +102,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
         </section>
 
         {/* Navigation Cards */}
-        <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {NAVIGATION_LINKS.map((link) => (
               <Link
@@ -121,7 +115,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                   <h3 className="font-serif text-xl text-text-primary group-hover:text-accent-primary transition-colors">
                     {link.label}
                   </h3>
-                  <ArrowUpRight className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" />
+                  <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" />
                 </div>
                 <p className="text-xs text-text-secondary">
                   {link.href === '/gallery' && 'photos & artwork'}
@@ -135,14 +129,14 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Experience Section */}
         {experience.length > 0 && (
-          <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
+          <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
-              <Briefcase className="w-6 h-6 text-text-primary" />
+              <BriefcaseIcon className="w-6 h-6 text-text-primary" />
               <h2 className="text-3xl font-serif text-text-primary">Experience</h2>
             </div>
             <div className="flex flex-col gap-4">
               {experience.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} fallbackIcon={<Briefcase className="w-6 h-6 text-text-muted" />} />
+                <EntryCard key={entry.id} entry={entry} fallbackIcon={<BriefcaseIcon className="w-6 h-6 text-text-muted" />} />
               ))}
             </div>
           </section>
@@ -150,14 +144,14 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Education Section */}
         {education.length > 0 && (
-          <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
+          <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
-              <GraduationCap className="w-6 h-6 text-text-primary" />
+              <GraduationCapIcon className="w-6 h-6 text-text-primary" />
               <h2 className="text-3xl font-serif text-text-primary">Education</h2>
             </div>
             <div className="flex flex-col gap-4">
               {education.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} fallbackIcon={<GraduationCap className="w-6 h-6 text-text-muted" />} />
+                <EntryCard key={entry.id} entry={entry} fallbackIcon={<GraduationCapIcon className="w-6 h-6 text-text-muted" />} />
               ))}
             </div>
           </section>
@@ -165,14 +159,14 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
         {/* Volunteering Section */}
         {volunteering.length > 0 && (
-          <section className="border-t border-white/8 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
+          <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
-              <Heart className="w-6 h-6 text-text-primary" />
+              <HeartIcon className="w-6 h-6 text-text-primary" />
               <h2 className="text-3xl font-serif text-text-primary">Volunteering</h2>
             </div>
             <div className="flex flex-col gap-4">
               {volunteering.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} fallbackIcon={<Heart className="w-6 h-6 text-text-muted" />} />
+                <EntryCard key={entry.id} entry={entry} fallbackIcon={<HeartIcon className="w-6 h-6 text-text-muted" />} />
               ))}
             </div>
           </section>

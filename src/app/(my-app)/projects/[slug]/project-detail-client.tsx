@@ -1,33 +1,25 @@
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { 
+import {
   ArrowLeft,
   ArrowUpRight,
-  Rocket, 
-  GraduationCap, 
-  FileText,
-  Github,
-  ExternalLink,
+  Rocket,
+  GraduationCap,
+  GithubLogo,
+  ArrowSquareOut,
   Calendar,
   BookOpen,
-  Download,
-  Loader2
-} from 'lucide-react'
-
-// Lazy load PDF viewer component
-const PDFViewer = dynamic(() => import('@/components/pdf-viewer'), { ssr: false })
+} from '@phosphor-icons/react'
 
 interface ProjectDetailProps {
   project: {
     id: string
     name: string
     slug: string
-    category: 'side-project' | 'university-project' | 'research-paper'
+    category: 'side-project' | 'university-project'
     description: string
     icon?: string
     image?: {
@@ -47,35 +39,16 @@ interface ProjectDetailProps {
       semester?: string
       grade?: string
     }
-    paperDetails?: {
-      author?: string
-      year?: string
-      abstract?: string
-      keywords?: { keyword: string }[]
-      pages?: number
-      pdfFile?: {
-        url?: string
-        filename?: string
-      }
-    }
   }
 }
 
 export default function ProjectDetailClient({ project }: ProjectDetailProps) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   const getCategoryIcon = () => {
     switch (project.category) {
       case 'side-project':
         return <Rocket className="w-5 h-5 text-accent-primary" />
       case 'university-project':
         return <GraduationCap className="w-5 h-5 text-blue-400" />
-      case 'research-paper':
-        return <FileText className="w-5 h-5 text-purple-400" />
     }
   }
 
@@ -85,21 +58,25 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
         return 'Side Project'
       case 'university-project':
         return 'University Project'
-      case 'research-paper':
-        return 'Research Paper'
     }
   }
 
-  const getCategoryColor = () => {
+  const getCategoryTheme = () => {
     switch (project.category) {
       case 'side-project':
-        return 'accent-primary'
+        return {
+          badge: 'bg-accent-primary/10 border-accent-primary/20',
+          text: 'text-accent-primary',
+        }
       case 'university-project':
-        return 'blue-400'
-      case 'research-paper':
-        return 'purple-400'
+        return {
+          badge: 'bg-blue-400/10 border-blue-400/20',
+          text: 'text-blue-400',
+        }
     }
   }
+
+  const categoryTheme = getCategoryTheme()
 
   const getStatusBadge = (status?: string) => {
     switch (status) {
@@ -142,10 +119,10 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
             {/* Project Header */}
             <div className="mb-12">
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-xl bg-${getCategoryColor()}/10 flex items-center justify-center border border-${getCategoryColor()}/20`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${categoryTheme.badge}`}>
                   {getCategoryIcon()}
                 </div>
-                <span className={`text-xs font-mono text-${getCategoryColor()} uppercase tracking-wider`}>
+                <span className={`text-xs font-mono uppercase tracking-wider ${categoryTheme.text}`}>
                   {getCategoryLabel()}
                 </span>
                 {project.projectDetails?.status && getStatusBadge(project.projectDetails.status)}
@@ -202,7 +179,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors"
                     >
-                      <Github className="w-4 h-4" />
+                      <GithubLogo weight="fill" className="w-4 h-4" />
                       View Source
                     </a>
                   )}
@@ -213,7 +190,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary rounded-xl border border-accent-primary/20 transition-colors"
                     >
-                      <ExternalLink className="w-4 h-4" />
+                      <ArrowSquareOut className="w-4 h-4" />
                       View Live
                     </a>
                   )}
@@ -277,83 +254,6 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                     <ArrowUpRight className="w-4 h-4" />
                     View Project
                   </a>
-                )}
-              </div>
-            )}
-
-            {/* ============================================ */}
-            {/* RESEARCH PAPER CONTENT */}
-            {/* ============================================ */}
-            {project.category === 'research-paper' && (
-              <div className="space-y-8">
-                {/* Paper Meta */}
-                <div className="glass-panel-pro rounded-2xl p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {project.paperDetails?.author && (
-                      <div>
-                        <p className="text-xs font-mono text-text-muted mb-1 uppercase">Author</p>
-                        <p className="text-text-primary">{project.paperDetails.author}</p>
-                      </div>
-                    )}
-                    {project.paperDetails?.year && (
-                      <div>
-                        <p className="text-xs font-mono text-text-muted mb-1 uppercase">Year</p>
-                        <p className="text-text-primary">{project.paperDetails.year}</p>
-                      </div>
-                    )}
-                    {project.paperDetails?.pages && (
-                      <div>
-                        <p className="text-xs font-mono text-text-muted mb-1 uppercase">Pages</p>
-                        <p className="text-text-primary">{project.paperDetails.pages} pages</p>
-                      </div>
-                    )}
-                    {project.paperDetails?.pdfFile?.url && (
-                      <div>
-                        <a
-                          href={project.paperDetails.pdfFile.url}
-                          download
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/20 transition-colors"
-                        >
-                          <Download className="w-4 h-4" />
-                          Download PDF
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Abstract */}
-                {project.paperDetails?.abstract && (
-                  <div className="glass-panel-pro rounded-2xl p-6">
-                    <h3 className="text-sm font-mono text-text-muted mb-4 uppercase tracking-wider">Abstract</h3>
-                    <p className="text-text-secondary leading-relaxed">
-                      {project.paperDetails.abstract}
-                    </p>
-                  </div>
-                )}
-
-                {/* Keywords */}
-                {project.paperDetails?.keywords && project.paperDetails.keywords.length > 0 && (
-                  <div className="glass-panel-pro rounded-2xl p-6">
-                    <h3 className="text-sm font-mono text-text-muted mb-4 uppercase tracking-wider">Keywords</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {project.paperDetails.keywords.map((k, i) => (
-                        <span key={i} className="px-3 py-1 text-sm font-mono bg-purple-500/10 text-purple-400 rounded-lg border border-purple-500/20">
-                          {k.keyword}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* PDF Viewer */}
-                {project.paperDetails?.pdfFile?.url && mounted && (
-                  <div className="glass-panel-pro rounded-2xl p-6">
-                    <h3 className="text-sm font-mono text-text-muted mb-4 uppercase tracking-wider">Document Preview</h3>
-                    <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-purple-400" /></div>}>
-                      <PDFViewer pdfUrl={project.paperDetails.pdfFile.url} />
-                    </Suspense>
-                  </div>
                 )}
               </div>
             )}

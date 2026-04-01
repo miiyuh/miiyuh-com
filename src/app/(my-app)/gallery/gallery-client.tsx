@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb';
-import { Grid, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from '@phosphor-icons/react';
 import { useWebHaptics } from 'web-haptics/react';
 import type {
   GalleryCollectionSummary,
@@ -24,7 +24,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
 
-        <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24" style={{ paddingTop: '24px' }}>
+        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 py-24" style={{ paddingTop: '24px' }}>
           <div>
 
             {/* Breadcrumb Navigation */}
@@ -99,7 +99,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                             ))
                           ) : (
                             <div className="w-full h-full rounded-2xl bg-white/5 flex items-center justify-center text-text-muted border border-white/8">
-                              <Grid className="w-12 h-12 opacity-20" />
+                              <div className="w-12 h-12 opacity-20" />
                             </div>
                           )}
                         </div>
@@ -119,7 +119,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                           </p>
 
                           <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-text-muted">
-                            <span>{images.length} ITEMS</span>
+                            <span>{collection.totalImages} ITEMS</span>
                             <span className="group-hover:text-text-primary transition-colors">VIEW ALBUM</span>
                           </div>
                         </div>

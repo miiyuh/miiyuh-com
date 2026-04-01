@@ -6,7 +6,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useState,
+  useRef,
 } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
@@ -41,20 +41,14 @@ export default function BlogClient({
   searchQuery,
   pagination,
 }: BlogClientProps) {
-  const [selectedTopics, setSelectedTopics] = useState<string[]>(selectedTags)
-  const [searchInput, setSearchInput] = useState(searchQuery)
+  const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const haptic = useWebHaptics()
 
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const searchParamsString = searchParams?.toString() ?? ''
-
-  // Consolidate prop syncing into single effect to avoid multiple re-renders
-  useEffect(() => {
-    setSelectedTopics(selectedTags)
-    setSearchInput(searchQuery)
-  }, [selectedTags, searchQuery])
 
   const updateRoute = useCallback(
     (updates: { search?: string; tags?: string[]; page?: number }) => {
@@ -94,17 +88,30 @@ export default function BlogClient({
     [pathname, router, searchParamsString]
   )
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      const trimmed = searchInput.trim()
-      if (trimmed === searchQuery.trim()) {
-        return
+  const handleSearchInputChange = useCallback(
+    (value: string) => {
+      if (searchDebounceRef.current) {
+        clearTimeout(searchDebounceRef.current)
       }
-      updateRoute({ search: trimmed, page: 1 })
-    }, 300)
 
-    return () => clearTimeout(handler)
-  }, [searchInput, searchQuery, updateRoute])
+      searchDebounceRef.current = setTimeout(() => {
+        const trimmed = value.trim()
+        if (trimmed === searchQuery.trim()) {
+          return
+        }
+        updateRoute({ search: trimmed, page: 1 })
+      }, 300)
+    },
+    [searchQuery, updateRoute]
+  )
+
+  useEffect(() => {
+    return () => {
+      if (searchDebounceRef.current) {
+        clearTimeout(searchDebounceRef.current)
+      }
+    }
+  }, [])
 
   const allTopics = useMemo(
     () => [...availableTags].sort((a, b) => a.label.localeCompare(b.label)),
@@ -113,17 +120,20 @@ export default function BlogClient({
 
   const toggleTopic = (topicValue: string) => {
     haptic.trigger('selection')
-    const exists = selectedTopics.includes(topicValue)
+    const exists = selectedTags.includes(topicValue)
     const next = exists
-      ? selectedTopics.filter((t) => t !== topicValue)
-      : [...selectedTopics, topicValue]
-    setSelectedTopics(next)
+      ? selectedTags.filter((t) => t !== topicValue)
+      : [...selectedTags, topicValue]
     updateRoute({ tags: next, page: 1 })
   }
 
   const clearFilters = () => {
-    setSelectedTopics([])
-    setSearchInput('')
+    if (searchDebounceRef.current) {
+      clearTimeout(searchDebounceRef.current)
+    }
+    if (searchInputRef.current) {
+      searchInputRef.current.value = ''
+    }
     updateRoute({ search: '', tags: [], page: 1 })
   }
 
@@ -158,7 +168,7 @@ export default function BlogClient({
   return (
     <main className="flex flex-col bg-bg-primary text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section
-        className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 min-h-[70vh]"
+        className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 min-h-[70vh]"
         style={{ paddingTop: '24px' }}
       >
         <div>
@@ -190,10 +200,12 @@ export default function BlogClient({
                   <Search className="h-4 w-4 text-text-muted" />
                 </div>
                 <input
+                  key={searchQuery}
+                  ref={searchInputRef}
                   type="text"
                   placeholder="Search posts"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
+                  defaultValue={searchQuery}
+                  onChange={(e) => handleSearchInputChange(e.target.value)}
                   className="w-full font-sans bg-white/2 border border-white/8 rounded-lg py-2.5 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/15 transition-all duration-200"
                 />
               </div>
@@ -207,7 +219,7 @@ export default function BlogClient({
                   <div className="flex flex-wrap gap-2">
                     <button
                       onClick={() => { haptic.trigger('selection'); clearFilters() }}
-                      className={`px-3 py-1.5 text-xs rounded-full transition-all duration-200 ${selectedTopics.length === 0
+                      className={`px-3 py-1.5 text-xs rounded-full transition-all duration-200 ${selectedTags.length === 0
                         ? 'bg-accent-primary/20 text-accent-primary border border-accent-primary/30'
                         : 'bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6'
                         }`}
@@ -218,7 +230,7 @@ export default function BlogClient({
                       <button
                         key={topic.value}
                         onClick={() => toggleTopic(topic.value)}
-                        className={`px-3 py-1.5 text-xs rounded-full transition-all duration-200 ${selectedTopics.includes(topic.value)
+                        className={`px-3 py-1.5 text-xs rounded-full transition-all duration-200 ${selectedTags.includes(topic.value)
                           ? 'bg-accent-primary/20 text-accent-primary border border-accent-primary/30'
                           : 'bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6'
                           }`}

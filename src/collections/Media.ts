@@ -12,6 +12,10 @@ const Media: CollectionConfig = {
   admin: {
     description: 'Upload and manage images and documents',
     group: 'Media',
+    pagination: {
+      defaultLimit: 12,
+      limits: [12, 24, 48],
+    },
   },
   upload: {
     // Uploads are handled by R2 in production via the s3Storage plugin
@@ -69,15 +73,6 @@ const Media: CollectionConfig = {
       },
     },
   ],
-  hooks: {
-    afterChange: [
-      async ({ doc, operation }) => {
-        console.log(
-          `[Audit] Media "${doc.filename}" was ${operation}d at ${new Date().toISOString()}`,
-        )
-      },
-    ],
-  },
 }
 
 export default Media

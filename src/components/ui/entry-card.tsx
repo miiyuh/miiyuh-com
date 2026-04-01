@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ExternalLink } from 'lucide-react'
+import { ArrowSquareOut } from '@phosphor-icons/react'
 import type { AboutEntry } from '@/types/about'
 import { useWebHaptics } from 'web-haptics/react'
 
@@ -31,17 +31,17 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-            <h2 className="text-base font-medium text-text-primary">{entry.title}</h2>
-            <span className="font-serif text-lg text-text-muted/60 whitespace-nowrap tracking-wider">
+          <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-1">
+            <h2 className="text-lg md:text-xl font-semibold text-text-primary">{entry.title}</h2>
+            <span className="font-serif text-sm md:text-base text-text-secondary/60 whitespace-nowrap tracking-wider">
               {entry.startDate}{entry.endDate ? ` - ${entry.endDate}` : ''}
             </span>
           </div>
           {entry.subtitle && (
-            <p className="text-sm text-accent-primary/80 mt-2">{entry.subtitle}</p>
+            <p className="text-base text-accent-primary font-medium mt-1 mb-2">{entry.subtitle}</p>
           )}
           {entry.description && (
-            <p className="text-text-secondary/70 text-sm leading-relaxed mt-2">{entry.description}</p>
+            <p className="text-text-secondary text-sm leading-relaxed mt-2">{entry.description}</p>
           )}
           {entry.tags && entry.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-3">
@@ -62,7 +62,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
           className="absolute top-4 right-4 p-2 bg-white/5 rounded-lg hover:bg-accent-primary hover:text-bg-primary transition-colors"
           onClick={() => haptic.trigger('light')}
         >
-          <ExternalLink className="w-4 h-4" />
+          <ArrowSquareOut className="w-4 h-4" weight="bold" />
         </Link>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { Slot } from '@radix-ui/react-slot'
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
-import { ChevronRight, MoreHorizontal } from 'lucide-react'
+import { CaretRight, DotsThree } from '@phosphor-icons/react'
 
 import { cn } from '@/lib/utils'
 
@@ -89,7 +89,7 @@ const BreadcrumbSeparator = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<'
         ref={ref}
         {...props}
       >
-        {children ?? <ChevronRight />}
+        {children ?? <CaretRight />}
       </li>
     )
   },
@@ -107,7 +107,7 @@ const BreadcrumbEllipsis = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<
         ref={ref}
         {...props}
       >
-        <MoreHorizontal className="size-4" />
+        <DotsThree className="size-4" />
         <span className="sr-only">More</span>
       </span>
     )

@@ -112,6 +112,7 @@ async function AlbumPageContent({ params }: PageProps) {
         title: collection.title,
         description: collection.description,
         status: collection.status,
+        totalImages: collection.images?.length ?? 0,
     }
 
     return (

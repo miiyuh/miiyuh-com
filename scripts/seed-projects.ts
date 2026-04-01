@@ -118,49 +118,6 @@ async function seedProjects() {
       },
     },
 
-    // Research papers
-    {
-      name: 'Ethical AI in Open Source',
-      slug: 'ethical-ai-open-source',
-      category: 'research-paper',
-      description: 'Exploring governance models for responsible AI contributions.',
-      order: 1,
-      paperDetails: {
-        author: 'miiyuh',
-        year: '2024',
-        abstract: 'A survey of community-led guardrails for AI in OSS.',
-        keywords: [{ keyword: 'AI' }, { keyword: 'Open Source' }, { keyword: 'Governance' }],
-        pages: 14,
-      },
-    },
-    {
-      name: 'Community Responsibility in Tech',
-      slug: 'community-responsibility-tech',
-      category: 'research-paper',
-      description: 'On the social contract between developers and users.',
-      order: 2,
-      paperDetails: {
-        author: 'miiyuh',
-        year: '2023',
-        abstract: 'Case studies of community stewardship in digital platforms.',
-        keywords: [{ keyword: 'Community' }, { keyword: 'Ethics' }],
-        pages: 11,
-      },
-    },
-    {
-      name: 'Sustainable Tech Futures',
-      slug: 'sustainable-tech',
-      category: 'research-paper',
-      description: 'Balancing performance and sustainability in modern stacks.',
-      order: 3,
-      paperDetails: {
-        author: 'miiyuh',
-        year: '2022',
-        abstract: 'Evaluating sustainable design choices for web apps.',
-        keywords: [{ keyword: 'Sustainability' }, { keyword: 'Web' }],
-        pages: 9,
-      },
-    },
   ]
 
   for (const projectData of projectsData) {

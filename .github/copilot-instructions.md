@@ -78,6 +78,38 @@ export default function ComponentName() {
 - Export components from `src/components/index.ts` for clean imports.
 - Prefer Tailwind utility classes over custom CSS; only add bespoke styles when necessary.
 - When refining or changing layout components, do not alter the existing configuration for the breadcrumb navigation, the heading that follows it, or the descriptive text underneath them—they should stay as-is unless explicitly requested.
+- **Layout & Skeleton Sync**: When making layout changes to any page, always ensure the corresponding skeleton loading component (e.g., `loading.tsx` or `*-skeleton.tsx`) is updated to match the new layout structure, spacing, and padding. This prevents visual layout shifts and ensures consistency between loading and loaded states.
+
+## Responsive Spacing Scale
+- **Horizontal margins/padding standard**: `px-16 md:px-32 lg:px-56 xl:px-80` for all main content containers (header, footer, pages).
+- **Top padding on sections**: `pt-24` for consistency across loaded and loading states.
+- **Gallery pages**: `pt-24 pb-24` to match other page sections.
+- New pages should default to this scale unless explicitly styled otherwise.
+
+## Server vs. Client Component Placement
+- **Server components** in `src/app/(my-app)/[route]/page.tsx`: Handle all data fetching from Payload CMS (posts, projects, gallery), revalidation strategy (ISR windows), and `generateMetadata`.
+- **Client components** (e.g., `[route]-client.tsx`): Handle interactivity, state management, event listeners, and hooks like `useSound`.
+- Pattern: Server page queries data and passes props to a client wrapper; avoid data fetching in client components.
+
+## Query Optimization & Caching Patterns
+- **Blog posts**: Use `revalidatePath` with ISR window (currently 300s); parallelize post fetch + tag options with `Promise.all`.
+- **Sorting & filtering**: Always add MongoDB indexes for fields used in queries (published date, tags, slug) to avoid full table scans.
+- **Related data**: Fetch media and relations efficiently; avoid N+1 queries by using Payload's built-in field relations.
+- Cache static tag options separately from dynamic post lists to reduce redundant queries.
+
+## Database Indexing Strategy
+- **BlogPosts collection**: Index on `published` (sort) and `tags` fields (filter).
+- **Projects collection**: Index on `published` and any primary filter fields.
+- **GalleryCollections**: Index on slug and published fields for fast album lookups.
+- Pattern: Define indexes in collection configs (`src/collections/[CollectionName].ts`) using Payload's `indexes` array to ensure MongoDB uses optimal query plans.
+
+## Payload CMS Field Conventions
+- **Slug fields**: Used for URL routes; ensure unique and auto-generated from title.
+- **Published field**: Boolean or date; use for visibility control and sorted queries.
+- **Status or visibility**: Document which field controls draft vs. published (e.g., `published: true/false`).
+- **Relations**: Use Payload's relation fields for media, tags, and categories; avoid manual ref strings.
+- **Rich text**: Use `lexical` editor; render via `src/utils/lexical-renderer.tsx`.
+- **Ordering**: Explicit `position` or `order` field when manual ordering is needed.
 
 ## Animation System
 - **ScrollAnimation** – IntersectionObserver wrapper for reveal animations.

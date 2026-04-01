@@ -11,9 +11,9 @@ export const metadata = {
   description: 'thoughts, stories, and ideas',
 }
 
-// ISR: Revalidate every 60 seconds for faster repeat visits
+// ISR: Revalidate every 5 minutes to reduce frequent regeneration work
 // The loading.tsx will show a skeleton during the initial fetch
-export const revalidate = 60
+export const revalidate = 300
 
 const POSTS_PER_PAGE = 9
 
@@ -28,16 +28,25 @@ type PageProps = {
   searchParams?: Promise<SearchParams>
 }
 
-const getCachedPublishedTagDocs = unstable_cache(
+const getCachedPublishedTagOptions = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
 
     const { docs } = await payload.find({
       collection: 'blog-posts',
       where: {
-        _status: {
-          equals: 'published',
-        },
+        and: [
+          {
+            _status: {
+              equals: 'published',
+            },
+          },
+          {
+            tags: {
+              exists: true,
+            },
+          },
+        ],
       },
       depth: 0,
       pagination: false,
@@ -46,9 +55,26 @@ const getCachedPublishedTagDocs = unstable_cache(
       },
     })
 
-    return docs as Pick<BlogPostDocument, 'tags'>[]
+    const tagOptionsMap = new Map<string, TagOption>()
+
+    ;(docs as Pick<BlogPostDocument, 'tags'>[]).forEach((doc) => {
+      doc.tags?.forEach((tag) => {
+        const rawValue = tag?.tag
+        if (!rawValue || rawValue.trim().length === 0) return
+
+        const trimmedValue = rawValue.trim()
+        if (!tagOptionsMap.has(trimmedValue)) {
+          tagOptionsMap.set(trimmedValue, {
+            value: trimmedValue,
+            label: trimmedValue,
+          })
+        }
+      })
+    })
+
+    return Array.from(tagOptionsMap.values()).sort((a, b) => a.label.localeCompare(b.label))
   },
-  ['blog-published-tags'],
+  ['blog-published-tag-options'],
   {
     revalidate: 3600,
   }
@@ -133,7 +159,12 @@ export default async function BlogPage({ searchParams }: PageProps) {
       },
     })
 
-  let postsQuery = await executePostsQuery(currentPage)
+  const [initialPostsQuery, availableTags] = await Promise.all([
+    executePostsQuery(currentPage),
+    getCachedPublishedTagOptions(),
+  ])
+
+  let postsQuery = initialPostsQuery
   let totalPages = postsQuery.totalPages ?? 0
 
   if (totalPages > 0 && currentPage > totalPages) {
@@ -167,33 +198,10 @@ export default async function BlogPage({ searchParams }: PageProps) {
       slug: post.slug,
       excerpt: post.excerpt ?? '',
       coverImage: coverImage?.url ? coverImage : undefined,
-      publishedAt: post.publishedAt ?? new Date().toISOString(),
+      publishedAt: post.publishedAt ?? '',
       tags: post.tags?.map((tag) => ({ tag: tag?.tag ?? '' })) ?? [],
     }
   })
-
-  const tagDocs = await getCachedPublishedTagDocs()
-
-  const tagOptionsMap = new Map<string, TagOption>()
-
-  tagDocs.forEach((doc) => {
-    doc.tags?.forEach((tag) => {
-      const rawValue = tag?.tag
-      if (!rawValue || rawValue.trim().length === 0) return
-
-      if (!tagOptionsMap.has(rawValue)) {
-        const trimmedValue = rawValue.trim()
-        tagOptionsMap.set(rawValue, {
-          value: trimmedValue,
-          label: trimmedValue || rawValue,
-        })
-      }
-    })
-  })
-
-  const availableTags = Array.from(tagOptionsMap.values()).sort((a, b) =>
-    a.label.localeCompare(b.label)
-  )
 
   const pagination = {
     page: postsQuery.page ?? currentPage,

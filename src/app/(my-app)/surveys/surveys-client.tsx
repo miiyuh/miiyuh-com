@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { ArrowRight, ClipboardList, MessageSquare } from 'lucide-react'
+import { ArrowRight, Clipboard, Chat } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 
 interface Survey {
@@ -58,7 +58,7 @@ export default function SurveysClient({ surveys }: SurveysClientProps) {
                     <div className="flex items-center gap-4 p-4 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
                       {/* Icon */}
                       <div className="shrink-0 w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center group-hover:bg-accent-primary/15 transition-colors">
-                        <ClipboardList className="w-5 h-5 text-accent-primary" />
+                        <Clipboard className="w-5 h-5 text-accent-primary" />
                       </div>
                       
                       {/* Content */}
@@ -81,7 +81,7 @@ export default function SurveysClient({ surveys }: SurveysClientProps) {
               </div>
             ) : (
               <div className="border border-white/8 rounded-lg py-20 text-center">
-                <MessageSquare className="w-12 h-12 mx-auto text-text-muted mb-4" />
+                <Chat className="w-12 h-12 mx-auto text-text-muted mb-4" />
                 <p className="text-text-muted mb-2">No surveys available yet.</p>
                 <p className="text-sm text-text-muted/60">Check back soon for new surveys and feedback forms.</p>
               </div>

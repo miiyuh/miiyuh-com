@@ -1,14 +1,14 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { Loader2 } from 'lucide-react'
+import { Spinner } from '@phosphor-icons/react'
 
 // Dynamic import to avoid DOMMatrix SSG issue from react-pdf
 const ProjectDetailClient = dynamic(() => import('./project-detail-client'), {
   ssr: false,
   loading: () => (
     <div className="min-h-screen flex items-center justify-center">
-      <Loader2 className="size-8 animate-spin text-muted-foreground" />
+      <Spinner weight="bold" className="size-8 animate-spin text-muted-foreground" />
     </div>
   ),
 })
@@ -18,7 +18,7 @@ interface ProjectWrapperProps {
     id: string
     name: string
     slug: string
-    category: 'side-project' | 'university-project' | 'research-paper'
+    category: 'side-project' | 'university-project'
     description: string
     icon?: string
     image?: {
@@ -37,17 +37,6 @@ interface ProjectWrapperProps {
       course?: string
       semester?: string
       grade?: string
-    }
-    paperDetails?: {
-      author?: string
-      year?: string
-      abstract?: string
-      keywords?: { keyword: string }[]
-      pages?: number
-      pdfFile?: {
-        url?: string
-        filename?: string
-      }
     }
   }
 }

@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-[#070707]/80 backdrop-blur-xl px-6 md:px-12 lg:px-24 xl:px-32 py-4 border-b border-white/8 relative z-40">
+      <header className="bg-[#070707]/80 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" onClick={() => { haptic.trigger('light'); closeMenu() }}>

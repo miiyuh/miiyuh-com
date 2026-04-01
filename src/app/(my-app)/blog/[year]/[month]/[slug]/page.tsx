@@ -121,7 +121,7 @@ async function PageContent({ params }: PageProps) {
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-centre gap-4 text-sm text-[#FAF3E0]/60">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-[#FAF3E0]/60">
             {publishedAtDate && (
               <time dateTime={publishedAtDate.toISOString()}>
                 {publishedAtDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })}
@@ -162,7 +162,7 @@ async function PageContent({ params }: PageProps) {
         <footer className="mt-12 border-t border-[#FAF3E0]/10 pt-8">
           <Link
             href="/blog"
-            className="inline-flex items-centre gap-2 text-[#FAF3E0] hover:text-[#FAF3E0]/80 transition-colours"
+            className="inline-flex items-center gap-2 text-[#FAF3E0] hover:text-[#FAF3E0]/80 transition-colors"
           >
             <span>←</span>
             <span>back to blog</span>

@@ -19,7 +19,7 @@ export function SimpleBreadcrumb({ items, className = '' }: SimpleBreadcrumbProp
     const haptic = useWebHaptics()
     return (
         <nav
-            className={`mb-8 flex items-center gap-2 text-sm font-sans font-regular text-[#FAF3E0]/60 overflow-hidden ${className}`}
+            className={`mb-8 flex items-center gap-2 text-sm font-sans font-normal text-[#FAF3E0]/60 overflow-hidden ${className}`}
             style={{ fontFamily: INTER_FONT_STACK, userSelect: 'none' }}
         >
             {items.map((item, index) => (

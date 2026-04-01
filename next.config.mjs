@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
 
   experimental: {
-    optimizePackageImports: ['lucide-react', '@ark-ui/react', 'fumadocs-core', 'fumadocs-ui'],
+    optimizePackageImports: ['@phosphor-icons/react', '@ark-ui/react', 'fumadocs-core', 'fumadocs-ui'],
   },
 
   // Required for Payload CMS on Vercel
@@ -43,7 +43,7 @@ const nextConfig = {
   compress: true,
 
   // Webpack configuration to handle Payload favicon correctly
-  webpack: (config, { isServer }) => {
+  webpack: (config) => {
     // Fix for Payload favicon duplicate requests - exclude it from bundling
     config.module.rules.push({
       test: /payload-favicon.*\.png/,

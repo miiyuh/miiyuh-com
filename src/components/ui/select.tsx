@@ -3,11 +3,9 @@
 import { Portal } from "@ark-ui/react/portal";
 import { Select as SelectPrimitive, createListCollection } from "@ark-ui/react/select";
 import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronsUpDownIcon,
-  ChevronUpIcon,
-} from "lucide-react";
+  Check,
+  CaretUpDown,
+} from "@phosphor-icons/react";
 import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
@@ -37,7 +35,7 @@ function SelectTrigger({
       >
         {children}
         <SelectPrimitive.Indicator data-slot="select-icon">
-          <ChevronsUpDownIcon className="-me-1 size-4 opacity-72" />
+          <CaretUpDown className="-me-1 size-4 opacity-72" />
         </SelectPrimitive.Indicator>
       </SelectPrimitive.Trigger>
     </SelectPrimitive.Control>
@@ -106,7 +104,7 @@ function SelectItem({
       {...props}
     >
       <SelectPrimitive.ItemIndicator className="col-start-1">
-        <CheckIcon className="size-4" />
+        <Check className="size-4" />
       </SelectPrimitive.ItemIndicator>
       <SelectPrimitive.ItemText className="col-start-2 min-w-0">
         {children}

@@ -44,7 +44,7 @@ const Group = forwardRef<HTMLDivElement, GroupProps>(
 )
 Group.displayName = 'Group'
 
-interface GroupTextProps extends ComponentPropsWithoutRef<'div'> {}
+type GroupTextProps = ComponentPropsWithoutRef<'div'>
 
 const GroupText = forwardRef<HTMLDivElement, GroupTextProps>(
   ({ className, ...props }, ref) => {
@@ -63,7 +63,7 @@ const GroupText = forwardRef<HTMLDivElement, GroupTextProps>(
 )
 GroupText.displayName = 'GroupText'
 
-interface GroupSeparatorProps extends ComponentPropsWithoutRef<typeof Separator> {}
+type GroupSeparatorProps = ComponentPropsWithoutRef<typeof Separator>
 
 const GroupSeparator = forwardRef<HTMLHRElement, GroupSeparatorProps>(
   ({ className, orientation = 'vertical', ...props }, ref) => {

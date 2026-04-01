@@ -56,7 +56,7 @@ function TagSkeleton({
         <div
           key={i}
           className="h-6 bg-white/5 rounded-full animate-pulse"
-          style={{ width: `${60 + Math.random() * 40}px` }}
+          style={{ width: `${60 + (i * 13) % 40}px` }}
         />
       ))}
     </div>

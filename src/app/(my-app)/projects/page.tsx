@@ -19,6 +19,11 @@ async function ProjectsPage() {
     collection: 'projects',
     depth: 2,
     sort: 'order',
+    where: {
+      category: {
+        not_equals: 'research-paper',
+      },
+    },
   })
 
   // Transform projects for client with category-specific fields
@@ -27,7 +32,7 @@ async function ProjectsPage() {
       id: String(project.id),
       name: project.name,
       slug: project.slug,
-      category: project.category as 'side-project' | 'university-project' | 'research-paper',
+      category: project.category as 'side-project' | 'university-project',
       description: project.description,
       icon: project.icon,
       image: project.image
@@ -70,30 +75,6 @@ async function ProjectsPage() {
           course: details.course,
           semester: details.semester,
           grade: details.grade,
-        },
-      }
-    }
-
-    if (project.category === 'research-paper' && project.paperDetails) {
-      const details = project.paperDetails as {
-        author?: string
-        year?: string
-        abstract?: string
-        keywords?: { keyword: string }[]
-        pages?: number
-        pdfFile?: { url?: string; filename?: string } | string
-      }
-      return {
-        ...base,
-        paperDetails: {
-          author: details.author,
-          year: details.year,
-          abstract: details.abstract,
-          keywords: details.keywords,
-          pages: details.pages,
-          pdfFile: details.pdfFile && typeof details.pdfFile === 'object'
-            ? { url: details.pdfFile.url, filename: details.pdfFile.filename }
-            : undefined,
         },
       }
     }

@@ -42,6 +42,7 @@ export type GalleryCollectionSummary = {
   title: string
   description?: string | null
   status: GalleryStatus
+  totalImages: number
 }
 
 export type GalleryDataMap = Record<string, GalleryItem[]>

@@ -2,7 +2,7 @@
 
 import { Dialog as DialogPrimitive } from "@ark-ui/react/dialog";
 import { Portal } from "@ark-ui/react/portal";
-import { XIcon } from "lucide-react";
+import { X } from "@phosphor-icons/react";
 import { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
@@ -18,7 +18,12 @@ function DialogPortal(props: ComponentProps<typeof Portal>) {
 }
 
 function DialogClose(props: ComponentProps<typeof DialogPrimitive.CloseTrigger>) {
-  return <DialogPrimitive.CloseTrigger data-slot="dialog-close" {...props} />;
+  return (
+    <DialogPrimitive.CloseTrigger data-slot="dialog-close" {...props}>
+      <X weight="bold" />
+      <span className="sr-only">Close</span>
+    </DialogPrimitive.CloseTrigger>
+  );
 }
 
 function DialogBackdrop({
@@ -62,7 +67,7 @@ function DialogPopup({
               {children}
               {showCloseButton && (
                 <DialogPrimitive.CloseTrigger className="absolute end-2 top-2 inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-transparent text-white/70 outline-none transition-[color,background-color,box-shadow,opacity] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 hover:text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-1 focus-visible:ring-offset-background [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
-                  <XIcon />
+                  <X weight="bold" />
                   <span className="sr-only">Close</span>
                 </DialogPrimitive.CloseTrigger>
               )}

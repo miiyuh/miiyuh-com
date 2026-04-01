@@ -84,6 +84,7 @@ export default async function GalleryPage() {
     title: collection.title,
     description: collection.description ?? '',
     status: collection.status,
+    totalImages: collection.images?.length ?? 0,
   }))
 
   return <GalleryClient galleryData={galleryData} collections={clientCollections} />

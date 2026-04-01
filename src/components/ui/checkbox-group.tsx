@@ -1,6 +1,5 @@
 'use client'
 
-import { Checkbox } from '@ark-ui/react/checkbox'
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 
 import { cn } from '@/lib/utils'

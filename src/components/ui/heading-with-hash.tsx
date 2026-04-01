@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, memo, useCallback } from 'react'
+import { useState, memo, useCallback, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useWebHaptics } from 'web-haptics/react'
 
@@ -13,7 +13,16 @@ interface HeadingWithHashProps {
 
 const HeadingWithHashComponent = memo(function HeadingWithHash({ id, level, className = '', children }: HeadingWithHashProps) {
   const [copied, setCopied] = useState(false)
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const haptic = useWebHaptics()
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) {
+        clearTimeout(resetTimerRef.current)
+      }
+    }
+  }, [])
 
   const copyToClipboard = useCallback(async () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`
@@ -21,7 +30,12 @@ const HeadingWithHashComponent = memo(function HeadingWithHash({ id, level, clas
       await navigator.clipboard.writeText(url)
       haptic.trigger('success')
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      if (resetTimerRef.current) {
+        clearTimeout(resetTimerRef.current)
+      }
+      resetTimerRef.current = setTimeout(() => {
+        setCopied(false)
+      }, 2000)
     } catch (err) {
       console.error('Failed to copy: ', err)
     }

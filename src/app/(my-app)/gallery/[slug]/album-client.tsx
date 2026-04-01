@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import ErrorBoundary from '@/components/ui/error-boundary'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { Camera, Palette } from 'lucide-react'
+import { Camera, Palette } from '@phosphor-icons/react'
 import { OptimizedGalleryImage } from '@/components/gallery/optimized-gallery-image'
 import type { GalleryCollectionSummary, GalleryItem } from '@/types/gallery'
 
@@ -26,6 +26,14 @@ interface AlbumClientProps {
     collection: GalleryCollectionSummary
     images: GalleryItem[]
 }
+
+const escapeHtml = (value: string): string =>
+    value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
 
 export default function AlbumClient({ collection, images }: AlbumClientProps) {
     const galleryRef = useRef<ReturnType<typeof lightGallery> | null>(null)
@@ -65,11 +73,11 @@ useEffect(() => {
         return 'gallery'
     }
 
-const handleImageLoad = (_index: number) => {
+const handleImageLoad = () => {
         // Image loaded callback
     }
 
-    const handleImageVisible = (_index: number) => {
+    const handleImageVisible = () => {
         // Image is now visible and will start loading
         // This function can be used for future analytics or preloading logic
     }
@@ -77,7 +85,7 @@ const handleImageLoad = (_index: number) => {
     return (
         <ErrorBoundary>
             <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
-                <main className="relative grow px-6 md:px-12 lg:px-24 xl:px-32 py-24" style={{ paddingTop: '24px' }}>
+                <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 py-24" style={{ paddingTop: '24px' }}>
                     <div>
 
                         {/* Breadcrumb Navigation */}
@@ -113,14 +121,19 @@ const handleImageLoad = (_index: number) => {
                                 id={`lightgallery-${collection.slug}`}
                                 className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4"
                             >
-{images.map((image, imgIndex) => (
+{images.map((image, imgIndex) => {
+                                const safeTitle = escapeHtml(image.title ?? '')
+                                const safeDescription = escapeHtml(image.description ?? '')
+                                const subHtml = `<div class='text-center'><h4 class='text-lg font-bold mb-1'>${safeTitle}</h4><p class='text-sm'>${safeDescription}</p></div>`
+
+                                return (
                                 <div
                                     key={`${collection.slug}-${imgIndex}`}
                                 >
                                     <a
                                         href={image.src}
                                         className="block group relative overflow-hidden rounded-2xl glass-panel-pro shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)] hover:border-accent-primary/50 transition-all duration-500"
-                                        data-sub-html={`<div class='text-center'><h4 class='text-lg font-bold mb-1'>${image.title || ''}</h4><p class='text-sm'>${image.description || ''}</p></div>`}
+                                        data-sub-html={subHtml}
                                     >
                                         <OptimizedGalleryImage
                                             image={image}
@@ -141,7 +154,8 @@ const handleImageLoad = (_index: number) => {
                                         )}
                                     </a>
                                 </div>
-                            ))}
+                                )
+                            })}
                             </div>
                         </div>
                     </div>

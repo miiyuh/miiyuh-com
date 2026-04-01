@@ -43,6 +43,9 @@ export default function FontDebugPage() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    let rafId: number | null = null
+    let cancelled = false
+
     const sampleFont = (className: string, tag: keyof HTMLElementTagNameMap = 'span') => {
       const element = document.createElement(tag)
       element.className = className
@@ -56,31 +59,42 @@ export default function FontDebugPage() {
       return family
     }
 
-    try {
-      const rootStyle = getComputedStyle(document.documentElement)
-      const bodyStyle = getComputedStyle(document.body)
+    rafId = window.requestAnimationFrame(() => {
+      try {
+        const rootStyle = getComputedStyle(document.documentElement)
+        const bodyStyle = getComputedStyle(document.body)
 
-      const stacks: FontStacks = {
-        html: rootStyle.fontFamily,
-        body: bodyStyle.fontFamily,
-        sans: sampleFont('font-sans'),
-        headingSerif: sampleFont('font-serif'),
-        paragraphSerif: sampleFont('font-serif', 'p'),
-        mono: sampleFont('font-mono'),
-        emoji: sampleFont('font-emoji'),
-      }
-
-      const vars = FONT_VARIABLES.reduce<Record<string, string>>((acc, variable) => {
-        const value = rootStyle.getPropertyValue(variable).trim()
-        if (value) {
-          acc[variable] = value
+        const stacks: FontStacks = {
+          html: rootStyle.fontFamily,
+          body: bodyStyle.fontFamily,
+          sans: sampleFont('font-sans'),
+          headingSerif: sampleFont('font-serif'),
+          paragraphSerif: sampleFont('font-serif', 'p'),
+          mono: sampleFont('font-mono'),
+          emoji: sampleFont('font-emoji'),
         }
-        return acc
-      }, {})
 
-      setFontInfo({ stacks, vars })
-    } catch (error) {
-      console.error('Font debug error:', error)
+        const vars = FONT_VARIABLES.reduce<Record<string, string>>((acc, variable) => {
+          const value = rootStyle.getPropertyValue(variable).trim()
+          if (value) {
+            acc[variable] = value
+          }
+          return acc
+        }, {})
+
+        if (!cancelled) {
+          setFontInfo({ stacks, vars })
+        }
+      } catch (error) {
+        console.error('Font debug error:', error)
+      }
+    })
+
+    return () => {
+      cancelled = true
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId)
+      }
     }
   }, [])
 

@@ -18,7 +18,8 @@
     "seed:gallery": "tsx scripts/seed-gallery.ts",
     "seed:projects": "tsx scripts/seed-projects.ts",
     "seed:about": "tsx scripts/seed-about.ts",
-    "clean:projects": "tsx scripts/clean-projects.ts"
+    "clean:projects": "tsx scripts/clean-projects.ts",
+    "clean:project-papers": "tsx scripts/remove-project-papers.ts"
   },
   "dependencies": {
     "@ark-ui/react": "^5.30.0",
@@ -29,10 +30,12 @@
     "@payloadcms/plugin-form-builder": "3.79.0",
     "@payloadcms/richtext-lexical": "3.79.0",
     "@payloadcms/storage-s3": "3.79.0",
+    "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/postcss": "^4.1.4",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.3.1",
+    "animejs": "3.2.2",
     "baseline-browser-mapping": "^2.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -54,6 +57,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
+    "@types/animejs": "^3.1.13",
     "@types/node": "^22",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

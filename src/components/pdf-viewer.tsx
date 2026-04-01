@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Loader2 } from 'lucide-react'
+import { CaretLeft, CaretRight, MagnifyingGlassPlus, MagnifyingGlassMinus, Spinner } from '@phosphor-icons/react'
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
@@ -54,7 +54,7 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
             className="p-2 hover:bg-white/10 rounded disabled:opacity-50 disabled:cursor-not-allowed transition"
             aria-label="Previous page"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <CaretLeft className="w-4 h-4" />
           </button>
           <span className="text-sm font-mono">
             {pdfLoading ? '...' : `${pageNumber} / ${numPages || '?'}`}
@@ -65,7 +65,7 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
             className="p-2 hover:bg-white/10 rounded disabled:opacity-50 disabled:cursor-not-allowed transition"
             aria-label="Next page"
           >
-            <ChevronRight className="w-4 h-4" />
+            <CaretRight className="w-4 h-4" />
           </button>
         </div>
 
@@ -76,7 +76,7 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
             className="p-2 hover:bg-white/10 rounded disabled:opacity-50 disabled:cursor-not-allowed transition"
             aria-label="Zoom out"
           >
-            <ZoomOut className="w-4 h-4" />
+            <MagnifyingGlassMinus className="w-4 h-4" />
           </button>
           <span className="text-sm font-mono min-w-12 text-center">{(scale * 100).toFixed(0)}%</span>
           <button
@@ -85,14 +85,14 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
             className="p-2 hover:bg-white/10 rounded disabled:opacity-50 disabled:cursor-not-allowed transition"
             aria-label="Zoom in"
           >
-            <ZoomIn className="w-4 h-4" />
+            <MagnifyingGlassPlus className="w-4 h-4" />
           </button>
         </div>
       </div>
 
       {pdfLoading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-accent-primary" />
+          <Spinner weight="bold" className="w-6 h-6 animate-spin text-accent-primary" />
         </div>
       )}
 

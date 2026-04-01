@@ -2,7 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 
 import { cn } from '@/lib/utils'
 
-interface FormProps extends ComponentPropsWithoutRef<'form'> {}
+type FormProps = ComponentPropsWithoutRef<'form'>
 
 const Form = forwardRef<HTMLFormElement, FormProps>(
   ({ className, ...props }, ref) => {

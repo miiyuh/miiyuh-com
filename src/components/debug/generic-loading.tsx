@@ -1,7 +1,7 @@
 'use client'
 
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { LucideIcon } from 'lucide-react'
+import type { Icon } from '@phosphor-icons/react'
 
 interface GenericLoadingProps {
   breadcrumbLabel: string
@@ -10,8 +10,8 @@ interface GenericLoadingProps {
   showFilters?: boolean
   gridCols?: number
   cardCount?: number
-  searchIcon?: LucideIcon
-  filterIcon?: LucideIcon
+  searchIcon?: Icon
+  filterIcon?: Icon
 }
 
 export function GenericLoading({
@@ -28,7 +28,7 @@ export function GenericLoading({
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
         <div className="animate-in fade-in duration-300">
-          <div className="px-6 md:px-12 lg:px-24 xl:px-32">
+          <div className="px-8 md:px-32 lg:px-56 xl:px-80">
             {/* Breadcrumb */}
             <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
               <SimpleBreadcrumb
