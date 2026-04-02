@@ -11,12 +11,6 @@ type RawAboutLogo = {
   url?: string | null
   filename?: string | null
   alt?: string | null
-  sizes?: {
-    thumbnail?: {
-      url?: string | null
-      filename?: string | null
-    }
-  }
 }
 
 type RawAboutEntry = {
@@ -37,11 +31,10 @@ type RawAboutEntry = {
 const mapAboutEntries = (docs: RawAboutEntry[]): AboutEntry[] => {
   return docs.map((entry) => {
     const rawLogo = entry.logo && typeof entry.logo === 'object' ? entry.logo : null
-    const thumbnail = rawLogo?.sizes?.thumbnail
     const logoSrc = rawLogo
       ? resolveMediaSrc({
-          url: thumbnail?.url ?? rawLogo.url,
-          filename: thumbnail?.filename ?? rawLogo.filename,
+          url: rawLogo.url,
+          filename: rawLogo.filename,
         })
       : undefined
 

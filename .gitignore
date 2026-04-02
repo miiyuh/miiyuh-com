@@ -18,6 +18,8 @@ node_modules/
 # Build Outputs
 # =========================================
 .next/
+.turbopack/
+.turbo/
 out/
 build/
 dist/
@@ -42,6 +44,12 @@ pnpm-debug.log*
 *.log
 
 # =========================================
+# Cache Files
+# =========================================
+.eslintcache
+*.cache/
+
+# =========================================
 # Environment Files
 # =========================================
 .env
@@ -55,6 +63,12 @@ pnpm-debug.log*
 # =========================================
 .DS_Store
 Thumbs.db
+
+# Editor temp/backup files
+*.swp
+*.swo
+*.bak
+*~
 
 # JetBrains IDE
 .idea/
@@ -74,9 +88,3 @@ next-env.d.ts
 # Misc
 # =========================================
 *.pem
-
-package-lock.json
-
-.github/
-
-.github/copilot-instructions.md
