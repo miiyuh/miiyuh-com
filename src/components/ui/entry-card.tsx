@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowSquareOut } from '@phosphor-icons/react'
@@ -13,19 +14,38 @@ interface EntryCardProps {
 
 export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
   const haptic = useWebHaptics()
+  const [isLogoLoaded, setIsLogoLoaded] = useState(false)
+  const [hasLogoError, setHasLogoError] = useState(false)
+
+  const showLogo = Boolean(entry.logo?.url) && !hasLogoError
+
   return (
     <div className="group relative p-5 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 shadow-[0_2px_8px_rgba(0,0,0,0.3)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.45)] transition-all duration-300">
       <div className="flex items-start gap-4">
         <div className="w-12 h-12 flex items-center justify-center shrink-0">
-          {entry.logo?.url ? (
-            <Image
-              src={entry.logo.url}
-              alt={entry.logo.alt || entry.title}
-              width={48}
-              height={48}
-              className="w-full h-full object-contain"
-              unoptimized
-            />
+          {showLogo ? (
+            <div className="relative w-full h-full overflow-hidden rounded-md">
+              {!isLogoLoaded && (
+                <div className="absolute inset-0 animate-pulse bg-white/10" aria-hidden="true" />
+              )}
+              <Image
+                src={entry.logo!.url}
+                alt={entry.logo?.alt || entry.title}
+                width={48}
+                height={48}
+                className={`w-full h-full object-contain transition-opacity duration-300 ${
+                  isLogoLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                loading="lazy"
+                quality={75}
+                sizes="48px"
+                onLoad={() => setIsLogoLoaded(true)}
+                onError={() => {
+                  setHasLogoError(true)
+                  setIsLogoLoaded(true)
+                }}
+              />
+            </div>
           ) : (
             fallbackIcon
           )}
