@@ -27,7 +27,7 @@ const Projects: CollectionConfig = {
     create: isAdmin,
     update: isAdmin,
     delete: isAdmin,
-    admin: isAdmin,
+    admin: ({ req }) => req.user?.role === 'admin',
   },
   admin: {
     useAsTitle: 'name',

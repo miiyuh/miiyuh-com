@@ -12,7 +12,7 @@ const Media: CollectionConfig = {
     create: isAdmin,
     update: isAdmin,
     delete: isAdmin,
-    admin: isAdmin,
+    admin: ({ req }) => req.user?.role === 'admin',
   },
   admin: {
     description: 'Upload and manage images and documents',

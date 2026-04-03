@@ -12,7 +12,6 @@ export const TermsOfService: GlobalConfig = {
   access: {
     read: () => true,
     update: isAdmin,
-    admin: isAdmin,
   },
   hooks: {
     afterChange: [

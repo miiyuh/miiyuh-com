@@ -12,7 +12,6 @@ export const PrivacyPolicy: GlobalConfig = {
   access: {
     read: () => true,
     update: isAdmin,
-    admin: isAdmin,
   },
   hooks: {
     afterChange: [

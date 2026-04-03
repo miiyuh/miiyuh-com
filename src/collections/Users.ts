@@ -1,7 +1,12 @@
-import { CollectionConfig } from 'payload'
+import type { CollectionConfig, PayloadRequest } from 'payload'
 import { isAdmin } from '../access/is-admin'
 
-const isFirstUser = async (req: { payload: { find: Function } }): Promise<boolean> => {
+type AuthUser = {
+  id?: string | number
+  role?: string
+}
+
+const isFirstUser = async (req: PayloadRequest): Promise<boolean> => {
   const existingUsers = await req.payload.find({
     collection: 'users',
     limit: 1,
@@ -12,8 +17,9 @@ const isFirstUser = async (req: { payload: { find: Function } }): Promise<boolea
   return existingUsers.totalDocs === 0
 }
 
-const isAdminOrFirstUser = async ({ req }: { req: { user?: { role?: string }; payload: { find: Function } } }) => {
-  if (req.user?.role === 'admin') {
+const isAdminOrFirstUser = async ({ req }: { req: PayloadRequest }): Promise<boolean> => {
+  const user = req.user as AuthUser | undefined
+  if (user?.role === 'admin') {
     return true
   }
 
@@ -42,7 +48,7 @@ const Users: CollectionConfig = {
     create: isAdminOrFirstUser,
     update: isAdmin,
     delete: isAdmin,
-    admin: isAdmin,
+    admin: ({ req }) => req.user?.role === 'admin',
   },
   hooks: {
     beforeValidate: [
@@ -104,8 +110,8 @@ const Users: CollectionConfig = {
       ],
       defaultValue: 'editor',
       access: {
-        create: isAdmin,
-        update: isAdmin,
+        create: ({ req }) => req.user?.role === 'admin',
+        update: ({ req }) => req.user?.role === 'admin',
       },
     },
   ],

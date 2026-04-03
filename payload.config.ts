@@ -461,7 +461,7 @@ export default buildConfig({
           create: isAdmin,
           update: isAdmin,
           delete: isAdmin,
-          admin: isAdmin,
+          admin: ({ req }) => req.user?.role === 'admin',
         },
         admin: {
           group: 'Surveys',
@@ -494,7 +494,7 @@ export default buildConfig({
           read: isAdmin,
           update: isAdmin,
           delete: isAdmin,
-          admin: isAdmin,
+          admin: ({ req }) => req.user?.role === 'admin',
         },
         admin: {
           group: 'Surveys',

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import anime from 'animejs'
+import { animate, remove, set } from 'animejs'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { useWebHaptics } from 'web-haptics/react'
 import {
@@ -305,11 +305,10 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     if (!shell) return
 
     isClosingRef.current = false
-    anime.remove(shell)
-    anime.set(shell, { opacity: 0, scale: 0.965 })
+    remove(shell)
+    set(shell, { opacity: 0, scale: 0.965 })
 
-    anime({
-      targets: shell,
+    animate(shell, {
       opacity: 1,
       scale: 1,
       duration: 170,
@@ -335,15 +334,14 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     }
 
     isClosingRef.current = true
-    anime.remove(shell)
+    remove(shell)
 
-    anime({
-      targets: shell,
+    animate(shell, {
       opacity: 0,
       scale: 0.965,
       duration: 140,
       easing: 'easeInQuad',
-    }).finished
+    })
       .then(() => {
         setIsModalOpen(false)
         setSelected(null)
