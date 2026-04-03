@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { isAdmin } from '../access/is-admin'
 
 const AboutPage: CollectionConfig = {
   slug: 'about-entries',
@@ -8,6 +9,10 @@ const AboutPage: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin,
+    admin: isAdmin,
   },
   admin: {
     useAsTitle: 'title',

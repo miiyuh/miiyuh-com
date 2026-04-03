@@ -1,5 +1,6 @@
 import { GlobalConfig } from 'payload'
 import { legalEditor } from '../editor/richTextEditor'
+import { isAdmin } from '../access/is-admin'
 
 export const PrivacyPolicy: GlobalConfig = {
   slug: 'privacy-policy',
@@ -10,6 +11,8 @@ export const PrivacyPolicy: GlobalConfig = {
   },
   access: {
     read: () => true,
+    update: isAdmin,
+    admin: isAdmin,
   },
   hooks: {
     afterChange: [

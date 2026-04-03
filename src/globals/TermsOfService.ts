@@ -1,5 +1,6 @@
 import { GlobalConfig } from 'payload'
 import { legalEditor } from '../editor/richTextEditor'
+import { isAdmin } from '../access/is-admin'
 
 export const TermsOfService: GlobalConfig = {
   slug: 'terms-of-service',
@@ -10,6 +11,8 @@ export const TermsOfService: GlobalConfig = {
   },
   access: {
     read: () => true,
+    update: isAdmin,
+    admin: isAdmin,
   },
   hooks: {
     afterChange: [

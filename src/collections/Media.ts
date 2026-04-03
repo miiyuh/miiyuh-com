@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { isAdmin } from '../access/is-admin'
 
 const Media: CollectionConfig = {
   slug: 'media',
@@ -8,6 +9,10 @@ const Media: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin,
+    admin: isAdmin,
   },
   admin: {
     description: 'Upload and manage images and documents',

@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { blogEditor } from '../editor/richTextEditor'
+import { isAdmin } from '../access/is-admin'
 
 const revalidateBlogRoutes = async (
   doc?: {
@@ -42,6 +43,10 @@ const BlogPosts: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin,
+    admin: isAdmin,
   },
   admin: {
     useAsTitle: 'title',

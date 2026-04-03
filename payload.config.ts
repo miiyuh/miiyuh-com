@@ -16,6 +16,7 @@ import Papers from './src/collections/Papers'
 import { PrivacyPolicy } from './src/globals/PrivacyPolicy'
 import { TermsOfService } from './src/globals/TermsOfService'
 import { fullFeaturedEditor } from './src/editor/richTextEditor'
+import { isAdmin } from './src/access/is-admin'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -455,6 +456,13 @@ export default buildConfig({
           singular: 'Survey',
           plural: 'Surveys',
         },
+        access: {
+          read: () => true,
+          create: isAdmin,
+          update: isAdmin,
+          delete: isAdmin,
+          admin: isAdmin,
+        },
         admin: {
           group: 'Surveys',
           description: 'Create surveys and feedback forms',
@@ -480,6 +488,13 @@ export default buildConfig({
         labels: {
           singular: 'Survey Response',
           plural: 'Survey Responses',
+        },
+        access: {
+          create: () => true,
+          read: isAdmin,
+          update: isAdmin,
+          delete: isAdmin,
+          admin: isAdmin,
         },
         admin: {
           group: 'Surveys',

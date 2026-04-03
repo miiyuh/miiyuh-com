@@ -1,4 +1,24 @@
 import { CollectionConfig } from 'payload'
+import { isAdmin } from '../access/is-admin'
+
+const isFirstUser = async (req: { payload: { find: Function } }): Promise<boolean> => {
+  const existingUsers = await req.payload.find({
+    collection: 'users',
+    limit: 1,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  return existingUsers.totalDocs === 0
+}
+
+const isAdminOrFirstUser = async ({ req }: { req: { user?: { role?: string }; payload: { find: Function } } }) => {
+  if (req.user?.role === 'admin') {
+    return true
+  }
+
+  return isFirstUser(req)
+}
 
 const Users: CollectionConfig = {
   slug: 'users',
@@ -8,12 +28,21 @@ const Users: CollectionConfig = {
   },
   auth: {
     loginWithUsername: true,
+    maxLoginAttempts: 5,
+    lockTime: 10 * 60 * 1000,
   },
   admin: {
     useAsTitle: 'username',
     defaultColumns: ['username', 'email', 'role', 'updatedAt'],
     description: 'Manage CMS user accounts and permissions',
     group: 'Admin',
+  },
+  access: {
+    read: isAdmin,
+    create: isAdminOrFirstUser,
+    update: isAdmin,
+    delete: isAdmin,
+    admin: isAdmin,
   },
   hooks: {
     beforeValidate: [
@@ -25,7 +54,14 @@ const Users: CollectionConfig = {
       },
     ],
     beforeChange: [
-      async ({ data }) => {
+      async ({ data, req, operation }) => {
+        if (operation === 'create' && req && (await isFirstUser(req))) {
+          return {
+            ...data,
+            role: 'admin',
+          }
+        }
+
         return data
       },
     ],
@@ -68,8 +104,8 @@ const Users: CollectionConfig = {
       ],
       defaultValue: 'editor',
       access: {
-        create: ({ req }) => req.user?.role === 'admin',
-        update: ({ req }) => req.user?.role === 'admin',
+        create: isAdmin,
+        update: isAdmin,
       },
     },
   ],

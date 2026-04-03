@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { isAdmin } from '../access/is-admin'
 
 const Papers: CollectionConfig = {
   slug: 'papers',
@@ -8,6 +9,10 @@ const Papers: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin,
+    admin: isAdmin,
   },
   admin: {
     useAsTitle: 'title',
