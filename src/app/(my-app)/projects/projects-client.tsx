@@ -452,7 +452,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
             return (
               <div ref={modalShellRef} className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] overflow-hidden will-change-transform">
                 {/* Left: Image */}
-                <div className="relative min-h-[220px] sm:min-h-[260px] lg:min-h-0 lg:aspect-4/3 bg-[#faf3e0] border-b border-white/10 lg:border-b-0 lg:border-r lg:border-white/10">
+                <div className="relative min-h-55 sm:min-h-65 lg:min-h-0 lg:aspect-4/3 bg-[#faf3e0] border-b border-white/10 lg:border-b-0 lg:border-r lg:border-white/10">
                   {selected.image?.url ? (
                     <Image
                       src={selected.image.url}

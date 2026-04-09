@@ -20,14 +20,63 @@ export const metadata: Metadata = {
   creator: 'miiyuh',
   icons: {
     icon: [
-      { url: '/assets/img/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/assets/img/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      {
+        url: '/assets/img/favicons/favicon-16x16.png',
+        sizes: '16x16',
+        type: 'image/png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/assets/img/favicons/favicon-16x16-1.png',
+        sizes: '16x16',
+        type: 'image/png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/assets/img/favicons/favicon-32x32.png',
+        sizes: '32x32',
+        type: 'image/png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/assets/img/favicons/favicon-32x32-1.png',
+        sizes: '32x32',
+        type: 'image/png',
+        media: '(prefers-color-scheme: light)',
+      },
     ],
-    apple: '/assets/img/favicons/apple-touch-icon.png',
-    other: {
-      rel: 'android-chrome-192x192',
-      url: '/assets/img/favicons/android-chrome-192x192.png',
-    },
+    apple: [
+      {
+        url: '/assets/img/favicons/apple-touch-icon.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/assets/img/favicons/apple-touch-icon-1.png',
+        media: '(prefers-color-scheme: light)',
+      },
+    ],
+    other: [
+      {
+        rel: 'icon',
+        url: '/assets/img/favicons/android-chrome-192x192.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        rel: 'icon',
+        url: '/assets/img/favicons/android-chrome-192x192-1.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        rel: 'icon',
+        url: '/assets/img/favicons/android-chrome-512x512.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        rel: 'icon',
+        url: '/assets/img/favicons/android-chrome-512x512-1.png',
+        media: '(prefers-color-scheme: light)',
+      },
+    ],
   },
   openGraph: {
     title: "miiyuh's webpage",
