@@ -18,66 +18,6 @@ export const metadata: Metadata = {
   keywords: ['miiyuh', 'photography', 'artwork', 'blog', 'portfolio'],
   authors: [{ name: 'miiyuh' }],
   creator: 'miiyuh',
-  icons: {
-    icon: [
-      {
-        url: '/assets/img/favicons/favicon-16x16.png',
-        sizes: '16x16',
-        type: 'image/png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/assets/img/favicons/favicon-16x16-1.png',
-        sizes: '16x16',
-        type: 'image/png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/assets/img/favicons/favicon-32x32.png',
-        sizes: '32x32',
-        type: 'image/png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/assets/img/favicons/favicon-32x32-1.png',
-        sizes: '32x32',
-        type: 'image/png',
-        media: '(prefers-color-scheme: light)',
-      },
-    ],
-    apple: [
-      {
-        url: '/assets/img/favicons/apple-touch-icon.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/assets/img/favicons/apple-touch-icon-1.png',
-        media: '(prefers-color-scheme: light)',
-      },
-    ],
-    other: [
-      {
-        rel: 'icon',
-        url: '/assets/img/favicons/android-chrome-192x192.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        rel: 'icon',
-        url: '/assets/img/favicons/android-chrome-192x192-1.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        rel: 'icon',
-        url: '/assets/img/favicons/android-chrome-512x512.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        rel: 'icon',
-        url: '/assets/img/favicons/android-chrome-512x512-1.png',
-        media: '(prefers-color-scheme: light)',
-      },
-    ],
-  },
   openGraph: {
     title: "miiyuh's webpage",
     description: 'hello, and welcome to my webpage!',
@@ -98,6 +38,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preload Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* Default to dark-mode favicon set (light icon) before script applies theme-specific variants */}
+        <link id="theme-favicon-16" rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png" />
+        <link id="theme-favicon-32" rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png" />
+        <link id="theme-shortcut-icon" rel="shortcut icon" href="/assets/img/favicons/favicon-32x32.png" />
+        <link id="theme-apple-touch-icon" rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function applyThemeFavicons() {
+    const suffix = mediaQuery.matches ? '' : '-1';
+    const icon16 = document.getElementById('theme-favicon-16');
+    const icon32 = document.getElementById('theme-favicon-32');
+    const shortcut = document.getElementById('theme-shortcut-icon');
+    const apple = document.getElementById('theme-apple-touch-icon');
+
+    if (icon16) icon16.setAttribute('href', '/assets/img/favicons/favicon-16x16' + suffix + '.png');
+    if (icon32) icon32.setAttribute('href', '/assets/img/favicons/favicon-32x32' + suffix + '.png');
+    if (shortcut) shortcut.setAttribute('href', '/assets/img/favicons/favicon-32x32' + suffix + '.png');
+    if (apple) apple.setAttribute('href', '/assets/img/favicons/apple-touch-icon' + suffix + '.png');
+  }
+
+  applyThemeFavicons();
+
+  if (typeof mediaQuery.addEventListener === 'function') {
+    mediaQuery.addEventListener('change', applyThemeFavicons);
+  } else if (typeof mediaQuery.addListener === 'function') {
+    mediaQuery.addListener(applyThemeFavicons);
+  }
+})();`,
+          }}
+        />
       </head>
       <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}>
         <AppProvider>{children}</AppProvider>
