@@ -1,32 +1,71 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Noto_Sans, Noto_Serif, Noto_Serif_JP, Instrument_Serif, Noto_Sans_Mono, Noto_Color_Emoji } from 'next/font/google'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics } from "@vercel/analytics/react"
-import { AppProvider } from '@/components/layout/app-provider'
+import "./globals.css";
+import type { Metadata } from "next";
+import {
+  Noto_Sans,
+  Noto_Serif,
+  Noto_Serif_JP,
+  Instrument_Serif,
+  Noto_Sans_Mono,
+  Noto_Color_Emoji,
+} from "next/font/google";
+import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
+import { AppProvider } from "@/components/layout/app-provider";
 
-const notoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-noto-sans', display: 'swap' })
-const notoSerif = Noto_Serif({ subsets: ['latin'], variable: '--font-noto-serif', display: 'swap' })
-const notoSerifJP = Noto_Serif_JP({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-noto-serif-jp', display: 'swap' })
-const instrumentSerif = Instrument_Serif({ weight: '400', subsets: ['latin'], variable: '--font-instrument-serif', display: 'swap' })
-const notoMono = Noto_Sans_Mono({ subsets: ['latin'], variable: '--font-noto-mono', display: 'swap' })
-const notoColorEmoji = Noto_Color_Emoji({ weight: '400', subsets: ['emoji'], variable: '--font-noto-color-emoji', display: 'swap' })
+const notoSans = Noto_Sans({
+  subsets: ["latin"],
+  variable: "--font-noto-sans",
+  display: "swap",
+});
+const notoSerif = Noto_Serif({
+  subsets: ["latin"],
+  variable: "--font-noto-serif",
+  display: "swap",
+});
+const notoSerifJP = Noto_Serif_JP({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-noto-serif-jp",
+  display: "swap",
+});
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
+const notoMono = Noto_Sans_Mono({
+  subsets: ["latin"],
+  variable: "--font-noto-mono",
+  display: "swap",
+});
+const notoColorEmoji = Noto_Color_Emoji({
+  weight: "400",
+  subsets: ["emoji"],
+  variable: "--font-noto-color-emoji",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "miiyuh's webpage",
-  description: 'hello, and welcome to my webpage!',
-  keywords: ['miiyuh', 'photography', 'artwork', 'blog', 'portfolio'],
-  authors: [{ name: 'miiyuh' }],
-  creator: 'miiyuh',
+  description: "hello, and welcome to my webpage!",
+  keywords: ["miiyuh", "photography", "artwork", "blog", "portfolio"],
+  authors: [{ name: "miiyuh" }],
+  creator: "miiyuh",
   openGraph: {
     title: "miiyuh's webpage",
-    description: 'hello, and welcome to my webpage!',
-    type: 'website',
+    description: "hello, and welcome to my webpage!",
+    type: "website",
   },
   robots: { index: true, follow: true },
-}
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
@@ -34,16 +73,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="preload" as="style" href="https://rsms.me/inter/inter.css" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        
+
         {/* Preload Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
 
         {/* Default to dark-mode favicon set (light icon) before script applies theme-specific variants */}
-        <link id="theme-favicon-16" rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png" />
-        <link id="theme-favicon-32" rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png" />
-        <link id="theme-shortcut-icon" rel="shortcut icon" href="/assets/img/favicons/favicon-32x32.png" />
-        <link id="theme-apple-touch-icon" rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png" />
+        <link
+          id="theme-favicon-16"
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/assets/img/favicons/favicon-16x16.png"
+        />
+        <link
+          id="theme-favicon-32"
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/assets/img/favicons/favicon-32x32.png"
+        />
+        <link
+          id="theme-shortcut-icon"
+          rel="shortcut icon"
+          href="/assets/img/favicons/favicon-32x32.png"
+        />
+        <link
+          id="theme-apple-touch-icon"
+          rel="apple-touch-icon"
+          href="/assets/img/favicons/apple-touch-icon.png"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function () {
@@ -73,11 +136,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}>
+      <body
+        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
+      >
         <AppProvider>{children}</AppProvider>
         <SpeedInsights />
         <Analytics />
+        <Script
+          src="https://rybbit.miiyuh.com/api/script.js"
+          data-site-id="9a7b86930cc1"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
-  )
+  );
 }
