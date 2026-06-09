@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { ShieldPlus, Handshake } from '@phosphor-icons/react'
-import { useWebHaptics } from 'web-haptics/react'
+import Link from "next/link";
+import { ShieldPlus, Handshake } from "@phosphor-icons/react";
+import { useWebHaptics } from "web-haptics/react";
 
 export default function Footer() {
-  const haptic = useWebHaptics()
+  const haptic = useWebHaptics();
   return (
-    <footer className="font-serif text-base border-t border-white/8 text-[#FAF3E0]/70 py-8 px-8 md:px-32 lg:px-56 xl:px-80">
+    <footer className="font-serif text-base border-t border-white/8 text-text-secondary py-8 px-8 md:px-32 lg:px-56 xl:px-80">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         {/* Left side - Copyright */}
         <p className="text-center sm:text-left">
@@ -21,7 +21,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:underline hover:text-[#FAF3E0]/90 transition-colors duration-300"
-            onClick={() => haptic.trigger('light')}
+            onClick={() => haptic.trigger("light")}
           >
             <ShieldPlus className="w-3 h-3" />
             privacy policy
@@ -31,7 +31,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:underline hover:text-[#FAF3E0]/90 transition-colors duration-300"
-            onClick={() => haptic.trigger('light')}
+            onClick={() => haptic.trigger("light")}
           >
             <Handshake className="w-3 h-3" />
             terms of service
@@ -39,5 +39,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

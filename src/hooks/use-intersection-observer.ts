@@ -1,48 +1,58 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from "react";
 
 interface UseIntersectionObserverProps {
-  threshold?: number
-  rootMargin?: string
-  triggerOnce?: boolean
+  threshold?: number;
+  rootMargin?: string;
+  triggerOnce?: boolean;
+  /**
+   * When false, the element is treated as permanently visible and no observer
+   * is attached. Useful for priority/eager-loaded elements.
+   * @default true
+   */
+  enabled?: boolean;
 }
 
-export function useIntersectionObserver({
+export function useIntersectionObserver<T extends HTMLElement = HTMLElement>({
   threshold = 0.1,
-  rootMargin = '50px',
-  triggerOnce = true
+  rootMargin = "50px",
+  triggerOnce = true,
+  enabled = true,
 }: UseIntersectionObserverProps = {}) {
-  const [isVisible, setIsVisible] = useState(false)
-  const [hasLoaded, setHasLoaded] = useState(false)
-  const elementRef = useRef<HTMLElement>(null)
+  // If disabled, start already-visible so consumers render immediately
+  const [isVisible, setIsVisible] = useState(!enabled);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const elementRef = useRef<T>(null);
 
   useEffect(() => {
-    const element = elementRef.current
-    if (!element || hasLoaded) return
+    if (!enabled) return;
+
+    const element = elementRef.current;
+    if (!element || hasLoaded) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
+          setIsVisible(true);
           if (triggerOnce) {
-            setHasLoaded(true)
-            observer.disconnect()
+            setHasLoaded(true);
+            observer.disconnect();
           }
         } else if (!triggerOnce) {
-          setIsVisible(false)
+          setIsVisible(false);
         }
       },
       {
         threshold,
-        rootMargin
-      }
-    )
+        rootMargin,
+      },
+    );
 
-    observer.observe(element)
+    observer.observe(element);
 
     return () => {
-      observer.disconnect()
-    }
-  }, [threshold, rootMargin, triggerOnce, hasLoaded])
+      observer.disconnect();
+    };
+  }, [threshold, rootMargin, triggerOnce, hasLoaded, enabled]);
 
-  return { isVisible, elementRef, hasLoaded }
+  return { isVisible, elementRef, hasLoaded };
 }

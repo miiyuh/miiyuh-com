@@ -5,7 +5,7 @@
   --bg-primary: rgba(7, 7, 7, 1);
   --text-primary: rgba(250, 243, 224, 1);
   --text-secondary: rgba(250, 243, 224, 0.7);
-  --text-muted: rgba(250, 243, 224, 0.9);
+  --text-muted: rgba(250, 243, 224, 0.5);
   --border: rgba(255, 255, 255, 0.1);
   --accent-primary: #4ade80;
   --accent-hover: #86efac;
@@ -14,7 +14,9 @@
 /* Base styles - Inter for everything by default */
 html {
   font-family: Inter, sans-serif;
-  font-feature-settings: 'liga' 1, 'calt' 1;
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1;
   scrollbar-gutter: stable;
 }
 
@@ -25,7 +27,9 @@ html {
 }
 
 :root {
-  --font-sans: InterVariable, Inter, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif';
+  --font-sans:
+    InterVariable, Inter, "Apple Color Emoji", "Noto Color Emoji",
+    "Segoe UI Emoji", "sans-serif";
   --default-font-family: var(--font-sans);
 }
 
@@ -66,20 +70,29 @@ a {
 }
 
 .font-sans p {
-  font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif !important;
+  font-family:
+    "Inter", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
+    var(--font-noto-color-emoji), sans-serif !important;
 }
 
 .font-serif,
 .font-serif p {
-  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
+  font-family:
+    var(--font-instrument-serif), "Instrument Serif", "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
 }
 
 .font-mono {
-  font-family: var(--font-noto-mono), 'Noto Sans Mono', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), monospace !important;
+  font-family:
+    var(--font-noto-mono), "Noto Sans Mono", "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji),
+    monospace !important;
 }
 
 .font-emoji {
-  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), 'Android Emoji', 'EmojiSymbols', sans-serif !important;
+  font-family:
+    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
+    var(--font-noto-color-emoji), "Android Emoji", "EmojiSymbols", sans-serif !important;
   font-variant-emoji: emoji;
 }
 
@@ -90,24 +103,43 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Inter, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif';
+  font-family:
+    Inter, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
+    "sans-serif";
 }
 
 @supports (font-variation-settings: normal) {
-  h1, h2, h3, h4, h5, h6 { font-family: InterVariable, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif; }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family:
+      InterVariable, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
+      sans-serif;
+  }
 }
 
 body {
-  font-family: InterVariable, Inter, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif !important;
+  font-family:
+    InterVariable, Inter, "Apple Color Emoji", "Noto Color Emoji",
+    "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif !important;
 }
 
 @supports (font-variation-settings: normal) {
-  body { font-family: InterVariable, 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif; }
+  body {
+    font-family:
+      InterVariable, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
+      var(--font-noto-color-emoji), sans-serif;
+  }
 }
 
 /* Only paragraphs with font-serif class use Noto Serif JP */
 p.font-serif {
-  font-family: var(--font-noto-serif), 'Noto Serif JP', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
+  font-family:
+    var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
 }
 
 /* Remove default focus outlines for mouse users, keep for keyboard users */
@@ -142,7 +174,9 @@ img {
 
 /* Simple emoji styling for cross-platform compatibility */
 .emoji-primary {
-  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Android Emoji', 'EmojiSymbols', sans-serif;
+  font-family:
+    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Android Emoji",
+    "EmojiSymbols", sans-serif;
   font-variant-emoji: emoji;
   font-feature-settings: normal;
   text-rendering: auto;
@@ -155,11 +189,16 @@ img {
   }
 
   .animate-smooth-slide-down {
-    animation: smoothSlideDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: smoothSlideDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      forwards;
   }
 
   .animate-smooth-scale {
     animation: smoothScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .animate-smooth-slide-up {
+    animation: smoothSlideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   /* Skip rendering off-screen content — pair with contain-intrinsic-size so the
@@ -236,11 +275,15 @@ img {
 
 /* Lexical content styling for blog posts */
 .lexical-content {
-  font-family: var(--font-noto-serif), 'Noto Serif JP', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif;
+  font-family:
+    var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif;
 }
 
 .lexical-content p {
-  font-family: var(--font-noto-serif), 'Noto Serif JP', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif !important;
+  font-family:
+    var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
   margin-bottom: 1.25rem;
   line-height: 1.75;
   color: var(--text-primary);
@@ -252,7 +295,9 @@ img {
 .lexical-content h4,
 .lexical-content h5,
 .lexical-content h6 {
-  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), serif;
+  font-family:
+    var(--font-instrument-serif), "Instrument Serif", "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif;
   font-weight: 700;
   line-height: 1.3;
   margin-top: 2rem;
@@ -342,4 +387,3 @@ img {
 .lexical-content u {
   text-decoration: underline;
 }
-

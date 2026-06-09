@@ -1,30 +1,41 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { NAVIGATION_LINKS, SOCIAL_PLATFORMS } from '@/constants'
-import { MapPinIcon, CodeIcon, CameraIcon, GraduationCapIcon, BriefcaseIcon, HeartIcon, ArrowUpRightIcon } from '@phosphor-icons/react'
-import { EntryCard } from '@/components/ui/entry-card'
-import type { AboutEntry } from '@/types/about'
-import { useWebHaptics } from 'web-haptics/react'
+import Image from "next/image";
+import Link from "next/link";
+import { NAVIGATION_LINKS, SOCIAL_PLATFORMS } from "@/constants";
+import {
+  MapPinIcon,
+  CodeIcon,
+  CameraIcon,
+  GraduationCapIcon,
+  BriefcaseIcon,
+  HeartIcon,
+  ArrowUpRightIcon,
+} from "@phosphor-icons/react";
+import { EntryCard } from "@/components/ui/entry-card";
+import type { AboutEntry } from "@/types/about";
+import { useWebHaptics } from "web-haptics/react";
 
 interface HomeClientProps {
-  education: AboutEntry[]
-  experience: AboutEntry[]
-  volunteering: AboutEntry[]
+  education: AboutEntry[];
+  experience: AboutEntry[];
+  volunteering: AboutEntry[];
 }
 
-export default function HomeClient({ education, experience, volunteering }: HomeClientProps) {
-  const haptic = useWebHaptics()
+function formatPlatformName(name: string): string {
+  return name.charAt(0).toUpperCase() + name.slice(1).replace("_", " ");
+}
 
-  const formatPlatformName = (name: string) => {
-    return name.charAt(0).toUpperCase() + name.slice(1).replace('_', ' ')
-  }
+export default function HomeClient({
+  education,
+  experience,
+  volunteering,
+}: HomeClientProps) {
+  const haptic = useWebHaptics();
 
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <div className="px-8 md:px-32 lg:px-56 xl:px-80 py-12 flex flex-col gap-16">
-
         {/* Hero Section: Portrait + Bio + Social Links */}
         <section className="flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-8 items-start animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Portrait - Full width mobile, column 1 desktop */}
@@ -52,7 +63,8 @@ export default function HomeClient({ education, experience, volunteering }: Home
 
             {/* Description */}
             <p className="text-sm md:text-base lg:text-lg text-text-secondary leading-relaxed font-light text-pretty">
-              Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.
+              Fresh graduate, creative developer, and photographer. Advocating
+              for better policy, governance, and urban life in Malaysia.
             </p>
 
             {/* Tags */}
@@ -80,7 +92,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative inline-block"
-                  onClick={() => haptic.trigger('light')}
+                  onClick={() => haptic.trigger("light")}
                 >
                   <Image
                     src={`/assets/img/social_media_icons/${social}.png`}
@@ -109,7 +121,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                 key={link.href}
                 href={link.href}
                 className="group flex flex-col h-full p-6 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/15 transition-all duration-300"
-                onClick={() => haptic.trigger('medium')}
+                onClick={() => haptic.trigger("medium")}
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <h3 className="font-serif text-xl text-text-primary group-hover:text-accent-primary transition-colors">
@@ -118,9 +130,7 @@ export default function HomeClient({ education, experience, volunteering }: Home
                   <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" />
                 </div>
                 <p className="text-xs text-text-secondary">
-                  {link.href === '/gallery' && 'photos & artwork'}
-                  {link.href === '/projects' && "things i've built"}
-                  {link.href === '/blog' && 'my thoughts & stories'}
+                  {link.description}
                 </p>
               </Link>
             ))}
@@ -132,11 +142,19 @@ export default function HomeClient({ education, experience, volunteering }: Home
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
               <BriefcaseIcon className="w-6 h-6 text-text-primary" />
-              <h2 className="text-3xl font-serif text-text-primary">Experience</h2>
+              <h2 className="text-3xl font-serif text-text-primary">
+                Experience
+              </h2>
             </div>
             <div className="flex flex-col gap-4">
               {experience.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} fallbackIcon={<BriefcaseIcon className="w-6 h-6 text-text-muted" />} />
+                <EntryCard
+                  key={entry.id}
+                  entry={entry}
+                  fallbackIcon={
+                    <BriefcaseIcon className="w-6 h-6 text-text-muted" />
+                  }
+                />
               ))}
             </div>
           </section>
@@ -147,11 +165,19 @@ export default function HomeClient({ education, experience, volunteering }: Home
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
               <GraduationCapIcon className="w-6 h-6 text-text-primary" />
-              <h2 className="text-3xl font-serif text-text-primary">Education</h2>
+              <h2 className="text-3xl font-serif text-text-primary">
+                Education
+              </h2>
             </div>
             <div className="flex flex-col gap-4">
               {education.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} fallbackIcon={<GraduationCapIcon className="w-6 h-6 text-text-muted" />} />
+                <EntryCard
+                  key={entry.id}
+                  entry={entry}
+                  fallbackIcon={
+                    <GraduationCapIcon className="w-6 h-6 text-text-muted" />
+                  }
+                />
               ))}
             </div>
           </section>
@@ -162,16 +188,24 @@ export default function HomeClient({ education, experience, volunteering }: Home
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
               <HeartIcon className="w-6 h-6 text-text-primary" />
-              <h2 className="text-3xl font-serif text-text-primary">Volunteering</h2>
+              <h2 className="text-3xl font-serif text-text-primary">
+                Volunteering
+              </h2>
             </div>
             <div className="flex flex-col gap-4">
               {volunteering.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} fallbackIcon={<HeartIcon className="w-6 h-6 text-text-muted" />} />
+                <EntryCard
+                  key={entry.id}
+                  entry={entry}
+                  fallbackIcon={
+                    <HeartIcon className="w-6 h-6 text-text-muted" />
+                  }
+                />
               ))}
             </div>
           </section>
         )}
       </div>
     </main>
-  )
+  );
 }

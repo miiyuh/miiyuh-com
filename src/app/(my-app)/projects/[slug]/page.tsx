@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
@@ -14,7 +15,7 @@ type PageProps = {
   params: Promise<PageParams>
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const payload = await getPayload({ config })
 
@@ -47,7 +48,9 @@ export async function generateMetadata({ params }: PageProps) {
 
   return {
     title: seo?.metaTitle || `${project.name} - Projects - miiyuh`,
-    description: seo?.metaDescription || project.description,
+    description:
+      seo?.metaDescription ||
+      (typeof project.description === 'string' ? project.description : undefined),
   }
 }
 

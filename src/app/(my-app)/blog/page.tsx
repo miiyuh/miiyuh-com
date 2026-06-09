@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import type { Where } from 'payload'
 import { unstable_cache } from 'next/cache'
@@ -6,7 +7,7 @@ import BlogClient from './blog-client'
 import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'blog - miiyuh',
   description: 'thoughts, stories, and ideas',
 }

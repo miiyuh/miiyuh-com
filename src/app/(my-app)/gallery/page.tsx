@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import GalleryClient from './gallery-client'
@@ -11,7 +12,7 @@ import type {
 } from '@/types/gallery'
 import { resolveMediaSrc } from '@/utils/media'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'gallery - miiyuh',
   description: 'photography and artwork gallery',
 }

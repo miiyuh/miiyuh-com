@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectsClient from './projects-client'
@@ -5,7 +6,7 @@ import ProjectsClient from './projects-client'
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Projects - miiyuh',
     description: 'Side projects and university work — a collection of things I\'ve built.',

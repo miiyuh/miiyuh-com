@@ -1,39 +1,38 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import ErrorBoundary from '@/components/ui/error-boundary';
-import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb';
-import { ArrowUpRight } from '@phosphor-icons/react';
-import { useWebHaptics } from 'web-haptics/react';
+import Link from "next/link";
+import Image from "next/image";
+import ErrorBoundary from "@/components/ui/error-boundary";
+import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
+import { ArrowUpRight } from "@phosphor-icons/react";
+import { isJapanCollection } from "@/utils";
+import { useWebHaptics } from "web-haptics/react";
 import type {
   GalleryCollectionSummary,
   GalleryDataMap,
   GalleryItem,
-} from '@/types/gallery';
+} from "@/types/gallery";
 
 interface GalleryClientProps {
-  galleryData: GalleryDataMap
-  collections: GalleryCollectionSummary[]
+  galleryData: GalleryDataMap;
+  collections: GalleryCollectionSummary[];
 }
 
-export default function GalleryClient({ galleryData, collections }: GalleryClientProps) {
-  const haptic = useWebHaptics()
+export default function GalleryClient({
+  galleryData,
+  collections,
+}: GalleryClientProps) {
+  const haptic = useWebHaptics();
 
   return (
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
-
-        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 py-24" style={{ paddingTop: '24px' }}>
+        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24">
           <div>
-
             {/* Breadcrumb Navigation */}
-            <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+            <div className="mb-8">
               <SimpleBreadcrumb
-                items={[
-                  { label: 'home', href: '/' },
-                  { label: 'gallery' },
-                ]}
+                items={[{ label: "home", href: "/" }, { label: "gallery" }]}
                 className="mb-0"
               />
             </div>
@@ -44,28 +43,25 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                 gallery
               </h1>
               <p className="text-lg md:text-xl text-text-secondary text-pretty">
-                from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork.
+                from the pens and lenses of mine, through out the years. a
+                curated collection of my photography and artwork.
               </p>
             </div>
 
             {/* Albums Grid - borders act as grid lines */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-white/8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-white/8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
               {collections.map((collection) => {
                 const images = galleryData[collection.slug] ?? [];
                 const stackImages: GalleryItem[] = images.slice(0, 3);
 
                 return (
-                  <div
-                    key={collection.id}
-                    className="content-auto"
-                  >
+                  <div key={collection.id} className="content-auto">
                     <Link
                       href={`/gallery/${collection.slug}`}
                       className="group block w-full text-left h-full"
-                      onClick={() => haptic.trigger('medium')}
+                      onClick={() => haptic.trigger("medium")}
                     >
                       <article className="h-full p-6 border-r border-b border-white/8 bg-transparent hover:bg-white/3 transition-all duration-500 flex flex-col relative overflow-visible">
-
                         {/* Stacked Cover Images */}
                         <div className="w-full aspect-square relative mb-6 perspective-1000">
                           {stackImages.length > 0 ? (
@@ -73,16 +69,18 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                               <div
                                 key={i}
                                 className={`absolute inset-0 rounded-2xl transition-all duration-500 ease-out origin-bottom
-                                  ${i === 0 ? 'z-30' : i === 1 ? 'z-20' : 'z-10'}
+                                  ${i === 0 ? "z-30" : i === 1 ? "z-20" : "z-10"}
                                 `}
                                 style={{
                                   transform: `translateY(${i * 8}px) scale(${1 - i * 0.05})`,
                                 }}
                               >
-                                <div className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
-                                  ${i === 1 ? 'group-hover:-rotate-6 group-hover:-translate-x-8' : ''}
-                                  ${i === 2 ? 'group-hover:rotate-6 group-hover:translate-x-8' : ''}
-                                `}>
+                                <div
+                                  className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
+                                  ${i === 1 ? "group-hover:-rotate-6 group-hover:-translate-x-8" : ""}
+                                  ${i === 2 ? "group-hover:rotate-6 group-hover:translate-x-8" : ""}
+                                `}
+                                >
                                   <Image
                                     src={img.src}
                                     alt={collection.title}
@@ -91,7 +89,7 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                                     sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                                     quality={i === 0 ? 80 : 75}
                                     priority={i === 0}
-                                    loading={i === 0 ? 'eager' : 'lazy'}
+                                    loading={i === 0 ? "eager" : "lazy"}
                                   />
                                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
                                 </div>
@@ -109,18 +107,22 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                           <div className="flex items-start justify-between mb-2">
                             <h2 className="text-2xl font-serif font-bold text-text-primary group-hover:text-accent-primary transition-colors">
                               {collection.title}
-                              {(collection.slug.includes('2025') || collection.slug.includes('japan')) && <span className="ml-2 inline-block">🇯🇵</span>}
+                              {isJapanCollection(collection.slug) && (
+                                <span className="ml-2 inline-block">🇯🇵</span>
+                              )}
                             </h2>
                             <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                           </div>
 
                           <p className="text-text-secondary text-sm line-clamp-2 mb-4 grow">
-                            {collection.description || 'View collection'}
+                            {collection.description || "View collection"}
                           </p>
 
                           <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-text-muted">
                             <span>{collection.totalImages} ITEMS</span>
-                            <span className="group-hover:text-text-primary transition-colors">VIEW ALBUM</span>
+                            <span className="group-hover:text-text-primary transition-colors">
+                              VIEW ALBUM
+                            </span>
                           </div>
                         </div>
                       </article>
@@ -129,7 +131,6 @@ export default function GalleryClient({ galleryData, collections }: GalleryClien
                 );
               })}
             </div>
-
           </div>
         </main>
       </div>
