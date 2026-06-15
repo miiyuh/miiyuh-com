@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import {
-  Inter,
   Noto_Sans,
   Noto_Serif,
   Noto_Serif_JP,
@@ -14,11 +13,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/components/layout/app-provider";
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+// Inter will be loaded from rsms.me; keep other Google fonts
 const notoSans = Noto_Sans({
   subsets: ["latin"],
   variable: "--font-noto-sans",
@@ -75,7 +70,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
-        {/* Preload Google Fonts */}
+        {/* Load Inter from rsms.me (preferred) and preload Google Fonts */}
+        <link rel="preconnect" href="https://rsms.me" />
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+        <style>{`:root { --font-inter: 'Inter var', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }`}</style>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -111,7 +109,8 @@ export default function RootLayout({
         <Script src="/theme-favicons.js" strategy="beforeInteractive" />
       </head>
       <body
-        className={`${inter.variable} ${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
+        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
+        style={{ fontFamily: 'var(--font-inter), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
         <AppProvider>{children}</AppProvider>
         <SpeedInsights />
