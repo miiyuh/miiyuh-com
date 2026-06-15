@@ -77,8 +77,6 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
           { key: 'X-XSS-Protection', value: '0' },
-          // Cache HTML at the edge for 5 minutes. Adjust to 'private' if responses are personalized.
-          { key: 'Cache-Control', value: 'public, max-age=300' },
         ],
       },
     ];
