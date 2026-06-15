@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import {
+  Inter,
   Noto_Sans,
   Noto_Serif,
   Noto_Serif_JP,
@@ -13,6 +14,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/components/layout/app-provider";
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 const notoSans = Noto_Sans({
   subsets: ["latin"],
   variable: "--font-noto-sans",
@@ -69,12 +75,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
-        {/* Preload critical fonts */}
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="preload" as="style" href="https://rsms.me/inter/inter.css" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-
         {/* Preload Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -110,7 +117,7 @@ export default function RootLayout({
         <Script src="/theme-favicons.js" strategy="beforeInteractive" />
       </head>
       <body
-        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
+        className={`${inter.variable} ${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
       >
         <AppProvider>{children}</AppProvider>
         <SpeedInsights />
