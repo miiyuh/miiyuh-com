@@ -8,7 +8,7 @@ const config: Config = {
   ],
   theme: {
         fontFamily: {
-          sans: ['InterVariable', 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+          sans: ['var(--font-inter)', 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
           serif: ['var(--font-instrument-serif)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'serif'],
           'noto-serif-jp': ['var(--font-noto-serif-jp)', 'serif'],
           mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
