@@ -60,19 +60,43 @@ const nextConfig = {
     });
     return config;
   },
-  // Global security and caching headers
+  // Global security and caching headers (fine-grained)
   async headers() {
     return [
       {
-        // apply to all routes (avoid matching internal _next assets if needed)
+        // long-cache static assets served by the app
+        source: '/_next/static/(.*)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/assets/(.*)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        // API routes: apply security headers but avoid forcing caching so dynamic data stays fast
+        source: '/api/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
+          { key: 'X-XSS-Protection', value: '0' },
+        ],
+      },
+      {
+        // HTML pages and public routes: security headers + CSP
         source: '/(.*)',
         headers: [
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests;",
+              "default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;",
           },
-          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
