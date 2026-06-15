@@ -60,6 +60,29 @@ const nextConfig = {
     });
     return config;
   },
+  // Global security and caching headers
+  async headers() {
+    return [
+      {
+        // apply to all routes (avoid matching internal _next assets if needed)
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value:
+              "default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com https://rsms.me data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://rsms.me; script-src 'self' 'unsafe-inline' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests;",
+          },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
+          { key: 'X-XSS-Protection', value: '0' },
+          // Cache HTML at the edge for 5 minutes. Adjust to 'private' if responses are personalized.
+          { key: 'Cache-Control', value: 'public, max-age=300' },
+        ],
+      },
+    ];
+  },
 };
 
 export default withPayload(nextConfig);
