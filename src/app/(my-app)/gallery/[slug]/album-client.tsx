@@ -134,6 +134,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                         href={image.src}
                         className="block group relative overflow-hidden rounded-2xl glass-panel-pro shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)] hover:border-accent-primary/50 transition-all duration-500"
                         data-sub-html={subHtml}
+                        data-thumb={image.thumbnailSrc || undefined}
                       >
                         <OptimizedGalleryImage
                           image={image}

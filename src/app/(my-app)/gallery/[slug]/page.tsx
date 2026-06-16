@@ -88,11 +88,18 @@ async function AlbumPageContent({ params }: PageProps) {
         return null;
       }
 
+      const thumbSize = imageMedia?.sizes?.thumbnail
+      const thumbnailSrc =
+        thumbSize && (thumbSize.url || thumbSize.filename)
+          ? resolveMediaSrc({ url: thumbSize.url, filename: thumbSize.filename })
+          : undefined;
+
       return {
         src,
         title: img.title ?? imageMedia?.alt ?? "",
         description: img.description ?? imageMedia?.caption ?? "",
-      };
+        ...(thumbnailSrc ? { thumbnailSrc } : {}),
+      } satisfies GalleryItem;
     })
     .filter((item): item is GalleryItem => Boolean(item));
 
