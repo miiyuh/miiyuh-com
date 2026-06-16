@@ -139,7 +139,7 @@ async function seedProjects() {
 
       await payload.create({
         collection: 'projects',
-        data: projectData,
+        data: projectData as any,
       })
 
       console.log(`Created project: ${projectData.name}`)

@@ -17,7 +17,7 @@ export const FormBlock: Block = {
     {
       name: 'form',
       type: 'relationship',
-      relationTo: 'forms',
+      relationTo: 'surveys',
       required: true,
       admin: {
         description: 'Select a form to display on this page',

@@ -5,6 +5,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { buildConfig } from 'payload'
+import type { PayloadEmailAdapter } from 'payload'
 
 import Users from './src/collections/Users'
 import Media from './src/collections/Media'
@@ -37,7 +38,18 @@ const requiredEnv = (key: string, fallback?: string): string => {
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const consoleEmailAdapter: PayloadEmailAdapter = ({ payload }) => ({
+  name: 'console',
+  defaultFromAddress: 'noreply@miiyuh.com',
+  defaultFromName: 'miiyuh',
+  sendEmail: async (message) => {
+    payload.logger.info({ msg: `Email logged to console. Subject: '${message.subject}'` })
+    return Promise.resolve()
+  },
+})
+
 export default buildConfig({
+  email: consoleEmailAdapter,
   admin: {
     user: Users.slug,
     meta: {

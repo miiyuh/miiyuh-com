@@ -29,6 +29,7 @@ async function createAdminUser() {
     // Create admin user
     const admin = await payload.create({
       collection: 'users',
+      draft: true,
       data: {
         email: 'admin@miiyuh.com',
         password: 'changeme123', // Change this after first login!

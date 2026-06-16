@@ -38,6 +38,8 @@ const STACK_LABELS: Record<FontStackKey, string> = {
 }
 
 export default function FontDebugPage() {
+  if (process.env.NODE_ENV === 'production') return null
+
   const [fontInfo, setFontInfo] = useState<FontInfo>({ stacks: null, vars: {} })
 
   useEffect(() => {

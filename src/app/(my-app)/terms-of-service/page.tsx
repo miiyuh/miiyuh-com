@@ -26,7 +26,7 @@ export default async function TermsOfService() {
         <TermsOfServiceClient
           htmlContent="<div class='text-center p-8'><p class='text-lg'>Content not yet available. Please populate the Terms of Service in the CMS admin at <a href='/admin' class='text-accent-primary underline'>/admin</a>.</p></div>"
           toc={[]}
-          updatedAt={lastUpdated || updatedAt}
+          updatedAt={lastUpdated ?? updatedAt ?? undefined}
         />
       </Fragment>
     )
@@ -38,7 +38,7 @@ export default async function TermsOfService() {
   return (
     <Fragment>
       <RefreshRouteOnSave />
-      <TermsOfServiceClient htmlContent={htmlContent} toc={toc} updatedAt={lastUpdated || updatedAt} />
+      <TermsOfServiceClient htmlContent={htmlContent} toc={toc} updatedAt={lastUpdated ?? updatedAt ?? undefined} />
     </Fragment>
   )
 }

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
 import { Search } from "lucide-react";
 import type { BlogPostCard } from "@/types/blog";
 import { useWebHaptics } from "web-haptics/react";
@@ -162,27 +161,8 @@ export default function BlogClient({
   }, [pagination.totalPages]);
 
   return (
-    <main className="flex flex-col bg-bg-primary text-text-primary font-sans relative min-h-screen overflow-x-hidden">
-      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 min-h-[70vh]">
-        <div>
-          <div className="mb-8">
-            <SimpleBreadcrumb
-              items={[{ label: "home", href: "/" }, { label: "blog" }]}
-              className="mb-0"
-            />
-          </div>
-
-          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
-              blog
-            </h1>
-            <p className="text-lg md:text-xl text-text-secondary text-pretty">
-              little thoughts, big ideas, lofty dreams, all sorts!
-            </p>
-          </div>
-
-          {/* Filter Bar - Search & Topics */}
-          <div className="border-t border-white/8 pt-8 pb-8">
+    <div>
+      <div className="border-t border-white/8 pt-8 pb-8">
             <div className="space-y-4">
               {/* Search Bar */}
               <div className="relative">
@@ -239,12 +219,10 @@ export default function BlogClient({
             </div>
           </div>
 
-          {/* Blog Posts List */}
           <div>
             {posts.length > 0 ? (
               <div className="space-y-6">
                 {posts.map((post) => {
-                  // coverImage.url is already fully resolved by the server
                   const coverSrc = post.coverImage?.url;
 
                   return (
@@ -255,7 +233,6 @@ export default function BlogClient({
                       onClick={() => haptic.trigger("medium")}
                     >
                       <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
-                        {/* Cover Image */}
                         {coverSrc && (
                           <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
                             <Image
@@ -269,7 +246,6 @@ export default function BlogClient({
                             />
                           </div>
                         )}
-                        {/* Content */}
                         <div className="flex-1 min-w-0 flex flex-col justify-between">
                           <div>
                             <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -366,8 +342,6 @@ export default function BlogClient({
               </nav>
             )}
           </div>
-        </div>
-      </section>
-    </main>
+    </div>
   );
 }

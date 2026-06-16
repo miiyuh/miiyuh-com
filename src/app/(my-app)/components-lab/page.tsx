@@ -37,6 +37,8 @@ const SECTION_TITLE = "text-lg font-semibold tracking-tight text-white"
 const SECTION_SUB = "text-sm text-white/70"
 
 export default function ComponentsLabPage() {
+  if (process.env.NODE_ENV === 'production') return null
+
   const [name, setName] = useState("Ada Lovelace")
   const [note, setNote] = useState("Excited to see these components in one place.")
   const [checked, setChecked] = useState(false)

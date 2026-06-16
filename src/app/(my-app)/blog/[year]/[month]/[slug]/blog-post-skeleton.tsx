@@ -1,5 +1,3 @@
-'use client'
-
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { ImageSkeleton, TextSkeleton, MetaInfoSkeleton } from '@/components/ui/skeleton'

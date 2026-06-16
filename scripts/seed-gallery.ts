@@ -111,16 +111,15 @@ async function seedGallery() {
       }
 
       // Create GalleryCollection with embedded images array
-      const galleryCollection = await payload.create({
+      const galleryCollection =       await payload.create({
         collection: 'gallery-collections',
         data: {
           title: collectionInfo.title,
           slug: collectionInfo.slug,
           description: collectionInfo.description,
-          displayOrder: Object.keys(collectionMappings).indexOf(key),
           status: 'published',
           images: uploadedImages,
-        },
+        } as any,
       })
 
       console.log(

@@ -1,5 +1,3 @@
-'use client'
-
 import { GenericLoading } from '@/components/debug/generic-loading'
 
 export default function GalleryLoading() {

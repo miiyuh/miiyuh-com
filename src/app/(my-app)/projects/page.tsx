@@ -36,14 +36,14 @@ async function ProjectsPage() {
       slug: project.slug,
       category: project.category as 'side-project' | 'university-project',
       description: project.description,
-      icon: project.icon,
+      icon: project.icon ? (typeof project.icon === 'object' ? { id: project.icon.id, url: project.icon.url ?? undefined, alt: project.icon.alt } : undefined) : undefined,
       image: project.image
         ? typeof project.image === 'object' && 'url' in project.image
-          ? { url: project.image.url, alt: project.image.alt }
+          ? { url: project.image.url ?? undefined, alt: project.image.alt }
           : undefined
         : undefined,
       order: project.order || 0,
-      externalLink: project.externalLink,
+      externalLink: project.externalLink ?? undefined,
     }
 
     // Add category-specific fields

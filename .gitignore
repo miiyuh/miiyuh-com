@@ -33,6 +33,7 @@ media/
 # Payload CMS build cache
 .payload
 payload-generated-types.d.ts
+payload-types.ts
 
 # =========================================
 # Logs

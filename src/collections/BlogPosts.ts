@@ -99,18 +99,34 @@ const BlogPosts: CollectionConfig = {
                   index: true,
                   admin: {
                     width: '40%',
-                    description: 'URL-friendly identifier',
+                    description: 'URL-friendly identifier (auto-generates if left blank)',
                     placeholder: 'my-blog-post',
                   },
                   hooks: {
                     beforeValidate: [
                       ({ value, data }) => {
-                        if (!value && data?.title) {
+                        // If a slug was manually input, sanitize it (lowercase, spaces to hyphens, strip invalid chars)
+                        if (value && typeof value === 'string') {
+                          return value
+                            .toLowerCase()
+                            .trim()
+                            .replace(/[^a-z0-9\s-]/g, '') // Allow alphanumeric, spaces, and hyphens
+                            .replace(/[\s_]+/g, '-')       // Turn spaces and underscores into hyphens
+                            .replace(/-+/g, '-')          // Prevent double hyphens '--'
+                            .replace(/(^-|-$)/g, '')      // Trim leading/trailing hyphens
+                        }
+
+                        // Fallback: If slug is completely empty, build it dynamically from the title
+                        if (data?.title && typeof data.title === 'string') {
                           return data.title
                             .toLowerCase()
-                            .replace(/[^a-z0-9]+/g, '-')
+                            .trim()
+                            .replace(/[^a-z0-9\s-]/g, '')
+                            .replace(/[\s_]+/g, '-')
+                            .replace(/-+/g, '-')
                             .replace(/(^-|-$)/g, '')
                         }
+
                         return value
                       },
                     ],
@@ -214,7 +230,7 @@ const BlogPosts: CollectionConfig = {
             },
             {
               name: 'metaDescription',
-              type: 'textarea',
+              type: 'text', // Keeping your existing logic matching post.seo?.metaDescription
               localized: true,
               admin: {
                 description: 'Description for search engines (defaults to excerpt)',

@@ -98,14 +98,14 @@ async function ProjectPageContent({ params }: PageProps) {
     slug: project.slug,
     category: project.category as 'side-project' | 'university-project',
     description: project.description,
-    icon: project.icon,
+    icon: project.icon ? (typeof project.icon === 'object' ? 'url' in project.icon ? (project.icon.url ?? undefined) : undefined : project.icon) : undefined,
     image: project.image
       ? typeof project.image === 'object' && 'url' in project.image
-        ? { url: project.image.url, alt: project.image.alt }
+        ? { url: project.image.url ?? undefined, alt: project.image.alt }
         : undefined
       : undefined,
     content: project.content,
-    externalLink: project.externalLink,
+    externalLink: project.externalLink ?? undefined,
     // Category-specific
     projectDetails: project.category === 'side-project' && project.projectDetails
       ? {

@@ -1,5 +1,3 @@
-'use client'
-
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 
 export default function ProjectsLoading() {

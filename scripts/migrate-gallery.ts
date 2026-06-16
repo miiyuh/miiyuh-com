@@ -35,7 +35,7 @@ async function migrateGallery() {
 
       // Fetch all images that belong to this collection from the old gallery-images table
       const { docs: images } = await payload.find({
-        collection: 'gallery-images',
+        collection: 'gallery-images' as any,
         where: {
           galleryCollection: {
             equals: collection.id,
@@ -77,7 +77,7 @@ async function migrateGallery() {
           collection: 'gallery-collections',
           id: collection.id,
           data: {
-            images: migratedImages,
+            images: migratedImages as any,
           },
         })
         console.log(`   ✓ Migrated ${migratedImages.length} images to ${collection.title}`)

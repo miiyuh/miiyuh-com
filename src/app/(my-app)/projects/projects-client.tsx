@@ -184,6 +184,7 @@ function ProjectCard({
                 height={44}
                 className="w-11 h-11 object-cover"
                 quality={75}
+                sizes="44px"
               />
             </div>
           )}
@@ -523,6 +524,8 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                             width={48}
                             height={48}
                             className="w-12 h-12 object-cover"
+                            sizes="48px"
+                            quality={75}
                           />
                         ) : (
                           <Icon className="w-6 h-6 text-[#070707]" />

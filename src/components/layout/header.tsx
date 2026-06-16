@@ -41,6 +41,7 @@ export default function Header() {
               className="h-10 w-auto"
               priority
               quality={75}
+              sizes="160px"
             />
           </Link>
 

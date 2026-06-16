@@ -1,5 +1,3 @@
-'use client'
-
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { TextSkeleton } from '@/components/ui/skeleton'
 

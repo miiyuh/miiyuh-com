@@ -234,7 +234,7 @@ const CALLOUT_STYLES: Record<string, { icon: string; classes: string }> = {
 // Main Renderer
 // ============================================================================
 
-export function renderLexicalContent(content: LexicalContent | null | undefined): string {
+export function renderLexicalContent(content: { root?: Record<string, unknown> } | null | undefined): string {
   if (!content || typeof content !== 'object') {
     return ''
   }
@@ -244,7 +244,7 @@ export function renderLexicalContent(content: LexicalContent | null | undefined)
   }
 
   const slugGenerator = new SlugGenerator()
-  return renderNode(content.root, slugGenerator)
+  return renderNode(content.root as LexicalNode, slugGenerator)
 }
 
 function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
