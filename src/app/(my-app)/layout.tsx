@@ -68,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-bg-primary text-text-primary">
+    <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
       <head>
         {/* Load Inter from rsms.me (preferred) and preload Google Fonts */}
         <link rel="preconnect" href="https://rsms.me" />
