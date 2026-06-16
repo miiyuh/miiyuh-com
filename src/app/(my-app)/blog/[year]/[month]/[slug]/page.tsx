@@ -61,9 +61,48 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Post Not Found - miiyuh" };
   }
 
+  const title = `${post.title} - miiyuh`;
+  const description = post.excerpt || post.seo?.metaDescription || "";
+  const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
+
+  // Resolve cover image to an absolute URL string
+  const coverImageUrl = resolveMediaSrc({
+    url: typeof post.coverImage === "object" ? post.coverImage?.url : undefined,
+    filename:
+      typeof post.coverImage === "object"
+        ? post.coverImage?.filename
+        : undefined,
+  });
+
   return {
-    title: `${post.title} - miiyuh`,
-    description: post.excerpt || post.seo?.metaDescription,
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: "article",
+      publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+      images: coverImageUrl
+        ? [
+            {
+              url: coverImageUrl,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: coverImageUrl ? [coverImageUrl] : undefined,
+    },
   };
 }
 
