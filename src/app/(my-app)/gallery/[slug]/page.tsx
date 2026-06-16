@@ -88,11 +88,11 @@ async function AlbumPageContent({ params }: PageProps) {
         return null;
       }
 
-      const thumb = imageMedia?.sizes?.thumbnail
+      const thumbSize = imageMedia?.sizes?.thumbnail
       const thumbnailSrc =
-        thumb && (thumb.url || thumb.filename)
-          ? resolveMediaSrc({ url: thumb.url, filename: thumb.filename }) ?? src
-          : src
+        thumbSize && (thumbSize.url || thumbSize.filename)
+          ? resolveMediaSrc({ url: thumbSize.url, filename: thumbSize.filename })
+          : undefined;
 
       return {
         src,
