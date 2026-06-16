@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { NAVIGATION_LINKS } from "@/constants";
 import { useWebHaptics } from "web-haptics/react";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const haptic = useWebHaptics();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = useCallback(() => {
     haptic.trigger("light");
@@ -18,6 +20,8 @@ export default function Header() {
     haptic.trigger("light");
     setMenuOpen(false);
   }, [haptic]);
+
+  useFocusTrap(mobileMenuRef, menuOpen, closeMenu);
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -29,7 +33,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-[#070707]/80 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
+      <header className="bg-bg-primary/80 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" onClick={closeMenu}>
@@ -48,12 +52,13 @@ export default function Header() {
           {/* Hamburger */}
           <button
             onClick={toggleMenu}
-            className="lg:hidden focus:outline-none z-50 relative"
+            className="lg:hidden z-50 relative min-w-11 min-h-11 flex items-center justify-center"
             aria-label="Toggle navigation menu"
             aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             <svg
-              className="w-6 h-6 text-[#FAF3E0]"
+              className="w-6 h-6 text-text-primary"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -124,7 +129,12 @@ export default function Header() {
 
       {/* Mobile Menu Overlay — rendered outside header to avoid stacking context issues */}
       <div
-        className={`fixed inset-0 z-30 bg-[#070707]/95 backdrop-blur-xl flex flex-col justify-center items-center transition-all duration-300 ease-in-out lg:hidden ${
+        ref={mobileMenuRef}
+        id="mobile-menu"
+        role="dialog"
+        aria-modal={menuOpen ? "true" : undefined}
+        aria-label="Navigation menu"
+        className={`fixed inset-0 z-30 bg-bg-primary/95 backdrop-blur-xl flex flex-col justify-center items-center transition-all duration-300 ease-in-out lg:hidden ${
           menuOpen
             ? "opacity-100 visible translate-y-0"
             : "opacity-0 invisible -translate-y-2"
@@ -136,7 +146,7 @@ export default function Header() {
               <Link
                 href={link.href}
                 onClick={closeMenu}
-                className="hover:text-accent-primary transition-colors"
+                className="hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-primary"
               >
                 {link.label}
               </Link>

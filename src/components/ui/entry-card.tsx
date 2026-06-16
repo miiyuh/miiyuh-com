@@ -64,7 +64,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
             </span>
           </div>
           {entry.subtitle && (
-            <p className="text-base text-accent-primary font-medium mt-1 mb-2">
+            <p className="text-base text-text-secondary font-medium mt-1 mb-2">
               {entry.subtitle}
             </p>
           )}

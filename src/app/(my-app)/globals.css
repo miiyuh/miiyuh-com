@@ -6,7 +6,6 @@
   --text-primary: rgba(250, 243, 224, 1);
   --text-secondary: rgba(250, 243, 224, 0.7);
   --text-muted: rgba(250, 243, 224, 0.5);
-  --border: rgba(255, 255, 255, 0.1);
   --accent-primary: #4ade80;
   --accent-hover: #86efac;
 }
@@ -38,13 +37,7 @@ html {
   color: var(--text-primary);
 }
 
-/* Disable text selection on headings and navigation */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
+/* Allow text selection on headings — users may want to copy titles */
 nav,
 nav * {
   user-select: none;
@@ -150,6 +143,14 @@ p.font-serif {
 *:focus-visible {
   outline: 2px solid var(--text-primary);
   outline-offset: 2px;
+}
+
+/* Polyfill for browsers without :focus-visible support */
+@supports not (selector(:focus-visible)) {
+  *:focus {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+  }
 }
 
 /* Remove browser default glow on input fields */
@@ -386,4 +387,22 @@ img {
 
 .lexical-content u {
   text-decoration: underline;
+}
+
+/* Reduced motion — crossfade or instant transitions only */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-in {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
 }

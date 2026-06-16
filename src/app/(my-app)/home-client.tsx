@@ -43,7 +43,7 @@ export default function HomeClient({
             <div className="relative w-48 h-48 md:w-full md:h-full md:aspect-square rounded-full overflow-hidden border border-white/8 shrink-0">
               <Image
                 src="/assets/img/personal-profile-pic.png"
-                alt="Profile"
+                alt="Portrait of Muhamad Azri"
                 fill
                 className="object-cover"
                 quality={75}
@@ -62,7 +62,7 @@ export default function HomeClient({
             </h1>
 
             {/* Description */}
-            <p className="text-sm md:text-base lg:text-lg text-text-secondary leading-relaxed font-light text-pretty">
+            <p className="text-sm md:text-base lg:text-lg text-text-secondary leading-relaxed font-light text-pretty break-words">
               Fresh graduate, creative developer, and photographer. Advocating
               for better policy, governance, and urban life in Malaysia.
             </p>
@@ -70,15 +70,15 @@ export default function HomeClient({
             {/* Tags */}
             <div className="flex flex-wrap gap-2 md:gap-2.5 justify-start md:justify-start">
               <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-2 rounded-full bg-white/5 border border-white/5 text-xs md:text-sm text-text-secondary font-serif">
-                <MapPinIcon className="w-3 md:w-4 h-3 md:h-4 text-accent-primary" />
+                <MapPinIcon className="w-3 md:w-4 h-3 md:h-4 text-text-muted" aria-hidden="true" />
                 Malaysia
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-2 rounded-full bg-white/5 border border-white/5 text-xs md:text-sm text-text-secondary font-serif">
-                <CodeIcon className="w-3 md:w-4 h-3 md:h-4 text-accent-primary" />
+                <CodeIcon className="w-3 md:w-4 h-3 md:h-4 text-text-muted" aria-hidden="true" />
                 Developer
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-2 rounded-full bg-white/5 border border-white/5 text-xs md:text-sm text-text-secondary font-serif">
-                <CameraIcon className="w-3 md:w-4 h-3 md:h-4 text-accent-primary" />
+                <CameraIcon className="w-3 md:w-4 h-3 md:h-4 text-text-muted" aria-hidden="true" />
                 Photographer
               </div>
             </div>
@@ -91,12 +91,13 @@ export default function HomeClient({
                   href={`/${social}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative inline-block"
+                  className="group relative inline-flex items-center justify-center min-w-11 min-h-11"
                   onClick={() => haptic.trigger("light")}
+                  aria-label={`${formatPlatformName(social)} profile`}
                 >
                   <Image
                     src={`/assets/img/social_media_icons/${social}.png`}
-                    alt={formatPlatformName(social)}
+                    alt=""
                     width={24}
                     height={24}
                     className="w-6 h-6 object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
@@ -104,7 +105,7 @@ export default function HomeClient({
                     quality={80}
                     sizes="24px"
                   />
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white/20 backdrop-blur text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white/20 backdrop-blur text-text-primary text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     {formatPlatformName(social)}
                   </span>
                 </a>
@@ -127,7 +128,7 @@ export default function HomeClient({
                   <h3 className="font-serif text-xl text-text-primary group-hover:text-accent-primary transition-colors">
                     {link.label}
                   </h3>
-                  <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" />
+                  <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" aria-hidden="true" />
                 </div>
                 <p className="text-xs text-text-secondary">
                   {link.description}
@@ -141,7 +142,7 @@ export default function HomeClient({
         {experience.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
-              <BriefcaseIcon className="w-6 h-6 text-text-primary" />
+              <BriefcaseIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Experience
               </h2>
@@ -164,7 +165,7 @@ export default function HomeClient({
         {education.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
-              <GraduationCapIcon className="w-6 h-6 text-text-primary" />
+              <GraduationCapIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Education
               </h2>
@@ -187,7 +188,7 @@ export default function HomeClient({
         {volunteering.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="flex items-center gap-3 mb-6">
-              <HeartIcon className="w-6 h-6 text-text-primary" />
+              <HeartIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Volunteering
               </h2>
