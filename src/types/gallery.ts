@@ -7,6 +7,12 @@ export type MediaDocument = {
   filename?: string | null
   alt?: string | null
   caption?: string | null
+  sizes?: {
+    thumbnail?: { url?: string | null; filename?: string | null; width?: number; height?: number }
+    card?: { url?: string | null; filename?: string | null; width?: number; height?: number }
+    tablet?: { url?: string | null; filename?: string | null; width?: number; height?: number }
+    desktop?: { url?: string | null; filename?: string | null; width?: number; height?: number }
+  } | null
 }
 
 // Image item within a gallery collection (embedded in array)
@@ -34,6 +40,7 @@ export type GalleryItem = {
   src: string
   title: string
   description: string
+  thumbnailSrc?: string
 }
 
 export type GalleryCollectionSummary = {
