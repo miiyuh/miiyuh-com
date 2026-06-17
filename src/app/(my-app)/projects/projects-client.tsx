@@ -13,6 +13,8 @@ import {
   GithubLogo,
   ArrowSquareOut,
   Calendar,
+  CaretLeft,
+  CaretRight,
   X,
 } from "@phosphor-icons/react";
 
@@ -54,15 +56,15 @@ interface ProjectsClientProps {
 const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   active: {
     label: "Active",
-    className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
+    className: "bg-status-active-bg text-status-active-text border-status-active-border",
   },
   "in-development": {
     label: "In Development",
-    className: "bg-amber-500/15 text-amber-400 border-amber-500/25",
+    className: "bg-status-dev-bg text-status-dev-text border-status-dev-border",
   },
   archived: {
     label: "Archived",
-    className: "bg-white/8 text-text-muted border-white/12",
+    className: "bg-status-archived-bg text-status-archived-text border-status-archived-border",
   },
 };
 
@@ -120,7 +122,7 @@ function ProjectCard({
 
   return (
     <article
-      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c0c0e] hover:border-white/20 hover:bg-white/3 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer flex flex-col"
+      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-surface-primary hover:border-white/20 hover:bg-white/3 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer flex flex-col"
       onClick={() => {
         haptic.trigger("medium");
         onSelect();
@@ -138,12 +140,13 @@ function ProjectCard({
     >
       {/* Cover image */}
       {project.image?.url ? (
-        <div className="relative aspect-video overflow-hidden bg-black/20 shrink-0">
+        <div className="relative aspect-video overflow-hidden shrink-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] via-white/[0.07] to-white/[0.02] bg-[length:200%_100%] animate-skeleton" />
           <Image
             src={project.image.url}
             alt={project.image.alt || project.name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-[transform,opacity] duration-500 group-hover:scale-105"
             priority={priority}
             quality={75}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -157,9 +160,9 @@ function ProjectCard({
         </div>
       )}
 
-      <div className="p-6 flex flex-col grow gap-4">
+      <div className="p-6 flex flex-col grow">
         {/* Category + status row */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 mb-3">
           <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-widest text-text-muted/60">
             {renderCategoryIcon("w-3.5 h-3.5")}
             {CATEGORY_LABELS[project.category]}
@@ -174,7 +177,7 @@ function ProjectCard({
         </div>
 
         {/* Icon + title */}
-        <div className="flex items-start gap-4 min-w-0">
+        <div className="flex items-start gap-4 min-w-0 mb-3">
           {project.icon?.url && (
             <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-white/5 mt-0.5">
               <Image
@@ -252,7 +255,7 @@ function UniversityProjectRow({
 
   return (
     <article
-      className="group rounded-2xl border border-white/10 bg-[#0c0c0e] p-5 md:p-6 hover:border-white/20 hover:bg-white/3 transition-all duration-300 cursor-pointer"
+      className="group rounded-2xl border border-white/10 bg-surface-primary p-5 md:p-6 hover:border-white/20 hover:bg-white/3 transition-all duration-300 cursor-pointer"
       onClick={() => {
         haptic.trigger("medium");
         onSelect();
@@ -316,6 +319,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalShellRef = useRef<HTMLDivElement | null>(null);
   const isClosingRef = useRef(false);
+  const isNavigatingRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -325,6 +329,10 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
 
   useEffect(() => {
     if (!isModalOpen || !selected) return;
+    if (isNavigatingRef.current) {
+      isNavigatingRef.current = false;
+      return;
+    }
 
     const shell = modalShellRef.current;
     if (!shell) return;
@@ -340,6 +348,40 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
       easing: "easeOutQuad",
     });
   }, [isModalOpen, selected]);
+
+  // Projects are already sorted by `order` from the DB query
+  const sideProjects = projects.filter(
+    (project) => project.category === "side-project",
+  );
+  const universityProjects = projects.filter(
+    (project) => project.category === "university-project",
+  );
+
+  const allProjects = [...sideProjects, ...universityProjects];
+  const currentIndex = selected
+    ? allProjects.findIndex((p) => p.id === selected.id)
+    : -1;
+
+  const navigateProject = (direction: 1 | -1) => {
+    if (!selected || allProjects.length <= 1) return;
+    const idx = allProjects.findIndex((p) => p.id === selected.id);
+    if (idx === -1) return;
+    const nextIdx = (idx + direction + allProjects.length) % allProjects.length;
+    const next = allProjects[nextIdx];
+    if (!next) return;
+    isNavigatingRef.current = true;
+    setSelected(next);
+  };
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") navigateProject(-1);
+      if (e.key === "ArrowRight") navigateProject(1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  });
 
   const openProjectModal = (project: Project) => {
     isClosingRef.current = false;
@@ -388,14 +430,6 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     closeProjectModal();
   };
 
-  // Projects are already sorted by `order` from the DB query
-  const sideProjects = projects.filter(
-    (project) => project.category === "side-project",
-  );
-  const universityProjects = projects.filter(
-    (project) => project.category === "university-project",
-  );
-
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
       <section className="relative grow pt-6 pb-24">
@@ -420,7 +454,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
         </div>
 
         {/* Content layout */}
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80 space-y-12">
+        <div className="px-8 md:px-32 lg:px-56 xl:px-80 space-y-16">
           <div className="content-auto">
             <div className="flex items-center gap-3 mb-7">
               <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-text-muted/55 shrink-0">
@@ -433,16 +467,24 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {sideProjects.map((project, idx) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onSelect={() => openProjectModal(project)}
-                  priority={idx < 2}
-                />
-              ))}
-            </div>
+            {sideProjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5">
+                {sideProjects.map((project, idx) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    onSelect={() => openProjectModal(project)}
+                    priority={idx < 2}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
+                <p className="text-sm text-text-muted/60">
+                  tray is still in the developer — nothing developed yet
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="content-auto">
@@ -457,15 +499,23 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {universityProjects.map((project) => (
-                <UniversityProjectRow
-                  key={project.id}
-                  project={project}
-                  onSelect={() => openProjectModal(project)}
-                />
-              ))}
-            </div>
+            {universityProjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-4">
+                {universityProjects.map((project) => (
+                  <UniversityProjectRow
+                    key={project.id}
+                    project={project}
+                    onSelect={() => openProjectModal(project)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
+                <p className="text-sm text-text-muted/60">
+                  archive shelf is empty — nothing in the tray yet
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -473,7 +523,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
       {/* Detail popup */}
       <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
         <DialogPopup
-          className="sm:max-w-5xl p-0 border border-white/10 bg-[#070707] max-h-[90vh] [clip-path:inset(0_round_1rem)]"
+          className="sm:max-w-5xl p-0 border border-white/10 bg-bg-primary max-h-[90vh] [clip-path:inset(0_round_1rem)]"
           showCloseButton={false}
         >
           {selected &&
@@ -485,7 +535,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                   className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] overflow-hidden will-change-transform"
                 >
                   {/* Left: Image */}
-                  <div className="relative min-h-55 sm:min-h-65 lg:min-h-0 lg:aspect-4/3 bg-[#faf3e0] border-b border-white/10 lg:border-b-0 lg:border-r lg:border-white/10">
+                  <div key={selected.id} className="relative min-h-55 sm:min-h-65 lg:min-h-0 lg:aspect-4/3 bg-[#faf3e0] border-b border-white/10 lg:border-b-0 lg:border-r lg:border-white/10 animate-smooth-fade-in">
                     {selected.image?.url ? (
                       <Image
                         src={selected.image.url}
@@ -497,104 +547,135 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                         priority
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-[#faf3e0] text-black/20">
+                      <div className="w-full h-full flex items-center justify-center bg-[#faf3e0] text-bg-primary/20">
                         <Icon className="w-24 h-24" />
                       </div>
                     )}
                   </div>
 
                   {/* Right: Content */}
-                  <div className="relative bg-[#070707] p-4 sm:p-5 lg:p-6 xl:p-7 flex flex-col gap-5 sm:gap-6 overflow-y-auto">
-                    {/* Close button */}
-                    <button
-                      onClick={closeProjectModal}
-                      className="absolute right-3 top-3 sm:right-4 sm:top-4 p-2 text-[#faf3e0] hover:text-[#faf3e0]/60 transition-[color,transform] duration-200 hover:-translate-y-0.5 z-10"
-                      aria-label="Close dialog"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-
-                    {/* Icon + Title */}
-                    <div className="pr-10">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden shrink-0 bg-[#faf3e0] flex items-center justify-center mb-4 sm:mb-5">
-                        {selected.icon?.url ? (
-                          <Image
-                            src={selected.icon.url}
-                            alt={selected.icon.alt || `${selected.name} icon`}
-                            width={48}
-                            height={48}
-                            className="w-12 h-12 object-cover"
-                            sizes="48px"
-                            quality={75}
-                          />
-                        ) : (
-                          <Icon className="w-6 h-6 text-[#070707]" />
-                        )}
-                      </div>
-
-                      {/* Title */}
-                      <h2 className="text-3xl sm:text-4xl font-serif text-[#faf3e0] mb-3 sm:mb-4 leading-tight">
-                        {selected.name}
-                      </h2>
-
-                      {/* Label */}
-                      <span className="text-[10px] font-mono text-[#faf3e0]/40 uppercase tracking-widest mb-3 block">
-                        {CATEGORY_LABELS[selected.category]}
-                      </span>
-
-                      {/* Description */}
-                      <p className="text-sm sm:text-base text-[#faf3e0]/80 leading-relaxed">
-                        {selected.description}
-                      </p>
-                    </div>
-
-                    {/* Tech Stack / Details section */}
-                    {selected.category === "side-project" &&
-                      selected.projectDetails?.techStack &&
-                      selected.projectDetails.techStack.length > 0 && (
-                        <div className="pr-10">
-                          <p className="text-[10px] font-mono text-[#faf3e0]/40 uppercase tracking-widest mb-2 block">
-                            Tech
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {selected.projectDetails.techStack
-                              .slice(0, 4)
-                              .map((t, i) => (
-                                <span
-                                  key={i}
-                                  className="px-2.5 sm:px-3 py-1 border border-[#faf3e0]/30 text-[#faf3e0]/70 text-xs rounded-full font-mono"
-                                >
-                                  {t.tech}
-                                </span>
-                              ))}
-                          </div>
+                  <div className="relative bg-bg-primary p-4 sm:p-5 lg:p-6 xl:p-7 flex flex-col gap-5 sm:gap-6 overflow-y-auto">
+                    {/* Top bar: nav + close */}
+                    <div className="absolute right-0 left-0 top-0 flex items-center justify-between px-3 pt-3 sm:px-4 sm:pt-4 z-10 pointer-events-none">
+                      {allProjects.length > 1 && (
+                        <div className="flex items-center gap-2 pointer-events-auto">
+                          <button
+                            onClick={() => navigateProject(-1)}
+                            className="p-3 text-text-muted hover:text-text-primary transition-all duration-200 hover:-translate-y-0.5"
+                            aria-label="Previous project"
+                          >
+                            <CaretLeft className="w-5 h-5" />
+                          </button>
+                          <span
+                            className="text-xs font-mono text-text-muted/40 tabular-nums min-w-[4ch] text-center select-none"
+                            aria-live="polite"
+                          >
+                            {currentIndex + 1}/{allProjects.length}
+                          </span>
+                          <button
+                            onClick={() => navigateProject(1)}
+                            className="p-3 text-text-muted hover:text-text-primary transition-all duration-200 hover:-translate-y-0.5"
+                            aria-label="Next project"
+                          >
+                            <CaretRight className="w-5 h-5" />
+                          </button>
                         </div>
                       )}
+                      <div className="pointer-events-auto ml-auto">
+                        <button
+                          onClick={closeProjectModal}
+                          className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
+                          aria-label="Close dialog"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
 
-                    {/* Action buttons */}
-                    <div className="flex items-center gap-2 pr-10 pt-1 sm:pt-2">
-                      {selected.projectDetails?.githubUrl && (
-                        <a
-                          href={selected.projectDetails.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 text-[#faf3e0] hover:text-[#faf3e0]/60 transition-[color,transform] duration-200 hover:-translate-y-0.5"
-                          aria-label="View on GitHub"
-                        >
-                          <GithubLogo weight="fill" className="w-5 h-5" />
-                        </a>
-                      )}
-                      {selected.projectDetails?.liveUrl && (
-                        <a
-                          href={selected.projectDetails.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 text-[#faf3e0] hover:text-[#faf3e0]/60 transition-[color,transform] duration-200 hover:-translate-y-0.5"
-                          aria-label="View live project"
-                        >
-                          <ArrowSquareOut className="w-5 h-5" />
-                        </a>
-                      )}
+                    {/* Animated content */}
+                    <div key={selected.id} className="animate-smooth-fade-in pt-10 sm:pt-11">
+                      {/* Icon + Title */}
+                      <div className="pr-10">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden shrink-0 bg-[#faf3e0] flex items-center justify-center mb-4 sm:mb-5">
+                          {selected.icon?.url ? (
+                            <Image
+                              src={selected.icon.url}
+                              alt={selected.icon.alt || `${selected.name} icon`}
+                              width={48}
+                              height={48}
+                              className="w-12 h-12 object-cover"
+                              sizes="48px"
+                              quality={75}
+                            />
+                          ) : (
+                            <Icon className="w-6 h-6 text-bg-primary" />
+                          )}
+                        </div>
+
+                        {/* Title */}
+                        <h2 className="text-3xl sm:text-4xl font-serif text-text-primary mb-3 sm:mb-4 leading-tight">
+                          {selected.name}
+                        </h2>
+
+                        {/* Label */}
+                        <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-3 block">
+                          {CATEGORY_LABELS[selected.category]}
+                        </span>
+
+                        {/* Description */}
+                        <p className="text-sm sm:text-base text-text-primary/80 leading-relaxed">
+                          {selected.description}
+                        </p>
+                      </div>
+
+                      {/* Tech Stack / Details section */}
+                      {selected.category === "side-project" &&
+                        selected.projectDetails?.techStack &&
+                        selected.projectDetails.techStack.length > 0 && (
+                          <div className="pr-10">
+                            <p className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2 block">
+                              Tech
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {selected.projectDetails.techStack
+                                .slice(0, 4)
+                                .map((t, i) => (
+                                  <span
+                                    key={i}
+                                    className="px-2.5 sm:px-3 py-1 border border-text-primary/30 text-text-primary/70 text-xs rounded-full font-mono"
+                                  >
+                                    {t.tech}
+                                  </span>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+
+                      {/* Action buttons */}
+                      <div className="flex items-center gap-2 pr-10 pt-1 sm:pt-2">
+                        {selected.projectDetails?.githubUrl && (
+                          <a
+                            href={selected.projectDetails.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
+                            aria-label="View on GitHub"
+                          >
+                            <GithubLogo weight="fill" className="w-5 h-5" />
+                          </a>
+                        )}
+                        {selected.projectDetails?.liveUrl && (
+                          <a
+                            href={selected.projectDetails.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
+                            aria-label="View live project"
+                          >
+                            <ArrowSquareOut className="w-5 h-5" />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

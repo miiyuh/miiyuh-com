@@ -84,7 +84,7 @@ export default function HomeClient({
             </div>
 
             {/* Social Links */}
-            <div className="flex flex-wrap gap-3 md:gap-4 justify-start">
+            <div               className="flex flex-wrap gap-3 md:gap-2 justify-start">
               {SOCIAL_PLATFORMS.map((social) => (
                 <a
                   key={social}

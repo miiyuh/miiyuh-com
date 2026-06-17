@@ -3,10 +3,10 @@ import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 export default function ProjectsLoading() {
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
-      <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
+      <section className="relative grow pt-6 pb-24">
         <div className="animate-in fade-in duration-300">
           <div className="px-8 md:px-32 lg:px-56 xl:px-80">
-            <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+            <div className="mb-8">
               <SimpleBreadcrumb
                 items={[
                   { label: 'home', href: '/' },
@@ -22,7 +22,7 @@ export default function ProjectsLoading() {
             </div>
           </div>
 
-          <div className="px-8 md:px-32 lg:px-56 xl:px-80 space-y-12">
+          <div className="px-8 md:px-32 lg:px-56 xl:px-80 space-y-16">
             <div>
               <div className="flex items-center gap-3 mb-7">
                 <div className="h-3.5 w-28 bg-white/5 rounded animate-pulse" />
@@ -30,11 +30,11 @@ export default function ProjectsLoading() {
                 <div className="h-3.5 w-16 bg-white/5 rounded animate-pulse" />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5">
                 {Array.from({ length: 4 }).map((_, index) => (
                   <div
                     key={index}
-                    className="rounded-2xl overflow-hidden border border-white/8 bg-[#0c0c0e]"
+                    className="rounded-2xl overflow-hidden border border-white/8 bg-surface-primary"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="aspect-video bg-white/5 animate-pulse" />
@@ -57,11 +57,11 @@ export default function ProjectsLoading() {
                 <div className="h-3.5 w-16 bg-white/5 rounded animate-pulse" />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-4">
                 {Array.from({ length: 4 }).map((_, index) => (
                   <div
                     key={index}
-                    className="rounded-2xl border border-white/8 bg-[#0c0c0e] p-5 md:p-6 space-y-4"
+                    className="rounded-2xl border border-white/8 bg-surface-primary p-5 md:p-6 space-y-4"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="h-6 w-4/5 bg-white/5 rounded animate-pulse" />

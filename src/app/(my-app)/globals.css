@@ -3,11 +3,21 @@
 /* CSS Custom Properties for consistent theming */
 :root {
   --bg-primary: rgba(7, 7, 7, 1);
+  --surface-primary: rgba(12, 12, 14, 1);
   --text-primary: rgba(250, 243, 224, 1);
   --text-secondary: rgba(250, 243, 224, 0.7);
   --text-muted: rgba(250, 243, 224, 0.5);
   --accent-primary: #4ade80;
   --accent-hover: #86efac;
+  --status-active-bg: rgba(16, 185, 129, 0.15);
+  --status-active-text: #34d399;
+  --status-active-border: rgba(16, 185, 129, 0.25);
+  --status-dev-bg: rgba(245, 158, 11, 0.15);
+  --status-dev-text: #fbbf24;
+  --status-dev-border: rgba(245, 158, 11, 0.25);
+  --status-archived-bg: rgba(255, 255, 255, 0.08);
+  --status-archived-text: var(--text-muted);
+  --status-archived-border: rgba(255, 255, 255, 0.12);
 }
 
 /* Base styles - Inter for everything by default */

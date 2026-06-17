@@ -31,8 +31,26 @@ const config: Config = {
           hover: 'var(--accent-hover)',
         },
         surface: {
+          primary: 'var(--surface-primary)',
           glass: 'var(--surface-glass)',
           'glass-hover': 'var(--surface-glass-hover)',
+        },
+        status: {
+          active: {
+            bg: 'var(--status-active-bg)',
+            text: 'var(--status-active-text)',
+            border: 'var(--status-active-border)',
+          },
+          dev: {
+            bg: 'var(--status-dev-bg)',
+            text: 'var(--status-dev-text)',
+            border: 'var(--status-dev-border)',
+          },
+          archived: {
+            bg: 'var(--status-archived-bg)',
+            text: 'var(--status-archived-text)',
+            border: 'var(--status-archived-border)',
+          },
         },
         border: {
           glass: 'var(--border-glass)',

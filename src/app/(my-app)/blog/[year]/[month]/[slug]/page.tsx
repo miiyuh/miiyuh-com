@@ -135,7 +135,7 @@ async function PageContent({ params }: PageProps) {
   return (
     <Fragment>
       <RefreshRouteOnSave />
-      <main className="relative min-h-screen text-[#FAF3E0]">
+      <main className="relative min-h-screen text-text-primary">
         <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up">
           {/* Breadcrumbs */}
           <SimpleBreadcrumb
@@ -170,7 +170,7 @@ async function PageContent({ params }: PageProps) {
               {post.title}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-[#FAF3E0]/60">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-text-muted">
               {publishedAtDate && (
                 <time dateTime={publishedAtDate.toISOString()}>
                   {publishedAtDate.toLocaleDateString("en-CA", {
@@ -182,25 +182,20 @@ async function PageContent({ params }: PageProps) {
               {post.tags && post.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tagItem, index) => (
-                    <span
+                    <Link
                       key={index}
-                      className="rounded-full bg-[#FAF3E0]/10 px-3 py-1 text-xs"
+                      href={`/blog?tag=${encodeURIComponent(tagItem?.tag ?? "")}`}
+                      className="rounded-full bg-white/10 px-3 py-1 text-xs hover:bg-white/15 transition-colors duration-200"
                     >
                       {tagItem?.tag ?? "untagged"}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               )}
             </div>
 
             {post.excerpt && (
-              <p
-                className="text-lg text-[#FAF3E0]/80"
-                style={{
-                  fontFamily: "'Instrument Serif', serif",
-                  fontStyle: "italic",
-                }}
-              >
+              <p className="text-lg text-text-secondary font-serif italic">
                 {post.excerpt}
               </p>
             )}
@@ -216,10 +211,10 @@ async function PageContent({ params }: PageProps) {
           />
 
           {/* Back to Blog */}
-          <footer className="mt-12 border-t border-[#FAF3E0]/10 pt-8">
+          <footer className="mt-12 border-t border-white/10 pt-8">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-[#FAF3E0] hover:text-[#FAF3E0]/80 transition-colors"
+              className="inline-flex items-center gap-2 text-text-primary hover:text-text-primary/80 transition-colors"
             >
               <span>←</span>
               <span>back to blog</span>
