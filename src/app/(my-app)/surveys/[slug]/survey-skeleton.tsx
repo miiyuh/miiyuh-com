@@ -28,8 +28,8 @@ export function SurveySkeleton() {
 
             {/* Quick Info */}
             <div className="flex flex-wrap gap-4">
-              <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32" />
-              <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32" />
+              <TextSkeleton lines={1} className="w-32" />
+              <TextSkeleton lines={1} className="w-32" />
             </div>
           </div>
 
@@ -42,25 +42,25 @@ export function SurveySkeleton() {
                 <div className="space-y-6">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <div key={i} className="space-y-3">
-                      <div className="h-5 bg-white/5 rounded-lg animate-pulse w-48" />
-                      <div className="h-10 bg-white/5 rounded-lg animate-pulse w-full" />
+                      <TextSkeleton lines={1} className="w-48" />
+                      <TextSkeleton lines={1} className="h-10" />
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Back Link Skeleton */}
-              <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32 mt-8" />
+              <TextSkeleton lines={1} className="w-32 mt-8" />
             </div>
 
             {/* Sidebar - 1 column */}
             <aside className="md:col-span-1 order-1 md:order-2 md:border-l border-white/8">
               <div className="md:sticky md:top-24 space-y-6">
                 <div className="border-t md:border-b border-white/8 rounded-lg p-0 md:pl-6 pt-4 md:pt-0">
-                  <div className="h-6 bg-white/5 rounded-lg animate-pulse w-32 mb-3" />
+                  <TextSkeleton lines={1} className="w-32 mb-3" />
                   <div className="space-y-3">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="h-5 bg-white/5 rounded-lg animate-pulse w-full" />
+                      <TextSkeleton key={i} lines={1} />
                     ))}
                   </div>
                 </div>

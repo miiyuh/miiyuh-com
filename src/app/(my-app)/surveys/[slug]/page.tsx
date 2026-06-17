@@ -7,6 +7,7 @@ import { FormBlockServer } from '@/components/forms/form-block'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import { SurveySkeleton } from './survey-skeleton'
 import { getAllForms } from '@/utils/forms'
+import { slugify } from '@/utils/slugify'
 import { ArrowLeft, Clock, HelpCircle } from 'lucide-react'
 
 type SurveyPageProps = {
@@ -15,19 +16,12 @@ type SurveyPageProps = {
   }>
 }
 
-const generateSlug = (title: string) => {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-}
-
 export async function generateMetadata({
   params,
 }: SurveyPageProps): Promise<Metadata> {
   const { slug } = await params
   const forms = await getAllForms()
-  const form = forms.find((f) => generateSlug(f.title) === slug)
+  const form = forms.find((f) => slugify(f.title) === slug)
 
   if (!form) {
     return { title: 'Survey Not Found - miiyuh' }
@@ -42,7 +36,7 @@ export async function generateMetadata({
 async function SurveyPageContent({ params }: SurveyPageProps) {
   const { slug } = await params
   const forms = await getAllForms()
-  const form = forms.find((f) => generateSlug(f.title) === slug)
+  const form = forms.find((f) => slugify(f.title) === slug)
 
   if (!form) {
     notFound()
@@ -55,10 +49,10 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
       {/* Live Preview - refreshes page when survey is saved in admin */}
       <RefreshRouteOnSave />
 
-      <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
+      <section className="relative grow pt-6 pb-24">
         <div className="px-6 md:px-12 lg:px-24 xl:px-32">
           {/* Breadcrumb Navigation */}
-          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
+          <div className="mb-8">
             <SimpleBreadcrumb
               items={[
                 { label: 'home', href: '/' },

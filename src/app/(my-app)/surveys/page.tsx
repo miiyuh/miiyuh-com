@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getAllForms } from '@/utils/forms'
+import { slugify } from '@/utils/slugify'
 import SurveysClient from './surveys-client'
 
 export const metadata: Metadata = {
@@ -9,13 +10,6 @@ export const metadata: Metadata = {
 
 export const revalidate = 60 // Revalidate every minute
 
-const generateSlug = (title: string) => {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-}
-
 export default async function SurveysPage() {
   const forms = await getAllForms()
 
@@ -23,7 +17,7 @@ export default async function SurveysPage() {
   const surveys = forms.map((form) => ({
     id: form.id,
     title: form.title,
-    slug: generateSlug(form.title),
+    slug: slugify(form.title),
     fieldCount: form.fields?.length || 0,
     createdAt: form.createdAt,
   }))

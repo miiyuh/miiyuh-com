@@ -192,7 +192,7 @@ export default function BlogClient({
                         haptic.trigger("selection");
                         clearFilters();
                       }}
-                      className={`min-h-[44px] px-3 text-xs rounded-full transition-all duration-200 ${
+                      className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
                         selectedTags.length === 0
                           ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
                           : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
@@ -204,7 +204,7 @@ export default function BlogClient({
                       <button
                         key={topic.value}
                         onClick={() => toggleTopic(topic.value)}
-                        className={`min-h-[44px] px-3 text-xs rounded-full transition-all duration-200 ${
+                        className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
                           selectedTags.includes(topic.value)
                             ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
                             : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
@@ -235,7 +235,7 @@ export default function BlogClient({
                       <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
                         {coverSrc && (
                           <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] via-white/[0.07] to-white/[0.02] bg-[length:200%_100%] animate-skeleton" />
+                            <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
                             <Image
                               src={coverSrc}
                               alt={post.coverImage?.alt || post.title}
@@ -305,7 +305,7 @@ export default function BlogClient({
                 <button
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={pagination.page === 1}
-                  className={`min-h-[44px] min-w-[44px] flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
+                  className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
                     pagination.page === 1
                       ? "text-text-muted/40 cursor-not-allowed"
                       : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
@@ -332,7 +332,7 @@ export default function BlogClient({
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
                   disabled={pagination.page === pagination.totalPages}
-                  className={`min-h-[44px] min-w-[44px] flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
+                  className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
                     pagination.page === pagination.totalPages
                       ? "text-text-muted/40 cursor-not-allowed"
                       : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"

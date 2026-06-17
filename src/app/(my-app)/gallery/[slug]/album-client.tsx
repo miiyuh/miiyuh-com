@@ -147,16 +147,22 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none"></div>
 
                         {(image.title || image.description) && (
-                          <div className="p-4 border-t border-white/5 bg-black/20 backdrop-blur-sm absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
-                            {image.title && (
-                              <h3 className="font-bold text-white text-sm truncate">
-                                {image.title}
-                              </h3>
-                            )}
+                          <div className="absolute bottom-0 left-0 right-0">
+                            {/* Persistent thin gradient bar with title */}
+                            <div className="px-3 py-2 bg-linear-to-t from-black/70 to-transparent pointer-events-none">
+                              {image.title && (
+                                <h3 className="font-bold text-white text-xs truncate">
+                                  {image.title}
+                                </h3>
+                              )}
+                            </div>
+                            {/* Description slides up on hover */}
                             {image.description && (
-                              <p className="text-white/70 text-xs truncate">
-                                {image.description}
-                              </p>
+                              <div className="bg-black/80 backdrop-blur-sm border-t border-white/10 px-3 py-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
+                                <p className="text-white/60 text-xs truncate">
+                                  {image.description}
+                                </p>
+                              </div>
                             )}
                           </div>
                         )}

@@ -141,7 +141,7 @@ function ProjectCard({
       {/* Cover image */}
       {project.image?.url ? (
         <div className="relative aspect-video overflow-hidden shrink-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] via-white/[0.07] to-white/[0.02] bg-[length:200%_100%] animate-skeleton" />
+          <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
           <Image
             src={project.image.url}
             alt={project.image.alt || project.name}

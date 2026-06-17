@@ -69,11 +69,14 @@ function OptimizedGalleryImageComponent({
   }
 
   return (
-    <div
-      ref={elementRef}
-      className={`w-full aspect-square relative ${className}`}
-    >
-      <Image
+      <div
+        ref={elementRef}
+        className={`w-full aspect-square relative ${className}`}
+      >
+        {!isLoaded && (
+          <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton rounded-2xl" />
+        )}
+        <Image
         src={image.src}
         alt={image.title || "Gallery image"}
         fill

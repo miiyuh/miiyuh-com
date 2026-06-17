@@ -62,7 +62,7 @@ export default function HomeClient({
             </h1>
 
             {/* Description */}
-            <p className="text-sm md:text-base lg:text-lg text-text-secondary leading-relaxed font-light text-pretty break-words">
+            <p className="text-sm md:text-base lg:text-lg text-text-secondary leading-relaxed font-light text-pretty wrap-break-word">
               Fresh graduate, creative developer, and photographer. Advocating
               for better policy, governance, and urban life in Malaysia.
             </p>

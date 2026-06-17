@@ -75,13 +75,14 @@ export default function GalleryClient({
                                   transform: `translateY(${i * 8}px) scale(${1 - i * 0.05})`,
                                 }}
                               >
-                                <div
-                                  className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
-                                  ${i === 1 ? "group-hover:-rotate-6 group-hover:-translate-x-8" : ""}
-                                  ${i === 2 ? "group-hover:rotate-6 group-hover:translate-x-8" : ""}
-                                `}
-                                >
-                                  <Image
+                                  <div
+                                    className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
+                                    ${i === 1 ? "group-hover:-rotate-6 group-hover:-translate-x-8" : ""}
+                                    ${i === 2 ? "group-hover:rotate-6 group-hover:translate-x-8" : ""}
+                                  `}
+                                  >
+                                    <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
+                                    <Image
                                     src={img.src}
                                     alt={collection.title}
                                     fill
@@ -97,7 +98,7 @@ export default function GalleryClient({
                             ))
                           ) : (
                             <div className="w-full h-full rounded-2xl bg-white/5 flex items-center justify-center text-text-muted border border-white/8">
-                              <div className="w-12 h-12 opacity-20" />
+                              <span className="text-xs italic px-2 text-center">nothing developed yet</span>
                             </div>
                           )}
                         </div>
