@@ -1,6 +1,5 @@
 import {
   lexicalEditor,
-  // Default features (included by default)
   BoldFeature,
   ItalicFeature,
   UnderlineFeature,
@@ -20,16 +19,13 @@ import {
   BlockquoteFeature,
   UploadFeature,
   HorizontalRuleFeature,
-  // Additional features (not included by default)
   FixedToolbarFeature,
   BlocksFeature,
   EXPERIMENTAL_TableFeature,
-  // Code block
   CodeBlock,
 } from '@payloadcms/richtext-lexical'
 import type { Block } from 'payload'
 
-// Custom Callout Block for rich text
 const CalloutBlock: Block = {
   slug: 'callout',
   labels: {
@@ -68,7 +64,6 @@ const CalloutBlock: Block = {
   ],
 }
 
-// Custom Banner Block for rich text
 const BannerBlock: Block = {
   slug: 'banner',
   labels: {
@@ -106,36 +101,69 @@ const BannerBlock: Block = {
   ],
 }
 
-// Full-featured rich text editor configuration
-export const fullFeaturedEditor = lexicalEditor({
-  features: () => [
-    // Text formatting features
+function baseTextFeatures() {
+  return [
     BoldFeature(),
     ItalicFeature(),
     UnderlineFeature(),
+    InlineCodeFeature(),
+    ParagraphFeature(),
+    HorizontalRuleFeature(),
+    FixedToolbarFeature(),
+  ]
+}
+
+function baseFormattingFeatures() {
+  return [
+    ...baseTextFeatures(),
     StrikethroughFeature(),
+    LinkFeature(),
+    UnorderedListFeature(),
+    OrderedListFeature(),
+    BlockquoteFeature(),
+  ]
+}
+
+function baseAlignmentFeatures() {
+  return [
+    AlignFeature(),
+    IndentFeature(),
+  ]
+}
+
+const codeBlockLanguages = {
+  plaintext: 'Plain Text',
+  javascript: 'JavaScript',
+  typescript: 'TypeScript',
+  jsx: 'JSX',
+  tsx: 'TSX',
+  html: 'HTML',
+  css: 'CSS',
+  scss: 'SCSS',
+  json: 'JSON',
+  markdown: 'Markdown',
+  bash: 'Bash/Shell',
+  sql: 'SQL',
+  yaml: 'YAML',
+}
+
+const extendedCodeBlockLanguages = {
+  ...codeBlockLanguages,
+  python: 'Python',
+  dockerfile: 'Dockerfile',
+  graphql: 'GraphQL',
+}
+
+export const fullFeaturedEditor = lexicalEditor({
+  features: () => [
+    ...baseFormattingFeatures(),
     SubscriptFeature(),
     SuperscriptFeature(),
-    InlineCodeFeature(),
-
-    // Structure features
-    ParagraphFeature(),
     HeadingFeature({
       enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     }),
-    BlockquoteFeature(),
-    HorizontalRuleFeature(),
-
-    // List features
-    UnorderedListFeature(),
-    OrderedListFeature(),
+    ...baseAlignmentFeatures(),
     ChecklistFeature(),
-
-    // Alignment and indentation
-    AlignFeature(),
-    IndentFeature(),
-
-    // Link feature with custom fields
     LinkFeature({
       fields: ({ defaultFields }) => [
         ...defaultFields,
@@ -145,15 +173,9 @@ export const fullFeaturedEditor = lexicalEditor({
           type: 'select',
           hasMany: true,
           options: ['noopener', 'noreferrer', 'nofollow'],
-          admin: {
-            description:
-              'The rel attribute defines the relationship between the linked resource and the current document.',
-          },
         },
       ],
     }),
-
-    // Upload feature with caption support
     UploadFeature({
       collections: {
         media: {
@@ -162,59 +184,27 @@ export const fullFeaturedEditor = lexicalEditor({
               name: 'caption',
               type: 'text',
               label: 'Caption',
-              admin: {
-                placeholder: 'Optional image caption...',
-              },
             },
             {
               name: 'altText',
               type: 'text',
               label: 'Alt Text',
-              admin: {
-                placeholder: 'Descriptive alt text for accessibility...',
-              },
             },
           ],
         },
       },
     }),
-
-    // Relationship feature
     RelationshipFeature({
       enabledCollections: ['blog-posts', 'projects', 'gallery-collections'],
     }),
-
-    // Fixed toolbar (always visible at the top)
-    FixedToolbarFeature(),
-
-    // Table support (experimental)
     EXPERIMENTAL_TableFeature(),
-
-    // Blocks feature with custom blocks and code block
     BlocksFeature({
       blocks: [
         CalloutBlock,
         BannerBlock,
         CodeBlock({
           defaultLanguage: 'typescript',
-          languages: {
-            plaintext: 'Plain Text',
-            javascript: 'JavaScript',
-            typescript: 'TypeScript',
-            jsx: 'JSX',
-            tsx: 'TSX',
-            html: 'HTML',
-            css: 'CSS',
-            scss: 'SCSS',
-            json: 'JSON',
-            markdown: 'Markdown',
-            python: 'Python',
-            bash: 'Bash/Shell',
-            sql: 'SQL',
-            yaml: 'YAML',
-            dockerfile: 'Dockerfile',
-            graphql: 'GraphQL',
-          },
+          languages: extendedCodeBlockLanguages,
         }),
       ],
     }),
@@ -224,55 +214,28 @@ export const fullFeaturedEditor = lexicalEditor({
   },
 })
 
-// Simplified editor for shorter content (e.g., descriptions, comments)
 export const simpleEditor = lexicalEditor({
   features: () => [
-    BoldFeature(),
-    ItalicFeature(),
-    UnderlineFeature(),
-    StrikethroughFeature(),
-    InlineCodeFeature(),
-    ParagraphFeature(),
+    ...baseTextFeatures(),
     LinkFeature(),
     UnorderedListFeature(),
     OrderedListFeature(),
-    FixedToolbarFeature(),
   ],
   admin: {
     placeholder: 'Enter text...',
   },
 })
 
-// Blog-specific editor with all features optimized for blog posts
 export const blogEditor = lexicalEditor({
   features: () => [
-    // All text formatting
-    BoldFeature(),
-    ItalicFeature(),
-    UnderlineFeature(),
-    StrikethroughFeature(),
+    ...baseFormattingFeatures(),
     SubscriptFeature(),
     SuperscriptFeature(),
-    InlineCodeFeature(),
-
-    // Structure
-    ParagraphFeature(),
     HeadingFeature({
-      enabledHeadingSizes: ['h2', 'h3', 'h4'], // H1 is typically the post title
+      enabledHeadingSizes: ['h2', 'h3', 'h4'],
     }),
-    BlockquoteFeature(),
-    HorizontalRuleFeature(),
-
-    // Lists
-    UnorderedListFeature(),
-    OrderedListFeature(),
+    ...baseAlignmentFeatures(),
     ChecklistFeature(),
-
-    // Alignment
-    AlignFeature(),
-    IndentFeature(),
-
-    // Links with SEO options
     LinkFeature({
       fields: ({ defaultFields }) => [
         ...defaultFields,
@@ -282,14 +245,9 @@ export const blogEditor = lexicalEditor({
           type: 'select',
           hasMany: true,
           options: ['noopener', 'noreferrer', 'nofollow', 'sponsored', 'ugc'],
-          admin: {
-            description: 'SEO-related link attributes.',
-          },
         },
       ],
     }),
-
-    // Media
     UploadFeature({
       collections: {
         media: {
@@ -309,41 +267,17 @@ export const blogEditor = lexicalEditor({
         },
       },
     }),
-
-    // Related content
     RelationshipFeature({
       enabledCollections: ['blog-posts', 'projects'],
     }),
-
-    // Fixed toolbar (always visible at the top)
-    FixedToolbarFeature(),
-
-    // Tables
     EXPERIMENTAL_TableFeature(),
-
-    // Custom blocks
     BlocksFeature({
       blocks: [
         CalloutBlock,
         BannerBlock,
         CodeBlock({
           defaultLanguage: 'typescript',
-          languages: {
-            plaintext: 'Plain Text',
-            javascript: 'JavaScript',
-            typescript: 'TypeScript',
-            jsx: 'JSX',
-            tsx: 'TSX',
-            html: 'HTML',
-            css: 'CSS',
-            scss: 'SCSS',
-            json: 'JSON',
-            markdown: 'Markdown',
-            python: 'Python',
-            bash: 'Bash/Shell',
-            sql: 'SQL',
-            yaml: 'YAML',
-          },
+          languages: codeBlockLanguages,
         }),
       ],
     }),
@@ -353,25 +287,17 @@ export const blogEditor = lexicalEditor({
   },
 })
 
-// Legal document editor (for privacy policy, terms of service)
 export const legalEditor = lexicalEditor({
   features: () => [
-    BoldFeature(),
-    ItalicFeature(),
-    UnderlineFeature(),
-    InlineCodeFeature(),
-    ParagraphFeature(),
+    ...baseTextFeatures(),
     HeadingFeature({
       enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5'],
     }),
     BlockquoteFeature(),
-    HorizontalRuleFeature(),
     UnorderedListFeature(),
     OrderedListFeature(),
-    AlignFeature(),
-    IndentFeature(),
+    ...baseAlignmentFeatures(),
     LinkFeature(),
-    FixedToolbarFeature(),
     EXPERIMENTAL_TableFeature(),
   ],
   admin: {
@@ -379,34 +305,14 @@ export const legalEditor = lexicalEditor({
   },
 })
 
-// Project documentation editor
 export const projectEditor = lexicalEditor({
   features: () => [
-    // Text formatting
-    BoldFeature(),
-    ItalicFeature(),
-    UnderlineFeature(),
-    StrikethroughFeature(),
-    InlineCodeFeature(),
-
-    // Structure
-    ParagraphFeature(),
+    ...baseFormattingFeatures(),
     HeadingFeature({
       enabledHeadingSizes: ['h2', 'h3', 'h4'],
     }),
-    BlockquoteFeature(),
-    HorizontalRuleFeature(),
-
-    // Lists
-    UnorderedListFeature(),
-    OrderedListFeature(),
+    ...baseAlignmentFeatures(),
     ChecklistFeature(),
-
-    // Alignment
-    AlignFeature(),
-    IndentFeature(),
-
-    // Links
     LinkFeature({
       fields: ({ defaultFields }) => [
         ...defaultFields,
@@ -419,8 +325,6 @@ export const projectEditor = lexicalEditor({
         },
       ],
     }),
-
-    // Media
     UploadFeature({
       collections: {
         media: {
@@ -439,33 +343,13 @@ export const projectEditor = lexicalEditor({
         },
       },
     }),
-
-    // Toolbars
-    FixedToolbarFeature(),
-
-    // Tables
     EXPERIMENTAL_TableFeature(),
-
-    // Code blocks for technical documentation
     BlocksFeature({
       blocks: [
         CalloutBlock,
         CodeBlock({
           defaultLanguage: 'typescript',
-          languages: {
-            plaintext: 'Plain Text',
-            javascript: 'JavaScript',
-            typescript: 'TypeScript',
-            jsx: 'JSX',
-            tsx: 'TSX',
-            html: 'HTML',
-            css: 'CSS',
-            json: 'JSON',
-            bash: 'Bash/Shell',
-            sql: 'SQL',
-            yaml: 'YAML',
-            dockerfile: 'Dockerfile',
-          },
+          languages: codeBlockLanguages,
         }),
       ],
     }),

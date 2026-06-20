@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { isAdmin } from '../access/is-admin'
+import { slugField, revalidateCollectionHooks } from './shared'
 
 const Papers: CollectionConfig = {
   slug: 'papers',
@@ -17,13 +18,16 @@ const Papers: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'publishedDate', '_status'],
-    description: 'Manage academic papers and research documents',
+    group: 'Content',
     listSearchableFields: ['title', 'slug', 'abstract'],
     pagination: {
       defaultLimit: 10,
       limits: [5, 10, 20, 50],
     },
-    group: 'Content',
+    preview: (doc) => {
+      if (!doc?.slug) return ''
+      return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/papers/${doc.slug}`
+    },
   },
   versions: {
     drafts: true,
@@ -41,33 +45,10 @@ const Papers: CollectionConfig = {
               required: true,
               localized: true,
               index: true,
-              admin: {
-                description: 'Title of the academic paper',
-              },
             },
-            {
-              name: 'slug',
-              type: 'text',
-              required: true,
-              unique: true,
-              index: true,
-              admin: {
-                description: 'URL-friendly identifier',
-              },
-              hooks: {
-                beforeValidate: [
-                  ({ value, data }) => {
-                    if (!value && data?.title) {
-                      return data.title
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')
-                        .replace(/(^-|-$)/g, '')
-                    }
-                    return value
-                  },
-                ],
-              },
-            },
+            slugField({
+              fieldName: 'slug',
+            }),
             {
               type: 'row',
               fields: [
@@ -106,10 +87,6 @@ const Papers: CollectionConfig = {
               type: 'textarea',
               required: true,
               localized: true,
-              index: true,
-              admin: {
-                description: 'Brief abstract or summary of the paper',
-              },
             },
             {
               name: 'authors',
@@ -138,9 +115,6 @@ const Papers: CollectionConfig = {
               type: 'upload',
               relationTo: 'media',
               required: true,
-              admin: {
-                description: 'Upload the PDF document',
-              },
               filterOptions: {
                 mimeType: { contains: 'pdf' },
               },
@@ -166,9 +140,6 @@ const Papers: CollectionConfig = {
             {
               name: 'externalLink',
               type: 'text',
-              admin: {
-                description: 'Link to external publication (e.g., arXiv, IEEE)',
-              },
             },
           ],
         },
@@ -190,15 +161,11 @@ const Papers: CollectionConfig = {
               name: 'doi',
               type: 'text',
               label: 'DOI',
-              admin: {
-                description: 'Digital Object Identifier',
-              },
             },
             {
               name: 'conference',
               type: 'text',
               admin: {
-                description: 'Conference or journal name',
                 condition: (data) => data.category !== 'other',
               },
             },
@@ -206,7 +173,6 @@ const Papers: CollectionConfig = {
               name: 'citationCount',
               type: 'number',
               admin: {
-                description: 'Number of citations (optional)',
                 step: 1,
               },
             },
@@ -214,9 +180,6 @@ const Papers: CollectionConfig = {
               name: 'featured',
               type: 'checkbox',
               defaultValue: false,
-              admin: {
-                description: 'Display on homepage or featured section',
-              },
             },
             {
               name: 'status',
@@ -235,6 +198,15 @@ const Papers: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    ...revalidateCollectionHooks((doc) => {
+      const paths = ['/papers']
+      if (doc?.slug) {
+        paths.push(`/papers/${doc.slug}`)
+      }
+      return paths
+    }),
+  },
 }
 
 export default Papers

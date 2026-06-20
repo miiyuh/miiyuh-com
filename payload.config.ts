@@ -18,6 +18,7 @@ import { PrivacyPolicy } from './src/globals/PrivacyPolicy'
 import { TermsOfService } from './src/globals/TermsOfService'
 import { fullFeaturedEditor } from './src/editor/richTextEditor'
 import { isAdmin } from './src/access/is-admin'
+import { slugify } from './src/utils/slugify'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -27,7 +28,6 @@ const requiredEnv = (key: string, fallback?: string): string => {
     const message = `Missing required environment variable: ${key}`
     if (isProd) {
       console.error(message)
-      // Return a placeholder to allow build to continue
       return `MISSING_${key}`
     }
     throw new Error(message)
@@ -48,6 +48,32 @@ const consoleEmailAdapter: PayloadEmailAdapter = ({ payload }) => ({
   },
 })
 
+function autoNameField() {
+  return {
+    name: 'name',
+    type: 'text' as const,
+    label: 'Field ID',
+    required: true,
+    admin: {
+      condition: () => false,
+    },
+    hooks: {
+      beforeValidate: [
+        ({ siblingData }: { siblingData?: Record<string, unknown> }) => {
+          if (siblingData?.label && typeof siblingData.label === 'string') {
+            return siblingData.label
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '_')
+              .replace(/(^_|_$)/g, '')
+              .substring(0, 50)
+          }
+          return `field_${Date.now()}`
+        },
+      ],
+    },
+  }
+}
+
 export default buildConfig({
   email: consoleEmailAdapter,
   admin: {
@@ -57,13 +83,12 @@ export default buildConfig({
     },
     livePreview: {
       url: ({ data, collectionConfig, globalConfig, locale }) => {
-        // Generate preview URLs based on collection/global type
         const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
-        
+
         let previewPath = ''
-        
+
         const slug = collectionConfig?.slug || globalConfig?.slug
-        
+
         if (slug === 'blog-posts') {
           const date = new Date(data.publishedAt || new Date())
           const year = date.getFullYear()
@@ -74,24 +99,20 @@ export default buildConfig({
         } else if (slug === 'gallery-collections') {
           previewPath = `/gallery/${data.slug}`
         } else if (slug === 'surveys') {
-          // Generate slug from survey title
-          const surveySlug = data.title
-            ? data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-            : ''
+          const surveySlug = data.title ? slugify(data.title) : ''
           previewPath = surveySlug ? `/surveys/${surveySlug}` : '/surveys'
         } else if (slug === 'privacy-policy') {
           previewPath = '/privacy-policy'
         } else if (slug === 'terms-of-service') {
           previewPath = '/terms-of-service'
         }
-        
+
         const url = `${baseUrl}${previewPath}`
-        
-        // Add locale query parameter if localization is enabled
+
         if (locale?.code && locale.code !== 'en') {
           return `${url}?locale=${locale.code}`
         }
-        
+
         return url
       },
       collections: ['blog-posts', 'projects', 'gallery-collections', 'surveys'],
@@ -135,10 +156,8 @@ export default buildConfig({
   collections: [Users, Media, GalleryCollections, BlogPosts, Projects, Papers, AboutPage],
   globals: [PrivacyPolicy, TermsOfService],
   plugins: [
-    // Form Builder plugin - creates Surveys collection with simplified admin
     formBuilderPlugin({
       fields: {
-        // Simple question types with user-friendly overrides
         text: {
           labels: {
             singular: 'Short Answer',
@@ -151,35 +170,8 @@ export default buildConfig({
               label: 'Question',
               required: true,
               localized: true,
-              admin: {
-                description: 'The question text shown to users',
-              },
             },
-            {
-              name: 'name',
-              type: 'text',
-              label: 'Field ID',
-              required: true,
-              admin: {
-                description: 'Auto-generated from your question (used internally)',
-                condition: () => false, // Hide from admin - we'll auto-generate
-              },
-              hooks: {
-                beforeValidate: [
-                  ({ siblingData }) => {
-                    // Auto-generate name from label
-                    if (siblingData?.label) {
-                      return siblingData.label
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '_')
-                        .replace(/(^_|_$)/g, '')
-                        .substring(0, 50)
-                    }
-                    return `field_${Date.now()}`
-                  },
-                ],
-              },
-            },
+            autoNameField(),
             {
               name: 'required',
               type: 'checkbox',
@@ -190,9 +182,6 @@ export default buildConfig({
               name: 'placeholder',
               type: 'text',
               label: 'Placeholder text',
-              admin: {
-                description: 'Hint text shown inside the field',
-              },
             },
           ],
         },
@@ -208,33 +197,8 @@ export default buildConfig({
               label: 'Question',
               required: true,
               localized: true,
-              admin: {
-                description: 'The question text shown to users',
-              },
             },
-            {
-              name: 'name',
-              type: 'text',
-              label: 'Field ID',
-              required: true,
-              admin: {
-                condition: () => false, // Hide from admin
-              },
-              hooks: {
-                beforeValidate: [
-                  ({ siblingData }) => {
-                    if (siblingData?.label) {
-                      return siblingData.label
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '_')
-                        .replace(/(^_|_$)/g, '')
-                        .substring(0, 50)
-                    }
-                    return `field_${Date.now()}`
-                  },
-                ],
-              },
-            },
+            autoNameField(),
             {
               name: 'required',
               type: 'checkbox',
@@ -261,28 +225,7 @@ export default buildConfig({
               required: true,
               localized: true,
             },
-            {
-              name: 'name',
-              type: 'text',
-              required: true,
-              admin: {
-                condition: () => false,
-              },
-              hooks: {
-                beforeValidate: [
-                  ({ siblingData }) => {
-                    if (siblingData?.label) {
-                      return siblingData.label
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '_')
-                        .replace(/(^_|_$)/g, '')
-                        .substring(0, 50)
-                    }
-                    return `field_${Date.now()}`
-                  },
-                ],
-              },
-            },
+            autoNameField(),
             {
               name: 'options',
               type: 'array',
@@ -308,8 +251,8 @@ export default buildConfig({
                   },
                   hooks: {
                     beforeValidate: [
-                      ({ siblingData }) => {
-                        if (siblingData?.label) {
+                      ({ siblingData }: { siblingData?: Record<string, unknown> }) => {
+                        if (siblingData?.label && typeof siblingData.label === 'string') {
                           return siblingData.label
                             .toLowerCase()
                             .replace(/[^a-z0-9]+/g, '_')
@@ -342,32 +285,8 @@ export default buildConfig({
               label: 'Checkbox text',
               required: true,
               localized: true,
-              admin: {
-                description: 'Text shown next to the checkbox',
-              },
             },
-            {
-              name: 'name',
-              type: 'text',
-              required: true,
-              admin: {
-                condition: () => false,
-              },
-              hooks: {
-                beforeValidate: [
-                  ({ siblingData }) => {
-                    if (siblingData?.label) {
-                      return siblingData.label
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '_')
-                        .replace(/(^_|_$)/g, '')
-                        .substring(0, 50)
-                    }
-                    return `field_${Date.now()}`
-                  },
-                ],
-              },
-            },
+            autoNameField(),
             {
               name: 'required',
               type: 'checkbox',
@@ -420,28 +339,7 @@ export default buildConfig({
               required: true,
               localized: true,
             },
-            {
-              name: 'name',
-              type: 'text',
-              required: true,
-              admin: {
-                condition: () => false,
-              },
-              hooks: {
-                beforeValidate: [
-                  ({ siblingData }) => {
-                    if (siblingData?.label) {
-                      return siblingData.label
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '_')
-                        .replace(/(^_|_$)/g, '')
-                        .substring(0, 50)
-                    }
-                    return `field_${Date.now()}`
-                  },
-                ],
-              },
-            },
+            autoNameField(),
             {
               name: 'required',
               type: 'checkbox',
@@ -456,12 +354,10 @@ export default buildConfig({
             plural: 'Info Texts',
           },
         },
-        // Disable fields we don't need
         country: false,
         state: false,
         payment: false,
       },
-      // Rename to Surveys for clarity
       formOverrides: {
         slug: 'surveys',
         labels: {
@@ -477,17 +373,13 @@ export default buildConfig({
         },
         admin: {
           group: 'Surveys',
-          description: 'Create surveys and feedback forms',
           useAsTitle: 'title',
           defaultColumns: ['title', 'updatedAt'],
           livePreview: {
             url: ({ data }) => {
               const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
               if (data?.title) {
-                const slug = data.title
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, '-')
-                  .replace(/(^-|-$)/g, '')
+                const slug = slugify(data.title)
                 return `${baseUrl}/surveys/${slug}`
               }
               return `${baseUrl}/surveys`
@@ -510,11 +402,9 @@ export default buildConfig({
         },
         admin: {
           group: 'Surveys',
-          description: 'View responses to your surveys',
         },
       },
     }),
-    // S3 Storage (enabled whenever R2 env vars are present)
     ...(process.env.R2_BUCKET_NAME ? [
       s3Storage({
         enabled: true,

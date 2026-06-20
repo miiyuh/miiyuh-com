@@ -90,6 +90,8 @@ next-env.d.ts
 # =========================================
 .impeccable/
 .opencode/
+.agents/
+skills-lock.json
 
 # =========================================
 # Misc

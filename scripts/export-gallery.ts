@@ -38,7 +38,6 @@ async function exportGallery() {
         slug: col.slug,
         description: col.description,
         status: col.status,
-        // displayOrder was removed from GalleryCollection schema
       })),
       images: (collections as GalleryCollectionDocument[]).flatMap((col) =>
         (col.images ?? []).map((img) => {
@@ -49,7 +48,6 @@ async function exportGallery() {
             description: img.description,
             galleryCollectionId: col.id,
             collectionSlug: col.slug,
-            displayOrder: img.displayOrder,
             published: img.published,
             media: media
               ? {

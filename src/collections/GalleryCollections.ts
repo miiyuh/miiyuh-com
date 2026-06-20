@@ -1,19 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { isAdmin } from '../access/is-admin'
-
-const revalidateGalleryRoutes = async (slug?: string | null) => {
-  try {
-    const { revalidatePath } = await import('next/cache')
-
-    revalidatePath('/gallery')
-
-    if (slug) {
-      revalidatePath(`/gallery/${slug}`)
-    }
-  } catch {
-    // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
-  }
-}
+import { slugField, revalidateCollectionHooks } from './shared'
 
 const GalleryCollections: CollectionConfig = {
   slug: 'gallery-collections',
@@ -31,7 +18,6 @@ const GalleryCollections: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'imageCount', 'status'],
-    description: 'Create and manage photo albums with multiple images',
     group: 'Gallery',
     listSearchableFields: ['title', 'slug', 'description'],
     pagination: {
@@ -45,7 +31,6 @@ const GalleryCollections: CollectionConfig = {
       tabs: [
         {
           label: 'Album Info',
-          description: 'Basic album information',
           fields: [
             {
               type: 'row',
@@ -57,45 +42,17 @@ const GalleryCollections: CollectionConfig = {
                   index: true,
                   admin: {
                     width: '50%',
-                    placeholder: 'e.g., Japan Trip 2025',
                   },
                 },
-                {
-                  name: 'slug',
-                  type: 'text',
-                  required: true,
-                  unique: true,
-                  index: true,
-                  admin: {
-                    width: '50%',
-                    description: 'URL-friendly identifier (e.g., japan-trip-2025)',
-                    placeholder: 'japan-trip-2025',
-                  },
-                  hooks: {
-                    beforeValidate: [
-                      ({ value, data }) => {
-                        // Auto-generate slug from title if empty
-                        if (!value && data?.title) {
-                          return data.title
-                            .toLowerCase()
-                            .replace(/[^a-z0-9]+/g, '-')
-                            .replace(/(^-|-$)/g, '')
-                        }
-                        return value
-                      },
-                    ],
-                  },
-                },
+                slugField({
+                  fieldName: 'slug',
+                  width: '50%',
+                }),
               ],
             },
             {
               name: 'description',
               type: 'textarea',
-              required: false,
-              index: true,
-              admin: {
-                placeholder: 'Brief description of this album...',
-              },
             },
             {
               type: 'row',
@@ -107,7 +64,6 @@ const GalleryCollections: CollectionConfig = {
                   index: true,
                   admin: {
                     width: '50%',
-                    description: 'Date of the event or album (used for sorting — newest first)',
                     date: {
                       pickerAppearance: 'dayOnly',
                       displayFormat: 'd MMM yyyy',
@@ -133,7 +89,6 @@ const GalleryCollections: CollectionConfig = {
         },
         {
           label: 'Images',
-          description: 'Upload and manage album images',
           fields: [
             {
               name: 'images',
@@ -145,7 +100,7 @@ const GalleryCollections: CollectionConfig = {
               },
               minRows: 1,
               admin: {
-                description: 'First three (3) images will be used as album cover stack. Drag to reorder.',
+                description: 'First 3 images are used as the album cover stack. Drag to reorder.',
                 initCollapsed: true,
               },
               fields: [
@@ -154,31 +109,19 @@ const GalleryCollections: CollectionConfig = {
                   type: 'upload',
                   relationTo: 'media',
                   required: true,
-                  admin: {
-                    description: 'Select or upload an image',
-                  },
                 },
                 {
                   name: 'title',
                   type: 'text',
-                  required: false,
-                  admin: {
-                    placeholder: 'Image title (optional)',
-                  },
                 },
                 {
                   name: 'description',
                   type: 'textarea',
-                  required: false,
-                  admin: {
-                    placeholder: 'Image description (shown in lightbox)',
-                  },
                 },
                 {
                   name: 'tags',
                   type: 'array',
                   admin: {
-                    description: 'Add tags for filtering',
                     initCollapsed: true,
                   },
                   fields: [
@@ -187,7 +130,6 @@ const GalleryCollections: CollectionConfig = {
                       type: 'text',
                     },
                   ],
-                  required: false,
                 },
               ],
             },
@@ -195,21 +137,15 @@ const GalleryCollections: CollectionConfig = {
         },
       ],
     },
-    // Virtual field to show image count in list view
     {
       name: 'imageCount',
       type: 'number',
+      virtual: true,
       admin: {
         position: 'sidebar',
         readOnly: true,
-        description: 'Total images in this album',
       },
       hooks: {
-        beforeChange: [
-          ({ siblingData }) => {
-            return siblingData?.images?.length || 0
-          },
-        ],
         afterRead: [
           ({ data }) => {
             return data?.images?.length || 0
@@ -219,28 +155,13 @@ const GalleryCollections: CollectionConfig = {
     },
   ],
   hooks: {
-    // Persist image order from drag position (displayOrder = array index)
-    beforeChange: [
-      ({ data }) => {
-        if (data?.images) {
-          data.images = data.images.map((img: { displayOrder?: number }, index: number) => ({
-            ...img,
-            displayOrder: index,
-          }))
-        }
-        return data
-      },
-    ],
-    afterChange: [
-      async ({ doc }) => {
-        await revalidateGalleryRoutes(doc?.slug)
-      },
-    ],
-    afterDelete: [
-      async ({ doc }) => {
-        await revalidateGalleryRoutes(doc?.slug)
-      },
-    ],
+    ...revalidateCollectionHooks((doc) => {
+      const paths = ['/gallery']
+      if (doc?.slug) {
+        paths.push(`/gallery/${doc.slug}`)
+      }
+      return paths
+    }),
   },
 }
 

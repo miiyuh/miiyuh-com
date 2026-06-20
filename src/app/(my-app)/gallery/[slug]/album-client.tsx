@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import ErrorBoundary from "@/components/ui/error-boundary";
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
-import { Camera, Palette } from "@phosphor-icons/react";
 import { isJapanCollection } from "@/utils";
 import { OptimizedGalleryImage } from "@/components/gallery/optimized-gallery-image";
 import type { GalleryCollectionSummary, GalleryItem } from "@/types/gallery";
@@ -64,17 +63,6 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
     };
   }, [collection.slug]);
 
-  const getSectionType = (slug: string) => {
-    if (
-      slug.includes("photo") ||
-      slug.includes("2025") ||
-      slug.includes("japan")
-    )
-      return "photography";
-    if (slug.includes("artwork")) return "artwork";
-    return "gallery";
-  };
-
   return (
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
@@ -94,19 +82,6 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
 
             {/* Collection Header */}
             <div className="mb-16 max-w-4xl">
-              {(() => {
-                const sectionType = getSectionType(collection.slug);
-                return (
-                  <div className="flex items-center gap-3 mb-4 text-accent-primary font-mono text-sm">
-                    {sectionType === "photography" ? (
-                      <Camera className="w-4 h-4" />
-                    ) : (
-                      <Palette className="w-4 h-4" />
-                    )}
-                    {sectionType}
-                  </div>
-                );
-              })()}
               <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6 text-text-primary leading-[0.9] text-balance">
                 {collection.title}
                 {isJapanCollection(collection.slug) && (
@@ -146,24 +121,13 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                         />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none"></div>
 
-                        {(image.title || image.description) && (
+                        {image.title && (
                           <div className="absolute bottom-0 left-0 right-0">
-                            {/* Persistent thin gradient bar with title */}
-                            <div className="px-3 py-2 bg-linear-to-t from-black/70 to-transparent pointer-events-none">
-                              {image.title && (
-                                <h3 className="font-bold text-white text-xs truncate">
-                                  {image.title}
-                                </h3>
-                              )}
+                            <div className="px-3 py-2 bg-linear-to-t from-black/70 to-transparent md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
+                              <h3 className="font-bold text-white text-xs truncate">
+                                {image.title}
+                              </h3>
                             </div>
-                            {/* Description slides up on hover */}
-                            {image.description && (
-                              <div className="bg-black/80 backdrop-blur-sm border-t border-white/10 px-3 py-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
-                                <p className="text-white/60 text-xs truncate">
-                                  {image.description}
-                                </p>
-                              </div>
-                            )}
                           </div>
                         )}
                       </a>

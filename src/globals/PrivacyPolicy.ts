@@ -1,12 +1,12 @@
 import { GlobalConfig } from 'payload'
 import { legalEditor } from '../editor/richTextEditor'
 import { isAdmin } from '../access/is-admin'
+import { revalidateGlobalHooks } from '../collections/shared'
 
 export const PrivacyPolicy: GlobalConfig = {
   slug: 'privacy-policy',
   label: 'Privacy Policy',
   admin: {
-    description: 'Manage the privacy policy page content',
     group: 'Legal',
   },
   access: {
@@ -14,23 +14,13 @@ export const PrivacyPolicy: GlobalConfig = {
     update: isAdmin,
   },
   hooks: {
-    afterChange: [
-      async () => {
-        try {
-          const { revalidatePath } = await import('next/cache')
-          revalidatePath('/privacy-policy')
-        } catch {
-          // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
-        }
-      },
-    ],
+    ...revalidateGlobalHooks('/privacy-policy'),
   },
   fields: [
     {
       name: 'lastUpdated',
       type: 'date',
       admin: {
-        description: 'Last updated date (shown at the top of the page)',
         date: {
           pickerAppearance: 'dayOnly',
         },
@@ -43,9 +33,6 @@ export const PrivacyPolicy: GlobalConfig = {
       required: true,
       localized: true,
       editor: legalEditor,
-      admin: {
-        description: 'Privacy policy content with full rich text support',
-      },
     },
   ],
 }

@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { blogEditor } from '../editor/richTextEditor'
 import { isAdmin } from '../access/is-admin'
+import { slugField } from './shared'
 
 const revalidateBlogRoutes = async (
   doc?: {
@@ -31,7 +32,7 @@ const revalidateBlogRoutes = async (
 
     revalidatePath(`/blog/${year}/${month}/${slug}`)
   } catch {
-    // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
+    // Ignore revalidation errors in non-Next contexts
   }
 }
 
@@ -51,7 +52,7 @@ const BlogPosts: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'publishedAt', 'featured', '_status'],
-    description: 'Create and manage blog posts with rich content',
+    group: 'Content',
     listSearchableFields: ['title', 'slug', 'excerpt'],
     pagination: {
       defaultLimit: 10,
@@ -64,7 +65,6 @@ const BlogPosts: CollectionConfig = {
         .split('-')
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/blog/${year}/${month}/${doc.slug}`
     },
-    group: 'Content',
   },
   versions: {
     drafts: true,
@@ -75,7 +75,6 @@ const BlogPosts: CollectionConfig = {
       tabs: [
         {
           label: 'Content',
-          description: 'Main blog post content',
           fields: [
             {
               type: 'row',
@@ -88,50 +87,12 @@ const BlogPosts: CollectionConfig = {
                   index: true,
                   admin: {
                     width: '60%',
-                    placeholder: 'Enter post title...',
                   },
                 },
-                {
-                  name: 'slug',
-                  type: 'text',
-                  required: true,
-                  unique: true,
-                  index: true,
-                  admin: {
-                    width: '40%',
-                    description: 'URL-friendly identifier (auto-generates if left blank)',
-                    placeholder: 'my-blog-post',
-                  },
-                  hooks: {
-                    beforeValidate: [
-                      ({ value, data }) => {
-                        // If a slug was manually input, sanitize it (lowercase, spaces to hyphens, strip invalid chars)
-                        if (value && typeof value === 'string') {
-                          return value
-                            .toLowerCase()
-                            .trim()
-                            .replace(/[^a-z0-9\s-]/g, '') // Allow alphanumeric, spaces, and hyphens
-                            .replace(/[\s_]+/g, '-')       // Turn spaces and underscores into hyphens
-                            .replace(/-+/g, '-')          // Prevent double hyphens '--'
-                            .replace(/(^-|-$)/g, '')      // Trim leading/trailing hyphens
-                        }
-
-                        // Fallback: If slug is completely empty, build it dynamically from the title
-                        if (data?.title && typeof data.title === 'string') {
-                          return data.title
-                            .toLowerCase()
-                            .trim()
-                            .replace(/[^a-z0-9\s-]/g, '')
-                            .replace(/[\s_]+/g, '-')
-                            .replace(/-+/g, '-')
-                            .replace(/(^-|-$)/g, '')
-                        }
-
-                        return value
-                      },
-                    ],
-                  },
-                },
+                slugField({
+                  fieldName: 'slug',
+                  width: '40%',
+                }),
               ],
             },
             {
@@ -139,20 +100,12 @@ const BlogPosts: CollectionConfig = {
               type: 'textarea',
               required: true,
               localized: true,
-              index: true,
-              admin: {
-                placeholder: 'Brief summary of the post...',
-                description: 'Short description shown in listings',
-              },
             },
             {
               name: 'coverImage',
               type: 'upload',
               relationTo: 'media',
               required: false,
-              admin: {
-                description: 'Featured image for the post (16:9 recommended)',
-              },
             },
             {
               name: 'content',
@@ -165,7 +118,6 @@ const BlogPosts: CollectionConfig = {
         },
         {
           label: 'Settings',
-          description: 'Post settings and metadata',
           fields: [
             {
               type: 'row',
@@ -180,7 +132,6 @@ const BlogPosts: CollectionConfig = {
                     date: {
                       pickerAppearance: 'dayAndTime',
                     },
-                    description: 'Publication date and time',
                   },
                 },
                 {
@@ -189,7 +140,6 @@ const BlogPosts: CollectionConfig = {
                   defaultValue: false,
                   admin: {
                     width: '50%',
-                    description: 'Display on homepage as featured post',
                   },
                 },
               ],
@@ -198,7 +148,6 @@ const BlogPosts: CollectionConfig = {
               name: 'tags',
               type: 'array',
               admin: {
-                description: 'Add tags to categorize the post',
                 initCollapsed: true,
               },
               fields: [
@@ -206,10 +155,6 @@ const BlogPosts: CollectionConfig = {
                   name: 'tag',
                   type: 'text',
                   required: true,
-                  index: true,
-                  admin: {
-                    placeholder: 'e.g., technology, tutorial',
-                  },
                 },
               ],
             },
@@ -217,25 +162,16 @@ const BlogPosts: CollectionConfig = {
         },
         {
           label: 'SEO',
-          description: 'Search engine optimization settings',
           fields: [
             {
               name: 'metaTitle',
               type: 'text',
               localized: true,
-              admin: {
-                description: 'Custom title for search engines (defaults to post title)',
-                placeholder: 'Custom SEO title...',
-              },
             },
             {
               name: 'metaDescription',
-              type: 'text', // Keeping your existing logic matching post.seo?.metaDescription
+              type: 'text',
               localized: true,
-              admin: {
-                description: 'Description for search engines (defaults to excerpt)',
-                placeholder: 'Custom meta description...',
-              },
             },
           ],
         },

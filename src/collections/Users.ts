@@ -40,7 +40,6 @@ const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'username',
     defaultColumns: ['username', 'email', 'role', 'updatedAt'],
-    description: 'Manage CMS user accounts and permissions',
     group: 'Admin',
   },
   access: {
@@ -78,9 +77,6 @@ const Users: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
-      admin: {
-        description: 'Unique username (normalized to lowercase)',
-      },
       validate: (val: unknown) => {
         if (!val || typeof val !== 'string') return 'Username is required'
         const value = val.trim().toLowerCase()

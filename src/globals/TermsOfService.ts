@@ -1,12 +1,12 @@
 import { GlobalConfig } from 'payload'
 import { legalEditor } from '../editor/richTextEditor'
 import { isAdmin } from '../access/is-admin'
+import { revalidateGlobalHooks } from '../collections/shared'
 
 export const TermsOfService: GlobalConfig = {
   slug: 'terms-of-service',
   label: 'Terms of Service',
   admin: {
-    description: 'Manage the terms of service page content',
     group: 'Legal',
   },
   access: {
@@ -14,23 +14,13 @@ export const TermsOfService: GlobalConfig = {
     update: isAdmin,
   },
   hooks: {
-    afterChange: [
-      async () => {
-        try {
-          const { revalidatePath } = await import('next/cache')
-          revalidatePath('/terms-of-service')
-        } catch {
-          // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
-        }
-      },
-    ],
+    ...revalidateGlobalHooks('/terms-of-service'),
   },
   fields: [
     {
       name: 'lastUpdated',
       type: 'date',
       admin: {
-        description: 'Last updated date (shown at the top of the page)',
         date: {
           pickerAppearance: 'dayOnly',
         },
@@ -43,9 +33,6 @@ export const TermsOfService: GlobalConfig = {
       required: true,
       localized: true,
       editor: legalEditor,
-      admin: {
-        description: 'Terms of service content with full rich text support',
-      },
     },
   ],
 }

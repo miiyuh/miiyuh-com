@@ -15,7 +15,6 @@ const Media: CollectionConfig = {
     admin: ({ req }) => req.user?.role === 'admin',
   },
   admin: {
-    description: 'Upload and manage images and documents',
     group: 'Media',
     pagination: {
       defaultLimit: 12,
@@ -23,8 +22,6 @@ const Media: CollectionConfig = {
     },
   },
   upload: {
-    // Uploads are handled by R2 in production via the s3Storage plugin
-    // In development, files are stored locally
     staticDir: process.env.R2_BUCKET_NAME ? undefined : 'media',
     adminThumbnail: 'thumbnail',
     imageSizes: [
@@ -71,7 +68,6 @@ const Media: CollectionConfig = {
       name: 'focalPoint',
       type: 'point',
       admin: {
-        description: 'Set focal point for responsive image cropping',
         condition: (data) => {
           return data?.mimeType?.startsWith('image/')
         },

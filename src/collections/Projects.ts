@@ -1,20 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { projectEditor } from '../editor/richTextEditor'
 import { isAdmin } from '../access/is-admin'
-
-const revalidateProjectRoutes = async (slug?: string | null) => {
-  try {
-    const { revalidatePath } = await import('next/cache')
-
-    revalidatePath('/projects')
-
-    if (slug) {
-      revalidatePath(`/projects/${slug}`)
-    }
-  } catch {
-    // Ignore revalidation errors in non-Next contexts (e.g., standalone scripts)
-  }
-}
+import { revalidateCollectionHooks } from './shared'
 
 const Projects: CollectionConfig = {
   slug: 'projects',
@@ -32,7 +19,7 @@ const Projects: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', '_status'],
-    description: 'Manage portfolio projects, side projects, and university work',
+    group: 'Content',
     listSearchableFields: ['name', 'slug', 'description'],
     pagination: {
       defaultLimit: 10,
@@ -42,7 +29,6 @@ const Projects: CollectionConfig = {
       if (!doc?.slug) return ''
       return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/projects/${doc.slug}`
     },
-    group: 'Content',
   },
   versions: {
     drafts: true,
@@ -54,9 +40,6 @@ const Projects: CollectionConfig = {
       required: true,
       localized: true,
       index: true,
-      admin: {
-        description: 'Name of the project',
-      },
     },
     {
       name: 'slug',
@@ -64,9 +47,6 @@ const Projects: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      admin: {
-        description: 'URL-friendly identifier (e.g., "utilities-my", "library-management")',
-      },
     },
     {
       name: 'category',
@@ -83,54 +63,33 @@ const Projects: CollectionConfig = {
           value: 'university-project',
         },
       ],
-      admin: {
-        description: 'Category of the project',
-      },
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
       localized: true,
-      index: true,
-      admin: {
-        description: 'Short description shown on the projects listing page',
-      },
     },
     {
       name: 'icon',
       type: 'upload',
       relationTo: 'media',
-      required: false,
-      admin: {
-        description: 'Icon image for the project (1:1 square, like a favicon)',
-      },
     },
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      required: false,
-      admin: {
-        description: 'Cover image or logo for the project',
-      },
     },
     {
       name: 'content',
       type: 'richText',
-      required: false,
       localized: true,
       editor: projectEditor,
-      admin: {
-        description: 'Detailed content for the project page',
-      },
     },
-    // Side project specific fields
     {
       name: 'projectDetails',
       type: 'group',
       admin: {
-        description: 'Side project specific fields',
         condition: (data) => data.category === 'side-project',
       },
       fields: [
@@ -138,7 +97,6 @@ const Projects: CollectionConfig = {
           name: 'techStack',
           type: 'array',
           admin: {
-            description: 'Technologies used in the project',
             initCollapsed: true,
           },
           fields: [
@@ -162,76 +120,48 @@ const Projects: CollectionConfig = {
         {
           name: 'githubUrl',
           type: 'text',
-          admin: {
-            description: 'GitHub repository URL',
-          },
         },
         {
           name: 'liveUrl',
           type: 'text',
-          admin: {
-            description: 'Live project URL',
-          },
         },
       ],
     },
-    // University project specific fields
     {
       name: 'universityDetails',
       type: 'group',
       admin: {
-        description: 'University project specific fields',
         condition: (data) => data.category === 'university-project',
       },
       fields: [
         {
           name: 'course',
           type: 'text',
-          admin: {
-            description: 'Course name or code',
-          },
         },
         {
           name: 'semester',
           type: 'text',
-          admin: {
-            description: 'Semester (e.g., "Fall 2024")',
-          },
         },
         {
           name: 'grade',
           type: 'text',
-          admin: {
-            description: 'Grade received (optional)',
-          },
         },
       ],
     },
     {
       name: 'order',
       type: 'number',
-      required: false,
       index: true,
-      admin: {
-        description: 'Order in which the project appears (lower numbers appear first)',
-      },
       defaultValue: 0,
     },
     {
       name: 'externalLink',
       type: 'text',
-      required: false,
-      admin: {
-        description: 'External URL if this project links outside the site',
-      },
     },
     {
       name: 'featured',
       type: 'checkbox',
       defaultValue: false,
-      admin: {
-        description: 'Feature this project on the homepage or other prominent locations',
-      },
     },
     {
       name: 'seo',
@@ -240,29 +170,24 @@ const Projects: CollectionConfig = {
         {
           name: 'metaTitle',
           type: 'text',
-          required: false,
           localized: true,
         },
         {
           name: 'metaDescription',
           type: 'textarea',
-          required: false,
           localized: true,
         },
       ],
     },
   ],
   hooks: {
-    afterChange: [
-      async ({ doc }) => {
-        await revalidateProjectRoutes(doc?.slug)
-      },
-    ],
-    afterDelete: [
-      async ({ doc }) => {
-        await revalidateProjectRoutes(doc?.slug)
-      },
-    ],
+    ...revalidateCollectionHooks((doc) => {
+      const paths = ['/projects']
+      if (doc?.slug) {
+        paths.push(`/projects/${doc.slug}`)
+      }
+      return paths
+    }),
   },
 }
 

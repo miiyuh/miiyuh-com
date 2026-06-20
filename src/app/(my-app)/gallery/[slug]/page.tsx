@@ -75,7 +75,6 @@ async function AlbumPageContent({ params }: PageProps) {
   // Transform embedded images array to GalleryItem format
   const galleryImages: GalleryItem[] = (collection.images ?? [])
     .filter((img) => img.published !== false)
-    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
     .map((img) => {
       const imageMedia = typeof img.image === "object" ? img.image : null;
 

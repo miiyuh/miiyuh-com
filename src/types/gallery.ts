@@ -22,7 +22,6 @@ export type GalleryImageItem = {
   title?: string | null
   description?: string | null
   published?: boolean | null
-  displayOrder?: number | null
 }
 
 // Gallery collection with embedded images

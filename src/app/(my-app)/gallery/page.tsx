@@ -45,12 +45,7 @@ export default async function GalleryPage() {
   collections.forEach((collection) => {
     if (!collection.images || collection.images.length === 0) return
 
-    // Sort images by displayOrder and take first 3 for preview
-    const sortedImages = [...collection.images].sort(
-      (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
-    )
-    
-    const previewImages = sortedImages.slice(0, PREVIEW_IMAGE_LIMIT)
+    const previewImages = collection.images.slice(0, PREVIEW_IMAGE_LIMIT)
 
     const items: GalleryItem[] = previewImages
       .map((imgItem: GalleryImageItem) => {
