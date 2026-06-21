@@ -1,6 +1,4 @@
-# =========================================
-# Node / Package Managers
-# =========================================
+# ─── Node / Package Managers ───────────────────────────
 node_modules/
 .pnp/
 .pnp.*
@@ -9,14 +7,10 @@ node_modules/
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
-# pnpm
 .pnpm-debug.log*
 .npmrc
 
-# =========================================
-# Build Outputs
-# =========================================
+# ─── Build Outputs ─────────────────────────────────────
 .next/
 .turbopack/
 .turbo/
@@ -24,77 +18,52 @@ out/
 build/
 dist/
 
-# Scripts (dev utilities)
-scripts/
+# ─── Environment & Config ──────────────────────────────
+.env
+.env*.local
+.vercel/
 
-# Local media uploads (only used in development)
-media/
-
-# Payload CMS build cache
-.payload
-payload-generated-types.d.ts
-payload-types.ts
-
-# =========================================
-# Logs
-# =========================================
+# ─── Logs ──────────────────────────────────────────────
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 *.log
 
-# =========================================
-# Cache Files
-# =========================================
+# ─── Cache ──────────────────────────────────────────────
 .eslintcache
 *.cache/
-
-# =========================================
-# Environment Files
-# =========================================
-.env
-.env*.local
-
-# Vercel
-.vercel/
-
-# =========================================
-# OS / Editor files
-# =========================================
-.DS_Store
-Thumbs.db
-
-# Editor temp/backup files
-*.swp
-*.swo
-*.bak
-*~
-
-# JetBrains IDE
-.idea/
-
-# VSCode
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-
-# =========================================
-# TypeScript
-# =========================================
 *.tsbuildinfo
+
+# ─── TypeScript ─────────────────────────────────────────
 next-env.d.ts
 
-# =========================================
-# AI Tooling / Agent config
-# =========================================
+# ─── Payload CMS ────────────────────────────────────────
+.payload
+payload-generated-types.d.ts
+payload-types.ts
+media/
+scripts/
+
+# ─── AI Tooling / Agent Config ──────────────────────────
 .impeccable/
 .opencode/
 .agents/
 skills-lock.json
 
-# =========================================
-# Misc
-# =========================================
+# ─── Editors / IDE ──────────────────────────────────────
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*.bak
+*~
+
+# ─── OS Files ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Misc ───────────────────────────────────────────────
 *.pem
 gallery-export.json
