@@ -58,3 +58,24 @@ html[data-theme="dark"] {
   --theme-success-900: #e8fdc6;
   --theme-success-950: #f0ffe0;
 }
+
+/* ── Login card refinements ── */
+html[data-theme="dark"] .login__card {
+  border: 1px solid rgba(250, 243, 224, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .field-type input:focus,
+html[data-theme="dark"] .field-type textarea:focus,
+html[data-theme="dark"] .field-type select:focus {
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.3);
+  border-color: rgba(74, 222, 128, 0.5);
+}
+
+html[data-theme="dark"] .btn--primary {
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.3);
+}
+
+html[data-theme="dark"] .btn--primary:hover {
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.6);
+}

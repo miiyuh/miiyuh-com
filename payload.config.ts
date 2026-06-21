@@ -80,6 +80,15 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       titleSuffix: ' - miiyuh.com CMS',
+      icons: {
+        icon: '/assets/img/favicons/favicon-32x32.png',
+      },
+    },
+    components: {
+      graphics: {
+        Logo: '@/payload-admin/Logo',
+      },
+      beforeLogin: ['@/payload-admin/BeforeLogin'],
     },
     livePreview: {
       url: ({ data, collectionConfig, globalConfig, locale }) => {

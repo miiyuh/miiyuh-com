@@ -9,7 +9,9 @@ import { RefreshRouteOnSave } from '@/components/live-preview'
 import { SurveySkeleton } from './survey-skeleton'
 import { getAllForms } from '@/utils/forms'
 import { slugify } from '@/utils/slugify'
-import { ArrowLeft, Clock, Question } from '@phosphor-icons/react'
+import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
+import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
+import { Question } from '@phosphor-icons/react/dist/ssr/Question'
 
 type SurveyPageProps = {
   params: Promise<{

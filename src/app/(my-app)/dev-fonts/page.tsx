@@ -163,7 +163,7 @@ export default function FontDebugPage() {
             {(Object.keys(STACK_LABELS) as FontStackKey[]).map((key) => {
               const value = fontInfo.stacks?.[key]
               return (
-                <Card key={key} className="!gap-0">
+                <Card key={key} className="gap-0">
                   <CardPanel className="space-y-3">
                     <div>
                       <p className="text-sm text-text-secondary">{STACK_LABELS[key]}</p>
@@ -183,7 +183,7 @@ export default function FontDebugPage() {
           <h2 className={SECTION_TITLE}>CSS font variables</h2>
           <div className="grid gap-3 md:grid-cols-2">
             {FONT_VARIABLES.map((variable) => (
-              <Card key={variable} className="!gap-0">
+              <Card key={variable} className="gap-0">
                 <CardPanel>
                   <p className="text-sm text-text-secondary">{variable}</p>
                   <p className="font-mono text-sm mt-2 break-all">
@@ -198,7 +198,7 @@ export default function FontDebugPage() {
         <section className="space-y-4">
           <h2 className={SECTION_TITLE}>Live specimens</h2>
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="!gap-0">
+            <Card className="gap-0">
               <CardPanel>
                 <p className="text-sm text-text-secondary mb-2">Inter UI copy</p>
                 <p>
@@ -207,7 +207,7 @@ export default function FontDebugPage() {
                 </p>
               </CardPanel>
             </Card>
-            <Card className="!gap-0">
+            <Card className="gap-0">
               <CardPanel>
                 <p className="text-sm text-text-secondary mb-2">Instrument Serif display</p>
                 <div className="font-serif text-3xl leading-[1.1]">
@@ -215,7 +215,7 @@ export default function FontDebugPage() {
                 </div>
               </CardPanel>
             </Card>
-            <Card className="!gap-0 md:col-span-2">
+            <Card className="gap-0 md:col-span-2">
               <CardPanel>
                 <p className="text-sm text-text-secondary mb-2">Noto Serif JP paragraph</p>
                 <p className="font-serif text-lg leading-relaxed">
@@ -224,7 +224,7 @@ export default function FontDebugPage() {
                 </p>
               </CardPanel>
             </Card>
-            <Card className="!gap-0">
+            <Card className="gap-0">
               <CardPanel>
                 <p className="text-sm text-text-secondary mb-2">Noto Sans Mono</p>
                 <pre className="font-mono text-sm bg-white/4 border border-white/8 p-3">
@@ -234,7 +234,7 @@ export default function FontDebugPage() {
                 </pre>
               </CardPanel>
             </Card>
-            <Card className="!gap-0">
+            <Card className="gap-0">
               <CardPanel>
                 <p className="text-sm text-text-secondary mb-2">Emoji stack</p>
                 <p className="font-emoji text-2xl">🎞️ 📷 🌃 🛫 🗺️ ✨ 🐉</p>
