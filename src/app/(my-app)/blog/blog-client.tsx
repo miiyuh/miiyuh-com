@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { Search } from "lucide-react";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import type { BlogPostCard } from "@/types/blog";
 import { useWebHaptics } from "web-haptics/react";
 
@@ -167,7 +167,7 @@ export default function BlogClient({
               {/* Search Bar */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-text-muted" />
+                  <MagnifyingGlass className="h-4 w-4 text-text-muted" />
                 </div>
                 <input
                   key={searchQuery}

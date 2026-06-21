@@ -24,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "w-full min-w-0 rounded-[inherit] px-[calc(var(--spacing)*3-1px)] py-[calc(var(--spacing)*1.5-1px)] outline-none bg-transparent text-white placeholder:text-white/50",
+            "w-full min-w-0 rounded-[inherit] px-[calc(var(--spacing)*3-1px)] py-[calc(var(--spacing)*1.5-1px)] outline-none focus-visible:outline-none bg-transparent text-white placeholder:text-white/50",
             size === 'sm' &&
               "px-[calc(var(--spacing)*2.5-1px)] py-[calc(var(--spacing)*1-1px)]",
             size === 'lg' && "py-[calc(var(--spacing)*2-1px)]",

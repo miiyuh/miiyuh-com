@@ -27,7 +27,7 @@ function AlertDialogBackdrop({
   return (
     <AlertDialogPrimitive.Backdrop
       className={cn(
-        "fixed inset-0 z-50 bg-black/60 backdrop-blur-md transition-all duration-200 ease-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "fixed inset-0 z-50 bg-black/60 backdrop-blur-md transition-all duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100",
         className,
       )}
       data-slot="alert-dialog-backdrop"
@@ -44,10 +44,10 @@ function AlertDialogPopup({
     <Portal>
       <AlertDialogBackdrop />
       <AlertDialogPrimitive.Positioner className="fixed inset-0 z-50">
-        <div className="flex h-dvh flex-col items-center overflow-hidden pt-6 max-sm:before:flex-1 sm:overflow-y-auto sm:p-4 sm:after:flex-1 sm:before:basis-[20vh]">
+        <div className="grid h-dvh grid-rows-[1fr_auto] justify-items-center pt-6 max-sm:px-4 sm:grid-rows-[1fr_auto_3fr] sm:p-4">
           <AlertDialogPrimitive.Content
             className={cn(
-              "row-start-2 grid w-full min-w-0 origin-top gap-4 border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl p-6 text-white shadow-2xl transition-all duration-200 ease-in-out will-change-transform max-sm:overflow-y-auto max-sm:border-none sm:max-w-lg sm:rounded-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:zoom-in-95",
+              "relative row-start-2 grid w-full min-w-0 origin-top gap-4 border border-white/12 bg-bg-primary/95 backdrop-blur-xl p-6 text-white shadow-2xl will-change-transform before:pointer-events-none before:absolute before:inset-0 before:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[scale,opacity,translate] duration-200 ease-in-out max-sm:border-none max-sm:data-[state=closed]:opacity-0 max-sm:data-[state=open]:opacity-100 max-sm:data-[state=closed]:translate-y-4 max-sm:data-[state=open]:translate-y-0 max-sm:before:hidden sm:max-w-lg sm:rounded-2xl sm:data-[state=closed]:opacity-0 sm:data-[state=open]:opacity-100 sm:data-[state=closed]:scale-95 sm:data-[state=open]:scale-100 sm:before:rounded-[calc(var(--radius-2xl)-1px)]",
               className,
             )}
             data-slot="alert-dialog-popup"
@@ -79,7 +79,7 @@ function AlertDialogFooter({
   return (
     <div
       className={cn(
-        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
+        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:border-t sm:border-white/10 sm:bg-white/3 sm:pt-4',
         className,
       )}
       data-slot="alert-dialog-footer"

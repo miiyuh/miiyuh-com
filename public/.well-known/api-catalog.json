@@ -1,0 +1,16 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://miiyuh.com/api",
+      "rel": "service-desc",
+      "href": "https://miiyuh.com/api",
+      "type": "application/json"
+    },
+    {
+      "anchor": "https://miiyuh.com/graphql",
+      "rel": "service-desc",
+      "href": "https://miiyuh.com/graphql",
+      "type": "application/json"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import { Separator } from '@/components/ui/separator'
 import { ImageSkeleton, TextSkeleton, MetaInfoSkeleton } from '@/components/ui/skeleton'
 import { Fragment } from 'react'
@@ -7,17 +8,11 @@ export function BlogPostSkeleton() {
   return (
     <Fragment>
       <main className="relative min-h-screen text-[#FAF3E0]">
-        <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up">
+        <div className="relative z-10 mx-auto max-w-4xl px-8 pt-6 pb-16 animate-smooth-slide-up">
           {/* Breadcrumbs Skeleton */}
           <SimpleBreadcrumb
-            items={[
-              { label: 'home', href: '/' },
-              { label: 'blog', href: '/blog' },
-              { label: 'year', href: '#' },
-              { label: 'month', href: '#' },
-              { label: 'post', href: '#' },
-            ]}
-            className="mb-8"
+            items={breadcrumbs.blogPost('year', 'month', 'post')}
+            className="-mx-8 px-8 md:mx-0 md:px-0"
           />
 
           {/* Cover Image Skeleton */}

@@ -1,20 +1,14 @@
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 
 export default function ProjectsLoading() {
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
+    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow pt-6 pb-24">
         <div className="animate-in fade-in duration-300">
           <div className="px-8 md:px-32 lg:px-56 xl:px-80">
-            <div className="mb-8">
-              <SimpleBreadcrumb
-                items={[
-                  { label: 'home', href: '/' },
-                  { label: 'projects' },
-                ]}
-                className="mb-0"
-              />
-            </div>
+            <SimpleBreadcrumb items={breadcrumbs.projects()} />
+            
 
             <div className="mb-8 max-w-4xl">
               <div className="h-14 md:h-16 w-52 bg-white/5 rounded-lg animate-pulse mb-4" />

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { animate, remove, set } from "animejs";
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
+import { breadcrumbs } from "@/config/breadcrumbs";
 import { useWebHaptics } from "web-haptics/react";
 import { Dialog, DialogPopup } from "@/components/ui/dialog";
 import {
@@ -431,16 +432,12 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   };
 
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
+    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow pt-6 pb-24">
         {/* Breadcrumb + heading */}
         <div className="px-8 md:px-32 lg:px-56 xl:px-80">
-          <div className="mb-8">
-            <SimpleBreadcrumb
-              items={[{ label: "home", href: "/" }, { label: "projects" }]}
-              className="mb-0"
-            />
-          </div>
+          <SimpleBreadcrumb items={breadcrumbs.projects()} />
+          
 
           <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">

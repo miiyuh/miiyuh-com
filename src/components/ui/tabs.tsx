@@ -44,11 +44,10 @@ function TabsList({
       {children}
       <TabsPrimitive.Indicator
         className={cn(
-          "absolute bottom-0 left-0 transition-[width,transform] duration-200 ease-in-out",
-          "h-(--height) w-(--width) translate-x-(--left) -translate-y-(--top)",
+          "absolute transition-all duration-200 ease-in-out",
           variant === "underline"
-            ? "data-[orientation=vertical]:-translate-x-px z-10 bg-white data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:w-0.5 data-[orientation=horizontal]:translate-y-px"
-            : "-z-1 rounded-md bg-white/20 shadow-sm",
+            ? "z-10 bg-white data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:w-0.5"
+            : "z-10 rounded-md bg-white/20 shadow-sm",
         )}
         data-slot="tab-indicator"
       />

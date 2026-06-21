@@ -1,6 +1,8 @@
 # Robots.txt for miiyuh.com
 # Personal portfolio website
 
+Content-Signal: ai-train=no, search=yes, ai-input=no
+
 User-agent: *
 Allow: /
 

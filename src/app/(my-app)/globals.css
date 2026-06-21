@@ -2,6 +2,11 @@
 
 /* CSS Custom Properties for consistent theming */
 :root {
+  --font-inter: 'InterVariable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --font-sans:
+    'InterVariable', 'Inter', ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
   --bg-primary: rgba(7, 7, 7, 1);
   --surface-primary: rgba(12, 12, 14, 1);
   --text-primary: rgba(250, 243, 224, 1);
@@ -20,26 +25,43 @@
   --status-archived-border: rgba(255, 255, 255, 0.12);
 }
 
+/* Self-hosted Inter variable font (was rsms.me CDN) */
+@font-face {
+  font-family: 'InterVariable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter/InterVariable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'InterVariable';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter/InterVariable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
+}
+
 /* Base styles - Inter for everything by default */
 html {
-  font-family: Inter, sans-serif;
+  font-family: var(--font-inter);
   font-feature-settings:
     "liga" 1,
     "calt" 1;
   scrollbar-gutter: stable;
-}
-
-@supports (font-variation-settings: normal) {
-  html {
-    font-family: InterVariable, sans-serif;
-  }
-}
-
-:root {
-  --font-sans:
-    InterVariable, Inter, "Apple Color Emoji", "Noto Color Emoji",
-    "Segoe UI Emoji", "sans-serif";
-  --default-font-family: var(--font-sans);
 }
 
 ::selection {
@@ -74,28 +96,28 @@ a {
 
 .font-sans p {
   font-family:
-    "Inter", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
-    var(--font-noto-color-emoji), sans-serif !important;
+    "Inter", "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
 }
 
 .font-serif,
 .font-serif p {
   font-family:
     var(--font-instrument-serif), "Instrument Serif", "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
+    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
 }
 
 .font-mono {
   font-family:
     var(--font-noto-mono), "Noto Sans Mono", "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji),
+    var(--font-noto-color-emoji), "Segoe UI Emoji",
     monospace !important;
 }
 
 .font-emoji {
   font-family:
-    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
-    var(--font-noto-color-emoji), "Android Emoji", "EmojiSymbols", sans-serif !important;
+    "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", "Android Emoji", "EmojiSymbols", sans-serif !important;
   font-variant-emoji: emoji;
 }
 
@@ -107,8 +129,8 @@ h4,
 h5,
 h6 {
   font-family:
-    Inter, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
-    "sans-serif";
+    Inter, "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
@@ -119,22 +141,22 @@ h6 {
   h5,
   h6 {
     font-family:
-      InterVariable, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
-      sans-serif;
+      InterVariable, "Apple Color Emoji",
+      var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
   }
 }
 
 body {
   font-family:
-    InterVariable, Inter, "Apple Color Emoji", "Noto Color Emoji",
-    "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif !important;
+    InterVariable, Inter, "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
 }
 
 @supports (font-variation-settings: normal) {
   body {
     font-family:
-      InterVariable, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
-      var(--font-noto-color-emoji), sans-serif;
+      InterVariable, "Apple Color Emoji",
+      var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
   }
 }
 
@@ -142,7 +164,7 @@ body {
 p.font-serif {
   font-family:
     var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
+    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
 }
 
 /* Remove default focus outlines for mouse users, keep for keyboard users */
@@ -223,6 +245,13 @@ img {
   .content-auto-sm {
     content-visibility: auto;
     contain-intrinsic-size: auto 160px;
+  }
+
+  /* Override Tailwind v4 default to add saturation — fixes washed-out glass
+     effect on Chromium browsers while preserving Firefox appearance */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
   }
 }
 

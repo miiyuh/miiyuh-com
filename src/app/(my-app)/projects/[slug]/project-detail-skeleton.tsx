@@ -1,4 +1,5 @@
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import { ImageSkeleton, TextSkeleton, TagSkeleton } from '@/components/ui/skeleton'
 import { Fragment } from 'react'
 
@@ -9,12 +10,8 @@ export function ProjectDetailSkeleton() {
         <div className="px-6 md:px-12 lg:px-24 xl:px-32 py-16">
           {/* Breadcrumbs */}
           <SimpleBreadcrumb
-            items={[
-              { label: 'home', href: '/' },
-              { label: 'projects', href: '/projects' },
-              { label: 'project', href: '#' },
-            ]}
-            className="mb-8"
+            items={breadcrumbs.projectDetail('project')}
+            className="-mx-6 px-6"
           />
 
           {/* Header Section */}

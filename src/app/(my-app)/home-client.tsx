@@ -46,9 +46,9 @@ export default function HomeClient({
                 alt="Portrait of Muhamad Azri"
                 fill
                 className="object-cover"
-                quality={75}
+                quality={100}
                 priority
-                sizes="(max-width: 768px) 96px, (max-width: 1024px) 176px, 192px"
+                sizes="(max-width: 768px) 192px, (max-width: 1280px) 216px, 296px"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
             </div>
@@ -141,7 +141,7 @@ export default function HomeClient({
         {/* Experience Section */}
         {experience.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
-            <div className="flex items-center gap-3 mb-6">
+            <div className="sticky md:static top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/80 backdrop-blur-xl mb-6 flex items-center gap-3">
               <BriefcaseIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Experience
@@ -164,7 +164,7 @@ export default function HomeClient({
         {/* Education Section */}
         {education.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
-            <div className="flex items-center gap-3 mb-6">
+            <div className="sticky md:static top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/80 backdrop-blur-xl mb-6 flex items-center gap-3">
               <GraduationCapIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Education
@@ -187,7 +187,7 @@ export default function HomeClient({
         {/* Volunteering Section */}
         {volunteering.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
-            <div className="flex items-center gap-3 mb-6">
+            <div className="sticky md:static top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/80 backdrop-blur-xl mb-6 flex items-center gap-3">
               <HeartIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Volunteering

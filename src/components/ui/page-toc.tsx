@@ -2,7 +2,7 @@
 
 import { useRef, useCallback, useEffect, useState } from 'react'
 import { AnchorProvider, ScrollProvider, TOCItem, type TOCItemType } from 'fumadocs-core/toc'
-import { ChevronDown } from 'lucide-react'
+import { CaretDown } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { useWebHaptics } from 'web-haptics/react'
 
@@ -83,9 +83,10 @@ function TOCContent({ toc, scrollOffset = 100, className }: PageTOCProps) {
 
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.scrollY - scrollOffset
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
 
       window.scrollTo({
-        top: offsetPosition,
+        top: Math.min(offsetPosition, maxScroll),
         behavior: 'smooth',
       })
 
@@ -184,7 +185,8 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
       const barHeight = barRef.current?.offsetHeight ?? 0
       const totalOffset = scrollOffset + barHeight
       const offsetPosition = element.getBoundingClientRect().top + window.scrollY - totalOffset
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      window.scrollTo({ top: Math.min(offsetPosition, maxScroll), behavior: 'smooth' })
       history.pushState(null, '', url)
       element.setAttribute('tabindex', '-1')
       element.focus({ preventScroll: true })
@@ -195,14 +197,14 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
   return (
     <div
       ref={barRef}
-      className="lg:hidden sticky top-[72px] z-30 -mx-6 sm:-mx-6"
+      className="lg:hidden sticky top-29 z-30 -mx-8"
     >
-      <div className="bg-[#070707]/95 backdrop-blur-md border-t border-b border-white/8">
+      <div className="bg-bg-primary/90 backdrop-blur-xl">
 
         {/* Toggle button */}
         <button
           onClick={() => { setOpen((v) => !v); haptic.trigger('selection') }}
-          className="flex items-center justify-between w-full px-6 py-3 gap-4 relative"
+          className="flex items-center justify-between w-full px-8 py-2 gap-4 relative text-xs md:text-sm"
           aria-expanded={open}
           aria-label="Toggle table of contents"
         >
@@ -210,13 +212,13 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
             <span className={cn(
               'truncate transition-colors duration-200',
               activeTitle 
-                ? 'text-sm text-text-primary' 
-                : 'text-sm text-text-muted/30 font-mono uppercase tracking-widest'
+                ? 'text-text-primary' 
+                : 'text-text-muted/30 font-mono uppercase tracking-widest'
             )}>
               {activeTitle ?? 'Contents'}
             </span>
           </div>
-          <ChevronDown
+          <CaretDown
             className={cn(
               'w-3.5 h-3.5 text-text-muted/40 transition-transform duration-200 shrink-0',
               open && 'rotate-180'

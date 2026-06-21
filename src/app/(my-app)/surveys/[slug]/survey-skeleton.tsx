@@ -1,22 +1,15 @@
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import { TextSkeleton } from '@/components/ui/skeleton'
 
 export function SurveySkeleton() {
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
-      <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
-        <div className="px-6 md:px-12 lg:px-24 xl:px-32">
+    <main className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
+      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24 min-h-[70vh]">
+        <div>
           {/* Breadcrumb Navigation */}
-          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
-            <SimpleBreadcrumb
-              items={[
-                { label: 'home', href: '/' },
-                { label: 'surveys', href: '/surveys' },
-                { label: 'survey', href: '#' },
-              ]}
-              className="mb-0"
-            />
-          </div>
+          <SimpleBreadcrumb items={breadcrumbs.surveyDetail('survey')} />
+          
 
           {/* Header Section */}
           <div className="mb-12 max-w-4xl">
@@ -37,7 +30,7 @@ export function SurveySkeleton() {
           <div className="grid gap-6 md:gap-8 md:grid-cols-4">
             {/* Form - 3 columns */}
             <div className="md:col-span-3 order-2 md:order-1">
-              <div className="rounded-xl border border-white/8 bg-white/3 p-6 sm:p-8">
+              <div className="rounded-xl border border-white/8 bg-white/4 shadow-sm p-6 sm:p-8">
                 {/* Form Skeleton */}
                 <div className="space-y-6">
                   {[1, 2, 3, 4, 5].map((i) => (

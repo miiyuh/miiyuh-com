@@ -125,11 +125,11 @@ export function FormRenderer({
     return (
       <div
         className={cn(
-          'rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center backdrop-blur-md',
+          'rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-8 text-center backdrop-blur-md',
           className
         )}
       >
-        <CheckCircle weight="fill" className="mx-auto mb-4 size-12 text-green-400" />
+        <CheckCircle weight="fill" className="mx-auto mb-4 size-12 text-accent-primary" />
         <h3 className="mb-2 text-xl font-medium text-white">Thank You!</h3>
         <p className="text-white/70">
           Your submission has been received successfully.

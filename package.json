@@ -1,6 +1,6 @@
 {
   "name": "miiyuh-com",
-  "version": "0.1.0",
+  "version": "7.0.0",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.3.14",
@@ -44,7 +44,6 @@
     "fumadocs-ui": "^16.9.3",
     "graphql": "^16.14.1",
     "lightgallery": "^2.9.0",
-    "lucide-react": "^1.17.0",
     "next": "16.2.7",
     "payload": "3.85.0",
     "react": "^19.2.7",
@@ -52,7 +51,6 @@
     "react-pdf": "^10.4.1",
     "sharp": "^0.34.5",
     "tailwind-merge": "^3.6.0",
-    "tailwindcss-animate": "^1.0.7",
     "web-haptics": "^0.0.6"
   },
   "devDependencies": {

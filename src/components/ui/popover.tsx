@@ -30,7 +30,7 @@ function PopoverPopup({
       >
         <PopoverPrimitive.Content
           className={cn(
-            "relative flex origin-(--transform-origin) rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl text-white shadow-2xl transition-[scale,opacity] not-[class*='w-']:[min-w-80] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
+            "relative flex origin-(--transform-origin) rounded-xl border border-white/12 bg-bg-primary/95 backdrop-blur-xl text-white shadow-2xl transition-[scale,opacity] not-[class*='w-']:[min-w-80] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             tooltipStyle &&
               "w-fit text-balance rounded-lg text-xs shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)]",
             className,

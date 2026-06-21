@@ -22,7 +22,7 @@ export default function BlogPostContent({
   return (
     <>
       {/* Mobile sticky TOC — sits below cover image, sticks to top on scroll */}
-      <MobileTOC toc={toc} scrollOffset={80} />
+      <MobileTOC toc={toc} scrollOffset={116} />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
         {/* Main content */}

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import { ArrowRight, Clipboard, Chat } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 
@@ -35,26 +36,19 @@ interface SurveysClientProps {
 export default function SurveysClient({ surveys }: SurveysClientProps) {
   const haptic = useWebHaptics()
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
-      <section className="relative grow pt-6 pb-24">
-        <div className="px-6 md:px-12 lg:px-24 xl:px-32">
+    <main className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
+      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24 min-h-[70vh]">
+        <div>
           {/* Breadcrumb Navigation */}
-          <div className="mb-8">
-            <SimpleBreadcrumb
-              items={[
-                { label: 'home', href: '/' },
-                { label: 'surveys' },
-              ]}
-              className="mb-0"
-            />
-          </div>
+          <SimpleBreadcrumb items={breadcrumbs.surveys()} />
+          
 
           {/* Header Section */}
-          <div className="mb-8">
-            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
               surveys
             </h1>
-            <p className="text-lg md:text-xl text-text-secondary">
+            <p className="text-lg md:text-xl text-text-secondary text-pretty">
               help me understand what matters to you. take a quick survey and share your feedback.
             </p>
           </div>
@@ -70,7 +64,7 @@ export default function SurveysClient({ surveys }: SurveysClientProps) {
                     className="group block"
                     onClick={() => haptic.trigger('medium')}
                   >
-                    <div className="flex items-center gap-4 p-4 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
+                    <div className="flex items-center gap-4 p-4 rounded-lg border border-white/8 bg-white/2 shadow-sm hover:bg-white/5 hover:border-white/12 hover:shadow-md transition-all duration-300">
                       {/* Icon */}
                       <div className="shrink-0 w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center group-hover:bg-accent-primary/15 transition-colors">
                         <Clipboard className="w-5 h-5 text-accent-primary" />

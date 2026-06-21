@@ -2,6 +2,7 @@
 
 import type { TOCItemType } from 'fumadocs-core/toc'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import { PageTOC } from '@/components/ui/page-toc'
 
 interface TermsOfServiceClientProps {
@@ -20,15 +21,8 @@ export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: Te
     return (
         <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
             <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80" style={{ paddingTop: '24px' }}>
-                <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
-                    <SimpleBreadcrumb
-                        items={[
-                            { label: 'home', href: '/' },
-                            { label: 'terms of service' },
-                        ]}
-                        className="mb-0"
-                    />
-                </div>
+                <SimpleBreadcrumb items={breadcrumbs.termsOfService()} />
+                
 
                 <div className="mb-8">
                     <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">

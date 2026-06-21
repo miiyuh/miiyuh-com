@@ -23,7 +23,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       >
         <textarea
           className={cn(
-            "min-h-18 w-full rounded-[inherit] px-[calc(var(--spacing)*3-1px)] py-[calc(var(--spacing)*1.5-1px)] outline-none bg-transparent resize-y text-white placeholder:text-white/50",
+            "min-h-18 w-full rounded-[inherit] px-[calc(var(--spacing)*3-1px)] py-[calc(var(--spacing)*1.5-1px)] outline-none focus-visible:outline-none bg-transparent resize-y text-white placeholder:text-white/50",
             size === 'sm' &&
               "min-h-16 px-[calc(var(--spacing)*2.5-1px)] py-[calc(var(--spacing)*1-1px)]",
             size === 'lg' &&

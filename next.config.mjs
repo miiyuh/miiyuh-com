@@ -14,7 +14,6 @@ const nextConfig = {
       "@ark-ui/react",
       "fumadocs-core",
       "fumadocs-ui",
-      "lucide-react",
     ],
   },
 
@@ -31,12 +30,22 @@ const nextConfig = {
     },
   },
 
+  // Rewrite extensionless well-known paths to actual files for correct Content-Type
+  async rewrites() {
+    return [
+      {
+        source: '/.well-known/api-catalog',
+        destination: '/.well-known/api-catalog.json',
+      },
+    ];
+  },
+
   // Suppress source map warnings from node_modules
   productionBrowserSourceMaps: false,
 
   images: {
     formats: ["image/webp", "image/avif"],
-    qualities: [75, 80, 85],
+    qualities: [100, 85, 80, 75],
     minimumCacheTTL: 31536000,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [32, 48, 64, 96, 128, 256, 384],
@@ -85,13 +94,28 @@ const nextConfig = {
         ],
       },
       {
+        // Homepage: Link headers for agent discovery (RFC 8288)
+        source: '/',
+        headers: [
+          {
+            key: 'Link',
+            value:
+              '</.well-known/api-catalog>; rel="api-catalog", </api>; rel="service-desc", </graphql>; rel="service-desc"',
+          },
+        ],
+      },
+      {
         // HTML pages and public routes: security headers + CSP
         source: '/(.*)',
         headers: [
           {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
             key: 'Content-Security-Policy',
             value:
-              `default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com https://rsms.me data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://rsms.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com${__impeccableLiveDev}; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com https://rsms.me${__impeccableLiveDev}; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;`,
+              `default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com${__impeccableLiveDev}; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com${__impeccableLiveDev}; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;`,
           },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },

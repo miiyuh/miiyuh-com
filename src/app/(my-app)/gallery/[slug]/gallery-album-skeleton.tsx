@@ -1,24 +1,17 @@
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import { ImageSkeleton, TextSkeleton } from '@/components/ui/skeleton'
 import { Fragment } from 'react'
 
 export function GalleryAlbumSkeleton() {
   return (
     <Fragment>
-      <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+      <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
         <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 py-24" style={{ paddingTop: '24px' }}>
         <div>
           {/* Breadcrumb Navigation */}
-          <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
-            <SimpleBreadcrumb
-              items={[
-                { label: 'home', href: '/' },
-                { label: 'gallery', href: '/gallery' },
-                { label: 'album', href: '#' },
-              ]}
-              className="mb-0"
-            />
-          </div>
+          <SimpleBreadcrumb items={breadcrumbs.galleryAlbum('album')} />
+          
 
           {/* Header */}
           <div className="mb-16 max-w-4xl">

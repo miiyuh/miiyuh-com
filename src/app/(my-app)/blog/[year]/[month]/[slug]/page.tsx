@@ -8,6 +8,8 @@ import Image from "next/image";
 import { Fragment, Suspense } from "react";
 
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
+import { breadcrumbs } from "@/config/breadcrumbs";
+import { CopyLinkButton } from "@/components/ui/copy-link-button";
 import { Separator } from "@/components/ui/separator";
 import { RefreshRouteOnSave } from "@/components/live-preview";
 import BlogPostContent from "./blog-post-content";
@@ -136,17 +138,12 @@ async function PageContent({ params }: PageProps) {
     <Fragment>
       <RefreshRouteOnSave />
       <main className="relative min-h-screen text-text-primary">
-        <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:px-6 lg:px-8 animate-smooth-slide-up">
+        <div className="relative z-10 mx-auto max-w-4xl px-8 pt-6 pb-16 animate-smooth-slide-up">
           {/* Breadcrumbs */}
           <SimpleBreadcrumb
-            items={[
-              { label: "home", href: "/" },
-              { label: "blog", href: "/blog" },
-              { label: year },
-              { label: month },
-              { label: post.title },
-            ]}
-            className="mb-8"
+            items={breadcrumbs.blogPost(year, month, post.title)}
+            className="-mx-8 px-8 md:mx-0 md:px-0"
+            trailing={<CopyLinkButton />}
           />
 
           {/* Cover Image */}
@@ -166,7 +163,7 @@ async function PageContent({ params }: PageProps) {
 
           {/* Post Header */}
           <header className="mb-8 space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl font-serif text-balance">
+            <h1 className="text-4xl tracking-tight sm:text-5xl font-serif text-balance">
               {post.title}
             </h1>
 
@@ -195,7 +192,7 @@ async function PageContent({ params }: PageProps) {
             </div>
 
             {post.excerpt && (
-              <p className="text-lg text-text-secondary font-serif italic">
+              <p className="text-md text-secondary font-serif italic">
                 {post.excerpt}
               </p>
             )}

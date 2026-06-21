@@ -1,6 +1,7 @@
 'use client'
 
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import type { Icon } from '@phosphor-icons/react'
 
 interface GenericLoadingProps {
@@ -25,20 +26,15 @@ export function GenericLoading({
   filterIcon: FilterIcon,
 }: GenericLoadingProps) {
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
+    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
         <div className="animate-in fade-in duration-300">
           <div className="px-8 md:px-32 lg:px-56 xl:px-80">
             {/* Breadcrumb */}
-            <div style={{ marginBottom: 'calc(var(--spacing) * 8)' }}>
-              <SimpleBreadcrumb
-                items={[
-                  { label: 'home', href: '/' },
-                  { label: breadcrumbLabel },
-                ]}
-                className="mb-0"
-              />
-            </div>
+            <SimpleBreadcrumb
+              items={breadcrumbs.home(breadcrumbLabel)}
+            />
+            
 
             {/* Header Skeleton */}
             <div className="mb-12 max-w-4xl">

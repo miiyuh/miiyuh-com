@@ -1,7 +1,7 @@
 "use client";
 
 import { NumberInput as NumberInputPrimitive } from "@ark-ui/react/number-input";
-import { MinusIcon, PlusIcon } from "lucide-react";
+import { Minus, Plus } from "@phosphor-icons/react";
 import type { ComponentProps } from "react";
 import * as React from "react";
 
@@ -65,7 +65,7 @@ function NumberFieldDecrement({
       data-slot="number-field-decrement"
       {...props}
     >
-      <MinusIcon />
+      <Minus />
     </NumberInputPrimitive.DecrementTrigger>
   );
 }
@@ -83,7 +83,7 @@ function NumberFieldIncrement({
       data-slot="number-field-increment"
       {...props}
     >
-      <PlusIcon />
+      <Plus />
     </NumberInputPrimitive.IncrementTrigger>
   );
 }

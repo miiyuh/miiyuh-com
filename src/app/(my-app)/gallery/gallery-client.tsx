@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import ErrorBoundary from "@/components/ui/error-boundary";
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
+import { breadcrumbs } from "@/config/breadcrumbs";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import { isJapanCollection } from "@/utils";
+
 import { useWebHaptics } from "web-haptics/react";
 import type {
   GalleryCollectionSummary,
@@ -26,16 +27,12 @@ export default function GalleryClient({
 
   return (
     <ErrorBoundary>
-      <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+      <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
         <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24">
           <div>
             {/* Breadcrumb Navigation */}
-            <div className="mb-8">
-              <SimpleBreadcrumb
-                items={[{ label: "home", href: "/" }, { label: "gallery" }]}
-                className="mb-0"
-              />
-            </div>
+            <SimpleBreadcrumb items={breadcrumbs.gallery()} />
+            
 
             {/* Header */}
             <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -108,8 +105,8 @@ export default function GalleryClient({
                           <div className="flex items-start justify-between mb-2">
                             <h2 className="text-2xl font-serif font-bold text-text-primary group-hover:text-accent-primary transition-colors">
                               {collection.title}
-                              {isJapanCollection(collection.slug) && (
-                                <span className="ml-2 inline-block">🇯🇵</span>
+                              {(collection.slug.includes("japan") || collection.slug.includes("2025")) && (
+                                <span className="font-emoji ml-2 inline-block">🇯🇵</span>
                               )}
                             </h2>
                             <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />

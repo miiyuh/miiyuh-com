@@ -26,7 +26,6 @@
         "fumadocs-ui": "^16.9.3",
         "graphql": "^16.14.1",
         "lightgallery": "^2.9.0",
-        "lucide-react": "^1.17.0",
         "next": "16.2.7",
         "payload": "3.85.0",
         "react": "^19.2.7",
@@ -34,7 +33,6 @@
         "react-pdf": "^10.4.1",
         "sharp": "^0.34.5",
         "tailwind-merge": "^3.6.0",
-        "tailwindcss-animate": "^1.0.7",
         "web-haptics": "^0.0.6",
       },
       "devDependencies": {
@@ -2602,8 +2600,6 @@
     "tailwind-merge": ["tailwind-merge@3.6.0", "", {}, "sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w=="],
 
     "tailwindcss": ["tailwindcss@4.3.0", "", {}, "sha512-y6nxMGB1nMW9R6k96e5gdIFzcfL/gTJRNaqGes1YvkLnPVXzWgbqFF2yLC0T8G774n24cx3Pe8XrKoniCOAH+Q=="],
-
-    "tailwindcss-animate": ["tailwindcss-animate@1.0.7", "", { "peerDependencies": { "tailwindcss": ">=3.0.0 || insiders" } }, "sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA=="],
 
     "tailwindcss-motion": ["tailwindcss-motion@1.1.1", "", { "peerDependencies": { "tailwindcss": ">=3.0.0 || insiders" } }, "sha512-CeeQAc5o31BuEPMyWdq/786X7QWNeifa+8khfu74Fs8lGkgEwjNYv6dGv+lRFS8FWXV5dp7F3AU9JjBXjiaQfw=="],
 

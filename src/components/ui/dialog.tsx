@@ -18,12 +18,7 @@ function DialogPortal(props: ComponentProps<typeof Portal>) {
 }
 
 function DialogClose(props: ComponentProps<typeof DialogPrimitive.CloseTrigger>) {
-  return (
-    <DialogPrimitive.CloseTrigger data-slot="dialog-close" {...props}>
-      <X weight="bold" />
-      <span className="sr-only">Close</span>
-    </DialogPrimitive.CloseTrigger>
-  );
+  return <DialogPrimitive.CloseTrigger data-slot="dialog-close" {...props} />;
 }
 
 function DialogBackdrop({
@@ -54,10 +49,10 @@ function DialogPopup({
     <DialogPortal>
       <DialogBackdrop />
       <DialogPrimitive.Positioner className="fixed inset-0 z-50">
-        <div className="grid h-dvh grid-rows-[1fr_auto] justify-items-center pt-6 sm:grid-rows-[1fr_auto_3fr] sm:p-4">
+        <div className="grid h-dvh grid-rows-[1fr_auto] justify-items-center pt-6 max-sm:px-4 sm:grid-rows-[1fr_auto_3fr] sm:p-4">
           <DialogPrimitive.Content
             className={cn(
-              "sm:-translate-y-[calc(1.25rem*var(--nested-layer-count,0))] relative row-start-2 grid max-h-full w-full min-w-0 origin-top overflow-hidden border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl text-white opacity-[calc(1-0.1*var(--nested-layer-count,0))] shadow-2xl transition-[scale,opacity,translate] duration-200 ease-in-out will-change-transform before:pointer-events-none before:absolute before:inset-0 before:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] **:has-[+[data-slot=dialog-footer]]:pb-4 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 max-sm:border-none max-sm:data-[state=closed]:translate-y-4 max-sm:data-[state=open]:translate-y-0 max-sm:before:hidden sm:max-w-lg sm:rounded-2xl sm:data-[state=closed]:scale-95 sm:data-[state=open]:scale-100 sm:before:rounded-[calc(var(--radius-2xl)-1px)] sm:**:has-[+[data-slot=dialog-footer]]:pb-6",
+              "sm:-translate-y-[calc(1.25rem*var(--nested-layer-count,0))] relative row-start-2 grid max-h-full w-full min-w-0 origin-top overflow-hidden border border-white/12 bg-bg-primary/95 backdrop-blur-xl text-white opacity-[calc(1-0.1*var(--nested-layer-count,0))] shadow-2xl transition-[scale,opacity,translate] duration-200 ease-in-out will-change-transform before:pointer-events-none before:absolute before:inset-0 before:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] **:has-[+[data-slot=dialog-footer]]:pb-4 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 max-sm:border-none max-sm:data-[state=closed]:translate-y-4 max-sm:data-[state=open]:translate-y-0 max-sm:before:hidden sm:max-w-lg sm:rounded-2xl sm:data-[state=closed]:scale-95 sm:data-[state=open]:scale-100 sm:before:rounded-[calc(var(--radius-2xl)-1px)] sm:**:has-[+[data-slot=dialog-footer]]:pb-6",
               className,
             )}
             data-slot="dialog-popup"

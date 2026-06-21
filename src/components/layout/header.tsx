@@ -40,9 +40,9 @@ export default function Header() {
             <Image
               src="/assets/img/logo_miiyuh_v4-white.png"
               alt="miiyuh - return to homepage"
-              width={160}
-              height={40}
-              className="h-10 w-auto"
+              width={128}
+              height={32}
+              className="h-8 w-auto"
               priority
               quality={75}
               sizes="160px"
@@ -52,7 +52,7 @@ export default function Header() {
           {/* Hamburger */}
           <button
             onClick={toggleMenu}
-            className="lg:hidden z-50 relative min-w-11 min-h-11 flex items-center justify-center"
+            className="lg:hidden z-50 relative min-w-11 min-h-11 flex items-center justify-center -mr-2"
             aria-label="Toggle navigation menu"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"

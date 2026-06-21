@@ -2,7 +2,7 @@
 
 import { Menu as MenuPrimitive } from "@ark-ui/react/menu";
 import { Portal } from "@ark-ui/react/portal";
-import { CheckIcon, ChevronRightIcon } from "lucide-react";
+import { Check, CaretRight } from "@phosphor-icons/react";
 import type { ComponentProps } from "react";
 import type * as React from "react";
 
@@ -28,7 +28,7 @@ function MenuPopup({
       >
         <MenuPrimitive.Content
           className={cn(
-            "relative flex origin-(--transform-origin) rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
+            "relative flex origin-(--transform-origin) rounded-xl border border-white/12 bg-bg-primary/95 backdrop-blur-xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             className,
           )}
           data-slot="menu-popup"
@@ -86,7 +86,7 @@ function MenuCheckboxItem({
       {...props}
     >
       <MenuPrimitive.ItemIndicator className="col-start-1">
-        <CheckIcon />
+        <Check />
       </MenuPrimitive.ItemIndicator>
       <MenuPrimitive.ItemText className="col-start-2">{children}</MenuPrimitive.ItemText>
     </MenuPrimitive.CheckboxItem>
@@ -112,7 +112,7 @@ function MenuRadioItem({
       {...props}
     >
       <MenuPrimitive.ItemIndicator className="col-start-1">
-        <CheckIcon />
+        <Check />
       </MenuPrimitive.ItemIndicator>
       <MenuPrimitive.ItemText className="col-start-2">{children}</MenuPrimitive.ItemText>
     </MenuPrimitive.RadioItem>
@@ -188,7 +188,7 @@ function MenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ms-auto" />
+      <CaretRight className="ms-auto" />
     </MenuPrimitive.TriggerItem>
   );
 }

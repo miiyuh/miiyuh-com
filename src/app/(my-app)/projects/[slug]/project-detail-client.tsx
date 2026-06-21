@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -92,19 +93,15 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
   }
 
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen overflow-x-hidden">
+    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
         <div>
           
           <div className="px-6 md:px-12 lg:px-24 xl:px-32">
             {/* Breadcrumb Navigation */}
             <SimpleBreadcrumb
-              items={[
-                { label: 'home', href: '/' },
-                { label: 'projects', href: '/projects' },
-                { label: project.name },
-              ]}
-              className="mb-8"
+              items={breadcrumbs.projectDetail(project.name)}
+              className="-mx-6 px-6"
             />
 
             {/* Back button */}

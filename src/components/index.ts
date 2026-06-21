@@ -17,5 +17,3 @@ export { EntryCard } from './ui/entry-card'
 export { FormRenderer } from './forms/form-renderer'
 export { FormBlock, FormBlockServer } from './forms/form-block'
 
-// Debug components (only for development)
-export { default as FontDebug } from './debug/font-debug'
