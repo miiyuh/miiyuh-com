@@ -41,3 +41,9 @@ Personal portfolio (Next.js 16 + Payload CMS 3 + MongoDB + Tailwind CSS v4).
 - Server components handle data + metadata; client components handle interactivity + hooks.
 - Hash navigation via `HeadingWithHash` (GitHub-style anchor links).
 - Use `revalidatePath` + ISR for blog posts; pre-define MongoDB indexes per collection.
+
+## Versioning
+
+- **Current version**: `"version"` field in `package.json`.
+- Before any deploy or significant release, **bump the version** in `package.json` following semver (`major.minor.patch`).
+- No automated versioning — bump manually when you ship.
