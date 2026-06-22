@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 import type { BlogPostCard } from "@/types/blog";
 import { useWebHaptics } from "web-haptics/react";
 
@@ -163,186 +163,193 @@ export default function BlogClient({
   return (
     <div>
       <div className="border-t border-white/8 pt-8 pb-8">
-            <div className="space-y-4">
-              {/* Search Bar */}
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MagnifyingGlass className="h-4 w-4 text-text-muted" />
-                </div>
-                <input
-                  key={searchQuery}
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search posts"
-                  defaultValue={searchQuery}
-                  onChange={(e) => handleSearchInputChange(e.target.value)}
-                  className="w-full font-sans bg-white/2 border border-white/8 rounded-lg py-2.5 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/15 transition-all duration-200"
-                />
-              </div>
-
-              {/* Topic Tags */}
-              {allTopics.length > 0 && (
-                <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-text-muted/60 font-light">
-                    Topics
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      onClick={() => {
-                        haptic.trigger("selection");
-                        clearFilters();
-                      }}
-                      className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
-                        selectedTags.length === 0
-                          ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
-                          : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
-                      }`}
-                    >
-                      all
-                    </button>
-                    {allTopics.map((topic) => (
-                      <button
-                        key={topic.value}
-                        onClick={() => toggleTopic(topic.value)}
-                        className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
-                          selectedTags.includes(topic.value)
-                            ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
-                            : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
-                        }`}
-                      >
-                        {topic.label.toLowerCase()}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+        <div className="space-y-4">
+          {/* Search Bar */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MagnifyingGlassIcon className="h-4 w-4 text-text-muted" />
             </div>
+            <input
+              key={searchQuery}
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search posts"
+              defaultValue={searchQuery}
+              onChange={(e) => handleSearchInputChange(e.target.value)}
+              className="w-full font-sans bg-white/2 border border-white/8 rounded-lg py-2.5 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/15 transition-all duration-200"
+            />
           </div>
 
-          <div>
-            {posts.length > 0 ? (
-              <div className="space-y-6">
-                {posts.map((post) => {
-                  const coverSrc = post.coverImage?.url;
-
-                  return (
-                    <Link
-                      key={post.id}
-                      href={getPostUrl(post)}
-                      className="group block content-auto-sm"
-                      onClick={() => haptic.trigger("medium")}
-                    >
-                      <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
-                        {coverSrc && (
-                          <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
-                            <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
-                            <Image
-                              src={coverSrc}
-                              alt={post.coverImage?.alt || post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
-                              sizes="(max-width: 640px) 100vw, 192px"
-                              quality={75}
-                              loading="lazy"
-                            />
-                          </div>
-                        )}
-                        <div className="flex-1 min-w-0 flex flex-col justify-between">
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2 mb-3">
-                              <time className="text-xs text-text-muted/60">
-                                {post.publishedAt &&
-                                  formatDate(post.publishedAt)}
-                              </time>
-                              {post.tags && post.tags.length > 0 && (
-                                <>
-                                  {post.tags
-                                    .slice(0, 2)
-                                    .map((tagItem, tagIndex) => (
-                                      <span
-                                        key={tagIndex}
-                                        className="text-[11px] text-text-muted/50 rounded-full bg-white/4 px-2 py-0.5"
-                                      >
-                                        {tagItem?.tag}
-                                      </span>
-                                    ))}
-                                </>
-                              )}
-                            </div>
-                            <h2 className="text-lg font-medium text-text-primary group-hover:text-accent-primary transition-colors duration-200 mb-2">
-                              {post.title}
-                            </h2>
-                            <p className="text-sm text-text-secondary/70 line-clamp-2 leading-relaxed">
-                              {post.excerpt}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="border border-dashed border-white/8 rounded-lg py-20 text-center">
-                <p className="text-text-muted mb-4">nothing in the tray — try a different filter</p>
+          {/* Topic Tags */}
+          {allTopics.length > 0 && (
+            <div className="space-y-2">
+              <label className="text-xs uppercase tracking-widest text-text-muted/60 font-light">
+                Topics
+              </label>
+              <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => {
-                    haptic.trigger("light");
+                    haptic.trigger("selection");
                     clearFilters();
                   }}
-                  className="text-sm text-accent-primary hover:underline underline-offset-4"
-                >
-                  Clear all filters
-                </button>
-              </div>
-            )}
-
-            {pagination.totalPages > 1 && (
-              <nav
-                className="mt-10 flex items-center justify-center gap-2"
-                aria-label="Pagination"
-              >
-                <button
-                  onClick={() => handlePageChange(pagination.page - 1)}
-                  disabled={pagination.page === 1}
-                  className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
-                    pagination.page === 1
-                      ? "text-text-muted/40 cursor-not-allowed"
-                      : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
+                  className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
+                    selectedTags.length === 0
+                      ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
+                      : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
                   }`}
                 >
-                  ←
+                  all
                 </button>
-                {pageNumbers.map((pageNumber) => (
+                {allTopics.map((topic) => (
                   <button
-                    key={pageNumber}
-                    onClick={() => handlePageChange(pageNumber)}
-                    aria-current={
-                      pageNumber === pagination.page ? "page" : undefined
-                    }
-                    className={`w-11 h-11 text-sm rounded-lg transition-colors duration-200 ${
-                      pageNumber === pagination.page
+                    key={topic.value}
+                    onClick={() => toggleTopic(topic.value)}
+                    className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
+                      selectedTags.includes(topic.value)
                         ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
-                        : "text-text-muted bg-white/4 border border-white/8 hover:text-text-primary hover:bg-white/6"
+                        : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
                     }`}
                   >
-                    {pageNumber}
+                    {topic.label.toLowerCase()}
                   </button>
                 ))}
-                <button
-                  onClick={() => handlePageChange(pagination.page + 1)}
-                  disabled={pagination.page === pagination.totalPages}
-                  className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
-                    pagination.page === pagination.totalPages
-                      ? "text-text-muted/40 cursor-not-allowed"
-                      : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
-                  }`}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div>
+        {posts.length > 0 ? (
+          <div className="space-y-6">
+            {posts.map((post) => {
+              const coverSrc = post.coverImage?.url;
+
+              return (
+                <Link
+                  key={post.id}
+                  href={getPostUrl(post)}
+                  className="group block content-auto-sm"
+                  onClick={() => haptic.trigger("medium")}
                 >
-                  →
-                </button>
-              </nav>
-            )}
+                  <div className="relative flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
+                    <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <ArrowUpRightIcon
+                        className="w-5 h-5 text-text-muted"
+                        weight="bold"
+                      />
+                    </div>
+                    {coverSrc && (
+                      <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
+                        <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
+                        <Image
+                          src={coverSrc}
+                          alt={post.coverImage?.alt || post.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, 192px"
+                          quality={75}
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0 flex flex-col justify-between">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                          <time className="text-xs text-text-muted/60">
+                            {post.publishedAt && formatDate(post.publishedAt)}
+                          </time>
+                          {post.tags && post.tags.length > 0 && (
+                            <>
+                              {post.tags
+                                .slice(0, 2)
+                                .map((tagItem, tagIndex) => (
+                                  <span
+                                    key={tagIndex}
+                                    className="text-[11px] text-text-muted/50 rounded-full bg-white/4 px-2 py-0.5"
+                                  >
+                                    {tagItem?.tag}
+                                  </span>
+                                ))}
+                            </>
+                          )}
+                        </div>
+                        <h2 className="text-lg font-medium text-text-primary group-hover:text-accent-primary transition-colors duration-200 mb-2">
+                          {post.title}
+                        </h2>
+                        <p className="text-sm text-text-secondary/70 line-clamp-2 leading-relaxed">
+                          {post.excerpt}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
+        ) : (
+          <div className="border border-dashed border-white/8 rounded-lg py-20 text-center">
+            <p className="text-text-muted mb-4">
+              nothing in the tray — try a different filter
+            </p>
+            <button
+              onClick={() => {
+                haptic.trigger("light");
+                clearFilters();
+              }}
+              className="text-sm text-accent-primary hover:underline underline-offset-4"
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
+
+        {pagination.totalPages > 1 && (
+          <nav
+            className="mt-10 flex items-center justify-center gap-2"
+            aria-label="Pagination"
+          >
+            <button
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
+                pagination.page === 1
+                  ? "text-text-muted/40 cursor-not-allowed"
+                  : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
+              }`}
+            >
+              ←
+            </button>
+            {pageNumbers.map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                aria-current={
+                  pageNumber === pagination.page ? "page" : undefined
+                }
+                className={`w-11 h-11 text-sm rounded-lg transition-colors duration-200 ${
+                  pageNumber === pagination.page
+                    ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
+                    : "text-text-muted bg-white/4 border border-white/8 hover:text-text-primary hover:bg-white/6"
+                }`}
+              >
+                {pageNumber}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === pagination.totalPages}
+              className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
+                pagination.page === pagination.totalPages
+                  ? "text-text-muted/40 cursor-not-allowed"
+                  : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
+              }`}
+            >
+              →
+            </button>
+          </nav>
+        )}
+      </div>
     </div>
   );
 }
