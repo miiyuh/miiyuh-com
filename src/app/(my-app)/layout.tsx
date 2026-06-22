@@ -12,6 +12,8 @@ import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/components/layout/app-provider";
+import { getServerLocale } from "@/lib/locale-server";
+import { LocaleProvider } from "@/lib/locale-context";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -48,6 +50,7 @@ const notoColorEmoji = Noto_Color_Emoji({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://miiyuh.com"),
   title: "miiyuh's webpage",
   description: "hello, and welcome to my webpage!",
   keywords: ["miiyuh", "photography", "artwork", "blog", "portfolio"],
@@ -61,13 +64,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getServerLocale()
+
   return (
-    <html lang="en" className="bg-[#070707] text-[#FAF3E0]">
+    <html lang={locale} className="bg-[#070707] text-[#FAF3E0]">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -107,7 +112,9 @@ export default function RootLayout({
         className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
         style={{ fontFamily: 'var(--font-inter), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
-        <AppProvider>{children}</AppProvider>
+        <LocaleProvider locale={locale}>
+          <AppProvider>{children}</AppProvider>
+        </LocaleProvider>
         <SpeedInsights />
         <Analytics />
         <Script

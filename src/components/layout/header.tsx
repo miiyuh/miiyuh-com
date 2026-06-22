@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { NAVIGATION_LINKS } from "@/constants";
 import { useWebHaptics } from "web-haptics/react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import LocaleToggle from "@/components/layout/locale-toggle";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -111,19 +112,24 @@ export default function Header() {
           </button>
 
           {/* Desktop Menu */}
-          <ul className="hidden lg:flex gap-8 text-xl font-serif">
-            {NAVIGATION_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="hover:underline"
-                  onClick={() => haptic.trigger("light")}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="hidden lg:flex items-center gap-8">
+            <ul className="flex gap-8 text-xl font-serif">
+              {NAVIGATION_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="hover:underline"
+                    onClick={() => haptic.trigger("light")}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div>
+              <LocaleToggle />
+            </div>
+          </div>
         </div>
       </header>
 
@@ -153,6 +159,9 @@ export default function Header() {
             </li>
           ))}
         </ul>
+        <div className="mt-12">
+          <LocaleToggle />
+        </div>
       </div>
     </>
   );

@@ -17,6 +17,9 @@ import { BlogPostSkeleton } from "./blog-post-skeleton";
 import type { BlogPostDocument } from "@/types/blog";
 import { resolveMediaSrc } from "@/utils/media";
 import { extractTocFromLexical } from "@/utils/extract-toc";
+import { renderLexicalContent } from "@/utils/lexical-renderer";
+import { getServerLocale } from "@/lib/locale-server";
+import type { LocaleCode } from "@/lib/locale";
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60;
@@ -32,10 +35,11 @@ type PageProps = {
  * Shared by generateMetadata and PageContent to avoid duplicate Payload queries.
  */
 const getCachedBlogPost = unstable_cache(
-  async (slug: string): Promise<BlogPostDocument | undefined> => {
+  async (slug: string, locale: LocaleCode): Promise<BlogPostDocument | undefined> => {
     const payload = await getPayload({ config });
     const { docs } = await payload.find({
       collection: "blog-posts",
+      locale,
       where: {
         and: [{ slug: { equals: slug } }, { _status: { equals: "published" } }],
       },
@@ -44,14 +48,15 @@ const getCachedBlogPost = unstable_cache(
     });
     return (docs[0] as BlogPostDocument) ?? undefined;
   },
-  ["blog-post-by-slug"],
+  ["blog-post-by-slug-v2"],
   { revalidate: 60, tags: ["blog-posts"] },
 );
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { year, month, slug } = await params;
+  const locale = await getServerLocale();
 
-  const post = await getCachedBlogPost(slug);
+  const post = await getCachedBlogPost(slug, locale);
   if (!post) return { title: "Post Not Found - miiyuh" };
 
   // Verify the post matches the year/month (using Malaysia timezone)
@@ -110,8 +115,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 async function PageContent({ params }: PageProps) {
   const { year, month, slug } = await params;
+  const locale = await getServerLocale();
 
-  const post = await getCachedBlogPost(slug);
+  const post = await getCachedBlogPost(slug, locale);
   if (!post) notFound();
 
   // Verify the post matches the year/month in the URL (using Malaysia timezone)
@@ -203,7 +209,7 @@ async function PageContent({ params }: PageProps) {
 
           {/* Post Content */}
           <BlogPostContent
-            content={post.content ?? null}
+            htmlContent={renderLexicalContent(post.content ?? null)}
             toc={extractTocFromLexical(post.content)}
           />
 

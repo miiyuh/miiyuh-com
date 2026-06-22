@@ -1,23 +1,17 @@
 "use client";
 
-import { useMemo } from "react";
 import type { TOCItemType } from "fumadocs-core/toc";
-import {
-  renderLexicalContent,
-  type LexicalContent,
-} from "@/utils/lexical-renderer";
 import { PageTOC, MobileTOC } from "@/components/ui/page-toc";
 
 type BlogPostContentProps = {
-  content: LexicalContent | null;
+  htmlContent: string;
   toc: TOCItemType[];
 };
 
 export default function BlogPostContent({
-  content,
+  htmlContent,
   toc,
 }: BlogPostContentProps) {
-  const htmlContent = useMemo(() => renderLexicalContent(content), [content]);
 
   return (
     <>

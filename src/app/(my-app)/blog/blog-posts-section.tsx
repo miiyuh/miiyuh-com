@@ -5,6 +5,8 @@ import config from '@payload-config'
 import BlogClient from './blog-client'
 import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
+import { getServerLocale } from '@/lib/locale-server'
+import type { LocaleCode } from '@/lib/locale'
 
 const POSTS_PER_PAGE = 9
 
@@ -20,11 +22,12 @@ type BlogPostsSectionProps = {
 }
 
 const getCachedPublishedTagOptions = unstable_cache(
-  async () => {
+  async (locale: LocaleCode) => {
     const payload = await getPayload({ config })
 
     const { docs } = await payload.find({
       collection: 'blog-posts',
+      locale,
       where: {
         and: [
           {
@@ -73,6 +76,7 @@ const getCachedPublishedTagOptions = unstable_cache(
 )
 
 export default async function BlogPostsSection({ searchParams }: BlogPostsSectionProps) {
+  const locale = await getServerLocale()
   const payload = await getPayload({ config })
 
   const resolvedSearchParams = searchParams ? await searchParams : {}
@@ -134,6 +138,7 @@ export default async function BlogPostsSection({ searchParams }: BlogPostsSectio
   const executePostsQuery = (page: number) =>
     payload.find({
       collection: 'blog-posts',
+      locale,
       where: {
         and: filterConditions as Where[],
       },
@@ -153,7 +158,7 @@ export default async function BlogPostsSection({ searchParams }: BlogPostsSectio
 
   const [initialPostsQuery, availableTags] = await Promise.all([
     executePostsQuery(currentPage),
-    getCachedPublishedTagOptions(),
+    getCachedPublishedTagOptions(locale),
   ])
 
   let postsQuery = initialPostsQuery
