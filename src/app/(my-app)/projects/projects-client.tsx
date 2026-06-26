@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { animate, remove, set } from "animejs";
+import { animate, remove, set, stagger } from "animejs";
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
 import { breadcrumbs } from "@/config/breadcrumbs";
 import { useWebHaptics } from "web-haptics/react";
@@ -13,7 +13,6 @@ import {
   GraduationCap,
   GithubLogo,
   ArrowSquareOut,
-  Calendar,
   CaretLeft,
   CaretRight,
   X,
@@ -54,21 +53,6 @@ interface ProjectsClientProps {
 // Constants
 // ---------------------------------------------------------------------------
 
-const STATUS_STYLES: Record<string, { label: string; className: string }> = {
-  active: {
-    label: "Active",
-    className: "bg-status-active-bg text-status-active-text border-status-active-border",
-  },
-  "in-development": {
-    label: "In Development",
-    className: "bg-status-dev-bg text-status-dev-text border-status-dev-border",
-  },
-  archived: {
-    label: "Archived",
-    className: "bg-status-archived-bg text-status-archived-text border-status-archived-border",
-  },
-};
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -88,228 +72,128 @@ function getCategoryIcon(category: Project["category"]) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Card (grid tile)
-// ---------------------------------------------------------------------------
-
 const CATEGORY_LABELS: Record<Project["category"], string> = {
   "side-project": "Side Project",
   "university-project": "University",
 };
 
-function ProjectCard({
+// ---------------------------------------------------------------------------
+// Entry (typographic list item)
+// ---------------------------------------------------------------------------
+
+function ProjectEntry({
   project,
   onSelect,
-  priority,
+  entryRef,
 }: {
   project: Project;
   onSelect: () => void;
-  priority: boolean;
+  entryRef?: (el: HTMLDivElement | null) => void;
 }) {
   const haptic = useWebHaptics();
-  const status = project.projectDetails?.status
-    ? STATUS_STYLES[project.projectDetails.status]
-    : null;
-  const subtitle = getSubtitle(project);
-
-  function renderCategoryIcon(className: string) {
-    switch (project.category) {
-      case "side-project":
-        return <Rocket className={className} />;
-      case "university-project":
-        return <GraduationCap className={className} />;
-    }
-  }
+  const isSide = project.category === "side-project";
 
   return (
-    <article
-      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-surface-primary hover:border-white/20 hover:bg-white/3 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer flex flex-col"
-      onClick={() => {
-        haptic.trigger("medium");
-        onSelect();
-      }}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
+    <div ref={entryRef}>
+      <article
+        className="group cursor-pointer"
+        onClick={() => {
           haptic.trigger("medium");
           onSelect();
-        }
-      }}
-      aria-label={`View details for ${project.name}`}
-    >
-      {/* Cover image */}
-      {project.image?.url ? (
-        <div className="relative aspect-video overflow-hidden shrink-0">
-          <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
-          <Image
-            src={project.image.url}
-            alt={project.image.alt || project.name}
-            fill
-            className="object-cover transition-[transform,opacity] duration-500 group-hover:scale-105"
-            priority={priority}
-            quality={75}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-      ) : (
-        <div className="relative aspect-video overflow-hidden bg-white/5 shrink-0 flex items-center justify-center">
-          {renderCategoryIcon("w-8 h-8 text-white/10")}
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-      )}
-
-      <div className="p-6 flex flex-col grow">
-        {/* Category + status row */}
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-widest text-text-muted/60">
-            {renderCategoryIcon("w-3.5 h-3.5")}
-            {CATEGORY_LABELS[project.category]}
-          </span>
-          {status && (
-            <span
-              className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium border ${status.className}`}
-            >
-              {status.label}
-            </span>
-          )}
-        </div>
-
-        {/* Icon + title */}
-        <div className="flex items-start gap-4 min-w-0 mb-3">
-          {project.icon?.url && (
-            <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-white/5 mt-0.5">
-              <Image
-                src={project.icon.url}
-                alt={project.icon.alt || `${project.name} icon`}
-                width={44}
-                height={44}
-                className="w-11 h-11 object-cover"
-                quality={75}
-                sizes="44px"
-              />
+        }}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            haptic.trigger("medium");
+            onSelect();
+          }
+        }}
+        aria-label={`View details for ${project.name}`}
+      >
+        <div className="flex items-start justify-between gap-6">
+          <div className="min-w-0 flex-1">
+            {/* Name + optional icon */}
+            <div className="flex items-center gap-3">
+              {project.icon?.url && (
+                <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-white/8 bg-white/5 -mt-0.5">
+                  <Image
+                    src={project.icon.url}
+                    alt={project.icon.alt || `${project.name} icon`}
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-cover"
+                    quality={75}
+                    sizes="32px"
+                  />
+                </div>
+              )}
+              <h3 className="text-2xl sm:text-3xl font-serif text-text-primary leading-tight group-hover:text-white transition-colors duration-200">
+                {project.name}
+              </h3>
             </div>
-          )}
-          <div className="min-w-0">
-            <h3 className="text-xl md:text-2xl font-serif text-text-primary group-hover:text-accent-primary transition-colors duration-200 leading-tight">
-              {project.name}
-            </h3>
-            {subtitle && (
-              <p className="text-xs font-mono text-text-muted/70 mt-1 truncate">
-                {subtitle}
+
+            {/* Course subtitle */}
+            {getSubtitle(project) && (
+              <p className="text-sm font-mono text-text-muted/80 mt-1.5">
+                {getSubtitle(project)}
               </p>
             )}
-          </div>
-        </div>
 
-        {/* Description */}
-        <p className="text-base text-text-secondary/85 leading-relaxed line-clamp-3">
-          {project.description}
-        </p>
+            {/* Description */}
+            <p className="text-base text-text-secondary/80 leading-relaxed mt-4 max-w-prose line-clamp-2">
+              {project.description}
+            </p>
 
-        {/* Bottom row: pills + arrow */}
-        <div className="flex items-end justify-between gap-3 mt-auto pt-2">
-          <div className="flex flex-wrap items-center gap-2 min-w-0">
-            {project.category === "side-project" &&
-              project.projectDetails?.techStack?.slice(0, 3).map((t, i) => (
-                <span
-                  key={i}
-                  className="px-2.5 py-1 rounded-md text-xs bg-white/4 text-text-muted/75 border border-white/8 font-mono"
-                >
-                  {t.tech}
-                </span>
-              ))}
-            {project.category === "university-project" && (
-              <>
+            {/* Tags (matching entry-card style) */}
+            {(isSide
+              ? project.projectDetails?.techStack?.slice(0, 4)
+              : undefined
+            )?.length ? (
+              <div className="flex flex-wrap gap-1.5 mt-5">
+                {project.projectDetails!.techStack!.slice(0, 4).map((t, i) => (
+                  <span
+                    key={i}
+                    className="text-[11px] px-2 py-0.5 text-text-muted/50 rounded-full bg-white/4"
+                  >
+                    {t.tech}
+                  </span>
+                ))}
+              </div>
+            ) : !isSide &&
+              (project.universityDetails?.semester ||
+                project.universityDetails?.grade) ? (
+              <div className="flex flex-wrap gap-1.5 mt-5">
                 {project.universityDetails?.semester && (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-white/4 text-text-muted/75 border border-white/8">
-                    <Calendar className="w-3 h-3" />
+                  <span className="text-[11px] px-2 py-0.5 text-text-muted/50 rounded-full bg-white/4">
                     {project.universityDetails.semester}
                   </span>
                 )}
                 {project.universityDetails?.grade && (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-emerald-500/10 text-emerald-400/85 border border-emerald-500/15">
+                  <span className="text-[11px] px-2 py-0.5 text-text-muted/50 rounded-full bg-white/4">
                     {project.universityDetails.grade}
                   </span>
                 )}
-              </>
-            )}
+              </div>
+            ) : null}
           </div>
-          <ArrowUpRight className="w-5 h-5 shrink-0 text-text-muted/50 group-hover:text-text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+
+          {/* Arrow */}
+          <ArrowUpRight className="w-6 h-6 shrink-0 mt-2 text-text-muted/30 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
         </div>
-      </div>
-    </article>
-  );
-}
-
-function UniversityProjectRow({
-  project,
-  onSelect,
-}: {
-  project: Project;
-  onSelect: () => void;
-}) {
-  const haptic = useWebHaptics();
-  const subtitle = getSubtitle(project);
-
-  return (
-    <article
-      className="group rounded-2xl border border-white/10 bg-surface-primary p-5 md:p-6 hover:border-white/20 hover:bg-white/3 transition-all duration-300 cursor-pointer"
-      onClick={() => {
-        haptic.trigger("medium");
-        onSelect();
-      }}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          haptic.trigger("medium");
-          onSelect();
-        }
-      }}
-      aria-label={`View details for ${project.name}`}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="text-lg md:text-xl font-serif text-text-primary group-hover:text-accent-primary transition-colors duration-200 leading-tight">
-            {project.name}
-          </h3>
-          {subtitle && (
-            <p className="text-xs font-mono text-text-muted/70 mt-1 truncate">
-              {subtitle}
-            </p>
-          )}
-        </div>
-        <ArrowUpRight className="w-5 h-5 shrink-0 text-text-muted/50 group-hover:text-text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
-      </div>
-
-      <p className="text-base text-text-secondary/85 leading-relaxed mt-4 line-clamp-3">
-        {project.description}
-      </p>
-
-      <div className="flex flex-wrap items-center gap-2 mt-5">
-        {project.universityDetails?.semester && (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-white/4 text-text-muted/75 border border-white/8">
-            <Calendar className="w-3 h-3" />
-            {project.universityDetails.semester}
-          </span>
-        )}
-        {project.universityDetails?.grade && (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-emerald-500/10 text-emerald-400/85 border border-emerald-500/15">
-            {project.universityDetails.grade}
-          </span>
-        )}
-      </div>
-    </article>
+      </article>
+    </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// [ProjectDetail removed - now integrated into modal content]
+// Separator
 // ---------------------------------------------------------------------------
+
+function EntrySeparator() {
+  return <hr className="border-0 border-t border-white/[0.04] my-0" />;
+}
 
 // ---------------------------------------------------------------------------
 // Main page component
@@ -321,11 +205,32 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   const modalShellRef = useRef<HTMLDivElement | null>(null);
   const isClosingRef = useRef(false);
   const isNavigatingRef = useRef(false);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const animRan = useRef(false);
 
   useEffect(() => {
     return () => {
       isClosingRef.current = false;
     };
+  }, []);
+
+  // Staggered entrance
+  useEffect(() => {
+    if (animRan.current || !listRef.current) return;
+    animRan.current = true;
+
+    const items = listRef.current.querySelectorAll("[data-stagger]");
+    if (!items.length) return;
+
+    set(items, { opacity: 0, translateY: 12 });
+
+    animate(items, {
+      opacity: 1,
+      translateY: 0,
+      duration: 400,
+      easing: "easeOutQuad",
+      delay: stagger(60),
+    });
   }, []);
 
   useEffect(() => {
@@ -351,14 +256,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   }, [isModalOpen, selected]);
 
   // Projects are already sorted by `order` from the DB query
-  const sideProjects = projects.filter(
-    (project) => project.category === "side-project",
-  );
-  const universityProjects = projects.filter(
-    (project) => project.category === "university-project",
-  );
-
-  const allProjects = [...sideProjects, ...universityProjects];
+  const allProjects = projects;
   const currentIndex = selected
     ? allProjects.findIndex((p) => p.id === selected.id)
     : -1;
@@ -437,83 +335,41 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
         {/* Breadcrumb + heading */}
         <div className="px-8 md:px-32 lg:px-56 xl:px-80">
           <SimpleBreadcrumb items={breadcrumbs.projects()} />
-          
 
           <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
               projects
             </h1>
-            <p className="text-lg md:text-xl text-text-secondary text-pretty">
-              side projects, university work, and research papers - the
+            <p className="text-lg md:text-xl text-text-secondary text-pretty max-w-prose">
+              side projects, university work, and research papers — the
               collection
             </p>
           </div>
         </div>
 
-        {/* Content layout */}
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80 space-y-16">
-          <div className="content-auto">
-            <div className="flex items-center gap-3 mb-7">
-              <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-text-muted/55 shrink-0">
-                Side Projects
-              </span>
-              <div className="flex-1 border-t border-white/6" />
-              <span className="text-[11px] font-mono text-text-muted/40 tabular-nums shrink-0">
-                {sideProjects.length}{" "}
-                {sideProjects.length === 1 ? "item" : "items"}
-              </span>
+        {/* Typographic list */}
+        <div className="px-8 md:px-32 lg:px-56 xl:px-80">
+          {allProjects.length > 0 ? (
+            <div ref={listRef}>
+              {allProjects.map((project, idx) => (
+                <div key={project.id}>
+                  {idx > 0 && <EntrySeparator />}
+                  <div className="py-10 first:pt-0" data-stagger>
+                    <ProjectEntry
+                      project={project}
+                      onSelect={() => openProjectModal(project)}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-
-            {sideProjects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5">
-                {sideProjects.map((project, idx) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    onSelect={() => openProjectModal(project)}
-                    priority={idx < 2}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
-                <p className="text-sm text-text-muted/60">
-                  tray is still in the developer — nothing developed yet
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="content-auto">
-            <div className="flex items-center gap-3 mb-7">
-              <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-text-muted/55 shrink-0">
-                University Projects
-              </span>
-              <div className="flex-1 border-t border-white/6" />
-              <span className="text-[11px] font-mono text-text-muted/40 tabular-nums shrink-0">
-                {universityProjects.length}{" "}
-                {universityProjects.length === 1 ? "item" : "items"}
-              </span>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
+              <p className="text-sm text-text-muted/60">
+                tray is still in the developer — nothing developed yet
+              </p>
             </div>
-
-            {universityProjects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-4">
-                {universityProjects.map((project) => (
-                  <UniversityProjectRow
-                    key={project.id}
-                    project={project}
-                    onSelect={() => openProjectModal(project)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
-                <p className="text-sm text-text-muted/60">
-                  archive shelf is empty — nothing in the tray yet
-                </p>
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </section>
 

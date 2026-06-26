@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import type { AboutEntry } from "@/types/about";
+import { renderLexicalContent } from "@/utils/lexical-renderer";
 import { useWebHaptics } from "web-haptics/react";
 
 interface EntryCardProps {
@@ -69,9 +70,10 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
             </p>
           )}
           {entry.description && (
-            <p className="text-text-secondary text-sm leading-relaxed mt-2">
-              {entry.description}
-            </p>
+            <div
+              className="text-text-secondary text-sm leading-relaxed mt-2 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:mt-1 [&_p]:mt-0 [&_a]:underline hover:[&_a]:text-accent-primary [&_strong]:font-semibold"
+              dangerouslySetInnerHTML={{ __html: renderLexicalContent(entry.description) }}
+            />
           )}
           {entry.tags && entry.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-3">

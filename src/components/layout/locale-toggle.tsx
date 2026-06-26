@@ -18,7 +18,7 @@ export default function LocaleToggle() {
   }, [])
 
   return (
-    <div className="inline-flex items-center rounded-full overflow-hidden border border-white/10 text-xs font-sans tracking-wide">
+    <div className="inline-flex items-center rounded-full border border-white/10 text-xs font-sans tracking-wide">
       {AVAILABLE_LOCALES.map((locale) => {
         const isActive = currentLocale === locale.code
 
@@ -26,7 +26,7 @@ export default function LocaleToggle() {
           <button
             key={locale.code}
             onClick={() => setLocale(locale.code)}
-            className={`px-2.5 py-1.5 transition-all duration-200 first:rounded-l-full last:rounded-r-full ${
+            className={`group relative px-2.5 py-1.5 transition-all duration-200 first:rounded-l-full last:rounded-r-full cursor-pointer ${
               isActive
                 ? 'bg-[#FAF3E0] text-black font-medium'
                 : 'text-text-muted hover:text-text-primary hover:bg-bg-primary/80 hover:backdrop-blur-xl'
@@ -34,6 +34,16 @@ export default function LocaleToggle() {
             aria-label={`Switch to ${locale.labelFull}`}
             aria-pressed={isActive}
           >
+            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded-md bg-[#FAF3E0] text-[#070707] text-[10px] font-sans whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+              {currentLocale === 'en'
+                ? isActive
+                  ? 'Currently in English'
+                  : 'Switch to Bahasa Melayu'
+                : isActive
+                  ? 'Bahasa Melayu digunakan'
+                  : 'Tukar ke Bahasa Inggeris'}
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-[#FAF3E0]" />
+            </span>
             {locale.label}
           </button>
         )

@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { isAdmin } from '../access/is-admin'
 import { revalidateCollectionHooks } from './shared'
+import { simpleEditor } from '../editor/richTextEditor'
 
 const AboutPage: CollectionConfig = {
   slug: 'about-entries',
@@ -19,7 +20,7 @@ const AboutPage: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'startDate', 'endDate', 'isCurrent'],
     group: 'Pages',
-    listSearchableFields: ['title', 'subtitle', 'description'],
+    listSearchableFields: ['title', 'subtitle'],
     pagination: {
       defaultLimit: 20,
       limits: [10, 20, 50],
@@ -49,7 +50,8 @@ const AboutPage: CollectionConfig = {
     },
     {
       name: 'description',
-      type: 'textarea',
+      type: 'richText',
+      editor: simpleEditor,
     },
     {
       name: 'logo',

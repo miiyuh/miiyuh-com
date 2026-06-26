@@ -16,6 +16,7 @@ import AboutPage from './src/collections/AboutPage'
 import Papers from './src/collections/Papers'
 import { PrivacyPolicy } from './src/globals/PrivacyPolicy'
 import { TermsOfService } from './src/globals/TermsOfService'
+import { Resume } from './src/globals/Resume'
 import { fullFeaturedEditor } from './src/editor/richTextEditor'
 import { isAdmin } from './src/access/is-admin'
 import { slugify } from './src/utils/slugify'
@@ -125,7 +126,7 @@ export default buildConfig({
         return url
       },
       collections: ['blog-posts', 'projects', 'gallery-collections', 'surveys'],
-      globals: ['privacy-policy', 'terms-of-service'],
+      globals: ['privacy-policy', 'terms-of-service', 'resume'],
       breakpoints: [
         {
           label: 'Mobile',
@@ -163,20 +164,20 @@ export default buildConfig({
     fallback: true,
   },
   collections: [Users, Media, GalleryCollections, BlogPosts, Projects, Papers, AboutPage],
-  globals: [PrivacyPolicy, TermsOfService],
+  globals: [PrivacyPolicy, TermsOfService, Resume],
   plugins: [
     formBuilderPlugin({
       fields: {
         text: {
           labels: {
-            singular: 'Short Answer',
-            plural: 'Short Answers',
+            singular: 'Single-line text',
+            plural: 'Single-line texts',
           },
           fields: [
             {
               name: 'label',
               type: 'text',
-              label: 'Question',
+              label: 'Label',
               required: true,
               localized: true,
             },
@@ -190,20 +191,20 @@ export default buildConfig({
             {
               name: 'placeholder',
               type: 'text',
-              label: 'Placeholder text',
+              label: 'Placeholder',
             },
           ],
         },
         textarea: {
           labels: {
-            singular: 'Long Answer',
-            plural: 'Long Answers',
+            singular: 'Multi-line text',
+            plural: 'Multi-line texts',
           },
           fields: [
             {
               name: 'label',
               type: 'text',
-              label: 'Question',
+              label: 'Label',
               required: true,
               localized: true,
             },
@@ -217,20 +218,20 @@ export default buildConfig({
             {
               name: 'placeholder',
               type: 'text',
-              label: 'Placeholder text',
+              label: 'Placeholder',
             },
           ],
         },
         select: {
           labels: {
-            singular: 'Dropdown',
+            singular: 'Dropdown / Multiple choice',
             plural: 'Dropdowns',
           },
           fields: [
             {
               name: 'label',
               type: 'text',
-              label: 'Question',
+              label: 'Label',
               required: true,
               localized: true,
             },
@@ -282,9 +283,62 @@ export default buildConfig({
             },
           ],
         },
+        email: {
+          labels: {
+            singular: 'Email address',
+            plural: 'Email addresses',
+          },
+          fields: [
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Label',
+              required: true,
+              localized: true,
+              defaultValue: 'Your email address',
+            },
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+              defaultValue: 'email',
+              admin: {
+                condition: () => false,
+              },
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Required',
+              defaultValue: true,
+            },
+          ],
+        },
+        number: {
+          labels: {
+            singular: 'Number',
+            plural: 'Numbers',
+          },
+          fields: [
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Label',
+              required: true,
+              localized: true,
+            },
+            autoNameField(),
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Required',
+              defaultValue: false,
+            },
+          ],
+        },
         checkbox: {
           labels: {
-            singular: 'Checkbox',
+            singular: 'Checkbox (yes / no)',
             plural: 'Checkboxes',
           },
           fields: [
@@ -304,63 +358,10 @@ export default buildConfig({
             },
           ],
         },
-        email: {
-          labels: {
-            singular: 'Email Address',
-            plural: 'Email Addresses',
-          },
-          fields: [
-            {
-              name: 'label',
-              type: 'text',
-              label: 'Question',
-              required: true,
-              localized: true,
-              defaultValue: 'Your email address',
-            },
-            {
-              name: 'name',
-              type: 'text',
-              required: true,
-              defaultValue: 'email',
-              admin: {
-                condition: () => false,
-              },
-            },
-            {
-              name: 'required',
-              type: 'checkbox',
-              label: 'Required',
-              defaultValue: false,
-            },
-          ],
-        },
-        number: {
-          labels: {
-            singular: 'Number',
-            plural: 'Numbers',
-          },
-          fields: [
-            {
-              name: 'label',
-              type: 'text',
-              label: 'Question',
-              required: true,
-              localized: true,
-            },
-            autoNameField(),
-            {
-              name: 'required',
-              type: 'checkbox',
-              label: 'Required',
-              defaultValue: false,
-            },
-          ],
-        },
         message: {
           labels: {
-            singular: 'Info Text',
-            plural: 'Info Texts',
+            singular: 'Info / Heading text',
+            plural: 'Info / Heading texts',
           },
         },
         country: false,

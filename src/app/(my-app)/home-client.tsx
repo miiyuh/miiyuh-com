@@ -9,17 +9,30 @@ import {
   CameraIcon,
   GraduationCapIcon,
   BriefcaseIcon,
-  HeartIcon,
+  HandHeartIcon,
   ArrowUpRightIcon,
+  FileTextIcon,
+  ArrowDownIcon,
 } from "@phosphor-icons/react";
 import { EntryCard } from "@/components/ui/entry-card";
+import { Button } from "@/components/ui/button";
 import type { AboutEntry } from "@/types/about";
 import { useWebHaptics } from "web-haptics/react";
+
+function formatFileSize(bytes?: number): string {
+  if (!bytes || bytes <= 0) return ''
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
 
 interface HomeClientProps {
   education: AboutEntry[];
   experience: AboutEntry[];
   volunteering: AboutEntry[];
+  resumePdfUrl?: string;
+  resumeFilename?: string;
+  resumeFilesize?: number;
 }
 
 function formatPlatformName(name: string): string {
@@ -30,6 +43,9 @@ export default function HomeClient({
   education,
   experience,
   volunteering,
+  resumePdfUrl,
+  resumeFilename,
+  resumeFilesize,
 }: HomeClientProps) {
   const haptic = useWebHaptics();
 
@@ -188,7 +204,7 @@ export default function HomeClient({
         {volunteering.length > 0 && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
             <div className="sticky md:static top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/80 backdrop-blur-xl mb-6 flex items-center gap-3">
-              <HeartIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
+              <HandHeartIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
               <h2 className="text-3xl font-serif text-text-primary">
                 Volunteering
               </h2>
@@ -199,13 +215,45 @@ export default function HomeClient({
                   key={entry.id}
                   entry={entry}
                   fallbackIcon={
-                    <HeartIcon className="w-6 h-6 text-text-muted" />
+                    <HandHeartIcon className="w-6 h-6 text-text-muted" />
                   }
                 />
               ))}
             </div>
           </section>
         )}
+
+        {/* Resume Section */}
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:200ms]">
+          <div className="sticky md:static top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/80 backdrop-blur-xl mb-6 flex items-center gap-3">
+            <FileTextIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
+            <h2 className="text-3xl font-serif text-text-primary">
+              Resume
+            </h2>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 sm:gap-12">
+            <p className="text-md text-text-secondary leading-relaxed">
+              Here is a copy of my resume for recruiters that stumbled upon my website. Reach out to me through my email at azri@miiyuh.com 
+            </p>
+            <div className="flex flex-col items-start sm:items-end gap-3 shrink-0">
+              
+              {resumePdfUrl ? (
+                <Button variant="default" size="xl" asChild>
+                  <a href={resumePdfUrl} download>
+                    <ArrowDownIcon className="size-5" />
+                    Download Resume
+                  </a>
+                </Button>
+              ) : (
+                <p className="text-xs text-text-muted">Oops, the resume may not be available yet.</p>
+              )}
+              <span className="text-xs text-text-muted select-none whitespace-nowrap">
+                {resumeFilename || 'resume.pdf'}{resumeFilesize ? ` \u00B7 ${formatFileSize(resumeFilesize)}` : ''}
+              </span>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );

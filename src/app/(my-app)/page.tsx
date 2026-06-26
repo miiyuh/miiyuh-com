@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import HomeClient from './home-client'
 import type { AboutEntry } from '@/types/about'
+import type { LexicalContent } from '@/utils/lexical-renderer'
 import { resolveMediaSrc } from '@/utils/media'
 
 export const revalidate = 300
@@ -18,7 +19,7 @@ type RawAboutEntry = {
   type?: 'education' | 'experience' | 'volunteering'
   title?: string
   subtitle?: string | null
-  description?: string | null
+  description?: unknown | null
   logo?: RawAboutLogo | string | null
   startDate?: string | null
   endDate?: string | null
@@ -43,7 +44,7 @@ const mapAboutEntries = (docs: RawAboutEntry[]): AboutEntry[] => {
       type: entry.type ?? 'experience',
       title: entry.title ?? '',
       subtitle: entry.subtitle ?? undefined,
-      description: entry.description ?? undefined,
+      description: entry.description != null ? (entry.description as LexicalContent) : undefined,
       logo: logoSrc
         ? {
             id: String(rawLogo?.id ?? ''),
@@ -109,14 +110,55 @@ async function getAboutData(): Promise<{
   }
 }
 
+type RawMediaDoc = {
+  id?: string | number
+  url?: string | null
+  filename?: string | null
+  alt?: string | null
+  filesize?: number | null
+}
+
+async function getResumeData(): Promise<{
+  pdfUrl?: string
+  title: string
+  filename?: string
+  filesize?: number
+} | null> {
+  try {
+    const payload = await getPayload({ config })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const resume = (await payload.findGlobal({ slug: 'resume' as any, depth: 1 })) as any
+    const pdf = resume.pdf as RawMediaDoc | string | null | undefined
+    const pdfUrl =
+      pdf && typeof pdf === 'object'
+        ? resolveMediaSrc({ url: pdf.url, filename: pdf.filename })
+        : undefined
+    return {
+      pdfUrl,
+      title: (resume.title as string) || 'resume',
+      filename: pdf && typeof pdf === 'object' ? (pdf.filename ?? undefined) : undefined,
+      filesize: pdf && typeof pdf === 'object' ? (pdf.filesize ?? undefined) : undefined,
+    }
+  } catch (error) {
+    console.error('Failed to fetch resume data:', error)
+    return null
+  }
+}
+
 export default async function HomePage() {
-  const { education, experience, volunteering } = await getAboutData()
+  const [aboutData, resumeData] = await Promise.all([
+    getAboutData(),
+    getResumeData(),
+  ])
 
   return (
     <HomeClient
-      education={education}
-      experience={experience}
-      volunteering={volunteering}
+      education={aboutData.education}
+      experience={aboutData.experience}
+      volunteering={aboutData.volunteering}
+      resumePdfUrl={resumeData?.pdfUrl}
+      resumeFilename={resumeData?.filename}
+      resumeFilesize={resumeData?.filesize}
     />
   )
 }
