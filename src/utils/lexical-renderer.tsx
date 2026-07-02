@@ -154,11 +154,12 @@ function sanitizeUrl(url: string | undefined): string {
     if (!ALLOWED_URL_PROTOCOLS.includes(parsed.protocol)) {
       return '#'
     }
-    return url
+    // Escape so the URL cannot break out of the surrounding HTML attribute
+    return escapeHtml(url)
   } catch {
     // Relative URLs are allowed
     if (url.startsWith('/') || url.startsWith('#')) {
-      return url
+      return escapeHtml(url)
     }
     return '#'
   }
@@ -167,6 +168,19 @@ function sanitizeUrl(url: string | undefined): string {
 function sanitizeAttribute(value: string | undefined): string {
   if (!value) return ''
   return escapeHtml(value)
+}
+
+// Only positive integers may be emitted as width/height attributes
+function sanitizeDimension(value: number | undefined): string {
+  const num = Number(value)
+  return Number.isFinite(num) && num > 0 ? String(Math.round(num)) : ''
+}
+
+// CSS color values only (hex, named colors, rgb()/hsl()) — blocks extra
+// declarations, url(), and attribute breakout
+function sanitizeCssColor(value: string | undefined): string {
+  if (!value) return ''
+  return /^[#a-zA-Z0-9(),.%\s-]+$/.test(value) ? value : ''
 }
 
 // ============================================================================
@@ -324,8 +338,10 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const src = sanitizeUrl(imgNode.src || imgNode.url)
       const alt = sanitizeAttribute(imgNode.alt || imgNode.altText) || 'Image'
       const caption = imgNode.caption ? sanitizeAttribute(imgNode.caption) : ''
-      const width = imgNode.width ? ` width="${imgNode.width}"` : ''
-      const height = imgNode.height ? ` height="${imgNode.height}"` : ''
+      const safeWidth = sanitizeDimension(imgNode.width)
+      const safeHeight = sanitizeDimension(imgNode.height)
+      const width = safeWidth ? ` width="${safeWidth}"` : ''
+      const height = safeHeight ? ` height="${safeHeight}"` : ''
       const imageLoadHandler = "this.classList.remove('opacity-0');this.classList.add('opacity-100');if(this.parentElement){this.parentElement.classList.remove('animate-pulse','bg-white/5');}"
 
       return `<figure class="my-8">
@@ -347,8 +363,10 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const caption = sanitizeAttribute(
         uploadNode.value?.caption || uploadNode.caption
       )
-      const width = uploadNode.value?.width ? ` width="${uploadNode.value.width}"` : ''
-      const height = uploadNode.value?.height ? ` height="${uploadNode.value.height}"` : ''
+      const safeWidth = sanitizeDimension(uploadNode.value?.width)
+      const safeHeight = sanitizeDimension(uploadNode.value?.height)
+      const width = safeWidth ? ` width="${safeWidth}"` : ''
+      const height = safeHeight ? ` height="${safeHeight}"` : ''
       const imageLoadHandler = "this.classList.remove('opacity-0');this.classList.add('opacity-100');if(this.parentElement){this.parentElement.classList.remove('animate-pulse','bg-white/5');}"
 
       // Check if it's a video
@@ -387,7 +405,8 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const tag = isHeader ? 'th' : 'td'
       const colSpan = cellNode.colSpan && cellNode.colSpan > 1 ? ` colspan="${cellNode.colSpan}"` : ''
       const rowSpan = cellNode.rowSpan && cellNode.rowSpan > 1 ? ` rowspan="${cellNode.rowSpan}"` : ''
-      const bgColor = cellNode.backgroundColor ? ` style="background-color: ${sanitizeAttribute(cellNode.backgroundColor)}"` : ''
+      const safeBgColor = sanitizeCssColor(cellNode.backgroundColor)
+      const bgColor = safeBgColor ? ` style="background-color: ${safeBgColor}"` : ''
       const cellClass = isHeader
         ? 'px-4 py-2 text-left font-semibold bg-white/5'
         : 'px-4 py-2'
@@ -477,8 +496,8 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
 
 function extractYouTubeId(url: string): string | null {
   const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/,
-    /youtube\.com\/v\/([^&?/]+)/,
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{6,20})/,
+    /youtube\.com\/v\/([A-Za-z0-9_-]{6,20})/,
   ]
   for (const pattern of patterns) {
     const match = url.match(pattern)
