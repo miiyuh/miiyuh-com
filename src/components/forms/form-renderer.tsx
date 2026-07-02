@@ -65,6 +65,9 @@ export function FormRenderer({
     isSuccess: false,
     error: null,
   })
+  // Honeypot: hidden from humans, autofill bots tend to fill it. The server
+  // hook rejects submissions where this arrives non-empty.
+  const [honeypot, setHoneypot] = useState('')
   const haptic = useWebHaptics()
 
   const handleChange = useCallback(
@@ -80,11 +83,14 @@ export function FormRenderer({
       setState({ isSubmitting: true, isSuccess: false, error: null })
 
       try {
-        // Build submission data
-        const submissionData = Object.entries(values).map(([field, value]) => ({
-          field,
-          value: String(value),
-        }))
+        // Build submission data (honeypot included; server drops it if empty)
+        const submissionData = [
+          ...Object.entries(values).map(([field, value]) => ({
+            field,
+            value: String(value),
+          })),
+          { field: '_website', value: honeypot },
+        ]
 
         const response = await fetch('/api/survey-responses', {
           method: 'POST',
@@ -117,7 +123,7 @@ export function FormRenderer({
         onError?.(errorMessage)
       }
     },
-    [form.id, values, onSuccess, onError, haptic]
+    [form.id, values, honeypot, onSuccess, onError, haptic]
   )
 
   // Success state
@@ -151,6 +157,20 @@ export function FormRenderer({
           <p className="text-sm text-red-300">{state.error}</p>
         </div>
       )}
+
+      {/* Honeypot field — visually hidden and skipped by keyboard/screen readers */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <label htmlFor="_website">Leave this field empty</label>
+        <input
+          id="_website"
+          name="_website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
 
       {/* Form Fields */}
       <div className="grid gap-6">

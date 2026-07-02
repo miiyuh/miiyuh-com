@@ -20,18 +20,15 @@ import { Resume } from './src/globals/Resume'
 import { fullFeaturedEditor } from './src/editor/richTextEditor'
 import { isAdmin } from './src/access/is-admin'
 import { slugify } from './src/utils/slugify'
-
-const isProd = process.env.NODE_ENV === 'production'
+import { validateSurveySubmission } from './src/hooks/validate-survey-submission'
 
 const requiredEnv = (key: string, fallback?: string): string => {
   const value = process.env[key]
   if (!value && !fallback) {
-    const message = `Missing required environment variable: ${key}`
-    if (isProd) {
-      console.error(message)
-      return `MISSING_${key}`
-    }
-    throw new Error(message)
+    // Fail hard in every environment: running with a predictable fallback
+    // (especially for PAYLOAD_SECRET, which signs auth tokens) is worse
+    // than failing the build/boot.
+    throw new Error(`Missing required environment variable: ${key}`)
   }
   return value || fallback || ''
 }
@@ -402,6 +399,9 @@ export default buildConfig({
         labels: {
           singular: 'Survey Response',
           plural: 'Survey Responses',
+        },
+        hooks: {
+          beforeValidate: [validateSurveySubmission],
         },
         access: {
           create: () => true,
