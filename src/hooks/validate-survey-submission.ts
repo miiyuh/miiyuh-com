@@ -94,7 +94,7 @@ export const validateSurveySubmission: CollectionBeforeValidateHook = async ({
 
   const allowedFieldNames = new Set(
     (form?.fields ?? [])
-      .map((field) => ('name' in field ? field.name : undefined))
+      .map((field: any) => ('name' in field ? field.name : undefined))
       .filter((name): name is string => typeof name === 'string' && name.length > 0)
   )
 
