@@ -2,12 +2,12 @@
 
 import { Toast, Toaster, createToaster } from '@ark-ui/react/toast'
 import {
-  WarningCircle,
-  CheckCircle,
-  Info,
-  SpinnerGap,
-  Warning,
-  X,
+  WarningCircleIcon,
+  CheckCircleIcon,
+  InfoIcon,
+  SpinnerGapIcon,
+  WarningIcon,
+  XIcon,
 } from '@phosphor-icons/react'
 
 import { cn } from '@/lib/utils'
@@ -22,11 +22,11 @@ type ToastPosition =
   | 'bottom-end'
 
 const TOAST_ICONS = {
-  error: WarningCircle,
-  info: Info,
-  loading: SpinnerGap,
-  success: CheckCircle,
-  warning: Warning,
+  error: WarningCircleIcon,
+  info: InfoIcon,
+  loading: SpinnerGapIcon,
+  success: CheckCircleIcon,
+  warning: WarningIcon,
 } as const
 
 const toastManager = createToaster({
@@ -90,7 +90,7 @@ function ToastProvider({
                     "shrink-0 opacity-72 hover:opacity-100",
                   )}
                 >
-                  <X weight="bold" className="size-4" />
+                  <XIcon weight="bold" className="size-4" />
                 </Toast.CloseTrigger>
               </div>
             </Toast.Root>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Checkbox as CheckboxPrimitive } from "@ark-ui/react/checkbox";
-import { Check, Minus } from "@phosphor-icons/react";
+import { CheckIcon, MinusIcon } from "@phosphor-icons/react";
 import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
@@ -21,10 +21,10 @@ function Checkbox({
     >
       <CheckboxPrimitive.Control className="flex items-center justify-center">
         <CheckboxPrimitive.Indicator className="flex items-center justify-center">
-          <Check weight="bold" className="size-3" />
+          <CheckIcon weight="bold" className="size-3" />
         </CheckboxPrimitive.Indicator>
         <CheckboxPrimitive.Indicator indeterminate className="flex items-center justify-center">
-          <Minus weight="bold" className="size-3" />
+          <MinusIcon weight="bold" className="size-3" />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Control>
       <CheckboxPrimitive.HiddenInput />

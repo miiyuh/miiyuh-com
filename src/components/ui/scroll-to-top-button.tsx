@@ -1,45 +1,22 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useWebHaptics } from "web-haptics/react";
+import { ArrowUpIcon } from "@phosphor-icons/react";
 
 export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
-  const [bottomOffset, setBottomOffset] = useState(32);
-  const rafRef = useRef<number | null>(null);
   const haptic = useWebHaptics();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        setVisible(scrollY > 300);
-
-        const footer = document.querySelector("footer");
-        if (footer) {
-          const footerRect = footer.getBoundingClientRect();
-          const viewportH = window.innerHeight;
-
-          if (footerRect.top < viewportH) {
-            const offset = viewportH - footerRect.top + 16;
-            setBottomOffset(Math.max(32, offset));
-          } else {
-            setBottomOffset(32);
-          }
-        }
-
-        rafRef.current = null;
-      });
+      setVisible(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToTop = useCallback(() => {
@@ -50,12 +27,11 @@ export default function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed right-8 z-50 p-3 rounded-full bg-bg-primary/80 backdrop-blur-xl border border-white/12 text-white/90 shadow-lg hover:bg-white/10 transition-all duration-500 ${
-        visible ? "opacity-100" : "opacity-0 pointer-events-none"
+      className={`fixed right-8 bottom-8 z-50 p-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 text-white shadow-lg hover:bg-white/15 active:scale-90 transition-all duration-300 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
       }`}
-      style={{ bottom: `${bottomOffset}px` }}
     >
-      ↑
+      <ArrowUpIcon className="w-5 h-5" weight="bold" />
     </button>
   );
 }

@@ -1,9 +1,9 @@
 import { Slot } from '@radix-ui/react-slot'
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import {
-  CaretLeft,
-  CaretRight,
-  DotsThree,
+  CaretLeftIcon,
+  CaretRightIcon,
+  DotsThreeIcon,
 } from '@phosphor-icons/react'
 
 import { cn } from '@/lib/utils'
@@ -84,7 +84,7 @@ const PaginationPrevious = forwardRef<HTMLAnchorElement, PaginationLinkProps>(
         ref={ref}
         {...props}
       >
-        <CaretLeft className="sm:-ms-1" />
+        <CaretLeftIcon className="sm:-ms-1" />
         <span className="max-sm:hidden">Previous</span>
       </PaginationLink>
     )
@@ -103,7 +103,7 @@ const PaginationNext = forwardRef<HTMLAnchorElement, PaginationLinkProps>(
         {...props}
       >
         <span className="max-sm:hidden">Next</span>
-        <CaretRight className="sm:-me-1" />
+        <CaretRightIcon className="sm:-me-1" />
       </PaginationLink>
     )
   },
@@ -120,7 +120,7 @@ const PaginationEllipsis = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<
         ref={ref}
         {...props}
       >
-        <DotsThree className="size-4" />
+        <DotsThreeIcon className="size-4" />
         <span className="sr-only">More pages</span>
       </span>
     )

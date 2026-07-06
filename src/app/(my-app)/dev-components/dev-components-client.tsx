@@ -247,7 +247,7 @@ export default function ComponentsLabPage() {
                     <Checkbox defaultChecked />
                     <span>Create from template</span>
                   </label>
-                  <DialogFooter className="!pt-4">
+                  <DialogFooter className="pt-4!">
                     <DialogClose asChild>
                       <Button variant="outline" type="button">Cancel</Button>
                     </DialogClose>

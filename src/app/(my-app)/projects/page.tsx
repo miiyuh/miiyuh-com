@@ -1,90 +1,41 @@
 import type { Metadata } from 'next'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import ProjectsClient from './projects-client'
+import { Suspense } from 'react'
+import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
+import ProjectsSection from './projects-section'
+import { ProjectsListSkeleton } from './projects-list-skeleton'
+
+export const metadata: Metadata = {
+  title: 'projects - miiyuh.com',
+  description: 'side projects, university work, and research papers — the collection by miiyuh.',
+}
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Projects - miiyuh',
-    description: 'Side projects and university work — a collection of things I\'ve built.',
-  }
+export default function ProjectsPage() {
+  return (
+    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
+      <section className="relative grow pt-6 pb-16">
+        <div className="px-8 md:px-32 lg:px-56 xl:px-80">
+          {/* Breadcrumb + heading */}
+          <SimpleBreadcrumb items={breadcrumbs.projects()} className="-mx-8 px-8 md:mx-0 md:px-0" />
+
+          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
+              projects
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary text-pretty max-w-prose">
+              side projects, university work, and research papers — the
+              collection
+            </p>
+          </div>
+
+          <Suspense fallback={<ProjectsListSkeleton />}>
+            <ProjectsSection />
+          </Suspense>
+        </div>
+      </section>
+    </main>
+  );
 }
-
-async function ProjectsPage() {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'projects',
-    depth: 1,
-    sort: 'order',
-    limit: 100,
-    where: {
-      category: {
-        not_equals: 'research-paper',
-      },
-    },
-  })
-
-  // Transform projects for client with category-specific fields
-  const projects = docs.map((project) => {
-    const base = {
-      id: String(project.id),
-      name: project.name,
-      slug: project.slug,
-      category: project.category as 'side-project' | 'university-project',
-      description: project.description,
-      icon: project.icon ? (typeof project.icon === 'object' ? { id: project.icon.id, url: project.icon.url ?? undefined, alt: project.icon.alt } : undefined) : undefined,
-      image: project.image
-        ? typeof project.image === 'object' && 'url' in project.image
-          ? { url: project.image.url ?? undefined, alt: project.image.alt }
-          : undefined
-        : undefined,
-      order: project.order || 0,
-      externalLink: project.externalLink ?? undefined,
-    }
-
-    // Add category-specific fields
-    if (project.category === 'side-project' && project.projectDetails) {
-      const details = project.projectDetails as {
-        techStack?: { tech: string }[]
-        status?: 'active' | 'in-development' | 'archived'
-        githubUrl?: string
-        liveUrl?: string
-      }
-      return {
-        ...base,
-        projectDetails: {
-          techStack: details.techStack,
-          status: details.status,
-          githubUrl: details.githubUrl,
-          liveUrl: details.liveUrl,
-        },
-      }
-    }
-
-    if (project.category === 'university-project' && project.universityDetails) {
-      const details = project.universityDetails as {
-        course?: string
-        semester?: string
-        grade?: string
-      }
-      return {
-        ...base,
-        universityDetails: {
-          course: details.course,
-          semester: details.semester,
-          grade: details.grade,
-        },
-      }
-    }
-
-    return base
-  })
-
-  return <ProjectsClient projects={projects} />
-}
-
-export default ProjectsPage

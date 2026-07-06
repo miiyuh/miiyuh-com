@@ -4,8 +4,8 @@ import { slugify } from '@/utils/slugify'
 import SurveysClient from './surveys-client'
 
 export const metadata: Metadata = {
-  title: 'surveys - miiyuh',
-  description: 'quick polls and feedback forms to share your thoughts and help improve things.',
+  title: 'surveys - miiyuh.com',
+  description: 'quick polls and feedback forms. share your thoughts on various topics and help shape future content.',
 }
 
 export const revalidate = 60 // Revalidate every minute

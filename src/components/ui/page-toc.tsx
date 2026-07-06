@@ -2,9 +2,10 @@
 
 import { useRef, useCallback, useEffect, useState } from 'react'
 import { AnchorProvider, ScrollProvider, TOCItem, type TOCItemType } from 'fumadocs-core/toc'
-import { CaretDown } from '@phosphor-icons/react'
+import { CaretDownIcon } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { useWebHaptics } from 'web-haptics/react'
+import { useStuckObserver } from '@/hooks/use-stuck-observer'
 
 interface PageTOCProps {
   toc: TOCItemType[]
@@ -99,7 +100,7 @@ function TOCContent({ toc, scrollOffset = 100, className }: PageTOCProps) {
 
   return (
     <nav className={cn('text-sm', className)} aria-label="Table of contents">
-      <p className="font-serif text-lg font-medium text-text-muted/60 mb-4">On this page</p>
+      <p className="text-lg font-medium mb-4">On this page</p>
 
       <div className="relative">
         <TocThumb containerRef={containerRef} />
@@ -194,12 +195,16 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
     [scrollOffset, haptic]
   )
 
+  const { sentinelRef, isStuck } = useStuckObserver()
+
   return (
-    <div
-      ref={barRef}
-      className="lg:hidden sticky top-29 z-30 -mx-8"
-    >
-      <div className="bg-bg-primary/90 backdrop-blur-xl">
+    <>
+      <div ref={sentinelRef} className="pointer-events-none" />
+      <div
+        ref={barRef}
+        className="lg:hidden sticky top-27 z-30 -mx-8"
+      >
+        <div className={`bg-bg-primary/95 backdrop-blur-xl border-b transition-[border-color] ${isStuck ? 'border-white/8' : 'border-transparent'}`}>
 
         {/* Toggle button */}
         <button
@@ -218,9 +223,9 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
               {activeTitle ?? 'Contents'}
             </span>
           </div>
-          <CaretDown
+          <CaretDownIcon
             className={cn(
-              'w-3.5 h-3.5 text-text-muted/40 transition-transform duration-200 shrink-0',
+              'w-3.5 h-3.5 transition-transform duration-200 shrink-0',
               open && 'rotate-180'
             )}
           />
@@ -263,6 +268,7 @@ function MobileTOCContent({ toc, scrollOffset = 80 }: PageTOCProps) {
 
       </div>
     </div>
+    </>
   )
 }
 export function MobileTOC({ toc, className, scrollOffset = 80 }: PageTOCProps) {

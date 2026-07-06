@@ -162,7 +162,7 @@ export default function BlogClient({
 
   return (
     <div>
-      <div className="border-t border-white/8 pt-8 pb-8">
+      <div className="pb-8">
         <div className="space-y-4">
           {/* Search Bar */}
           <div className="relative">
@@ -222,14 +222,15 @@ export default function BlogClient({
       <div>
         {posts.length > 0 ? (
           <div className="space-y-6">
-            {posts.map((post) => {
+            {posts.map((post, index) => {
               const coverSrc = post.coverImage?.url;
 
               return (
                 <Link
                   key={post.id}
                   href={getPostUrl(post)}
-                  className="group block content-auto-sm"
+                  className="group block content-auto-sm animate-stagger-item"
+                  style={{ "--i": Math.min(index, 9) } as React.CSSProperties}
                   onClick={() => haptic.trigger("medium")}
                 >
                   <div className="relative flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">

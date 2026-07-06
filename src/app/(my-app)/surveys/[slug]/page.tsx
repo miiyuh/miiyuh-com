@@ -27,12 +27,12 @@ export async function generateMetadata({
   const form = forms.find((f) => slugify(f.title) === slug)
 
   if (!form) {
-    return { title: 'Survey Not Found - miiyuh' }
+    return { title: 'survey not found - miiyuh.com' }
   }
 
   return {
-    title: `${form.title} - miiyuh`,
-    description: `share your thoughts on ${form.title.toLowerCase()}.`,
+    title: `${form.title} - miiyuh.com`,
+    description: `participate in the "${form.title}" survey, share your perspective and contribute to the conversation.`,
   }
 }
 
@@ -60,7 +60,7 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
 
           {/* Header Section */}
           <div className="mb-12 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-6 text-text-primary text-balance leading-tight">
+            <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-6 text-text-primary text-balance leading-tight">
               {form.title}
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-2xl text-pretty mb-6">
@@ -101,7 +101,7 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
             <aside className="md:col-span-1 order-1 md:order-2 md:border-l border-white/8">
               <div className="md:sticky md:top-24 space-y-6">
                 <div className="border-t md:border-b border-white/8 rounded-lg p-0 md:pl-6 pt-4 md:pt-0">
-                  <h3 className="text-lg font-serif font-medium text-text-muted mb-3">
+                  <h3 className="text-lg font-serif text-text-muted mb-3">
                     Before You Start
                   </h3>
                   <ul className="space-y-3 text-sm text-text-muted/80 leading-relaxed">

@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { useWebHaptics } from 'web-haptics/react'
 import type { ReactNode } from 'react'
+import { useStuckObserver } from '@/hooks/use-stuck-observer'
 
-const INTER_FONT_STACK = "'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif"
+const BREADCRUMB_FONT_STACK = "var(--font-stack-sans-text), 'Stack Sans Text', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', var(--font-noto-color-emoji), sans-serif"
 
 export interface BreadcrumbItem {
     label: string
@@ -15,15 +16,28 @@ interface SimpleBreadcrumbProps {
     items: BreadcrumbItem[]
     className?: string
     trailing?: ReactNode
+    /** Breakpoint at which the breadcrumb stops being sticky and reverts to normal flow. Defaults to 'md'. Use 'lg' on pages where the desktop sidebar TOC (or similar) only appears at lg, so the breadcrumb should stay sticky through tablet sizes. */
+    staticFrom?: 'md' | 'lg'
 }
 
-export function SimpleBreadcrumb({ items, className = '', trailing }: SimpleBreadcrumbProps) {
+export function SimpleBreadcrumb({ items, className = '', trailing, staticFrom = 'md' }: SimpleBreadcrumbProps) {
     const haptic = useWebHaptics()
+    const { sentinelRef, isStuck } = useStuckObserver()
+
+    const stickyClasses = staticFrom === 'lg'
+        ? 'sticky lg:static'
+        : 'sticky md:static'
+    const borderClasses = staticFrom === 'lg'
+        ? 'border-b lg:border-b-0'
+        : 'border-b md:border-b-0'
+
     return (
-        <nav
-            className={`sticky md:static top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/90 backdrop-blur-xl mb-8 flex items-center gap-1 md:gap-2 text-xs md:text-sm font-sans font-normal text-text-primary/60 min-w-0 group ${className}`}
-            style={{ fontFamily: INTER_FONT_STACK, userSelect: 'none' }}
-        >
+        <>
+            <div ref={sentinelRef} className="pointer-events-none" />
+            <nav
+                className={`${stickyClasses} top-19 z-40 -mx-8 px-8 py-2 bg-bg-primary/95 backdrop-blur-xl ${borderClasses} mb-8 flex items-center gap-1 md:gap-2 text-xs md:text-sm font-sans font-normal text-text-primary/60 min-w-0 group ${isStuck ? 'border-white/8' : 'border-transparent'} ${className}`}
+                style={{ fontFamily: BREADCRUMB_FONT_STACK, userSelect: 'none' }}
+            >
             {items.flatMap((item, index) => {
                 const content = item.href ? (
                     <Link key={index} href={item.href} className="hover:text-text-primary transition-colors whitespace-nowrap shrink-0" onClick={() => haptic.trigger('light')}>
@@ -39,10 +53,11 @@ export function SimpleBreadcrumb({ items, className = '', trailing }: SimpleBrea
                     : [content]
             })}
             {trailing && (
-                <span className="ml-auto shrink-0 flex items-center">
+                <span className="ml-auto shrink-0 flex items-center -my-1">
                     {trailing}
                 </span>
             )}
         </nav>
+        </>
     )
 }

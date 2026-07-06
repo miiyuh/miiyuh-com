@@ -8,11 +8,12 @@ export function BlogPostSkeleton() {
   return (
     <Fragment>
       <main className="relative min-h-screen text-[#FAF3E0]">
-        <div className="relative z-10 mx-auto max-w-4xl px-8 pt-6 pb-16 animate-smooth-slide-up">
+        <div className="relative z-10 mx-auto max-w-4xl px-8 md:px-32 lg:px-8 pt-6 pb-16 animate-smooth-slide-up">
           {/* Breadcrumbs Skeleton */}
           <SimpleBreadcrumb
             items={breadcrumbs.blogPost('year', 'month', 'post')}
-            className="-mx-8 px-8 md:mx-0 md:px-0"
+            className="-mx-8 px-8 md:-mx-32 md:px-32 lg:mx-0 lg:px-0"
+            staticFrom="lg"
           />
 
           {/* Cover Image Skeleton */}

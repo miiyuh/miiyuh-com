@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowSquareOut } from "@phosphor-icons/react";
+import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 import type { AboutEntry } from "@/types/about";
 import { renderLexicalContent } from "@/utils/lexical-renderer";
 import { useWebHaptics } from "web-haptics/react";
@@ -59,7 +59,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
             <h2 className="text-lg md:text-xl font-semibold text-text-primary">
               {entry.title}
             </h2>
-            <span className="font-serif text-sm md:text-base text-text-secondary/60 whitespace-nowrap tracking-wider">
+            <span className="font-notch text-sm md:text-base text-text-secondary/60 whitespace-nowrap tracking-wider">
               {entry.startDate}
               {entry.endDate ? ` - ${entry.endDate}` : ""}
             </span>
@@ -97,7 +97,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
           className="absolute top-4 right-4 p-2 bg-white/5 rounded-lg hover:bg-accent-primary hover:text-bg-primary transition-colors"
           onClick={() => haptic.trigger("light")}
         >
-          <ArrowSquareOut className="w-4 h-4" weight="bold" />
+          <ArrowSquareOutIcon className="w-4 h-4" weight="bold" />
         </Link>
       )}
     </div>

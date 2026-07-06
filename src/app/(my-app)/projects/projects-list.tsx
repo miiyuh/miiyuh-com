@@ -2,19 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { animate, remove, set, stagger } from "animejs";
-import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
-import { breadcrumbs } from "@/config/breadcrumbs";
+import { animate, remove, set } from "animejs";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 import { useWebHaptics } from "web-haptics/react";
 import { Dialog, DialogPopup } from "@/components/ui/dialog";
 import {
-  ArrowUpRight,
-  Rocket,
-  GraduationCap,
-  GithubLogo,
-  ArrowSquareOut,
-  CaretLeft,
-  CaretRight,
+  ArrowUpRightIcon,
+  RocketIcon,
+  GraduationCapIcon,
+  GithubLogoIcon,
+  ArrowSquareOutIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
   X,
 } from "@phosphor-icons/react";
 
@@ -45,13 +44,9 @@ interface Project {
   };
 }
 
-interface ProjectsClientProps {
+interface ProjectsListProps {
   projects: Project[];
 }
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -66,9 +61,9 @@ function getSubtitle(project: Project): string | null {
 function getCategoryIcon(category: Project["category"]) {
   switch (category) {
     case "side-project":
-      return Rocket;
+      return RocketIcon;
     case "university-project":
-      return GraduationCap;
+      return GraduationCapIcon;
   }
 }
 
@@ -116,19 +111,6 @@ function ProjectEntry({
           <div className="min-w-0 flex-1">
             {/* Name + optional icon */}
             <div className="flex items-center gap-3">
-              {project.icon?.url && (
-                <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-white/8 bg-white/5 -mt-0.5">
-                  <Image
-                    src={project.icon.url}
-                    alt={project.icon.alt || `${project.name} icon`}
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 object-cover"
-                    quality={75}
-                    sizes="32px"
-                  />
-                </div>
-              )}
               <h3 className="text-2xl sm:text-3xl font-serif text-text-primary leading-tight group-hover:text-white transition-colors duration-200">
                 {project.name}
               </h3>
@@ -180,7 +162,7 @@ function ProjectEntry({
           </div>
 
           {/* Arrow */}
-          <ArrowUpRight className="w-6 h-6 shrink-0 mt-2 text-text-muted/30 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+          <ArrowUpRightIcon className="w-6 h-6 shrink-0 mt-2 text-text-muted/30 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
         </div>
       </article>
     </div>
@@ -192,45 +174,24 @@ function ProjectEntry({
 // ---------------------------------------------------------------------------
 
 function EntrySeparator() {
-  return <hr className="border-0 border-t border-white/[0.04] my-0" />;
+  return <hr className="border-0 border-t border-white/4 my-0" />;
 }
 
 // ---------------------------------------------------------------------------
-// Main page component
+// Main list component
 // ---------------------------------------------------------------------------
 
-export default function ProjectsClient({ projects }: ProjectsClientProps) {
+export default function ProjectsList({ projects }: ProjectsListProps) {
   const [selected, setSelected] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalShellRef = useRef<HTMLDivElement | null>(null);
   const isClosingRef = useRef(false);
   const isNavigatingRef = useRef(false);
-  const listRef = useRef<HTMLDivElement | null>(null);
-  const animRan = useRef(false);
 
   useEffect(() => {
     return () => {
       isClosingRef.current = false;
     };
-  }, []);
-
-  // Staggered entrance
-  useEffect(() => {
-    if (animRan.current || !listRef.current) return;
-    animRan.current = true;
-
-    const items = listRef.current.querySelectorAll("[data-stagger]");
-    if (!items.length) return;
-
-    set(items, { opacity: 0, translateY: 12 });
-
-    animate(items, {
-      opacity: 1,
-      translateY: 0,
-      duration: 400,
-      easing: "easeOutQuad",
-      delay: stagger(60),
-    });
   }, []);
 
   useEffect(() => {
@@ -245,6 +206,12 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
 
     isClosingRef.current = false;
     remove(shell);
+
+    if (prefersReducedMotion()) {
+      set(shell, { opacity: 1, scale: 1 });
+      return;
+    }
+
     set(shell, { opacity: 0, scale: 0.965 });
 
     animate(shell, {
@@ -302,6 +269,13 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     isClosingRef.current = true;
     remove(shell);
 
+    if (prefersReducedMotion()) {
+      setIsModalOpen(false);
+      setSelected(null);
+      isClosingRef.current = false;
+      return;
+    }
+
     animate(shell, {
       opacity: 0,
       scale: 0.965,
@@ -330,48 +304,32 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   };
 
   return (
-    <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
-      <section className="relative grow pt-6 pb-24">
-        {/* Breadcrumb + heading */}
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80">
-          <SimpleBreadcrumb items={breadcrumbs.projects()} />
-
-          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
-              projects
-            </h1>
-            <p className="text-lg md:text-xl text-text-secondary text-pretty max-w-prose">
-              side projects, university work, and research papers — the
-              collection
-            </p>
-          </div>
-        </div>
-
-        {/* Typographic list */}
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80">
-          {allProjects.length > 0 ? (
-            <div ref={listRef}>
-              {allProjects.map((project, idx) => (
-                <div key={project.id}>
-                  {idx > 0 && <EntrySeparator />}
-                  <div className="py-10 first:pt-0" data-stagger>
-                    <ProjectEntry
-                      project={project}
-                      onSelect={() => openProjectModal(project)}
-                    />
-                  </div>
-                </div>
-              ))}
+    <>
+      {/* Typographic list */}
+      {allProjects.length > 0 ? (
+        <div>
+          {allProjects.map((project, idx) => (
+            <div key={project.id}>
+              {idx > 0 && <EntrySeparator />}
+              <div
+                className="py-10 first:pt-0 animate-stagger-item"
+                style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
+              >
+                <ProjectEntry
+                  project={project}
+                  onSelect={() => openProjectModal(project)}
+                />
+              </div>
             </div>
-          ) : (
-            <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
-              <p className="text-sm text-text-muted/60">
-                tray is still in the developer — nothing developed yet
-              </p>
-            </div>
-          )}
+          ))}
         </div>
-      </section>
+      ) : (
+        <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
+          <p className="text-sm text-text-muted/60">
+            tray is still in the developer — nothing developed yet
+          </p>
+        </div>
+      )}
 
       {/* Detail popup */}
       <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
@@ -417,7 +375,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                             className="p-3 text-text-muted hover:text-text-primary transition-all duration-200 hover:-translate-y-0.5"
                             aria-label="Previous project"
                           >
-                            <CaretLeft className="w-5 h-5" />
+                            <CaretLeftIcon className="w-5 h-5" />
                           </button>
                           <span
                             className="text-xs font-mono text-text-muted/40 tabular-nums min-w-[4ch] text-center select-none"
@@ -430,7 +388,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                             className="p-3 text-text-muted hover:text-text-primary transition-all duration-200 hover:-translate-y-0.5"
                             aria-label="Next project"
                           >
-                            <CaretRight className="w-5 h-5" />
+                            <CaretRightIcon className="w-5 h-5" />
                           </button>
                         </div>
                       )}
@@ -514,7 +472,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                             className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
                             aria-label="View on GitHub"
                           >
-                            <GithubLogo weight="fill" className="w-5 h-5" />
+                            <GithubLogoIcon weight="fill" className="w-5 h-5" />
                           </a>
                         )}
                         {selected.projectDetails?.liveUrl && (
@@ -525,7 +483,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                             className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
                             aria-label="View live project"
                           >
-                            <ArrowSquareOut className="w-5 h-5" />
+                            <ArrowSquareOutIcon className="w-5 h-5" />
                           </a>
                         )}
                       </div>
@@ -536,6 +494,6 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
             })()}
         </DialogPopup>
       </Dialog>
-    </main>
+    </>
   );
 }

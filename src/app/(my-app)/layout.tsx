@@ -7,6 +7,10 @@ import {
   Instrument_Serif,
   Noto_Sans_Mono,
   Noto_Color_Emoji,
+  Stack_Sans_Text,
+  Stack_Sans_Headline,
+  Stack_Sans_Notch,
+  Faculty_Glyphic,
 } from "next/font/google";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -31,10 +35,32 @@ const notoSerifJP = Noto_Serif_JP({
   variable: "--font-noto-serif-jp",
   display: "swap",
 });
+// Kept loaded but not applied anywhere in the UI — retained in case it's wanted again later.
 const instrumentSerif = Instrument_Serif({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-instrument-serif",
+  display: "swap",
+});
+const stackSansText = Stack_Sans_Text({
+  subsets: ["latin"],
+  variable: "--font-stack-sans-text",
+  display: "swap",
+});
+const stackSansHeadline = Stack_Sans_Headline({
+  subsets: ["latin"],
+  variable: "--font-stack-sans-headline",
+  display: "swap",
+});
+const stackSansNotch = Stack_Sans_Notch({
+  subsets: ["latin"],
+  variable: "--font-stack-sans-notch",
+  display: "swap",
+});
+const facultyGlyphic = Faculty_Glyphic({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-faculty-glyphic",
   display: "swap",
 });
 const notoMono = Noto_Sans_Mono({
@@ -58,7 +84,7 @@ export const metadata: Metadata = {
   creator: "miiyuh",
   openGraph: {
     title: "miiyuh's webpage",
-    description: "hello, and welcome to my webpage!",
+  description: "Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.",
     type: "website",
   },
   robots: { index: true, follow: true },
@@ -106,12 +132,13 @@ export default async function RootLayout({
           rel="apple-touch-icon"
           href="/assets/img/favicons/apple-touch-icon.png"
         />
-        <Script src="/theme-favicons.js" strategy="beforeInteractive" />
       </head>
       <body
-        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} antialiased relative flex flex-col min-h-screen`}
-        style={{ fontFamily: 'var(--font-inter), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
+        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} ${facultyGlyphic.variable} antialiased relative flex flex-col min-h-screen`}
+        style={{ fontFamily: 'var(--font-stack-sans-text), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
+        {/* beforeInteractive scripts must be direct children of <body> per Next.js docs — placing this in <head> triggered a dev-mode "script tag" hydration warning */}
+        <Script src="/theme-favicons.js" strategy="beforeInteractive" />
         <LocaleProvider locale={locale}>
           <AppProvider>{children}</AppProvider>
         </LocaleProvider>

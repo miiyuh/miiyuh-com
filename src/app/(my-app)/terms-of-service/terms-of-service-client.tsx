@@ -25,7 +25,7 @@ export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: Te
                 
 
                 <div className="mb-8">
-                    <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+                    <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary">
                         terms of service
                     </h1>
                     {updatedAt && (

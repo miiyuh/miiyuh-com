@@ -16,8 +16,8 @@ export const breadcrumbs = {
   blogPost: (year: string, month: string, title: string): BreadcrumbItem[] => [
     { label: 'home', href: '/' },
     { label: 'blog', href: '/blog' },
-    { label: year, href: `/blog/${year}` },
-    { label: month, href: `/blog/${year}/${month}` },
+    { label: year },
+    { label: month },
     { label: title },
   ],
 

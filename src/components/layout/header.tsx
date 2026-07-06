@@ -3,14 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { NAVIGATION_LINKS } from "@/constants";
 import { useWebHaptics } from "web-haptics/react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
-import LocaleToggle from "@/components/layout/locale-toggle";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const haptic = useWebHaptics();
+  const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = useCallback(() => {
@@ -34,7 +35,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-bg-primary/80 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
+      <header className="bg-bg-primary/95 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" onClick={closeMenu}>
@@ -113,22 +114,25 @@ export default function Header() {
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8">
-            <ul className="flex gap-8 text-xl font-serif">
+            <ul className="flex gap-8 text-xl font-notch">
               {NAVIGATION_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     className="hover:underline"
-                    onClick={() => haptic.trigger("light")}
+                    onClick={(e) => {
+                      if (link.href === pathname) {
+                        e.preventDefault();
+                        return;
+                      }
+                      haptic.trigger("light");
+                    }}
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <div>
-              <LocaleToggle />
-            </div>
           </div>
         </div>
       </header>
@@ -146,12 +150,19 @@ export default function Header() {
             : "opacity-0 invisible -translate-y-2"
         }`}
       >
-        <ul className="flex flex-col gap-8 text-5xl font-serif text-left">
+        <ul className="flex flex-col gap-8 text-5xl font-notch text-left">
           {NAVIGATION_LINKS.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                onClick={closeMenu}
+                onClick={(e) => {
+                  if (link.href === pathname) {
+                    e.preventDefault();
+                    closeMenu();
+                    return;
+                  }
+                  closeMenu();
+                }}
                 className="hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-primary"
               >
                 {link.label}
@@ -159,9 +170,6 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <div className="mt-12">
-          <LocaleToggle />
-        </div>
       </div>
     </>
   );

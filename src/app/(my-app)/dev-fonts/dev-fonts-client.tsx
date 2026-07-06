@@ -26,15 +26,18 @@ const FONT_VARIABLES = [
   '--font-noto-serif',
   '--font-noto-serif-jp',
   '--font-instrument-serif',
+  '--font-stack-sans-text',
+  '--font-stack-sans-headline',
+  '--font-faculty-glyphic',
   '--font-noto-mono',
   '--font-noto-color-emoji',
 ] as const
 
 const STACK_LABELS: Record<FontStackKey, string> = {
-  html: 'HTML root (Inter)',
+  html: 'HTML root (Stack Sans Text)',
   body: 'Body element',
-  sans: 'font-sans utility (Inter)',
-  headingSerif: 'font-serif utility (Instrument Serif)',
+  sans: 'font-sans utility (Stack Sans Text)',
+  headingSerif: 'font-serif utility (Stack Sans Headline)',
   paragraphSerif: 'p.font-serif (Noto Serif JP)',
   mono: 'font-mono (Noto Sans Mono)',
   emoji: 'font-emoji (Emoji stack)',
@@ -108,7 +111,7 @@ export default function FontDebugPage() {
       case 'headingSerif':
         return (
           <div className="font-serif text-2xl tracking-tight">
-            Instrument Serif · Cosmic Headlines & Midnight Essays
+            Stack Sans Headline · Cosmic Headlines & Midnight Essays
           </div>
         )
       case 'paragraphSerif':
@@ -133,13 +136,13 @@ export default function FontDebugPage() {
       case 'sans':
         return (
           <p className="font-sans text-base">
-            Inter drives all interface elements, nav, and small UI annotations.
+            Stack Sans Text drives all interface elements, nav, and small UI annotations.
           </p>
         )
       case 'body':
-        return <p>The body inherits the same Inter stack for consistency.</p>
+        return <p>The body inherits the same Stack Sans Text stack for consistency.</p>
       case 'html':
-        return <p>The html element defines the global Inter stack.</p>
+        return <p>The html element defines the global Stack Sans Text stack.</p>
       default:
         return null
     }
@@ -151,8 +154,9 @@ export default function FontDebugPage() {
         <header className="space-y-3">
           <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">Font telemetry</h1>
           <p className="text-text-secondary max-w-2xl">
-            Snapshot of every font stack currently wired into the site. Useful for verifying Inter, Instrument Serif,
-            Noto Serif JP, Noto Sans Mono, and the emoji fallbacks in one place.
+            Snapshot of every font stack currently wired into the site. Useful for verifying Stack Sans Text, Stack
+            Sans Headline, Faculty Glyphic (blog content), Noto Serif JP, Noto Sans Mono, and the emoji fallbacks in
+            one place. Instrument Serif stays loaded (see CSS font variables below) but is no longer applied anywhere.
           </p>
         </header>
 
@@ -200,18 +204,30 @@ export default function FontDebugPage() {
           <div className="grid gap-4 md:grid-cols-2">
             <Card className="gap-0">
               <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Inter UI copy</p>
+                <p className="text-sm text-text-secondary mb-2">Stack Sans Text UI copy</p>
                 <p>
-                  Buttons, inputs, and navigation rely on Inter. If this line does not match the rest of the UI, the
-                  rsms Inter stylesheet failed to load.
+                  Buttons, inputs, and navigation rely on Stack Sans Text. If this line does not match the rest of
+                  the UI, the font failed to load.
                 </p>
               </CardPanel>
             </Card>
             <Card className="gap-0">
               <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Instrument Serif display</p>
+                <p className="text-sm text-text-secondary mb-2">Stack Sans Headline display</p>
                 <div className="font-serif text-3xl leading-[1.1]">
                   Ghosted headlines float above the gallery grid.
+                </div>
+              </CardPanel>
+            </Card>
+            <Card className="gap-0 md:col-span-2">
+              <CardPanel>
+                <p className="text-sm text-text-secondary mb-2">Faculty Glyphic (blog post content)</p>
+                <div style={{ fontFamily: 'var(--font-faculty-glyphic), "Faculty Glyphic", serif' }}>
+                  <div className="text-2xl font-bold leading-[1.3] mb-2">A blog post heading in Faculty Glyphic</div>
+                  <p className="text-lg leading-[1.75]">
+                    Blog post body copy renders in Faculty Glyphic, replacing Noto Serif and Instrument Serif inside
+                    .lexical-content.
+                  </p>
                 </div>
               </CardPanel>
             </Card>

@@ -125,7 +125,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                 {project.projectDetails?.status && getStatusBadge(project.projectDetails.status)}
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-text-primary">
+              <h1 className="text-4xl md:text-5xl font-notch tracking-tight mb-6 text-text-primary">
                 {project.name}
               </h1>
 

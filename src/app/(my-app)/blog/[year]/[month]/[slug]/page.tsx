@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { RefreshRouteOnSave } from "@/components/live-preview";
 import BlogPostContent from "./blog-post-content";
 import { BlogPostSkeleton } from "./blog-post-skeleton";
+import { BlogPostFooter } from "./blog-post-footer";
 import type { BlogPostDocument } from "@/types/blog";
 import { resolveMediaSrc } from "@/utils/media";
 import { extractTocFromLexical } from "@/utils/extract-toc";
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const locale = await getServerLocale();
 
   const post = await getCachedBlogPost(slug, locale);
-  if (!post) return { title: "Post Not Found - miiyuh" };
+  if (!post) return { title: "page not found - miiyuh.com" };
 
   // Verify the post matches the year/month (using Malaysia timezone)
   const [postYear, postMonth] = new Date(post.publishedAt as string)
@@ -65,11 +66,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .split("-");
 
   if (postYear !== year || postMonth !== month) {
-    return { title: "Post Not Found - miiyuh" };
+    return { title: "page not found - miiyuh.com" };
   }
 
-  const title = `${post.title} - miiyuh`;
-  const description = post.excerpt || post.seo?.metaDescription || "";
+  const title = `${post.title} - miiyuh.com`;
+  const description = post.excerpt || post.seo?.metaDescription || `read ${post.title}`;
   const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
 
   // Resolve cover image to an absolute URL string
@@ -144,11 +145,12 @@ async function PageContent({ params }: PageProps) {
     <Fragment>
       <RefreshRouteOnSave />
       <main className="relative min-h-screen text-text-primary">
-        <div className="relative z-10 mx-auto max-w-4xl px-8 pt-6 pb-16 animate-smooth-slide-up">
+        <div className="relative z-10 mx-auto max-w-4xl px-8 md:px-32 lg:px-8 pt-6 pb-16 animate-smooth-slide-up">
           {/* Breadcrumbs */}
           <SimpleBreadcrumb
             items={breadcrumbs.blogPost(year, month, post.title)}
-            className="-mx-8 px-8 md:mx-0 md:px-0"
+            className="-mx-8 px-8 md:-mx-32 md:px-32 lg:mx-0 lg:px-0"
+            staticFrom="lg"
             trailing={<CopyLinkButton />}
           />
 
@@ -169,7 +171,7 @@ async function PageContent({ params }: PageProps) {
 
           {/* Post Header */}
           <header className="mb-8 space-y-4">
-            <h1 className="text-4xl tracking-tight sm:text-5xl font-serif text-balance">
+            <h1 className="text-4xl tracking-tight sm:text-5xl font-notch text-balance">
               {post.title}
             </h1>
 
@@ -214,15 +216,7 @@ async function PageContent({ params }: PageProps) {
           />
 
           {/* Back to Blog */}
-          <footer className="mt-12 border-t border-white/10 pt-8">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-text-primary hover:text-text-primary/80 transition-colors"
-            >
-              <span>←</span>
-              <span>back to blog</span>
-            </Link>
-          </footer>
+          <BlogPostFooter />
         </div>
       </main>
     </Fragment>

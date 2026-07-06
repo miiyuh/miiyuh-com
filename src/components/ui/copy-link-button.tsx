@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { Copy, Check } from '@phosphor-icons/react'
+import { CopyIcon, CheckIcon } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 
 export function CopyLinkButton() {
@@ -42,9 +42,9 @@ export function CopyLinkButton() {
       aria-label={copied ? 'Copied!' : 'Copy link'}
     >
       {copied ? (
-        <Check className="w-4 h-4" weight="bold" />
+        <CheckIcon className="w-4 h-4 animate-in zoom-in-50 duration-200" weight="bold" />
       ) : (
-        <Copy className="w-4 h-4" />
+        <CopyIcon className="w-4 h-4" />
       )}
     </button>
   )

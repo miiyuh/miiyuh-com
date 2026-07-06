@@ -2,7 +2,7 @@
 
 import { Combobox as ComboboxPrimitive, useListCollection } from '@ark-ui/react/combobox'
 import { Portal } from '@ark-ui/react/portal'
-import { CaretUpDown, X, Check } from '@phosphor-icons/react'
+import { CaretUpDownIcon, XIcon, CheckIcon } from '@phosphor-icons/react'
 import * as React from 'react'
 import type { ComponentProps } from 'react'
 
@@ -52,21 +52,21 @@ function ComboboxControl({
         <ComboboxTrigger
           className={cn(
             "-translate-y-1/2 absolute top-1/2 inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-transparent opacity-72 outline-none transition-opacity hover:opacity-100 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-            size === 'sm' ? 'end-0' : 'end-0.5',
+            size === 'sm' ? 'inset-e-0' : 'inset-e-0.5',
             showClear && 'hidden',
           )}
         >
-          <CaretUpDown />
+          <CaretUpDownIcon />
         </ComboboxTrigger>
       )}
       {showClear && (
         <ComboboxClearTrigger
           className={cn(
             "-translate-y-1/2 absolute top-1/2 inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-transparent opacity-72 outline-none transition-opacity hover:opacity-100 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-            size === 'sm' ? 'end-0' : 'end-0.5',
+            size === 'sm' ? 'inset-e-0' : 'inset-e-0.5',
           )}
         >
-          <X />
+          <XIcon />
         </ComboboxClearTrigger>
       )}
     </ComboboxPrimitive.Control>
@@ -167,7 +167,7 @@ function ComboboxItem({
       {...props}
     >
       <ComboboxPrimitive.ItemIndicator className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-        <Check className="size-4" />
+        <CheckIcon className="size-4" />
       </ComboboxPrimitive.ItemIndicator>
       <ComboboxPrimitive.ItemText className="pl-6">{children}</ComboboxPrimitive.ItemText>
     </ComboboxPrimitive.Item>
