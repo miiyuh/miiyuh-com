@@ -25,7 +25,7 @@ export default function PrivacyPolicyClient({ htmlContent, toc, updatedAt }: Pri
                 
 
                 <div className="mb-8">
-                    <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary">
+                    <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary">
                         privacy policy
                     </h1>
                     {updatedAt && (

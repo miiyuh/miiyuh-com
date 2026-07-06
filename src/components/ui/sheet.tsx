@@ -3,7 +3,7 @@
 import { Dialog as SheetPrimitive } from '@ark-ui/react/dialog'
 import { Portal } from '@ark-ui/react/portal'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { X } from '@phosphor-icons/react'
+import { XIcon } from '@phosphor-icons/react'
 import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
 
 import { cn } from '@/lib/utils'
@@ -79,8 +79,8 @@ function SheetPopup({
         >
           {children}
           {showCloseButton && (
-            <SheetPrimitive.CloseTrigger className="absolute end-3 top-3 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/12 bg-white/5 text-white/70 outline-none transition-all hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-[#070707] [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
-              <X weight="bold" />
+            <SheetPrimitive.CloseTrigger className="absolute inset-e-3 top-3 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/12 bg-white/5 text-white/70 outline-none transition-all hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-[#070707] [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
+              <XIcon weight="bold" />
               <span className="sr-only">Close</span>
             </SheetPrimitive.CloseTrigger>
           )}

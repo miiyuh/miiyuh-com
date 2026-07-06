@@ -66,7 +66,7 @@ export function GenericLoading({
             <div className={`grid gap-6 ${
               gridCols === 1 ? 'grid-cols-1' :
               gridCols === 2 ? 'md:grid-cols-2 lg:grid-cols-2' :
-              'md:grid-cols-2 lg:grid-cols-3'
+              'md:grid-cols-2 lg:grid-cols-4'
             }`}>
               {Array.from({ length: cardCount }).map((_, index) => (
                 <div

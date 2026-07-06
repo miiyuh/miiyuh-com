@@ -1,25 +1,35 @@
 'use client'
 
-const notoSansStack = "var(--font-noto-sans), 'Noto Sans', 'Inter', sans-serif"
+const notoSansStack = "var(--font-noto-sans), 'Noto Sans', 'Stack Sans Text', sans-serif"
+const facultyGlyphicStack = 'var(--font-faculty-glyphic), "Faculty Glyphic", serif'
 
 export default function FontTestPage() {
   const specimens = [
     {
-      title: 'Inter UI Sans',
+      title: 'Stack Sans Text UI Sans',
       description: 'Primary interface font for navigation, controls, and body copy when no overrides are present.',
       content: (
         <p className="font-sans text-lg leading-relaxed">
-          Inter keeps dense UI layouts legible. The quick brown fox jumps over 0123456789 widgets &amp; toggles.
+          Stack Sans Text keeps dense UI layouts legible. The quick brown fox jumps over 0123456789 widgets &amp; toggles.
         </p>
       ),
     },
     {
-      title: 'Instrument Serif Headlines',
+      title: 'Stack Sans Headline',
       description: 'Applied via .font-serif on non-paragraph elements for dramatic hero typography.',
       content: (
         <div className="font-serif text-4xl tracking-tight">
           Vaporwave Chronicles · Stories that feel like late-night radio.
         </div>
+      ),
+    },
+    {
+      title: 'Faculty Glyphic (blog post content)',
+      description: 'Applied throughout .lexical-content — both body copy and headings inside blog posts.',
+      content: (
+        <p className="text-lg leading-relaxed" style={{ fontFamily: facultyGlyphicStack }}>
+          Faculty Glyphic carries blog post prose and headings alike. The quick brown fox jumps over 0123456789.
+        </p>
       ),
     },
     {
@@ -69,8 +79,8 @@ export default function FontTestPage() {
           <p className="text-xs uppercase tracking-[0.4em] text-text-muted">specimens</p>
           <h1 className="text-4xl font-bold">Font test lab</h1>
           <p className="text-text-secondary max-w-2xl">
-            Quick audit of every font stack currently live on miiyuh.com—from Inter UI copy to Noto Serif JP paragraphs
-            and the full emoji fallback chain.
+            Quick audit of every font stack currently live on miiyuh.com—from Stack Sans Text UI copy to Faculty
+            Glyphic blog content, Noto Serif JP paragraphs, and the full emoji fallback chain.
           </p>
         </header>
 
@@ -95,7 +105,7 @@ export default function FontTestPage() {
             </p>
             <div className="font-mono text-xs uppercase tracking-[0.4em]">shot · 2025-11-23 · tokyo</div>
             <p>
-              Default text continues in Inter. When combined with the emoji stack <span className="font-emoji">🍁✨</span>,
+              Default text continues in Stack Sans Text. When combined with the emoji stack <span className="font-emoji">🍁✨</span>,
               everything stays aligned.
             </p>
           </div>

@@ -53,12 +53,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!collection) {
     return {
-      title: "Album Not Found - miiyuh",
+      title: "album not found - miiyuh.com",
     };
   }
 
   return {
-    title: `${collection.title} - gallery - miiyuh`,
+    title: `${collection.title} - gallery - miiyuh.com`,
     description: collection.description || `View ${collection.title} album`,
   };
 }

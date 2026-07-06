@@ -67,7 +67,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
   return (
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
-        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24">
+        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-16">
           <div>
             {/* Breadcrumb Navigation */}
             <SimpleBreadcrumb items={breadcrumbs.galleryAlbum(collection.title)} />
@@ -75,7 +75,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
 
             {/* Collection Header */}
             <div className="mb-16 max-w-4xl">
-              <h1 className="text-5xl md:text-6xl font-serif tracking-tight mb-4 text-text-primary text-balance">
+              <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
                 {collection.title}
                 {(collection.slug.includes("japan") || collection.slug.includes("2025")) && (
                   <span className="font-emoji ml-3 inline-block">🇯🇵</span>

@@ -8,8 +8,11 @@ const config: Config = {
   ],
   theme: {
         fontFamily: {
-          sans: ['var(--font-inter)', 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
-          serif: ['var(--font-instrument-serif)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'serif'],
+          sans: ['var(--font-stack-sans-text)', 'Stack Sans Text', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+          serif: ['var(--font-stack-sans-headline)', 'Stack Sans Headline', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+          headline: ['var(--font-stack-sans-headline)', 'Stack Sans Headline', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+          notch: ['var(--font-stack-sans-notch)', 'Stack Sans Notch', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+          'faculty-glyphic': ['var(--font-faculty-glyphic)', 'Faculty Glyphic', 'serif'],
           'noto-serif-jp': ['var(--font-noto-serif-jp)', 'serif'],
           mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
           emoji: ['Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-color-emoji)', 'sans-serif'],
@@ -28,6 +31,7 @@ const config: Config = {
         },
         accent: {
           DEFAULT: 'var(--accent-primary)',
+          primary: 'var(--accent-primary)',
           hover: 'var(--accent-hover)',
         },
         surface: {
@@ -62,8 +66,10 @@ const config: Config = {
         'noise': "url('/assets/img/noise.png')",
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-out forwards',
-        'slide-up': 'slideUp 0.5s ease-out forwards',
+        // Easing matches the --ease-out-quart motion token in globals.css
+        // (Tailwind config can't reference CSS custom properties here).
+        'fade-in': 'fadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+        'slide-up': 'slideUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards',
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'skeleton': 'skeleton 1.5s ease-in-out infinite',

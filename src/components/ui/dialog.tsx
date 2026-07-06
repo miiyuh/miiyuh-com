@@ -2,7 +2,7 @@
 
 import { Dialog as DialogPrimitive } from "@ark-ui/react/dialog";
 import { Portal } from "@ark-ui/react/portal";
-import { X } from "@phosphor-icons/react";
+import { XIcon } from "@phosphor-icons/react";
 import { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
@@ -52,7 +52,7 @@ function DialogPopup({
         <div className="grid h-dvh grid-rows-[1fr_auto] justify-items-center pt-6 max-sm:px-4 sm:grid-rows-[1fr_auto_3fr] sm:p-4">
           <DialogPrimitive.Content
             className={cn(
-              "sm:-translate-y-[calc(1.25rem*var(--nested-layer-count,0))] relative row-start-2 grid max-h-full w-full min-w-0 origin-top overflow-hidden border border-white/12 bg-bg-primary/95 backdrop-blur-xl text-white opacity-[calc(1-0.1*var(--nested-layer-count,0))] shadow-2xl transition-[scale,opacity,translate] duration-200 ease-in-out will-change-transform before:pointer-events-none before:absolute before:inset-0 before:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] **:has-[+[data-slot=dialog-footer]]:pb-4 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 max-sm:border-none max-sm:data-[state=closed]:translate-y-4 max-sm:data-[state=open]:translate-y-0 max-sm:before:hidden sm:max-w-lg sm:rounded-2xl sm:data-[state=closed]:scale-95 sm:data-[state=open]:scale-100 sm:before:rounded-[calc(var(--radius-2xl)-1px)] sm:**:has-[+[data-slot=dialog-footer]]:pb-6",
+              "sm:translate-y-[calc(-1.25rem*var(--nested-layer-count,0))] relative row-start-2 grid max-h-full w-full min-w-0 origin-top overflow-hidden border border-white/12 bg-bg-primary/95 backdrop-blur-xl text-white opacity-[calc(1-0.1*var(--nested-layer-count,0))] shadow-2xl transition-[scale,opacity,translate] duration-200 ease-in-out will-change-transform before:pointer-events-none before:absolute before:inset-0 before:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] **:has-[+[data-slot=dialog-footer]]:pb-4 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 max-sm:border-none max-sm:data-[state=closed]:translate-y-4 max-sm:data-[state=open]:translate-y-0 max-sm:before:hidden sm:max-w-lg sm:rounded-2xl sm:data-[state=closed]:scale-95 sm:data-[state=open]:scale-100 sm:before:rounded-[calc(var(--radius-2xl)-1px)] sm:**:has-[+[data-slot=dialog-footer]]:pb-6",
               className,
             )}
             data-slot="dialog-popup"
@@ -61,8 +61,8 @@ function DialogPopup({
             <div className="flex h-full flex-col overflow-y-auto">
               {children}
               {showCloseButton && (
-                <DialogPrimitive.CloseTrigger className="absolute end-2 top-2 inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-transparent text-white/70 outline-none transition-[color,background-color,box-shadow,opacity] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 hover:text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-1 focus-visible:ring-offset-background [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
-                  <X weight="bold" />
+                <DialogPrimitive.CloseTrigger className="absolute inset-e-2 top-2 inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-transparent text-white/70 outline-none transition-[color,background-color,box-shadow,opacity] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 hover:text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-1 focus-visible:ring-offset-background [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
+                  <XIcon weight="bold" />
                   <span className="sr-only">Close</span>
                 </DialogPrimitive.CloseTrigger>
               )}

@@ -2,7 +2,7 @@
 
 import { Menu as MenuPrimitive } from "@ark-ui/react/menu";
 import { Portal } from "@ark-ui/react/portal";
-import { Check, CaretRight } from "@phosphor-icons/react";
+import { CheckIcon, CaretRightIcon } from "@phosphor-icons/react";
 import type { ComponentProps } from "react";
 import type * as React from "react";
 
@@ -86,7 +86,7 @@ function MenuCheckboxItem({
       {...props}
     >
       <MenuPrimitive.ItemIndicator className="col-start-1">
-        <Check />
+        <CheckIcon />
       </MenuPrimitive.ItemIndicator>
       <MenuPrimitive.ItemText className="col-start-2">{children}</MenuPrimitive.ItemText>
     </MenuPrimitive.CheckboxItem>
@@ -112,7 +112,7 @@ function MenuRadioItem({
       {...props}
     >
       <MenuPrimitive.ItemIndicator className="col-start-1">
-        <Check />
+        <CheckIcon />
       </MenuPrimitive.ItemIndicator>
       <MenuPrimitive.ItemText className="col-start-2">{children}</MenuPrimitive.ItemText>
     </MenuPrimitive.RadioItem>
@@ -188,7 +188,7 @@ function MenuSubTrigger({
       {...props}
     >
       {children}
-      <CaretRight className="ms-auto" />
+      <CaretRightIcon className="ms-auto" />
     </MenuPrimitive.TriggerItem>
   );
 }

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Fragment } from 'react'
@@ -5,6 +6,11 @@ import { RefreshRouteOnSave } from '@/components/live-preview'
 import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
 import PrivacyPolicyClient from './privacy-policy-client'
+
+export const metadata: Metadata = {
+  title: 'privacy policy - miiyuh.com',
+  description: 'how this website collects, uses, and protects your personal data when you visit it.',
+}
 
 export const revalidate = 300
 

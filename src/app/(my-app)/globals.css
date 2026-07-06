@@ -1,10 +1,11 @@
 @import "tailwindcss";
+@config "../../../tailwind.config.ts";
 
 /* CSS Custom Properties for consistent theming */
 :root {
   --font-inter: 'InterVariable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   --font-sans:
-    'InterVariable', 'Inter', ui-sans-serif, system-ui, sans-serif,
+    var(--font-stack-sans-text), 'Stack Sans Text', ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   --bg-primary: rgba(7, 7, 7, 1);
@@ -12,7 +13,7 @@
   --text-primary: rgba(250, 243, 224, 1);
   --text-secondary: rgba(250, 243, 224, 0.7);
   --text-muted: rgba(250, 243, 224, 0.5);
-  --accent-primary: #4ade80;
+  --accent-primary: #035940;
   --accent-hover: #86efac;
   --status-active-bg: rgba(16, 185, 129, 0.15);
   --status-active-text: #34d399;
@@ -23,6 +24,11 @@
   --status-archived-bg: rgba(255, 255, 255, 0.08);
   --status-archived-text: var(--text-muted);
   --status-archived-border: rgba(255, 255, 255, 0.12);
+
+  /* Motion tokens — natural-deceleration easing curves, not CSS defaults */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Self-hosted Inter variable font (was rsms.me CDN) */
@@ -55,9 +61,9 @@
   src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
 }
 
-/* Base styles - Inter for everything by default */
+/* Base styles - Stack Sans Text for everything by default */
 html {
-  font-family: var(--font-inter);
+  font-family: var(--font-stack-sans-text);
   font-feature-settings:
     "liga" 1,
     "calt" 1;
@@ -96,14 +102,36 @@ a {
 
 .font-sans p {
   font-family:
-    "Inter", "Apple Color Emoji",
+    var(--font-stack-sans-text), "Stack Sans Text", "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
 }
 
+/* Instrument Serif retired from active use in 7.2.0 — the font stays loaded
+   via layout.tsx (--font-instrument-serif) in case it's wanted again later.
+   The Tailwind `font-serif` utility now resolves to Stack Sans Headline
+   instead (see tailwind.config.ts), so this rule is intentionally disabled. */
+/*
 .font-serif,
 .font-serif p {
   font-family:
     var(--font-instrument-serif), "Instrument Serif", "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
+}
+*/
+
+/* Tailwind v4's JS-config compat layer only auto-generates utilities for the
+   standard sans/serif/mono keys — custom fontFamily keys (like `notch` in
+   tailwind.config.ts) only produce the --font-* CSS variable, not a class.
+   Hand-written here for the same reason .font-mono/.font-emoji are below. */
+.font-notch {
+  font-family:
+    var(--font-stack-sans-notch), "Stack Sans Notch", "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
+}
+
+.font-faculty-glyphic {
+  font-family:
+    var(--font-faculty-glyphic), "Faculty Glyphic", "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
 }
 
@@ -121,19 +149,11 @@ a {
   font-variant-emoji: emoji;
 }
 
-/* Default styles for elements */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family:
-    Inter, "Apple Color Emoji",
-    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
-}
-
-@supports (font-variation-settings: normal) {
+/* Default styles for elements — wrapped in @layer base so Tailwind utility
+   classes (font-serif, font-notch, etc.) can still override on a per-element
+   basis. Unlayered CSS always beats layered CSS regardless of source order,
+   so without this layer, no font utility class would ever apply to a heading. */
+@layer base {
   h1,
   h2,
   h3,
@@ -141,23 +161,17 @@ h6 {
   h5,
   h6 {
     font-family:
-      InterVariable, "Apple Color Emoji",
+      var(--font-stack-sans-headline), "Apple Color Emoji",
       var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
+    font-weight: 400;
   }
 }
 
 body {
   font-family:
-    InterVariable, Inter, "Apple Color Emoji",
+    var(--font-stack-sans-text), "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
-}
-
-@supports (font-variation-settings: normal) {
-  body {
-    font-family:
-      InterVariable, "Apple Color Emoji",
-      var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
-  }
+  font-weight: 200;
 }
 
 /* Only paragraphs with font-serif class use Noto Serif JP */
@@ -218,20 +232,27 @@ img {
 /* Custom animation utilities for smoother transitions */
 @layer utilities {
   .animate-smooth-fade-in {
-    animation: smoothFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: smoothFadeIn 0.8s var(--ease-out-quart) forwards;
   }
 
   .animate-smooth-slide-down {
-    animation: smoothSlideDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      forwards;
+    animation: smoothSlideDown 0.8s var(--ease-out-quart) forwards;
   }
 
   .animate-smooth-scale {
-    animation: smoothScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: smoothScale 0.8s var(--ease-out-quart) forwards;
   }
 
   .animate-smooth-slide-up {
-    animation: smoothSlideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: smoothSlideUp 0.8s var(--ease-out-quart) forwards;
+  }
+
+  /* Simple-list-reveal stagger — pair with style={{ '--i': index }} on each
+     item, capped at 9 (10 items x 50ms = 500ms max total stagger). */
+  .animate-stagger-item {
+    opacity: 0;
+    animation: smoothSlideUp 400ms var(--ease-out-quart) forwards;
+    animation-delay: calc(var(--i, 0) * 50ms);
   }
 
   /* Skip rendering off-screen content — pair with contain-intrinsic-size so the
@@ -247,12 +268,16 @@ img {
     contain-intrinsic-size: auto 160px;
   }
 
-  /* Override Tailwind v4 default to add saturation — fixes washed-out glass
-     effect on Chromium browsers while preserving Firefox appearance */
-  .backdrop-blur-xl {
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-  }
+}
+
+/* Override Tailwind v4's backdrop-blur-xl to add saturation — fixes washed-out
+   glass effect on Chromium browsers while preserving Firefox appearance.
+   Uses an attribute selector (not `.backdrop-blur-xl`) because Tailwind v4's
+   Lightning CSS build merges/dedupes same-named class selectors within
+   @layer utilities, silently dropping this rule's declarations when it
+   shared the class selector with Tailwind's own generated utility. */
+[class*="backdrop-blur-xl"] {
+  backdrop-filter: blur(24px) saturate(180%) !important;
 }
 
 @keyframes smoothFadeIn {
@@ -316,13 +341,13 @@ img {
 /* Lexical content styling for blog posts */
 .lexical-content {
   font-family:
-    var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
+    var(--font-faculty-glyphic), "Faculty Glyphic", "Apple Color Emoji",
     "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif;
 }
 
 .lexical-content p {
   font-family:
-    var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
+    var(--font-faculty-glyphic), "Faculty Glyphic", "Apple Color Emoji",
     "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
   margin-bottom: 1.25rem;
   line-height: 1.75;
@@ -336,7 +361,7 @@ img {
 .lexical-content h5,
 .lexical-content h6 {
   font-family:
-    var(--font-instrument-serif), "Instrument Serif", "Apple Color Emoji",
+    var(--font-faculty-glyphic), "Faculty Glyphic", "Apple Color Emoji",
     "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif;
   font-weight: 700;
   line-height: 1.3;

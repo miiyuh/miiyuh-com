@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Fragment } from 'react'
@@ -5,6 +6,11 @@ import { RefreshRouteOnSave } from '@/components/live-preview'
 import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
 import TermsOfServiceClient from './terms-of-service-client'
+
+export const metadata: Metadata = {
+  title: 'terms of service - miiyuh.com',
+  description: 'terms and conditions governing the use of this website. your rights, responsibilities, and disclaimers.',
+}
 
 export const revalidate = 300
 

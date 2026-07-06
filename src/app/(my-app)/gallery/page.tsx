@@ -1,87 +1,46 @@
 import type { Metadata } from 'next'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import GalleryClient from './gallery-client'
-import type {
-  GalleryCollectionDocument,
-  GalleryCollectionSummary,
-  GalleryDataMap,
-  GalleryItem,
-  GalleryImageItem,
-  MediaDocument,
-} from '@/types/gallery'
-import { resolveMediaSrc } from '@/utils/media'
+import { Suspense } from 'react'
+import ErrorBoundary from '@/components/ui/error-boundary'
+import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
+import GalleryAlbumsSection from './gallery-albums-section'
+import { GalleryGridSkeleton } from './gallery-grid-skeleton'
 
 export const metadata: Metadata = {
-  title: 'gallery - miiyuh',
-  description: 'photography and artwork gallery',
+  title: 'gallery - miiyuh.com',
+  description: 'from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork by miiyuh.',
 }
 
 // ISR: Revalidate every 5 minutes with collection hooks forcing faster updates on save
 export const revalidate = 300
 
-const PREVIEW_IMAGE_LIMIT = 3
+export default function GalleryPage() {
+  return (
+    <ErrorBoundary>
+      <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
+        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-16">
+          <div>
+            {/* Breadcrumb Navigation */}
+            <SimpleBreadcrumb items={breadcrumbs.gallery()} className="-mx-8 px-8 md:mx-0 md:px-0" />
 
-export default async function GalleryPage() {
-  const payload = await getPayload({ config })
-  
-  const { docs: collectionDocs } = await payload.find({
-    collection: 'gallery-collections',
-    where: {
-      status: {
-        equals: 'published',
-      },
-    },
-    depth: 1,
-    sort: '-albumDate',
-    limit: 0,
-  })
+            {/* Header */}
+            <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
+                gallery
+              </h1>
+              <p className="text-lg md:text-xl text-text-secondary text-pretty">
+                from the pens and lenses of mine, through out the years. a
+                curated collection of my photography and artwork.
+              </p>
+            </div>
 
-  const collections = collectionDocs as GalleryCollectionDocument[]
-
-  // Build gallery data from embedded images
-  const galleryData: GalleryDataMap = {}
-  
-  collections.forEach((collection) => {
-    if (!collection.images || collection.images.length === 0) return
-
-    const previewImages = collection.images.slice(0, PREVIEW_IMAGE_LIMIT)
-
-    const items: GalleryItem[] = previewImages
-      .map((imgItem: GalleryImageItem) => {
-        const imageMedia =
-          imgItem.image && typeof imgItem.image === 'object'
-            ? (imgItem.image as MediaDocument)
-            : null
-
-        const src = resolveMediaSrc({
-          url: imageMedia?.url,
-          filename: imageMedia?.filename,
-        })
-
-        if (!src) return null
-
-        return {
-          src,
-          title: imgItem.title ?? imageMedia?.alt ?? '',
-          description: imgItem.description ?? imageMedia?.caption ?? '',
-        }
-      })
-      .filter((item): item is GalleryItem => Boolean(item))
-
-    if (items.length > 0) {
-      galleryData[collection.slug] = items
-    }
-  })
-
-  const clientCollections: GalleryCollectionSummary[] = collections.map((collection) => ({
-    id: String(collection.id),
-    slug: collection.slug,
-    title: collection.title,
-    description: collection.description ?? '',
-    status: collection.status,
-    totalImages: collection.images?.length ?? 0,
-  }))
-
-  return <GalleryClient galleryData={galleryData} collections={clientCollections} />
+            {/* Albums Grid - borders act as grid lines */}
+            <Suspense fallback={<GalleryGridSkeleton />}>
+              <GalleryAlbumsSection />
+            </Suspense>
+          </div>
+        </main>
+      </div>
+    </ErrorBoundary>
+  )
 }
