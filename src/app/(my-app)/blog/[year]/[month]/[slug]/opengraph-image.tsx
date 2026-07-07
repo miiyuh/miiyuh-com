@@ -7,6 +7,7 @@ import { getServerLocale } from "@/lib/locale-server";
 import { getOgAssets } from "@/utils/og-fonts";
 import { getOgBackgroundStyle } from "@/components/seo/og-background";
 import { resolveMediaSrc } from "@/utils/media";
+import type { BlogPostDocument } from "@/types/blog";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -24,7 +25,7 @@ const getCachedPostSummary = unstable_cache(
       limit: 1,
       select: { title: true, coverImage: true },
     });
-    const post = docs[0];
+    const post = docs[0] as BlogPostDocument | undefined;
     const coverImage = post?.coverImage;
     const rawSrc = resolveMediaSrc({
       url: typeof coverImage === "object" ? coverImage?.url : undefined,
