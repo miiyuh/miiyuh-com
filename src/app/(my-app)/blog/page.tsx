@@ -8,6 +8,9 @@ import BlogPostsSkeleton from './blog-posts-skeleton'
 export const metadata: Metadata = {
   title: 'blog - miiyuh.com',
   description: 'little thoughts, big ideas, lofty dreams, all sorts, written by miiyuh.',
+  alternates: {
+    canonical: 'https://miiyuh.com/blog',
+  },
 }
 
 type SearchParams = Record<string, string | string[] | undefined>

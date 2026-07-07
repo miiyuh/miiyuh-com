@@ -8,6 +8,9 @@ import { ProjectsListSkeleton } from './projects-list-skeleton'
 export const metadata: Metadata = {
   title: 'projects - miiyuh.com',
   description: 'side projects, university work, and research papers — the collection by miiyuh.',
+  alternates: {
+    canonical: 'https://miiyuh.com/projects',
+  },
 }
 
 // ISR: Revalidate every 60 seconds for faster repeat visits

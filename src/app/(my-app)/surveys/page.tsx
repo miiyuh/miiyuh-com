@@ -6,6 +6,9 @@ import SurveysClient from './surveys-client'
 export const metadata: Metadata = {
   title: 'surveys - miiyuh.com',
   description: 'quick polls and feedback forms. share your thoughts on various topics and help shape future content.',
+  alternates: {
+    canonical: 'https://miiyuh.com/surveys',
+  },
 }
 
 export const revalidate = 60 // Revalidate every minute

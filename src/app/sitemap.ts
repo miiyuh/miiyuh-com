@@ -3,6 +3,10 @@ import config from "@payload-config";
 
 const baseUrl = "https://miiyuh.com";
 
+// Fixed date for static entries that don't have a meaningful last-modified
+// signal of their own (avoids reporting "just modified" on every build).
+const staticLastModified = new Date("2026-01-01");
+
 export default async function sitemap() {
   const payload = await getPayload({ config });
 
@@ -44,61 +48,55 @@ export default async function sitemap() {
   const entries = [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/aboutme`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
       url: `${baseUrl}/gallery`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects/academic`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects/papers`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/socials`,
-      lastModified: new Date(),
+      url: `${baseUrl}/surveys`,
+      lastModified: staticLastModified,
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${baseUrl}/privacy-policy`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: `${baseUrl}/terms-of-service`,
-      lastModified: new Date(),
+      lastModified: staticLastModified,
       changeFrequency: "yearly",
       priority: 0.3,
     },
