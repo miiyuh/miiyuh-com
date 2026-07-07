@@ -18,6 +18,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/components/layout/app-provider";
 import { getServerLocale } from "@/lib/locale-server";
 import { LocaleProvider } from "@/lib/locale-context";
+import { JsonLd } from "@/components/seo/json-ld";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -84,8 +85,15 @@ export const metadata: Metadata = {
   creator: "miiyuh",
   openGraph: {
     title: "miiyuh's webpage",
-  description: "Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.",
+    description: "Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.",
     type: "website",
+    url: "https://miiyuh.com",
+    siteName: "miiyuh's webpage",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "miiyuh's webpage",
+    description: "Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.",
   },
   robots: { index: true, follow: true },
 };
@@ -97,9 +105,40 @@ export default async function RootLayout({
 }) {
   const locale = await getServerLocale()
 
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "miiyuh",
+    url: "https://miiyuh.com",
+    image: "https://miiyuh.com/assets/img/personal-profile-pic.png",
+    jobTitle: "Creative Developer & Photographer",
+    sameAs: [
+      "https://github.com/miiyuh",
+      "https://twitter.com/miiyuh_",
+      "https://instagram.com/miiyuh.jpg",
+      "https://linkedin.com/in/muhamad-azri",
+      "https://bsky.app/profile/miiyuh.com",
+      "https://myanimelist.net/profile/miiyuh",
+      "https://anilist.co/user/miiyuh",
+      "https://steamcommunity.com/id/miiyuh",
+      "https://www.tiktok.com/@azri.my",
+      "https://twitch.tv/miiyuh_",
+      "https://youtube.com/@miiyuh_",
+    ],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "miiyuh's webpage",
+    url: "https://miiyuh.com",
+  };
+
   return (
     <html lang={locale} className="bg-[#070707] text-[#FAF3E0]">
       <head>
+        <JsonLd data={personJsonLd} />
+        <JsonLd data={websiteJsonLd} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

@@ -12,6 +12,7 @@ import { breadcrumbs } from "@/config/breadcrumbs";
 import { CopyLinkButton } from "@/components/ui/copy-link-button";
 import { Separator } from "@/components/ui/separator";
 import { RefreshRouteOnSave } from "@/components/live-preview";
+import { JsonLd } from "@/components/seo/json-ld";
 import BlogPostContent from "./blog-post-content";
 import { BlogPostSkeleton } from "./blog-post-skeleton";
 import { BlogPostFooter } from "./blog-post-footer";
@@ -73,15 +74,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description = post.excerpt || post.seo?.metaDescription || `read ${post.title}`;
   const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
 
-  // Resolve cover image to an absolute URL string
-  const coverImageUrl = resolveMediaSrc({
-    url: typeof post.coverImage === "object" ? post.coverImage?.url : undefined,
-    filename:
-      typeof post.coverImage === "object"
-        ? post.coverImage?.filename
-        : undefined,
-  });
-
   return {
     title,
     description,
@@ -94,22 +86,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonicalUrl,
       type: "article",
       publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
-      images: coverImageUrl
-        ? [
-            {
-              url: coverImageUrl,
-              width: 1200,
-              height: 630,
-              alt: post.title,
-            },
-          ]
-        : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: coverImageUrl ? [coverImageUrl] : undefined,
     },
   };
 }
@@ -140,10 +121,28 @@ async function PageContent({ params }: PageProps) {
   });
 
   const publishedAtDate = post.publishedAt ? new Date(post.publishedAt) : null;
+  const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
+
+  const blogPostingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt || post.seo?.metaDescription || undefined,
+    url: canonicalUrl,
+    datePublished: publishedAtDate ? publishedAtDate.toISOString() : undefined,
+    dateModified: publishedAtDate ? publishedAtDate.toISOString() : undefined,
+    author: {
+      "@type": "Person",
+      name: "miiyuh",
+      url: "https://miiyuh.com",
+    },
+    image: coverImage || undefined,
+  };
 
   return (
     <Fragment>
       <RefreshRouteOnSave />
+      <JsonLd data={blogPostingJsonLd} />
       <main className="relative min-h-screen text-text-primary">
         <div className="relative z-10 mx-auto max-w-4xl px-8 md:px-32 lg:px-8 pt-6 pb-16 animate-smooth-slide-up">
           {/* Breadcrumbs */}

@@ -9,6 +9,9 @@ import { GalleryGridSkeleton } from './gallery-grid-skeleton'
 export const metadata: Metadata = {
   title: 'gallery - miiyuh.com',
   description: 'from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork by miiyuh.',
+  alternates: {
+    canonical: 'https://miiyuh.com/gallery',
+  },
 }
 
 // ISR: Revalidate every 5 minutes with collection hooks forcing faster updates on save

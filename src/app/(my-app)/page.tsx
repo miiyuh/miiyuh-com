@@ -1,9 +1,32 @@
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import HomeHero from './home-hero'
 import HomeDetailsSection from './home-details-section'
 import HomeDetailsSkeleton from './home-details-skeleton'
 
 export const revalidate = 300
+
+const description =
+  "Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia."
+
+export const metadata: Metadata = {
+  title: "miiyuh's webpage",
+  description,
+  alternates: {
+    canonical: "https://miiyuh.com",
+  },
+  openGraph: {
+    title: "miiyuh's webpage",
+    description,
+    url: "https://miiyuh.com",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "miiyuh's webpage",
+    description,
+  },
+}
 
 export default function HomePage() {
   return (

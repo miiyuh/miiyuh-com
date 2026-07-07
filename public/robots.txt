@@ -7,11 +7,10 @@ User-agent: *
 Allow: /
 
 # Allow indexing of main content pages
-Allow: /aboutme
 Allow: /gallery
 Allow: /projects
 Allow: /blog
-Allow: /socials
+Allow: /surveys
 
 # Allow indexing of project pages
 Allow: /projects/2alpha
@@ -19,15 +18,6 @@ Allow: /projects/miyabi
 Allow: /projects/shingeki
 Allow: /projects/academic
 Allow: /projects/papers
-
-# Allow indexing of academic project pages
-Allow: /projects/academic/library-management
-Allow: /projects/academic/lockme-encryption
-
-# Allow indexing of paper pages
-Allow: /projects/papers/ai-ethics
-Allow: /projects/papers/sustainable-tech
-Allow: /projects/papers/web-accessibility
 
 # Allow legal pages
 Allow: /privacy-policy

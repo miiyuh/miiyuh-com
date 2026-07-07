@@ -158,7 +158,7 @@ export default function ComponentsLabPage() {
           </CardHeader>
           <CardPanel className="flex flex-wrap items-center gap-4">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+              <AvatarImage src="https://github.com/miiyuh.png" alt="User" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <Avatar className="size-8">
