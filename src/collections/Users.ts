@@ -1,5 +1,10 @@
 import type { CollectionConfig, PayloadRequest } from 'payload'
 import { isAdmin } from '../access/is-admin'
+import { webauthnRegistrationOptions } from './endpoints/webauthn-registration-options'
+import { webauthnRegistrationVerify } from './endpoints/webauthn-registration-verify'
+import { webauthnAuthenticationOptions } from './endpoints/webauthn-authentication-options'
+import { webauthnAuthenticationVerify } from './endpoints/webauthn-authentication-verify'
+import { webauthnPasskeyDelete } from './endpoints/webauthn-passkey-delete'
 
 type AuthUser = {
   id?: string | number
@@ -37,6 +42,13 @@ const Users: CollectionConfig = {
     maxLoginAttempts: 5,
     lockTime: 10 * 60 * 1000,
   },
+  endpoints: [
+    webauthnRegistrationOptions,
+    webauthnRegistrationVerify,
+    webauthnAuthenticationOptions,
+    webauthnAuthenticationVerify,
+    webauthnPasskeyDelete,
+  ],
   admin: {
     useAsTitle: 'username',
     defaultColumns: ['username', 'email', 'role', 'updatedAt'],
@@ -109,6 +121,31 @@ const Users: CollectionConfig = {
         create: ({ req }) => req.user?.role === 'admin',
         update: ({ req }) => req.user?.role === 'admin',
       },
+    },
+    {
+      name: 'passkeys',
+      type: 'array',
+      label: 'Passkeys',
+      admin: {
+        description: 'WebAuthn credentials for passwordless / hardware-key sign-in.',
+        components: {
+          Field: '@/payload-admin/RegisterPasskeyButton',
+        },
+      },
+      access: {
+        read: ({ req, id }) => req.user?.role === 'admin' || req.user?.id === id,
+        update: ({ req }) => req.user?.role === 'admin',
+      },
+      fields: [
+        { name: 'credentialID', type: 'text', label: 'Credential ID', required: true, unique: true, index: true },
+        { name: 'publicKey', type: 'text', label: 'Public key', required: true },
+        { name: 'counter', type: 'number', label: 'Counter', required: true, defaultValue: 0 },
+        { name: 'deviceType', type: 'text', label: 'Device type' },
+        { name: 'backedUp', type: 'checkbox', label: 'Backed up', defaultValue: false },
+        { name: 'transports', type: 'json', label: 'Transports' },
+        { name: 'label', type: 'text', label: 'Label' },
+        { name: 'createdAt', type: 'date', label: 'Created at' },
+      ],
     },
   ],
 }
