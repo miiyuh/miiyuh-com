@@ -224,6 +224,7 @@ export default function RegisterPasskeyButton() {
           <div className="field-type__wrap">
             <input
               type="text"
+              aria-label="New passkey label"
               placeholder="Label (e.g. Work laptop)"
               value={newLabel}
               onChange={(e) => setNewLabel(e.target.value)}
