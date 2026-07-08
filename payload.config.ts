@@ -87,7 +87,7 @@ export default buildConfig({
       graphics: {
         Logo: '@/payload-admin/Logo',
       },
-      beforeLogin: ['@/payload-admin/BeforeLogin'],
+      beforeLogin: ['@/payload-admin/PasskeyLoginButton'],
     },
     livePreview: {
       url: ({ data, collectionConfig, globalConfig, locale }) => {
