@@ -109,11 +109,21 @@ export function verifyChallengeCookie(cookieValue: string | undefined): Challeng
   }
 }
 
-export function buildChallengeCookieHeader(value: string | null): string {
-  if (value === null) {
-    return `${CHALLENGE_COOKIE_NAME}=; Path=/api/users/webauthn; HttpOnly; SameSite=Lax; Max-Age=0`
+function isSecureContext(): boolean {
+  if (process.env.NODE_ENV === 'production') return true
+  try {
+    return getRpConfig().origins.every((origin) => origin.startsWith('https://'))
+  } catch {
+    return false
   }
-  return `${CHALLENGE_COOKIE_NAME}=${value}; Path=/api/users/webauthn; HttpOnly; SameSite=Lax; Max-Age=${CHALLENGE_TTL_MS / 1000}`
+}
+
+export function buildChallengeCookieHeader(value: string | null): string {
+  const secureAttr = isSecureContext() ? '; Secure' : ''
+  if (value === null) {
+    return `${CHALLENGE_COOKIE_NAME}=; Path=/api/users/webauthn; HttpOnly; SameSite=Lax; Max-Age=0${secureAttr}`
+  }
+  return `${CHALLENGE_COOKIE_NAME}=${value}; Path=/api/users/webauthn; HttpOnly; SameSite=Lax; Max-Age=${CHALLENGE_TTL_MS / 1000}${secureAttr}`
 }
 
 export function readChallengeCookie(req: { headers: Pick<Headers, 'get'> }): string | undefined {

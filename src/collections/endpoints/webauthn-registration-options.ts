@@ -39,7 +39,7 @@ export const webauthnRegistrationOptions: Endpoint = {
           transports: passkey.transports ?? undefined,
         })),
         authenticatorSelection: {
-          residentKey: 'preferred',
+          residentKey: 'required',
           userVerification: 'preferred',
         },
       })

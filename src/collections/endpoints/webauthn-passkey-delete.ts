@@ -17,7 +17,14 @@ export const webauthnPasskeyDelete: Endpoint = {
       return Response.json({ error: 'Missing credential ID' }, { status: 400 })
     }
 
-    const existingPasskeys = ((req.user as { passkeys?: PasskeyRow[] }).passkeys ?? []) as PasskeyRow[]
+    const currentUser = await req.payload.findByID({
+      collection: 'users',
+      id: req.user.id,
+      depth: 0,
+      overrideAccess: true,
+    })
+
+    const existingPasskeys = ((currentUser as { passkeys?: PasskeyRow[] }).passkeys ?? []) as PasskeyRow[]
     const filtered = existingPasskeys.filter((passkey) => passkey.credentialID !== credentialID)
 
     if (filtered.length === existingPasskeys.length) {

@@ -27,12 +27,12 @@ export default function RegisterPasskeyButton() {
   const isOwnAccount = user && String(user.id) === String(docId)
 
   const fetchPasskeys = useCallback(async (): Promise<PasskeyRow[] | null> => {
-    if (!docId) return null
+    if (!docId || !isOwnAccount) return null
     const res = await fetch(`/api/users/${docId}?depth=0`, { credentials: 'include' })
     if (!res.ok) return null
     const doc = await res.json()
     return (doc.passkeys ?? []) as PasskeyRow[]
-  }, [docId])
+  }, [docId, isOwnAccount])
 
   const refetch = useCallback(async () => {
     const result = await fetchPasskeys()

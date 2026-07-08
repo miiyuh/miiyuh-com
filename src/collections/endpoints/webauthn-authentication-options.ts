@@ -48,7 +48,7 @@ export const webauthnAuthenticationOptions: Endpoint = {
       const options = await generateAuthenticationOptions({
         rpID,
         allowCredentials,
-        userVerification: 'preferred',
+        userVerification: 'required',
       })
 
       const cookieValue = signChallengeCookie({ challenge: options.challenge, userId })

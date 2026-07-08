@@ -134,7 +134,7 @@ const Users: CollectionConfig = {
       },
       access: {
         read: ({ req, id }) => req.user?.role === 'admin' || req.user?.id === id,
-        update: ({ req, id }) => req.user?.role === 'admin' || req.user?.id === id,
+        update: ({ req }) => req.user?.role === 'admin',
       },
       fields: [
         { name: 'credentialID', type: 'text', label: 'Credential ID', required: true, unique: true, index: true },
