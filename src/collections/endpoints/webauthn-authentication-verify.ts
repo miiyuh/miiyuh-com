@@ -54,16 +54,18 @@ export const webauthnAuthenticationVerify: Endpoint = {
         showHiddenFields: true,
       })
 
+      const user = { ...userDoc, collection: 'users' } as typeof userDoc & { collection: string }
+
       try {
-        checkLoginPermission({ loggingInWithUsername: true, req, user: userDoc })
+        checkLoginPermission({ loggingInWithUsername: true, req, user })
       } catch {
         return Response.json(LOCKED_ERROR, { status: 423 })
       }
 
-      const passkeys = ((userDoc as { passkeys?: PasskeyRow[] }).passkeys ?? []) as PasskeyRow[]
+      const passkeys = ((user as { passkeys?: PasskeyRow[] }).passkeys ?? []) as PasskeyRow[]
       const matchingPasskey = passkeys.find((passkey) => passkey.credentialID === body.response!.id)
       if (!matchingPasskey) {
-        await incrementLoginAttempts({ collection: collectionConfig, payload: req.payload, user: userDoc })
+        await incrementLoginAttempts({ collection: collectionConfig, payload: req.payload, user })
         return Response.json(GENERIC_ERROR, { status: 400 })
       }
 
@@ -84,18 +86,18 @@ export const webauthnAuthenticationVerify: Endpoint = {
           credential,
         })
       } catch {
-        await incrementLoginAttempts({ collection: collectionConfig, payload: req.payload, user: userDoc })
+        await incrementLoginAttempts({ collection: collectionConfig, payload: req.payload, user })
         return Response.json(GENERIC_ERROR, { status: 400 })
       }
 
       if (!verification.verified) {
-        await incrementLoginAttempts({ collection: collectionConfig, payload: req.payload, user: userDoc })
+        await incrementLoginAttempts({ collection: collectionConfig, payload: req.payload, user })
         return Response.json(GENERIC_ERROR, { status: 400 })
       }
 
       await resetLoginAttempts({
         collection: collectionConfig,
-        doc: userDoc as unknown as Record<string, unknown> & { id: string },
+        doc: user as unknown as Record<string, unknown> & { id: string },
         payload: req.payload,
         req,
       })
@@ -107,8 +109,6 @@ export const webauthnAuthenticationVerify: Endpoint = {
         data: { passkeys },
         overrideAccess: true,
       })
-
-      const user = { ...userDoc, collection: 'users' } as typeof userDoc & { collection: string }
 
       const session = await addSessionToUser({ collectionConfig, payload: req.payload, req, user })
 
