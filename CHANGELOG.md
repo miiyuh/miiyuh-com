@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.2.5](https://github.com/miiyuh/miiyuh-com/compare/v7.2.4...v7.2.5) (2026-07-08)
+
+### Bug Fixes
+
+* switch to nonce-based CSP so client-side navigation works again ([#17](https://github.com/miiyuh/miiyuh-com/issues/17)) ([cd47503](https://github.com/miiyuh/miiyuh-com/commit/cd47503dcd29025cfaad321de8767da665b9db0e)), closes [#15](https://github.com/miiyuh/miiyuh-com/issues/15)
+
 ## [7.2.4](https://github.com/miiyuh/miiyuh-com/compare/v7.2.3...v7.2.4) (2026-07-08)
 
 ### Bug Fixes
