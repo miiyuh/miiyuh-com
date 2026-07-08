@@ -91,7 +91,6 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
-          { key: 'X-XSS-Protection', value: '0' },
         ],
       },
       {
@@ -118,13 +117,12 @@ const nextConfig = {
               {
                 key: 'Content-Security-Policy',
                 value:
-                  `default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self' https://www.youtube.com https://player.vimeo.com; object-src 'none'; script-src 'self' 'unsafe-inline' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com${__impeccableLiveDev}; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com${__impeccableLiveDev}; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;`,
+                  `default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self' https://www.youtube.com https://player.vimeo.com; object-src 'none'; script-src 'self' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com${__impeccableLiveDev}; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com${__impeccableLiveDev}; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;`,
               },
               { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
               { key: 'X-Content-Type-Options', value: 'nosniff' },
               { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
               { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
-              { key: 'X-XSS-Protection', value: '0' },
             ],
           },
           {

@@ -76,6 +76,7 @@ export default buildConfig({
   email: consoleEmailAdapter,
   admin: {
     user: Users.slug,
+    theme: 'dark',
     meta: {
       titleSuffix: ' - miiyuh.com CMS',
       icons: {
