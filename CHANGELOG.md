@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.1](https://github.com/miiyuh/miiyuh-com/compare/v7.3.0...v7.3.1) (2026-07-08)
+
+### Bug Fixes
+
+* let admins label and rename passkeys for easier identification ([#19](https://github.com/miiyuh/miiyuh-com/issues/19)) ([7aadc2e](https://github.com/miiyuh/miiyuh-com/commit/7aadc2e707a940df2c84c231a02c0e680c6c8c95))
+
 ## [7.3.0](https://github.com/miiyuh/miiyuh-com/compare/v7.2.5...v7.3.0) (2026-07-08)
 
 ### Features
