@@ -1,9 +1,5 @@
 import { withPayload } from "@payloadcms/next/withPayload";
 
-// Dev-only allowance so impeccable live mode can load.
-const __impeccableLiveDev =
-  process.env.NODE_ENV === "development" ? " http://localhost:8400" : "";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -107,17 +103,14 @@ const nextConfig = {
       ...(process.env.NODE_ENV === 'development'
         ? []
         : [{
-            // HTML pages and public routes: security headers + CSP
+            // HTML pages and public routes: security headers.
+            // Content-Security-Policy is set per-request (with a nonce) by src/proxy.ts instead,
+            // since Next.js's own hydration/streaming scripts require a nonce to run under a strict CSP.
             source: '/(.*)',
             headers: [
               {
                 key: 'Strict-Transport-Security',
                 value: 'max-age=63072000; includeSubDomains; preload',
-              },
-              {
-                key: 'Content-Security-Policy',
-                value:
-                  `default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self' https://www.youtube.com https://player.vimeo.com; object-src 'none'; script-src 'self' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com${__impeccableLiveDev}; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com${__impeccableLiveDev}; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;`,
               },
               { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
               { key: 'X-Content-Type-Options', value: 'nosniff' },

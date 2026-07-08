@@ -13,6 +13,7 @@ import {
   Faculty_Glyphic,
 } from "next/font/google";
 import Script from "next/script";
+import { headers } from "next/headers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/components/layout/app-provider";
@@ -104,6 +105,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const locale = await getServerLocale()
+  const nonce = (await headers()).get("x-nonce") ?? undefined
 
   const personJsonLd = {
     "@context": "https://schema.org",
@@ -177,7 +179,7 @@ export default async function RootLayout({
         style={{ fontFamily: 'var(--font-stack-sans-text), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
         {/* beforeInteractive scripts must be direct children of <body> per Next.js docs — placing this in <head> triggered a dev-mode "script tag" hydration warning */}
-        <Script src="/theme-favicons.js" strategy="beforeInteractive" />
+        <Script src="/theme-favicons.js" strategy="beforeInteractive" nonce={nonce} />
         <LocaleProvider locale={locale}>
           <AppProvider>{children}</AppProvider>
         </LocaleProvider>
@@ -187,6 +189,7 @@ export default async function RootLayout({
           src="https://rybbit.miiyuh.com/api/script.js"
           data-site-id="9a7b86930cc1"
           strategy="afterInteractive"
+          nonce={nonce}
         />
       </body>
     </html>
