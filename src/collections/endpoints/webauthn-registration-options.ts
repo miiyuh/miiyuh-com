@@ -28,7 +28,10 @@ export const webauthnRegistrationOptions: Endpoint = {
       const options = await generateRegistrationOptions({
         rpName,
         rpID,
-        userName: (req.user as { username?: string; email: string }).username || req.user.email,
+        userName:
+          (req.user as { username?: string; email?: string }).username ||
+          req.user.email ||
+          String(req.user.id),
         userID: new TextEncoder().encode(String(req.user.id)),
         attestationType: 'none',
         excludeCredentials: existingPasskeys.map((passkey) => ({
