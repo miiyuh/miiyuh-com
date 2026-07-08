@@ -104,7 +104,7 @@ const nextConfig = {
         ? []
         : [{
             // HTML pages and public routes: security headers.
-            // Content-Security-Policy is set per-request (with a nonce) by src/middleware.ts instead,
+            // Content-Security-Policy is set per-request (with a nonce) by src/proxy.ts instead,
             // since Next.js's own hydration/streaming scripts require a nonce to run under a strict CSP.
             source: '/(.*)',
             headers: [
