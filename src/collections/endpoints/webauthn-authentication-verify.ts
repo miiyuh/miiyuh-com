@@ -114,7 +114,7 @@ export const webauthnAuthenticationVerify: Endpoint = {
 
       const fieldsToSign = getFieldsToSign({
         collectionConfig,
-        email: (user as { email: string }).email,
+        email: (user as unknown as { email: string }).email,
         sid: session.sid,
         user,
       })
