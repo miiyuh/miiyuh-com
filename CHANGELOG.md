@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.0](https://github.com/miiyuh/miiyuh-com/compare/v7.2.5...v7.3.0) (2026-07-08)
+
+### Features
+
+* add passkey (WebAuthn) login for the admin panel ([#18](https://github.com/miiyuh/miiyuh-com/issues/18)) ([fc05f44](https://github.com/miiyuh/miiyuh-com/commit/fc05f443d9269a93e6f13c6ef8fff6373821bc6c))
+
 ## [7.2.5](https://github.com/miiyuh/miiyuh-com/compare/v7.2.4...v7.2.5) (2026-07-08)
 
 ### Bug Fixes
