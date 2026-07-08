@@ -5,6 +5,7 @@ import { webauthnRegistrationVerify } from './endpoints/webauthn-registration-ve
 import { webauthnAuthenticationOptions } from './endpoints/webauthn-authentication-options'
 import { webauthnAuthenticationVerify } from './endpoints/webauthn-authentication-verify'
 import { webauthnPasskeyDelete } from './endpoints/webauthn-passkey-delete'
+import { webauthnPasskeyRename } from './endpoints/webauthn-passkey-rename'
 
 type AuthUser = {
   id?: string | number
@@ -48,6 +49,7 @@ const Users: CollectionConfig = {
     webauthnAuthenticationOptions,
     webauthnAuthenticationVerify,
     webauthnPasskeyDelete,
+    webauthnPasskeyRename,
   ],
   admin: {
     useAsTitle: 'username',

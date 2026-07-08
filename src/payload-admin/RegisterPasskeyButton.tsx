@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { startRegistration } from '@simplewebauthn/browser'
 import { useAuth, useDocumentInfo, Button } from '@payloadcms/ui'
-import { Key, Trash } from '@phosphor-icons/react'
+import { Key, PencilSimple, Trash } from '@phosphor-icons/react'
 
 type PasskeyRow = {
   credentialID: string
@@ -21,7 +21,9 @@ export default function RegisterPasskeyButton() {
   const { id: docId } = useDocumentInfo()
   const [passkeys, setPasskeys] = useState<PasskeyRow[] | null>(null)
   const [registerStatus, setRegisterStatus] = useState<'idle' | 'pending' | 'error'>('idle')
+  const [newLabel, setNewLabel] = useState('')
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [renamingId, setRenamingId] = useState<string | null>(null)
   const [error, setError] = useState('')
 
   const isOwnAccount = user && String(user.id) === String(docId)
@@ -71,7 +73,7 @@ export default function RegisterPasskeyButton() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ response: attestation }),
+        body: JSON.stringify({ response: attestation, label: newLabel.trim() || undefined }),
       })
       if (!verifyRes.ok) {
         const body = await parseErrorBody(verifyRes)
@@ -79,6 +81,7 @@ export default function RegisterPasskeyButton() {
       }
 
       setRegisterStatus('idle')
+      setNewLabel('')
       await refetch()
     } catch (err) {
       setRegisterStatus('error')
@@ -87,6 +90,29 @@ export default function RegisterPasskeyButton() {
           ? 'Passkeys are not configured on this server. Contact an administrator.'
           : 'Passkey registration failed. Please try again.',
       )
+    }
+  }
+
+  const handleRename = async (credentialID: string, currentLabel: string) => {
+    const nextLabel = window.prompt('Passkey label', currentLabel)
+    if (nextLabel === null) return
+
+    setRenamingId(credentialID)
+    setError('')
+
+    try {
+      const res = await fetch(`/api/users/webauthn/passkeys/${encodeURIComponent(credentialID)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ label: nextLabel }),
+      })
+      if (!res.ok) throw new Error('failed')
+      await refetch()
+    } catch {
+      setError('Could not rename this passkey. Please try again.')
+    } finally {
+      setRenamingId(null)
     }
   }
 
@@ -158,39 +184,65 @@ export default function RegisterPasskeyButton() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(var(--base) / 2)' }}>
                 <Key size={18} />
                 <div>
-                  <div>{passkey.label || passkey.deviceType || 'Passkey'}</div>
+                  <div>
+                    {passkey.label || `${passkey.deviceType || 'Passkey'} · ${passkey.credentialID.slice(0, 6)}`}
+                  </div>
                   {passkey.createdAt && (
                     <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--theme-elevation-400)' }}>
-                      Added {new Date(passkey.createdAt).toLocaleDateString()}
+                      Added {new Date(passkey.createdAt).toLocaleString()}
                     </div>
                   )}
                 </div>
               </div>
-              <Button
-                buttonStyle="icon-label"
-                size="small"
-                type="button"
-                disabled={deletingId === passkey.credentialID}
-                onClick={() => handleDelete(passkey.credentialID)}
-                icon={<Trash size={16} />}
-                aria-label="Remove passkey"
-              />
+              <div style={{ display: 'flex', gap: 'calc(var(--base) / 4)' }}>
+                <Button
+                  buttonStyle="icon-label"
+                  size="small"
+                  type="button"
+                  disabled={renamingId === passkey.credentialID}
+                  onClick={() => handleRename(passkey.credentialID, passkey.label || '')}
+                  icon={<PencilSimple size={16} />}
+                  aria-label="Rename passkey"
+                />
+                <Button
+                  buttonStyle="icon-label"
+                  size="small"
+                  type="button"
+                  disabled={deletingId === passkey.credentialID}
+                  onClick={() => handleDelete(passkey.credentialID)}
+                  icon={<Trash size={16} />}
+                  aria-label="Remove passkey"
+                />
+              </div>
             </li>
           ))}
         </ul>
       )}
 
-      <Button
-        buttonStyle="secondary"
-        size="small"
-        type="button"
-        disabled={registerStatus === 'pending'}
-        onClick={handleRegister}
-        icon={<Key size={16} />}
-        iconPosition="left"
-      >
-        {registerStatus === 'pending' ? 'Waiting for passkey…' : 'Register a new passkey'}
-      </Button>
+      <div style={{ display: 'flex', gap: 'calc(var(--base) / 2)', alignItems: 'flex-start' }}>
+        <div className="field-type text" style={{ flex: '1 1 auto', margin: 0 }}>
+          <div className="field-type__wrap">
+            <input
+              type="text"
+              aria-label="New passkey label"
+              placeholder="Label (e.g. Work laptop)"
+              value={newLabel}
+              onChange={(e) => setNewLabel(e.target.value)}
+            />
+          </div>
+        </div>
+        <Button
+          buttonStyle="secondary"
+          size="small"
+          type="button"
+          disabled={registerStatus === 'pending'}
+          onClick={handleRegister}
+          icon={<Key size={16} />}
+          iconPosition="left"
+        >
+          {registerStatus === 'pending' ? 'Waiting for passkey…' : 'Register a new passkey'}
+        </Button>
+      </div>
 
       {error && (
         <p
