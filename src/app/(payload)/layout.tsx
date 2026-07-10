@@ -5,7 +5,7 @@ import '@payloadcms/next/css'
 import type { ServerFunctionClient } from 'payload'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import React from 'react'
-import { Stack_Sans_Text } from 'next/font/google'
+import localFont from 'next/font/local'
 
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
@@ -14,8 +14,8 @@ type Args = {
   children: React.ReactNode
 }
 
-const stackSansText = Stack_Sans_Text({
-  subsets: ['latin'],
+const stackSansText = localFont({
+  src: '../../assets/fonts/StackSansText-VariableFont_wght.ttf',
   variable: '--font-stack-sans-text',
   display: 'swap',
 })
