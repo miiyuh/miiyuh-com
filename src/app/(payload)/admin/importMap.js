@@ -31,6 +31,7 @@ import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { default as default_28a14456765c35e49bd2c3fa9816f46c } from '@/payload-admin/GalleryBulkAddImagesButton'
 import { default as default_3389bdb5f5f29e376e66f4a85d745fa4 } from '@/payload-admin/DocumentLastUpdated'
 import { default as default_46a8658e4b04b83f37807c907a6b3a09 } from '@/payload-admin/Logo'
+import { default as default_547b9379e09ba3d10c5b1a56cd549732 } from '@/payload-admin/DisableNavGroupToggle'
 import { default as default_f5213fd5ef5f4f8e516e38fdd5045878 } from '@/payload-admin/PasskeyLoginButton'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -70,6 +71,7 @@ export const importMap = {
   "@/payload-admin/GalleryBulkAddImagesButton#default": default_28a14456765c35e49bd2c3fa9816f46c,
   "@/payload-admin/DocumentLastUpdated#default": default_3389bdb5f5f29e376e66f4a85d745fa4,
   "@/payload-admin/Logo#default": default_46a8658e4b04b83f37807c907a6b3a09,
+  "@/payload-admin/DisableNavGroupToggle#default": default_547b9379e09ba3d10c5b1a56cd549732,
   "@/payload-admin/PasskeyLoginButton#default": default_f5213fd5ef5f4f8e516e38fdd5045878,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1

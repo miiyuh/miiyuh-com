@@ -175,7 +175,7 @@ export default function RegisterPasskeyButton() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: 'var(--base)',
-                padding: 'calc(var(--base) / 2)',
+                padding: '0 calc(var(--base) / 2)',
                 border: '1px solid var(--theme-elevation-150)',
                 borderRadius: 'var(--style-radius-m)',
                 marginBottom: 'calc(var(--base) / 4)',
@@ -208,6 +208,7 @@ export default function RegisterPasskeyButton() {
                   buttonStyle="icon-label"
                   size="small"
                   type="button"
+                  className="passkey-delete-btn"
                   disabled={deletingId === passkey.credentialID}
                   onClick={() => handleDelete(passkey.credentialID)}
                   icon={<Trash size={16} />}

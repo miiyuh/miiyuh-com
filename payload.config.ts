@@ -89,6 +89,7 @@ export default buildConfig({
         Logo: '@/payload-admin/Logo',
       },
       beforeLogin: ['@/payload-admin/PasskeyLoginButton'],
+      afterNavLinks: ['@/payload-admin/DisableNavGroupToggle'],
     },
     livePreview: {
       url: ({ data, collectionConfig, globalConfig, locale }) => {

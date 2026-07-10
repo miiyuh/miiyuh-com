@@ -28,8 +28,6 @@ import type {
 type FormRendererProps = {
   form: FormDocument
   className?: string
-  onSuccess?: (response: FormSubmitResponse) => void
-  onError?: (error: string) => void
 }
 
 /**
@@ -41,8 +39,6 @@ type FormRendererProps = {
 export function FormRenderer({
   form,
   className,
-  onSuccess,
-  onError,
 }: FormRendererProps) {
   const [values, setValues] = useState<FormValues>(() => {
     // Initialize default values from form fields
@@ -108,22 +104,19 @@ export function FormRenderer({
             result.errors?.[0]?.message || 'Failed to submit form'
           haptic.trigger('error')
           setState({ isSubmitting: false, isSuccess: false, error: errorMessage })
-          onError?.(errorMessage)
           return
         }
 
         haptic.trigger('success')
         setState({ isSubmitting: false, isSuccess: true, error: null })
-        onSuccess?.(result)
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : 'An unexpected error occurred'
         haptic.trigger('error')
         setState({ isSubmitting: false, isSuccess: false, error: errorMessage })
-        onError?.(errorMessage)
       }
     },
-    [form.id, values, honeypot, onSuccess, onError, haptic]
+    [form.id, values, honeypot, haptic]
   )
 
   // Success state
@@ -159,7 +152,7 @@ export function FormRenderer({
       )}
 
       {/* Honeypot field — visually hidden and skipped by keyboard/screen readers */}
-      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+      <div aria-hidden="true" className="absolute -left-2499.75 top-auto h-px w-px overflow-hidden">
         <label htmlFor="_website">Leave this field empty</label>
         <input
           id="_website"

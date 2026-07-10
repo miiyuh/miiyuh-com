@@ -101,6 +101,17 @@ html[data-theme="dark"] .btn--primary:hover {
   overflow: visible !important;
 }
 
+/* ── Headings: Stack Sans Notch everywhere (list titles, document
+   titles, "No Results" messaging, etc.) ── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-stack-sans-notch), sans-serif;
+}
+
 /* ── Button polish: consistent radius/transition + focus ring ── */
 .btn {
   font-family: var(--font-stack-sans-text), sans-serif;
@@ -110,6 +121,13 @@ html[data-theme="dark"] .btn--primary:hover {
 .btn:focus-visible {
   box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4);
   outline: none;
+}
+
+/* ── Button text: brand cream instead of pure white, matching the rest
+   of the admin's text color. Excludes primary buttons, which keep a
+   light background + dark text and would lose contrast otherwise. ── */
+.btn:not(.btn--style-primary) {
+  color: var(--theme-text);
 }
 
 /* ── BlogPosts "Featured" checkbox: vertically center within its row
@@ -155,8 +173,17 @@ select,
   font-family: var(--font-stack-sans-text), sans-serif;
 }
 
-/* ── Document title heading: Stack Sans Notch + extra padding ── */
+/* ── Document title heading: extra padding (font handled by the
+   general h1-h6 rule above) ── */
 .doc-header__title {
-  font-family: var(--font-stack-sans-notch), sans-serif;
   padding: calc(var(--base) / 2) 0;
+}
+
+/* ── Destructive action: passkey delete button ── */
+.passkey-delete-btn {
+  color: var(--theme-error-500, #e5484d);
+}
+
+.passkey-delete-btn:hover {
+  color: var(--theme-error-600, #ff6369);
 }
