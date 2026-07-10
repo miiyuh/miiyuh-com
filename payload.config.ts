@@ -77,6 +77,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     theme: 'dark',
+    dateFormat: 'yyyy-MM-dd HH:mm',
     meta: {
       titleSuffix: ' - miiyuh.com CMS',
       icons: {
