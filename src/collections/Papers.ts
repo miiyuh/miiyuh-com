@@ -37,6 +37,7 @@ const Papers: CollectionConfig = {
           fields: [
             {
               name: 'title',
+              label: 'title',
               type: 'text',
               required: true,
               localized: true,
@@ -82,6 +83,7 @@ const Papers: CollectionConfig = {
             },
             {
               name: 'abstract',
+              label: 'abstract',
               type: 'textarea',
               required: true,
               localized: true,

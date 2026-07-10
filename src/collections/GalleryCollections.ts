@@ -37,6 +37,7 @@ const GalleryCollections: CollectionConfig = {
               fields: [
                 {
                   name: 'title',
+                  label: 'title',
                   type: 'text',
                   required: true,
                   index: true,
@@ -52,6 +53,7 @@ const GalleryCollections: CollectionConfig = {
             },
             {
               name: 'description',
+              label: 'description',
               type: 'textarea',
             },
             {

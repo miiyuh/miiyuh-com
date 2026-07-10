@@ -40,6 +40,7 @@ export default function GalleryBulkAddImagesButton() {
         buttonStyle="secondary"
         size="small"
         type="button"
+        className="gallery-bulk-add-btn"
         onClick={() => openDrawer()}
         icon={<Images size={16} />}
         iconPosition="left"

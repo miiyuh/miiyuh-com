@@ -74,6 +74,7 @@ const BlogPosts: CollectionConfig = {
               fields: [
                 {
                   name: 'title',
+                  label: 'title',
                   type: 'text',
                   required: true,
                   localized: true,
@@ -90,6 +91,7 @@ const BlogPosts: CollectionConfig = {
             },
             {
               name: 'excerpt',
+              label: 'excerpt',
               type: 'textarea',
               required: true,
               localized: true,
@@ -136,7 +138,6 @@ const BlogPosts: CollectionConfig = {
                   defaultValue: false,
                   admin: {
                     width: '50%',
-                    className: 'field-row-checkbox',
                   },
                 },
               ],

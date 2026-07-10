@@ -15,8 +15,11 @@ export function slugField(opts?: {
 }) {
   const titleField = opts?.titleField ?? 'title'
 
+  const fieldName = opts?.fieldName ?? 'slug'
+
   return {
-    name: opts?.fieldName ?? 'slug',
+    name: fieldName,
+    label: fieldName,
     type: 'text' as const,
     required: true,
     unique: true,

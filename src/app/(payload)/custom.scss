@@ -131,8 +131,10 @@ h6 {
 }
 
 /* ── BlogPosts "Featured" checkbox: vertically center within its row
-   next to the taller publishedAt date-picker field ── */
-.field-row-checkbox {
+   next to the taller publishedAt date-picker field. Scoped to the
+   edit-form's row wrapper only (.field-type.row), so it doesn't leak
+   into the list-view table cell for the same field. ── */
+.field-type.row .field-type.checkbox {
   display: flex;
   align-items: center;
   padding-top: calc(var(--base) * 1.5);
@@ -165,6 +167,15 @@ h6 {
   --btn-padding-block-end: 8px;
 }
 
+/* ── "Bulk add from media library" button: tighter/asymmetric spacing ── */
+.btn.gallery-bulk-add-btn {
+  --margin-block: 8px;
+  --btn-padding-block-start: 8px;
+  --btn-padding-block-end: 8px;
+  --btn-padding-inline-start: 10px;
+  --btn-padding-inline-end: 12px;
+}
+
 /* ── Inputs and field labels: use Stack Sans Text ── */
 input,
 textarea,
@@ -173,10 +184,48 @@ select,
   font-family: var(--font-stack-sans-text), sans-serif;
 }
 
+/* ── react-select (relationship/select fields, breadcrumb, locale
+   switcher), popup menus, and the locale switcher: these render their
+   own internal elements that don't inherit font-family by default ── */
+.react-select,
+.rs__control,
+.rs__menu,
+.rs__single-value,
+.rs__input,
+.rs__placeholder,
+.popup-button-list__button,
+.localizer-button,
+.localizer__locale-code {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── Locale switcher: a little breathing room top/bottom ── */
+.localizer-button {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
 /* ── Document title heading: extra padding (font handled by the
    general h1-h6 rule above) ── */
 .doc-header__title {
   padding: calc(var(--base) / 2) 0;
+}
+
+/* ── Upload thumbnails in list-view cells: fit the image within its
+   box instead of cropping/filling it ── */
+.thumbnail img,
+.thumbnail svg {
+  object-fit: contain;
+}
+
+/* ── Cover/icon/logo image columns: show only the thumbnail, not the
+   filename text next to it (scoped to these specific upload columns,
+   not the Media library's own filename column) ── */
+.cell-coverImage .file__filename,
+.cell-icon .file__filename,
+.cell-image .file__filename,
+.cell-logo .file__filename {
+  display: none;
 }
 
 /* ── Destructive action: passkey delete button ── */

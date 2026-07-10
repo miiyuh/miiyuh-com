@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { startAuthentication } from '@simplewebauthn/browser'
 import { Button } from '@payloadcms/ui'
 import { Key } from '@phosphor-icons/react'
@@ -9,8 +9,15 @@ export default function PasskeyLoginButton() {
   const [username, setUsername] = useState('')
   const [status, setStatus] = useState<'idle' | 'pending' | 'error'>('idle')
   const [error, setError] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSignIn = async () => {
+    if (!username) {
+      setError('Enter your username first.')
+      inputRef.current?.focus()
+      return
+    }
+
     setStatus('pending')
     setError('')
 
@@ -75,11 +82,12 @@ export default function PasskeyLoginButton() {
         <div className="field-type__wrap">
           <input
             id="field-passkey-username"
+            ref={inputRef}
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && username) {
+              if (e.key === 'Enter') {
                 e.preventDefault()
                 void handleSignIn()
               }
@@ -92,7 +100,7 @@ export default function PasskeyLoginButton() {
         buttonStyle="secondary"
         size="large"
         type="button"
-        disabled={status === 'pending' || !username}
+        disabled={status === 'pending'}
         onClick={handleSignIn}
         icon={<Key size={18} weight="bold" />}
         iconPosition="left"

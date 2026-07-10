@@ -40,6 +40,7 @@ const AboutPage: CollectionConfig = {
     },
     {
       name: 'title',
+      label: 'title',
       type: 'text',
       required: true,
       index: true,

@@ -35,6 +35,7 @@ const Projects: CollectionConfig = {
       fields: [
         {
           name: 'name',
+          label: 'name',
           type: 'text',
           required: true,
           localized: true,
@@ -68,6 +69,7 @@ const Projects: CollectionConfig = {
     },
     {
       name: 'description',
+      label: 'description',
       type: 'textarea',
       required: true,
       localized: true,

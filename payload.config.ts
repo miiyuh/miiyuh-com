@@ -149,6 +149,15 @@ export default buildConfig({
       ],
     },
   },
+  i18n: {
+    translations: {
+      en: {
+        general: {
+          or: 'or',
+        },
+      },
+    },
+  },
   localization: {
     locales: [
       {
