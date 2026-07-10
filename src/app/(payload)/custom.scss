@@ -103,6 +103,7 @@ html[data-theme="dark"] .btn--primary:hover {
 
 /* ── Button polish: consistent radius/transition + focus ring ── */
 .btn {
+  font-family: var(--font-stack-sans-text), sans-serif;
   transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 
@@ -130,6 +131,12 @@ html[data-theme="dark"] .btn--primary:hover {
   color: var(--theme-text);
   font-size: 1rem;
   font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+.passkey-label-input:focus-visible {
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.3);
+  border-color: rgba(74, 222, 128, 0.5);
+  outline: none;
 }
 
 /* ── "Register a new passkey" button: tighter margin/padding than

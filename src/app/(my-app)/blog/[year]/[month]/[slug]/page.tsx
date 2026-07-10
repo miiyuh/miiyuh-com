@@ -127,7 +127,7 @@ async function PageContent({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.seo?.metaDescription || post.excerpt || undefined,
+    description: post.seo?.metaDescription || post.excerpt || `read ${post.title}`,
     url: canonicalUrl,
     datePublished: publishedAtDate ? publishedAtDate.toISOString() : undefined,
     dateModified: publishedAtDate ? publishedAtDate.toISOString() : undefined,

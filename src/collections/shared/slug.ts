@@ -23,7 +23,7 @@ export function slugField(opts?: {
     index: true,
     admin: {
       ...(opts?.width ? { width: opts.width } : {}),
-      description: 'URL-friendly identifier (auto-generated from title)',
+      description: `URL-friendly identifier (auto-generated from ${titleField})`,
     },
     hooks: {
       beforeValidate: [
