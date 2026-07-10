@@ -1,6 +1,6 @@
 'use client'
 
-import { MagnifyingGlass } from '@phosphor-icons/react'
+import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 
 export default function BlogPostsSkeleton() {
   return (
@@ -8,7 +8,7 @@ export default function BlogPostsSkeleton() {
       <div className="pb-8">
         <div className="space-y-4">
           <div className="relative">
-            <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted opacity-50" />
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted opacity-50" />
             <div className="w-full h-10 bg-white/5 rounded-lg animate-pulse" />
           </div>
 

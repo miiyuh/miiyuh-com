@@ -1,4 +1,4 @@
-import { Spinner as SpinnerIcon } from "@phosphor-icons/react";
+import { SpinnerIcon } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 

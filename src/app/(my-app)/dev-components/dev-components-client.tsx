@@ -30,7 +30,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Info, CheckCircle, Warning, XCircle, Tray, DotsThree, TextB, TextItalic, TextUnderline, FolderOpen } from "@phosphor-icons/react"
+import { InfoIcon, CheckCircleIcon, WarningIcon, XCircleIcon, TrayIcon, DotsThreeIcon, TextBIcon, TextItalicIcon, TextUnderlineIcon, FolderOpenIcon } from "@phosphor-icons/react"
 import { HeadingWithHash } from "@/components/ui/heading-with-hash"
 import { DevPageShell } from "@/components/ui/dev-page-shell"
 import { SECTION_TITLE, SECTION_SUB } from "@/config/dev-pages"
@@ -128,22 +128,22 @@ export default function ComponentsLabPage() {
           </CardHeader>
           <CardPanel className="space-y-3">
             <Alert>
-              <Info className="size-4" />
+              <InfoIcon className="size-4" />
               <AlertTitle>Default Alert</AlertTitle>
               <AlertDescription>This is a default alert with an info icon.</AlertDescription>
             </Alert>
             <Alert variant="success">
-              <CheckCircle className="size-4" />
+              <CheckCircleIcon className="size-4" />
               <AlertTitle>Success</AlertTitle>
               <AlertDescription>Your changes have been saved successfully.</AlertDescription>
             </Alert>
             <Alert variant="warning">
-              <Warning className="size-4" />
+              <WarningIcon className="size-4" />
               <AlertTitle>Warning</AlertTitle>
               <AlertDescription>Heads up! Something needs attention.</AlertDescription>
             </Alert>
             <Alert variant="error">
-              <XCircle className="size-4" />
+              <XCircleIcon className="size-4" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>We could not process that request.</AlertDescription>
             </Alert>
@@ -163,6 +163,9 @@ export default function ComponentsLabPage() {
             </Avatar>
             <Avatar className="size-8">
               <AvatarFallback>SM</AvatarFallback>
+            </Avatar>
+            <Avatar className="size-12">
+              <AvatarFallback>MD</AvatarFallback>
             </Avatar>
             <Avatar className="size-14">
               <AvatarFallback>LG</AvatarFallback>
@@ -289,7 +292,7 @@ export default function ComponentsLabPage() {
             <Empty>
               <EmptyHeader>
                 <EmptyMedia variant="icon">
-                  <Tray className="size-5" />
+                  <TrayIcon className="size-5" />
                 </EmptyMedia>
                 <EmptyTitle>No messages</EmptyTitle>
                 <EmptyDescription>
@@ -302,7 +305,7 @@ export default function ComponentsLabPage() {
             <Empty>
               <EmptyHeader>
                 <EmptyMedia variant="icon">
-                  <FolderOpen className="size-5" />
+                  <FolderOpenIcon className="size-5" />
                 </EmptyMedia>
                 <EmptyTitle>No projects</EmptyTitle>
                 <EmptyDescription>
@@ -419,7 +422,7 @@ export default function ComponentsLabPage() {
             <Menu>
               <MenuTrigger asChild>
                 <Button variant="outline">
-                  Options <DotsThree className="ml-2 size-4" />
+                  Options <DotsThreeIcon className="ml-2 size-4" />
                 </Button>
               </MenuTrigger>
               <MenuPopup>
@@ -722,18 +725,18 @@ export default function ComponentsLabPage() {
           <CardPanel className="space-y-4">
             <div className="flex flex-wrap gap-2">
               <Toggle variant="outline" aria-label="Toggle bold">
-                <TextB className="size-4" />
+                <TextBIcon className="size-4" />
               </Toggle>
               <Toggle variant="outline" aria-label="Toggle italic">
-                <TextItalic className="size-4" />
+                <TextItalicIcon className="size-4" />
               </Toggle>
               <Toggle variant="outline" aria-label="Toggle underline">
-                <TextUnderline className="size-4" />
+                <TextUnderlineIcon className="size-4" />
               </Toggle>
             </div>
             <div className="flex items-center gap-3 text-sm text-text-secondary">
               <Toggle variant="outline" pressed={boldEnabled} onPressedChange={setBoldEnabled}>
-                <TextB className="size-4" />
+                <TextBIcon className="size-4" />
               </Toggle>
               <span>Controlled: {boldEnabled ? "Bold ON" : "Bold OFF"}</span>
             </div>
@@ -785,7 +788,7 @@ export default function ComponentsLabPage() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <Info className="size-4" />
+                  <InfoIcon className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -796,7 +799,7 @@ export default function ComponentsLabPage() {
             <Tooltip openDelay={0}>
               <TooltipTrigger asChild>
                 <Button variant="destructive" size="icon" aria-label="Error">
-                  <XCircle className="size-4" />
+                  <XCircleIcon className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

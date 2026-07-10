@@ -61,6 +61,24 @@
   src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
 }
 
+/* Text-highlight hover effect: a marker-style background box behind the
+   text (instead of just recoloring the text itself). box-decoration-break:
+   clone keeps the highlight properly boxed per line if the text wraps.
+   Works both as a direct hover target (nav links) and as a descendant of
+   a .group ancestor (card titles hovered via the whole card). */
+.text-highlight {
+  transition: background-color 0.2s ease;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding-inline: 0.2em;
+  margin-inline: -0.2em;
+}
+
+.text-highlight:hover,
+.group:hover .text-highlight {
+  background-color: var(--accent-primary);
+}
+
 /* Base styles - Stack Sans Text for everything by default */
 html {
   font-family: var(--font-stack-sans-text);

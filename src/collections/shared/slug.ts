@@ -19,7 +19,7 @@ export function slugField(opts?: {
 
   return {
     name: fieldName,
-    label: fieldName,
+    label: fieldName.charAt(0).toUpperCase() + fieldName.slice(1),
     type: 'text' as const,
     required: true,
     unique: true,

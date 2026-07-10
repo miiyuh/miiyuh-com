@@ -74,7 +74,7 @@ const BlogPosts: CollectionConfig = {
               fields: [
                 {
                   name: 'title',
-                  label: 'title',
+                  label: 'Title',
                   type: 'text',
                   required: true,
                   localized: true,
@@ -91,7 +91,7 @@ const BlogPosts: CollectionConfig = {
             },
             {
               name: 'excerpt',
-              label: 'excerpt',
+              label: 'Excerpt',
               type: 'textarea',
               required: true,
               localized: true,

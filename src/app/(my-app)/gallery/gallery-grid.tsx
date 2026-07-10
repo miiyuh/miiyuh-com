@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
 
 import { useWebHaptics } from "web-haptics/react";
 import type {
@@ -84,13 +84,13 @@ export default function GalleryGrid({
                 {/* Content */}
                 <div className="px-2 pb-2 flex flex-col relative z-40">
                   <div className="flex items-start justify-between mb-2">
-                    <h2 className="text-2xl font-notch text-text-primary group-hover:text-accent-primary transition-colors">
-                      {collection.title}
+                    <h2 className="text-2xl font-notch text-text-primary transition-colors">
+                      <span className="text-highlight">{collection.title}</span>
                       {(collection.slug.includes("japan") || collection.slug.includes("2025")) && (
                         <span className="font-emoji ml-2 inline-block">🇯🇵</span>
                       )}
                     </h2>
-                    <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                    <ArrowUpRightIcon className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </div>
 
                   <p className="text-text-secondary text-sm line-clamp-2">

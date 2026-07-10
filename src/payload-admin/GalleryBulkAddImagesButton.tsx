@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import { Button, useField, useListDrawer } from '@payloadcms/ui'
-import { Images } from '@phosphor-icons/react'
+import { ImagesIcon } from '@phosphor-icons/react'
 
 type ImageRow = {
   image: string
@@ -42,7 +42,7 @@ export default function GalleryBulkAddImagesButton() {
         type="button"
         className="gallery-bulk-add-btn"
         onClick={() => openDrawer()}
-        icon={<Images size={16} />}
+        icon={<ImagesIcon size={16} />}
         iconPosition="left"
       >
         Bulk add from media library

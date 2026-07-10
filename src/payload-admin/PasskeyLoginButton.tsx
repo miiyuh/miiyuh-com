@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react'
 import { startAuthentication } from '@simplewebauthn/browser'
 import { Button } from '@payloadcms/ui'
-import { Key } from '@phosphor-icons/react'
+import { KeyIcon } from '@phosphor-icons/react'
 
 export default function PasskeyLoginButton() {
   const [username, setUsername] = useState('')
@@ -102,7 +102,7 @@ export default function PasskeyLoginButton() {
         type="button"
         disabled={status === 'pending'}
         onClick={handleSignIn}
-        icon={<Key size={18} weight="bold" />}
+        icon={<KeyIcon size={18} weight="bold" />}
         iconPosition="left"
       >
         {status === 'pending' ? 'Waiting for passkey…' : 'Sign in with a passkey'}

@@ -5,14 +5,14 @@ import Image from 'next/image'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { breadcrumbs } from '@/config/breadcrumbs'
 import {
-  ArrowLeft,
-  ArrowUpRight,
-  Rocket,
-  GraduationCap,
-  GithubLogo,
-  ArrowSquareOut,
-  Calendar,
-  BookOpen,
+  ArrowLeftIcon,
+  ArrowUpRightIcon,
+  RocketIcon,
+  GraduationCapIcon,
+  GithubLogoIcon,
+  ArrowSquareOutIcon,
+  CalendarIcon,
+  BookOpenIcon,
 } from '@phosphor-icons/react'
 
 interface ProjectDetailProps {
@@ -47,9 +47,9 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
   const getCategoryIcon = () => {
     switch (project.category) {
       case 'side-project':
-        return <Rocket className="w-5 h-5 text-accent-primary" />
+        return <RocketIcon className="w-5 h-5 text-accent-primary" />
       case 'university-project':
-        return <GraduationCap className="w-5 h-5 text-blue-400" />
+        return <GraduationCapIcon className="w-5 h-5 text-blue-400" />
     }
   }
 
@@ -109,7 +109,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
               href="/projects"
               className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary transition-colors mb-12"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeftIcon className="w-4 h-4" />
               back to projects
             </Link>
 
@@ -176,7 +176,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/8 transition-colors"
                     >
-                      <GithubLogo weight="fill" className="w-4 h-4" />
+                      <GithubLogoIcon weight="fill" className="w-4 h-4" />
                       View Source
                     </a>
                   )}
@@ -187,7 +187,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary rounded-xl border border-accent-primary/20 transition-colors"
                     >
-                      <ArrowSquareOut className="w-4 h-4" />
+                      <ArrowSquareOutIcon className="w-4 h-4" />
                       View Live
                     </a>
                   )}
@@ -220,13 +220,13 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {project.universityDetails?.course && (
                       <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-blue-400" />
+                        <BookOpenIcon className="w-4 h-4 text-blue-400" />
                         <span className="text-sm text-text-secondary">{project.universityDetails.course}</span>
                       </div>
                     )}
                     {project.universityDetails?.semester && (
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-blue-400" />
+                        <CalendarIcon className="w-4 h-4 text-blue-400" />
                         <span className="text-sm text-text-secondary">{project.universityDetails.semester}</span>
                       </div>
                     )}
@@ -248,7 +248,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-xl border border-blue-500/20 transition-colors"
                   >
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRightIcon className="w-4 h-4" />
                     View Project
                   </a>
                 )}

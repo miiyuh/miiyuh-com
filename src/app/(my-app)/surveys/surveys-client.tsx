@@ -1,9 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
-import { breadcrumbs } from '@/config/breadcrumbs'
-import { ArrowRight, Clipboard, Chat } from '@phosphor-icons/react'
+import { ArrowUpRightIcon, ClipboardTextIcon, ChatCircleDotsIcon } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 
 function timeAgo(dateString: string): string {
@@ -26,6 +24,7 @@ interface Survey {
   title: string
   slug: string
   fieldCount: number
+  estimatedMinutes: number
   createdAt: string
 }
 
@@ -35,75 +34,57 @@ interface SurveysClientProps {
 
 export default function SurveysClient({ surveys }: SurveysClientProps) {
   const haptic = useWebHaptics()
+
+  if (surveys.length === 0) {
+    return (
+      <div className="border border-dashed border-white/8 rounded-lg py-20 text-center">
+        <ChatCircleDotsIcon className="w-12 h-12 mx-auto text-text-muted mb-4" />
+        <p className="text-text-muted mb-2">nothing in the tray — check back for new surveys</p>
+        <p className="text-sm text-text-muted/60">surveys appear here when they&apos;re ready for responses.</p>
+      </div>
+    )
+  }
+
   return (
-    <main className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
-      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24 min-h-[70vh]">
-        <div>
-          {/* Breadcrumb Navigation */}
-          <SimpleBreadcrumb items={breadcrumbs.surveys()} />
-          
+    <div className="space-y-3">
+      {surveys.map((survey, index) => (
+        <Link
+          key={survey.id}
+          href={`/surveys/${survey.slug}`}
+          className="group block content-auto-sm animate-stagger-item"
+          style={{ '--i': Math.min(index, 9) } as React.CSSProperties}
+          onClick={() => haptic.trigger('medium')}
+        >
+          <div className="relative flex items-center gap-4 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
+            <div className="shrink-0 w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center group-hover:bg-accent-primary/15 transition-colors">
+              <ClipboardTextIcon className="w-5 h-5 text-accent-primary" />
+            </div>
 
-          {/* Header Section */}
-          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
-              surveys
-            </h1>
-            <p className="text-lg md:text-xl text-text-secondary text-pretty">
-              help me understand what matters to you. take a quick survey and share your feedback.
-            </p>
-          </div>
-
-          {/* Surveys List */}
-          <div>
-            {surveys.length > 0 ? (
-              <div className="space-y-3">
-                {surveys.map((survey) => (
-                  <Link
-                    key={survey.id}
-                    href={`/surveys/${survey.slug}`}
-                    className="group block"
-                    onClick={() => haptic.trigger('medium')}
-                  >
-                    <div className="flex items-center gap-4 p-4 rounded-lg border border-white/8 bg-white/2 shadow-sm hover:bg-white/5 hover:border-white/12 hover:shadow-md transition-all duration-300">
-                      {/* Icon */}
-                      <div className="shrink-0 w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center group-hover:bg-accent-primary/15 transition-colors">
-                        <Clipboard className="w-5 h-5 text-accent-primary" />
-                      </div>
-                      
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <h2 className="text-base font-medium text-text-primary group-hover:text-accent-primary transition-colors">
-                          {survey.title}
-                        </h2>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <p className="text-xs text-text-muted/60">
-                            {survey.fieldCount} {survey.fieldCount === 1 ? 'question' : 'questions'}
-                          </p>
-                          <span className="text-xs text-text-muted/40">·</span>
-                          <p className="text-xs text-text-muted/40">
-                            {timeAgo(survey.createdAt)}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Arrow */}
-                      <div className="shrink-0 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 transition-all">
-                        <ArrowRight className="w-5 h-5" />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+            <div className="flex-1 min-w-0">
+              <h2 className="text-base font-medium text-text-primary transition-colors">
+                <span className="text-highlight">{survey.title}</span>
+              </h2>
+              <div className="flex items-center gap-2 mt-0.5">
+                <p className="text-xs text-text-muted/60">
+                  {survey.fieldCount} {survey.fieldCount === 1 ? 'question' : 'questions'}
+                </p>
+                <span className="text-xs text-text-muted/40">·</span>
+                <p className="text-xs text-text-muted/60">
+                  ~{survey.estimatedMinutes} min
+                </p>
+                <span className="text-xs text-text-muted/40">·</span>
+                <p className="text-xs text-text-muted/40">
+                  {timeAgo(survey.createdAt)}
+                </p>
               </div>
-            ) : (
-              <div className="border border-dashed border-white/8 rounded-lg py-20 text-center">
-                <Chat className="w-12 h-12 mx-auto text-text-muted mb-4" />
-                <p className="text-text-muted mb-2">nothing in the tray — check back for new surveys</p>
-                <p className="text-sm text-text-muted/60">surveys appear here when they&apos;re ready for responses.</p>
-              </div>
-            )}
+            </div>
+
+            <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <ArrowUpRightIcon className="w-5 h-5 text-text-muted" weight="bold" />
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </Link>
+      ))}
+    </div>
   )
 }

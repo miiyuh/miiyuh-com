@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { startRegistration } from '@simplewebauthn/browser'
 import { useAuth, useDocumentInfo, Button } from '@payloadcms/ui'
-import { Key, PencilSimple, Trash } from '@phosphor-icons/react'
+import { KeyIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react'
 
 type PasskeyRow = {
   credentialID: string
@@ -182,7 +182,7 @@ export default function RegisterPasskeyButton() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(var(--base) / 2)' }}>
-                <Key size={18} />
+                <KeyIcon size={18} />
                 <div>
                   <div>
                     {passkey.label || `${passkey.deviceType || 'Passkey'} · ${passkey.credentialID.slice(0, 6)}`}
@@ -201,7 +201,7 @@ export default function RegisterPasskeyButton() {
                   type="button"
                   disabled={renamingId === passkey.credentialID}
                   onClick={() => handleRename(passkey.credentialID, passkey.label || '')}
-                  icon={<PencilSimple size={16} />}
+                  icon={<PencilSimpleIcon size={16} />}
                   aria-label="Rename passkey"
                 />
                 <Button
@@ -211,7 +211,7 @@ export default function RegisterPasskeyButton() {
                   className="passkey-delete-btn"
                   disabled={deletingId === passkey.credentialID}
                   onClick={() => handleDelete(passkey.credentialID)}
-                  icon={<Trash size={16} />}
+                  icon={<TrashIcon size={16} />}
                   aria-label="Remove passkey"
                 />
               </div>
@@ -237,7 +237,7 @@ export default function RegisterPasskeyButton() {
           className="passkey-register-btn"
           disabled={registerStatus === 'pending'}
           onClick={handleRegister}
-          icon={<Key size={16} />}
+          icon={<KeyIcon size={16} />}
           iconPosition="left"
         >
           {registerStatus === 'pending' ? 'Waiting for passkey…' : 'Register a new passkey'}

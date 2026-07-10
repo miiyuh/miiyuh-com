@@ -110,8 +110,8 @@ export default function HomeHero() {
               onClick={() => haptic.trigger("medium")}
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-                <h3 className="font-notch text-xl text-text-primary group-hover:text-accent-primary transition-colors">
-                  {link.label}
+                <h3 className="font-notch text-xl text-text-primary transition-colors">
+                  <span className="text-highlight">{link.label}</span>
                 </h3>
                 <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" aria-hidden="true" />
               </div>

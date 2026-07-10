@@ -80,9 +80,25 @@ export default buildConfig({
     dateFormat: "yyyy-MM-dd HH:mm '(MYT)'",
     meta: {
       titleSuffix: ' - miiyuh.com CMS',
-      icons: {
-        icon: '/assets/img/favicons/favicon-32x32.png',
-      },
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          url: '/assets/img/favicons/favicon-16x16.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          url: '/assets/img/favicons/favicon-32x32.png',
+        },
+        {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          url: '/assets/img/favicons/apple-touch-icon.png',
+        },
+      ],
     },
     components: {
       graphics: {

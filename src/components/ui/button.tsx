@@ -31,7 +31,7 @@ const buttonVariants = cva(
       },
       variant: {
         default:
-          "border-white/80 bg-white text-black shadow-sm hover:bg-white/90 hover:border-white/90 active:shadow-none data-pressed:shadow-none",
+          "border-[#faf3e0]/80 bg-[#faf3e0] text-black shadow-sm hover:bg-[#faf3e0]/90 hover:border-[#faf3e0]/90 active:shadow-none data-pressed:shadow-none",
         destructive:
           "border-red-500 bg-red-500 text-white shadow-sm hover:bg-red-400 hover:border-red-400 active:shadow-none data-pressed:shadow-none",
         "destructive-outline":

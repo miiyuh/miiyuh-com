@@ -9,9 +9,7 @@ import { RefreshRouteOnSave } from '@/components/live-preview'
 import { SurveySkeleton } from './survey-skeleton'
 import { getAllForms } from '@/utils/forms'
 import { slugify } from '@/utils/slugify'
-import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
-import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
-import { Question } from '@phosphor-icons/react/dist/ssr/Question'
+import { ArrowLeftIcon, ClockIcon, QuestionIcon } from '@phosphor-icons/react/dist/ssr'
 
 type SurveyPageProps = {
   params: Promise<{
@@ -55,7 +53,7 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
       <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24 min-h-[70vh]">
         <div>
           {/* Breadcrumb Navigation */}
-          <SimpleBreadcrumb items={breadcrumbs.surveyDetail(slug)} />
+          <SimpleBreadcrumb items={breadcrumbs.surveyDetail(form.title)} className="-mx-8 px-8 md:mx-0 md:px-0" />
           
 
           {/* Header Section */}
@@ -69,11 +67,11 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
             {/* Quick Info */}
             <div className="flex flex-wrap gap-4 text-sm text-text-muted">
               <div className="flex items-center gap-1.5">
-                <Question className="size-4" />
+                <QuestionIcon className="size-4" />
                 <span>{fieldCount} {fieldCount === 1 ? 'question' : 'questions'}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Clock className="size-4" />
+                <ClockIcon className="size-4" />
                 <span>~{Math.max(1, Math.ceil(fieldCount / 3))} min</span>
               </div>
             </div>
@@ -92,7 +90,7 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
                 href="/surveys"
                 className="inline-flex items-center gap-2 mt-8 text-sm text-text-muted hover:text-text-primary transition-colors group"
               >
-                <ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
+                <ArrowLeftIcon className="size-4 group-hover:-translate-x-1 transition-transform" />
                 <span>back to all surveys</span>
               </Link>
             </div>

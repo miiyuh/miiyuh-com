@@ -34,6 +34,27 @@ const nextConfig = {
         source: '/.well-known/api-catalog',
         destination: '/.well-known/api-catalog.json',
       },
+      // Browsers (Chrome in particular) probe these conventional root-level
+      // favicon paths directly, independent of whatever <link rel="icon">
+      // tags the page declares. Our favicons live under /assets/img/favicons/,
+      // so without this the probes 404 (logged repeatedly per tab session,
+      // especially while sitting on the admin panel).
+      {
+        source: '/favicon-16x16.png',
+        destination: '/assets/img/favicons/favicon-16x16.png',
+      },
+      {
+        source: '/favicon-32x32.png',
+        destination: '/assets/img/favicons/favicon-32x32.png',
+      },
+      {
+        source: '/apple-touch-icon.png',
+        destination: '/assets/img/favicons/apple-touch-icon.png',
+      },
+      {
+        source: '/apple-touch-icon-precomposed.png',
+        destination: '/assets/img/favicons/apple-touch-icon.png',
+      },
     ];
   },
 

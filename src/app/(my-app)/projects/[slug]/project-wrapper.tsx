@@ -1,14 +1,14 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { Spinner } from '@phosphor-icons/react'
+import { SpinnerIcon } from '@phosphor-icons/react'
 
 // Dynamic import to avoid DOMMatrix SSG issue from react-pdf
 const ProjectDetailClient = dynamic(() => import('./project-detail-client'), {
   ssr: false,
   loading: () => (
     <div className="min-h-screen flex items-center justify-center">
-      <Spinner weight="bold" className="size-8 animate-spin text-muted-foreground" />
+      <SpinnerIcon weight="bold" className="size-8 animate-spin text-muted-foreground" />
     </div>
   ),
 })
