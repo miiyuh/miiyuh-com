@@ -74,7 +74,7 @@ const Papers: CollectionConfig = {
                     width: '50%',
                     date: {
                       pickerAppearance: 'dayAndTime',
-                      displayFormat: 'yyyy-MM-dd HH:mm',
+                      displayFormat: "yyyy-MM-dd HH:mm '(MYT)'",
                     },
                   },
                 },

@@ -86,11 +86,6 @@ html[data-theme="dark"] .btn--primary:hover {
   display: none;
 }
 
-/* ── Admin font: match the public site's Stack Sans ── */
-body {
-  font-family: var(--font-stack-sans-text), sans-serif;
-}
-
 /* ── Button polish: consistent radius/transition + focus ring ── */
 .btn {
   transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;

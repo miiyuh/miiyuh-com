@@ -31,7 +31,9 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    <div className={stackSansText.variable}>{children}</div>
+    <div className={stackSansText.variable} style={{ fontFamily: 'var(--font-stack-sans-text), sans-serif' }}>
+      {children}
+    </div>
   </RootLayout>
 )
 
