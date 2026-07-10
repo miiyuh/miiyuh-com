@@ -70,8 +70,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "page not found - miiyuh.com" };
   }
 
-  const title = `${post.title} - miiyuh.com`;
-  const description = post.excerpt || post.seo?.metaDescription || `read ${post.title}`;
+  const title = post.seo?.metaTitle || `${post.title} - miiyuh.com`;
+  const description = post.seo?.metaDescription || post.excerpt || `read ${post.title}`;
   const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
 
   return {
@@ -127,7 +127,7 @@ async function PageContent({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.excerpt || post.seo?.metaDescription || undefined,
+    description: post.seo?.metaDescription || post.excerpt || undefined,
     url: canonicalUrl,
     datePublished: publishedAtDate ? publishedAtDate.toISOString() : undefined,
     dateModified: publishedAtDate ? publishedAtDate.toISOString() : undefined,

@@ -5,6 +5,7 @@ import '@payloadcms/next/css'
 import type { ServerFunctionClient } from 'payload'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import React from 'react'
+import { Stack_Sans_Text } from 'next/font/google'
 
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
@@ -12,6 +13,12 @@ import './custom.scss'
 type Args = {
   children: React.ReactNode
 }
+
+const stackSansText = Stack_Sans_Text({
+  subsets: ['latin'],
+  variable: '--font-stack-sans-text',
+  display: 'swap',
+})
 
 const serverFunction: ServerFunctionClient = async function (args) {
   'use server'
@@ -24,7 +31,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    {children}
+    <div className={stackSansText.variable}>{children}</div>
   </RootLayout>
 )
 

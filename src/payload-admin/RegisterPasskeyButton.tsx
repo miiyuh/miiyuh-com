@@ -219,18 +219,16 @@ export default function RegisterPasskeyButton() {
         </ul>
       )}
 
-      <div style={{ display: 'flex', gap: 'calc(var(--base) / 2)', alignItems: 'flex-start' }}>
-        <div className="field-type text" style={{ flex: '1 1 auto', margin: 0 }}>
-          <div className="field-type__wrap">
-            <input
-              type="text"
-              aria-label="New passkey label"
-              placeholder="Label (e.g. Work laptop)"
-              value={newLabel}
-              onChange={(e) => setNewLabel(e.target.value)}
-            />
-          </div>
-        </div>
+      <div style={{ display: 'flex', gap: 'calc(var(--base) / 2)', alignItems: 'center' }}>
+        <input
+          type="text"
+          aria-label="New passkey label"
+          placeholder="Label (e.g. Work laptop)"
+          value={newLabel}
+          onChange={(e) => setNewLabel(e.target.value)}
+          className="passkey-label-input"
+          style={{ flex: '1 1 auto' }}
+        />
         <Button
           buttonStyle="secondary"
           size="small"

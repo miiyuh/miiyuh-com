@@ -124,7 +124,7 @@ export default buildConfig({
         return url
       },
       collections: ['blog-posts', 'projects', 'gallery-collections', 'surveys'],
-      globals: ['privacy-policy', 'terms-of-service', 'resume'],
+      globals: ['privacy-policy', 'terms-of-service'],
       breakpoints: [
         {
           label: 'Mobile',
@@ -161,8 +161,8 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
-  collections: [Users, Media, GalleryCollections, BlogPosts, Projects, Papers, AboutPage],
-  globals: [PrivacyPolicy, TermsOfService, Resume],
+  collections: [Users, Papers, AboutPage, BlogPosts, Projects, GalleryCollections, Media],
+  globals: [Resume, PrivacyPolicy, TermsOfService],
   plugins: [
     formBuilderPlugin({
       fields: {

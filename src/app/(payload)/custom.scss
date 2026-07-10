@@ -79,3 +79,44 @@ html[data-theme="dark"] .btn--primary {
 html[data-theme="dark"] .btn--primary:hover {
   box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.6);
 }
+
+/* ── Hide the "— English" locale suffix on localized field labels;
+   the active locale is already shown in the top-right locale switcher ── */
+.field-label .localized {
+  display: none;
+}
+
+/* ── Admin font: match the public site's Stack Sans ── */
+body {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── Button polish: consistent radius/transition + focus ring ── */
+.btn {
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4);
+  outline: none;
+}
+
+/* ── BlogPosts "Featured" checkbox: vertically center within its row
+   next to the taller publishedAt date-picker field ── */
+.field-row-checkbox {
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--base) * 1.5);
+}
+
+/* ── Passkey label input (RegisterPasskeyButton): match native input
+   styling without the field-type wrapper's reserved label spacing ── */
+.passkey-label-input {
+  height: 40px;
+  padding: 0 calc(var(--base) / 2);
+  background: var(--theme-input-bg);
+  border: 1px solid var(--theme-border-color);
+  border-radius: 4px;
+  color: var(--theme-text);
+  font-size: 1rem;
+}

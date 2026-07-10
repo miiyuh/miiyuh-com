@@ -24,10 +24,6 @@ const Papers: CollectionConfig = {
       defaultLimit: 10,
       limits: [5, 10, 20, 50],
     },
-    preview: (doc) => {
-      if (!doc?.slug) return ''
-      return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/papers/${doc.slug}`
-    },
   },
   versions: {
     drafts: true,
@@ -71,12 +67,14 @@ const Papers: CollectionConfig = {
                 {
                   name: 'publishedDate',
                   type: 'date',
+                  label: 'Published date',
                   required: true,
                   index: true,
                   admin: {
                     width: '50%',
                     date: {
                       pickerAppearance: 'dayAndTime',
+                      displayFormat: 'yyyy-MM-dd HH:mm',
                     },
                   },
                 },
@@ -114,6 +112,7 @@ const Papers: CollectionConfig = {
               name: 'pdfFile',
               type: 'upload',
               relationTo: 'media',
+              label: 'PDF file',
               required: true,
               filterOptions: {
                 mimeType: { contains: 'pdf' },
@@ -122,7 +121,7 @@ const Papers: CollectionConfig = {
             {
               name: 'supplementaryFiles',
               type: 'array',
-              label: 'Supplementary Files',
+              label: 'Supplementary files',
               fields: [
                 {
                   name: 'file',
@@ -140,6 +139,7 @@ const Papers: CollectionConfig = {
             {
               name: 'externalLink',
               type: 'text',
+              label: 'External link',
             },
           ],
         },
@@ -172,6 +172,7 @@ const Papers: CollectionConfig = {
             {
               name: 'citationCount',
               type: 'number',
+              label: 'Citation count',
               admin: {
                 step: 1,
               },

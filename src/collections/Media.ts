@@ -57,12 +57,18 @@ const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Describes the image for screen readers and accessibility. Required for every upload.',
+      },
     },
     {
       name: 'caption',
       type: 'textarea',
       required: false,
       localized: true,
+      admin: {
+        description: 'Optional visible caption or credit shown beneath the image where it is displayed on the site.',
+      },
     },
     {
       name: 'focalPoint',
