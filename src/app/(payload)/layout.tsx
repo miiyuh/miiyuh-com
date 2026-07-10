@@ -20,6 +20,12 @@ const stackSansText = localFont({
   display: 'swap',
 })
 
+const stackSansNotch = localFont({
+  src: '../../assets/fonts/StackSansNotch-VariableFont_wght.ttf',
+  variable: '--font-stack-sans-notch',
+  display: 'swap',
+})
+
 const serverFunction: ServerFunctionClient = async function (args) {
   'use server'
   return handleServerFunctions({
@@ -31,7 +37,10 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    <div className={stackSansText.variable} style={{ fontFamily: 'var(--font-stack-sans-text), sans-serif' }}>
+    <div
+      className={`${stackSansText.variable} ${stackSansNotch.variable}`}
+      style={{ fontFamily: 'var(--font-stack-sans-text), sans-serif' }}
+    >
       {children}
     </div>
   </RootLayout>

@@ -86,6 +86,21 @@ html[data-theme="dark"] .btn--primary:hover {
   display: none;
 }
 
+/* ── Sidebar nav groups: always expanded, no collapse toggle ── */
+.nav-group__toggle {
+  cursor: default;
+  pointer-events: none;
+}
+
+.nav-group__indicator {
+  display: none;
+}
+
+.nav-group__content {
+  height: auto !important;
+  overflow: visible !important;
+}
+
 /* ── Button polish: consistent radius/transition + focus ring ── */
 .btn {
   transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
@@ -114,4 +129,27 @@ html[data-theme="dark"] .btn--primary:hover {
   border-radius: 4px;
   color: var(--theme-text);
   font-size: 1rem;
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── "Register a new passkey" button: tighter margin/padding than
+   Payload's default button spacing ── */
+.btn.passkey-register-btn {
+  --margin-block: 8px;
+  --btn-padding-block-start: 8px;
+  --btn-padding-block-end: 8px;
+}
+
+/* ── Inputs and field labels: use Stack Sans Text ── */
+input,
+textarea,
+select,
+.field-label {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── Document title heading: Stack Sans Notch + extra padding ── */
+.doc-header__title {
+  font-family: var(--font-stack-sans-notch), sans-serif;
+  padding: calc(var(--base) / 2) 0;
 }

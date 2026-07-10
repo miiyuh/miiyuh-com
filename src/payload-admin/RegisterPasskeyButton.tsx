@@ -233,6 +233,7 @@ export default function RegisterPasskeyButton() {
           buttonStyle="secondary"
           size="small"
           type="button"
+          className="passkey-register-btn"
           disabled={registerStatus === 'pending'}
           onClick={handleRegister}
           icon={<Key size={16} />}
