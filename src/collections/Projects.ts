@@ -26,6 +26,7 @@ const Projects: CollectionConfig = {
       limits: [5, 10, 20, 50],
     },
   },
+  orderable: true,
   versions: {
     drafts: true,
   },
@@ -167,12 +168,6 @@ const Projects: CollectionConfig = {
           type: 'text',
         },
       ],
-    },
-    {
-      name: 'order',
-      type: 'number',
-      index: true,
-      defaultValue: 0,
     },
     {
       name: 'externalLink',

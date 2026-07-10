@@ -8,7 +8,7 @@ export default async function ProjectsSection() {
   const { docs } = await payload.find({
     collection: 'projects',
     depth: 1,
-    sort: 'order',
+    sort: '_order',
     limit: 100,
     where: {
       category: {
@@ -31,7 +31,6 @@ export default async function ProjectsSection() {
           ? { url: project.image.url ?? undefined, alt: project.image.alt }
           : undefined
         : undefined,
-      order: project.order || 0,
       externalLink: project.externalLink ?? undefined,
     }
 

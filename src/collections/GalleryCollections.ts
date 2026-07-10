@@ -96,7 +96,7 @@ const GalleryCollections: CollectionConfig = {
             {
               name: 'images',
               type: 'array',
-              label: 'Album Images',
+              label: 'Album images',
               labels: {
                 singular: 'Image',
                 plural: 'Images',

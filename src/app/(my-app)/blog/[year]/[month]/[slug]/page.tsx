@@ -199,7 +199,7 @@ async function PageContent({ params }: PageProps) {
             </div>
 
             {post.excerpt && (
-              <p className="text-md text-secondary font-serif italic">
+              <p className="text-md text-secondary italic" style={{ fontFamily: 'var(--font-noto-sans), sans-serif' }}>
                 {post.excerpt}
               </p>
             )}

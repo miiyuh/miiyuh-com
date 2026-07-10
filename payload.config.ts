@@ -154,6 +154,7 @@ export default buildConfig({
       en: {
         general: {
           or: 'or',
+          leaveWithoutSaving: 'Leave without saving?',
         },
       },
     },

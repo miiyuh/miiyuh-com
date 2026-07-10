@@ -72,6 +72,7 @@ const Media: CollectionConfig = {
     },
     {
       name: 'focalPoint',
+      label: 'Focal point',
       type: 'point',
       admin: {
         condition: (data) => {

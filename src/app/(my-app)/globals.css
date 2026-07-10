@@ -341,14 +341,14 @@ img {
 /* Lexical content styling for blog posts */
 .lexical-content {
   font-family:
-    var(--font-faculty-glyphic), "Faculty Glyphic", "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif;
+    var(--font-noto-sans), "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif;
 }
 
 .lexical-content p {
   font-family:
-    var(--font-faculty-glyphic), "Faculty Glyphic", "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), serif !important;
+    var(--font-noto-sans), "Apple Color Emoji",
+    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif !important;
   margin-bottom: 1.25rem;
   line-height: 1.75;
   color: var(--text-primary);

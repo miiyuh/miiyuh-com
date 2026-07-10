@@ -29,7 +29,6 @@ interface Project {
   description: string;
   icon?: { id: string; url?: string; alt?: string };
   image?: { url?: string; alt?: string };
-  order: number;
   externalLink?: string;
   projectDetails?: {
     techStack?: { tech: string }[];

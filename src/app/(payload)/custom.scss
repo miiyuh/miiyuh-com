@@ -1,7 +1,6 @@
-/* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
-/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
-
-/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
+/* Admin panel brand/theme customization for miiyuh.com — this file is
+   hand-authored and safe to edit. Imported by src/app/(payload)/layout.tsx
+   after Payload's own generated CSS, so rules here override core styles. */
 
 :root {
   --payload-theme-elevation-light: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -226,6 +225,42 @@ select,
 .cell-image .file__filename,
 .cell-logo .file__filename {
   display: none;
+}
+
+/* ── Cover/icon/logo image columns: force a square (1:1) box so
+   varying image aspect ratios don't distort the row height ── */
+.cell-coverImage .thumbnail,
+.cell-icon .thumbnail,
+.cell-image .thumbnail,
+.cell-logo .thumbnail {
+  aspect-ratio: 1 / 1;
+  width: auto;
+  height: 100%;
+}
+
+/* ── Modal body text + tab buttons: still missed by the global rules
+   above (modal body has no scoped class to hang a heading rule off of;
+   tab buttons are <button> elements, not headings, despite extending
+   Payload's heading styles internally) ── */
+.confirmation-modal__content p,
+.tabs-field__tab-button {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── Publish/Save button padding mismatch: when a document supports
+   scheduled or locale-specific publishing, PublishButton wraps itself
+   in an extra .btn--withPopup div (for the dropdown chevron), and
+   Payload's own CSS hardcodes that wrapper's margin to 4px — smaller
+   than the ~24px margin-block a plain (unwrapped) button like Save
+   Draft still uses. Restore the same margin so they line up. ── */
+.doc-controls__controls .btn--withPopup {
+  margin-block: calc(var(--base) * 1.2);
+}
+
+/* ── Rich text editor content: Noto Sans, matching the public site's
+   blog post body font ── */
+.ContentEditable__root {
+  font-family: var(--font-noto-sans), sans-serif;
 }
 
 /* ── Destructive action: passkey delete button ── */

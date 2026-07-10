@@ -26,6 +26,7 @@ const AboutPage: CollectionConfig = {
       limits: [10, 20, 50],
     },
   },
+  orderable: true,
   fields: [
     {
       name: 'type',
@@ -106,15 +107,6 @@ const AboutPage: CollectionConfig = {
     {
       name: 'link',
       type: 'text',
-    },
-    {
-      name: 'order',
-      type: 'number',
-      index: true,
-      defaultValue: 0,
-      admin: {
-        description: 'Lower numbers appear first',
-      },
     },
   ],
   hooks: {
