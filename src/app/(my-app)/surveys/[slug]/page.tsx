@@ -7,7 +7,7 @@ import { breadcrumbs } from '@/config/breadcrumbs'
 import { FormBlockServer } from '@/components/forms/form-block'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import { SurveySkeleton } from './survey-skeleton'
-import { getAllForms } from '@/utils/forms'
+import { getAllForms, estimateSurveyMinutes } from '@/utils/forms'
 import { slugify } from '@/utils/slugify'
 import { ArrowLeftIcon, ClockIcon, QuestionIcon } from '@phosphor-icons/react/dist/ssr'
 
@@ -72,7 +72,7 @@ async function SurveyPageContent({ params }: SurveyPageProps) {
               </div>
               <div className="flex items-center gap-1.5">
                 <ClockIcon className="size-4" />
-                <span>~{Math.max(1, Math.ceil(fieldCount / 3))} min</span>
+                <span>~{estimateSurveyMinutes(fieldCount)} min</span>
               </div>
             </div>
           </div>

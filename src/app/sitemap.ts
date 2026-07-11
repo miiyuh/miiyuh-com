@@ -34,6 +34,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         limit: 1000,
         depth: 0,
         pagination: false,
+        where: {
+          _status: { equals: "published" },
+        },
       })
       .catch(() => ({ docs: [] })),
     payload
@@ -42,6 +45,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         limit: 1000,
         depth: 0,
         pagination: false,
+        where: {
+          _status: { equals: "published" },
+        },
       })
       .catch(() => ({ docs: [] })),
     payload

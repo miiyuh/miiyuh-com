@@ -6,18 +6,16 @@
   --payload-theme-elevation-light: 0px 2px 4px rgba(0, 0, 0, 0.1);
   --payload-theme-elevation-dark: 0px 4px 12px rgba(0, 0, 0, 0.15);
 
-  /* next/font/local only scopes these variables to the wrapper <div> in
-     layout.tsx (a Payload-generated file we can't safely edit — see the
-     "DO NOT MODIFY" header there). Popovers/menus render in a portal
-     appended directly to <body>, a sibling of that div, so they can't
-     inherit the variables through normal cascade. Redeclaring the exact
-     same values at :root makes them reachable from anywhere in the
-     document. Values must stay in sync with the font-family strings
-     next/font/local generates in layout.tsx — verify via computed
-     styles if those font declarations ever change. */
-  --font-stack-sans-text: 'stackSansText', 'stackSansText Fallback';
-  --font-stack-sans-notch: 'stackSansNotch', 'stackSansNotch Fallback';
-  --font-noto-sans: 'Noto Sans', 'Noto Sans Fallback';
+  /* next/font/local only scopes --font-stack-sans-text (and its siblings)
+     to the wrapper <div> in layout.tsx (Payload-generated, not editable —
+     see its "DO NOT MODIFY" header), not to <html>/<body>. Popovers/menus
+     render in a portal appended directly to <body>, a sibling of that
+     div, so they can't inherit the variables through normal cascade.
+     SyncAdminFontVariables (payload-admin/SyncAdminFontVariables.tsx,
+     wired up via admin.components.afterNavLinks) reads the *actual*
+     computed values off that div at runtime and copies them here, so
+     there's nothing hardcoded in this file to go stale if the font
+     source files or variable names in layout.tsx ever change. */
 
   /* Payload's own components (popovers, menus, tables, inputs, buttons —
      virtually everything) read their font via this single design-token

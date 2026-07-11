@@ -1,4 +1,4 @@
-import { getAllForms } from '@/utils/forms'
+import { getAllForms, estimateSurveyMinutes } from '@/utils/forms'
 import { slugify } from '@/utils/slugify'
 import SurveysClient from './surveys-client'
 
@@ -13,7 +13,7 @@ export default async function SurveysSection() {
         title: form.title,
         slug: slugify(form.title),
         fieldCount,
-        estimatedMinutes: Math.max(1, Math.ceil(fieldCount / 3)),
+        estimatedMinutes: estimateSurveyMinutes(fieldCount),
         createdAt: form.createdAt,
       }
     })

@@ -12,6 +12,10 @@ export default function PasskeyLoginButton() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSignIn = async () => {
+    if (status === 'pending') {
+      return
+    }
+
     if (!username) {
       setError('Enter your username first.')
       inputRef.current?.focus()
