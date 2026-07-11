@@ -4,6 +4,14 @@ import config from '@payload-config'
 import type { FormDocument } from '@/types/forms'
 
 /**
+ * Rough reading-time estimate for a survey: ~3 fields per minute, floored
+ * at 1 minute so an empty/single-field form doesn't display "~0 min".
+ */
+export function estimateSurveyMinutes(fieldCount: number): number {
+  return Math.max(1, Math.ceil(fieldCount / 3))
+}
+
+/**
  * Fetch all available surveys via the Payload local API.
  * Server-side only — avoids an HTTP round-trip to our own /api routes.
  */

@@ -14,7 +14,7 @@ import {
   ArrowSquareOutIcon,
   CaretLeftIcon,
   CaretRightIcon,
-  X,
+  XIcon,
 } from "@phosphor-icons/react";
 
 // ---------------------------------------------------------------------------
@@ -29,7 +29,6 @@ interface Project {
   description: string;
   icon?: { id: string; url?: string; alt?: string };
   image?: { url?: string; alt?: string };
-  order: number;
   externalLink?: string;
   projectDetails?: {
     techStack?: { tech: string }[];
@@ -111,8 +110,8 @@ function ProjectEntry({
           <div className="min-w-0 flex-1">
             {/* Name + optional icon */}
             <div className="flex items-center gap-3">
-              <h3 className="text-2xl sm:text-3xl font-serif text-text-primary leading-tight group-hover:text-white transition-colors duration-200">
-                {project.name}
+              <h3 className="text-2xl sm:text-3xl font-serif text-text-primary leading-tight transition-colors duration-200">
+                <span className="text-highlight">{project.name}</span>
               </h3>
             </div>
 
@@ -398,7 +397,7 @@ export default function ProjectsList({ projects }: ProjectsListProps) {
                           className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
                           aria-label="Close dialog"
                         >
-                          <X className="w-5 h-5" />
+                          <XIcon className="w-5 h-5" />
                         </button>
                       </div>
                     </div>

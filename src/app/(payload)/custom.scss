@@ -1,11 +1,28 @@
-/* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
-/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
-
-/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
+/* Admin panel brand/theme customization for miiyuh.com — this file is
+   hand-authored and safe to edit. Imported by src/app/(payload)/layout.tsx
+   after Payload's own generated CSS, so rules here override core styles. */
 
 :root {
   --payload-theme-elevation-light: 0px 2px 4px rgba(0, 0, 0, 0.1);
   --payload-theme-elevation-dark: 0px 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* next/font/local only scopes --font-stack-sans-text (and its siblings)
+     to the wrapper <div> in layout.tsx (Payload-generated, not editable —
+     see its "DO NOT MODIFY" header), not to <html>/<body>. Popovers/menus
+     render in a portal appended directly to <body>, a sibling of that
+     div, so they can't inherit the variables through normal cascade.
+     SyncAdminFontVariables (payload-admin/SyncAdminFontVariables.tsx,
+     wired up via admin.components.afterNavLinks) reads the *actual*
+     computed values off that div at runtime and copies them here, so
+     there's nothing hardcoded in this file to go stale if the font
+     source files or variable names in layout.tsx ever change. */
+
+  /* Payload's own components (popovers, menus, tables, inputs, buttons —
+     virtually everything) read their font via this single design-token
+     variable rather than inheriting from body. Overriding it here is the
+     one lever that reaches every current AND future popover/component,
+     instead of chasing individual component classes one at a time. */
+  --font-body: var(--font-stack-sans-text), sans-serif;
 }
 
 /* ──────────────────────────────────────────────
@@ -78,4 +95,219 @@ html[data-theme="dark"] .btn--primary {
 
 html[data-theme="dark"] .btn--primary:hover {
   box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.6);
+}
+
+/* ── Hide the "— English" locale suffix on localized field labels;
+   the active locale is already shown in the top-right locale switcher ── */
+.field-label .localized {
+  display: none;
+}
+
+/* ── Sidebar nav groups: always expanded, no collapse toggle ── */
+.nav-group__toggle {
+  cursor: default;
+  pointer-events: none;
+}
+
+.nav-group__indicator {
+  display: none;
+}
+
+.nav-group__content {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* ── Headings: Stack Sans Notch everywhere (list titles, document
+   titles, "No Results" messaging, etc.) ── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-stack-sans-notch), sans-serif;
+}
+
+/* ── Button polish: consistent radius/transition + focus ring ── */
+.btn {
+  font-family: var(--font-stack-sans-text), sans-serif;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4);
+  outline: none;
+}
+
+/* ── Button text: brand cream instead of pure white, matching the rest
+   of the admin's text color. Excludes primary buttons, which keep a
+   light background + dark text and would lose contrast otherwise.
+   Primary buttons that render with a popup (Publish changes, etc.) put
+   the .btn--style-primary class on a *wrapper* div rather than the
+   <button> itself, so :not(.btn--style-primary) alone doesn't catch
+   them — also exclude any .btn that's a descendant of one. ── */
+.btn:not(.btn--style-primary):not(.btn--style-primary .btn) {
+  color: var(--theme-text);
+}
+
+/* ── BlogPosts "Featured" checkbox: vertically center within its row
+   next to the taller publishedAt date-picker field. Scoped to the
+   edit-form's row wrapper only (.field-type.row), so it doesn't leak
+   into the list-view table cell for the same field. ── */
+.field-type.row .field-type.checkbox {
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--base) * 1.5);
+}
+
+/* ── Passkey label input (RegisterPasskeyButton): match native input
+   styling without the field-type wrapper's reserved label spacing ── */
+.passkey-label-input {
+  height: 40px;
+  padding: 0 calc(var(--base) / 2);
+  background: var(--theme-input-bg);
+  border: 1px solid var(--theme-border-color);
+  border-radius: 4px;
+  color: var(--theme-text);
+  font-size: 1rem;
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+.passkey-label-input:focus-visible {
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.3);
+  border-color: rgba(74, 222, 128, 0.5);
+  outline: none;
+}
+
+/* ── "Register a new passkey" button: tighter margin/padding than
+   Payload's default button spacing ── */
+.btn.passkey-register-btn {
+  --margin-block: 8px;
+  --btn-padding-block-start: 8px;
+  --btn-padding-block-end: 8px;
+}
+
+/* ── "Bulk add from media library" button: tighter/asymmetric spacing ── */
+.btn.gallery-bulk-add-btn {
+  --margin-block: 8px;
+  --btn-padding-block-start: 8px;
+  --btn-padding-block-end: 8px;
+  --btn-padding-inline-start: 10px;
+  --btn-padding-inline-end: 12px;
+}
+
+/* ── Inputs and field labels: use Stack Sans Text ── */
+input,
+textarea,
+select,
+.field-label {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── react-select (relationship/select fields, breadcrumb, locale
+   switcher): a third-party library that doesn't read Payload's
+   --font-body token, so it still needs an explicit override. Popovers/
+   menus/dropdowns built from Payload's own components are handled by
+   the --font-body override in the :root block above instead. ── */
+.react-select,
+.rs__control,
+.rs__menu,
+.rs__single-value,
+.rs__input,
+.rs__placeholder,
+.rs__option {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── Locale switcher: a little breathing room top/bottom ── */
+.localizer-button {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* ── Document title heading: extra padding (font handled by the
+   general h1-h6 rule above) ── */
+.doc-header__title {
+  padding: calc(var(--base) / 2) 0;
+}
+
+/* ── Upload thumbnails in list-view cells: fit the image within its
+   box instead of cropping/filling it ── */
+.thumbnail img,
+.thumbnail svg {
+  object-fit: contain;
+}
+
+/* ── Cover/icon/logo image columns: show only the thumbnail, not the
+   filename text next to it (scoped to these specific upload columns,
+   not the Media library's own filename column) ── */
+.cell-coverImage .file__filename,
+.cell-icon .file__filename,
+.cell-image .file__filename,
+.cell-logo .file__filename {
+  display: none;
+}
+
+/* ── Cover/icon/logo image columns: force a square (1:1) box so
+   varying image aspect ratios don't distort the row height ── */
+.cell-coverImage .thumbnail,
+.cell-icon .thumbnail,
+.cell-image .thumbnail,
+.cell-logo .thumbnail {
+  aspect-ratio: 1 / 1;
+  width: auto;
+  height: 100%;
+}
+
+/* ── Upload/relationship field image thumbnails: force 1:1 square and
+   fit the image inside without cropping ── */
+.upload-relationship-details .thumbnail,
+.relationship-cell .thumbnail {
+  aspect-ratio: 1 / 1;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-relationship-details .thumbnail img,
+.upload-relationship-details .thumbnail svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* ── Modal body text + tab buttons: still missed by the global rules
+   above (modal body has no scoped class to hang a heading rule off of;
+   tab buttons are <button> elements, not headings, despite extending
+   Payload's heading styles internally) ── */
+.confirmation-modal__content p,
+.tabs-field__tab-button {
+  font-family: var(--font-stack-sans-text), sans-serif;
+}
+
+/* ── Publish/Save button padding mismatch: when a document supports
+   scheduled or locale-specific publishing, PublishButton wraps itself
+   in an extra .btn--withPopup div (for the dropdown chevron), and
+   Payload's own CSS hardcodes that wrapper's margin to 4px — smaller
+   than the ~24px margin-block a plain (unwrapped) button like Save
+   Draft still uses. Restore the same margin so they line up. ── */
+.doc-controls__controls .btn--withPopup {
+  margin-block: calc(var(--base) * 1.2);
+}
+
+/* ── Rich text editor content: Noto Sans, matching the public site's
+   blog post body font ── */
+.ContentEditable__root {
+  font-family: var(--font-noto-sans), sans-serif;
+}
+
+/* ── Destructive action: passkey delete button ── */
+.passkey-delete-btn {
+  color: var(--theme-error-500, #e5484d);
+}
+
+.passkey-delete-btn:hover {
+  color: var(--theme-error-600, #ff6369);
 }

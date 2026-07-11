@@ -1,7 +1,7 @@
 "use client";
 
 import { Accordion as AccordionPrimitive } from "@ark-ui/react/accordion";
-import { CaretDown } from "@phosphor-icons/react";
+import { CaretDownIcon } from "@phosphor-icons/react";
 import { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
@@ -36,7 +36,7 @@ function AccordionTrigger({
     >
       {children}
       <AccordionPrimitive.ItemIndicator>
-        <CaretDown className="pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-72 transition-transform duration-200 ease-in-out" />
+        <CaretDownIcon className="pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-72 transition-transform duration-200 ease-in-out" />
       </AccordionPrimitive.ItemIndicator>
     </AccordionPrimitive.ItemTrigger>
   );

@@ -28,7 +28,7 @@ const Media: CollectionConfig = {
       {
         name: 'thumbnail',
         width: 400,
-        height: 300,
+        height: 400,
         position: 'centre',
       },
       {
@@ -57,15 +57,22 @@ const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Describes the image for screen readers and accessibility. Required for every upload.',
+      },
     },
     {
       name: 'caption',
       type: 'textarea',
       required: false,
       localized: true,
+      admin: {
+        description: 'Optional visible caption or credit shown beneath the image where it is displayed on the site.',
+      },
     },
     {
       name: 'focalPoint',
+      label: 'Focal point',
       type: 'point',
       admin: {
         condition: (data) => {

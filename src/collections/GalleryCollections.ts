@@ -37,6 +37,7 @@ const GalleryCollections: CollectionConfig = {
               fields: [
                 {
                   name: 'title',
+                  label: 'title',
                   type: 'text',
                   required: true,
                   index: true,
@@ -52,6 +53,7 @@ const GalleryCollections: CollectionConfig = {
             },
             {
               name: 'description',
+              label: 'description',
               type: 'textarea',
             },
             {
@@ -60,13 +62,14 @@ const GalleryCollections: CollectionConfig = {
                 {
                   name: 'albumDate',
                   type: 'date',
+                  label: 'Album date',
                   required: true,
                   index: true,
                   admin: {
                     width: '50%',
                     date: {
                       pickerAppearance: 'dayOnly',
-                      displayFormat: 'd MMM yyyy',
+                      displayFormat: 'yyyy-MM-dd',
                     },
                   },
                 },
@@ -93,7 +96,7 @@ const GalleryCollections: CollectionConfig = {
             {
               name: 'images',
               type: 'array',
-              label: 'Album Images',
+              label: 'Album images',
               labels: {
                 singular: 'Image',
                 plural: 'Images',
@@ -102,6 +105,9 @@ const GalleryCollections: CollectionConfig = {
               admin: {
                 description: 'First 3 images are used as the album cover stack. Drag to reorder.',
                 initCollapsed: true,
+                components: {
+                  beforeInput: ['@/payload-admin/GalleryBulkAddImagesButton'],
+                },
               },
               fields: [
                 {
@@ -140,6 +146,7 @@ const GalleryCollections: CollectionConfig = {
     {
       name: 'imageCount',
       type: 'number',
+      label: 'Image count',
       virtual: true,
       admin: {
         position: 'sidebar',

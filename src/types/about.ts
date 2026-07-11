@@ -12,7 +12,6 @@ export interface AboutEntry {
   isCurrent?: boolean
   tags?: { tag: string }[]
   link?: string
-  order?: number
 }
 
 export interface AboutPageData {

@@ -58,13 +58,6 @@ const BlogPosts: CollectionConfig = {
       defaultLimit: 10,
       limits: [5, 10, 20, 50],
     },
-    preview: (doc) => {
-      if (!doc?.slug || !doc?.publishedAt) return ''
-      const [year, month] = new Date(doc.publishedAt as string)
-        .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
-        .split('-')
-      return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/blog/${year}/${month}/${doc.slug}`
-    },
   },
   versions: {
     drafts: true,
@@ -81,6 +74,7 @@ const BlogPosts: CollectionConfig = {
               fields: [
                 {
                   name: 'title',
+                  label: 'Title',
                   type: 'text',
                   required: true,
                   localized: true,
@@ -97,6 +91,7 @@ const BlogPosts: CollectionConfig = {
             },
             {
               name: 'excerpt',
+              label: 'Excerpt',
               type: 'textarea',
               required: true,
               localized: true,
@@ -105,6 +100,7 @@ const BlogPosts: CollectionConfig = {
               name: 'coverImage',
               type: 'upload',
               relationTo: 'media',
+              label: 'Cover image',
               required: false,
             },
             {
@@ -125,12 +121,14 @@ const BlogPosts: CollectionConfig = {
                 {
                   name: 'publishedAt',
                   type: 'date',
+                  label: 'Published at',
                   required: true,
                   index: true,
                   admin: {
                     width: '50%',
                     date: {
                       pickerAppearance: 'dayAndTime',
+                      displayFormat: "yyyy-MM-dd HH:mm '(MYT)'",
                     },
                   },
                 },
@@ -166,11 +164,13 @@ const BlogPosts: CollectionConfig = {
             {
               name: 'metaTitle',
               type: 'text',
+              label: 'Meta title',
               localized: true,
             },
             {
               name: 'metaDescription',
               type: 'text',
+              label: 'Meta description',
               localized: true,
             },
           ],

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { startRegistration } from '@simplewebauthn/browser'
 import { useAuth, useDocumentInfo, Button } from '@payloadcms/ui'
-import { Key, PencilSimple, Trash } from '@phosphor-icons/react'
+import { KeyIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react'
 
 type PasskeyRow = {
   credentialID: string
@@ -175,14 +175,14 @@ export default function RegisterPasskeyButton() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: 'var(--base)',
-                padding: 'calc(var(--base) / 2)',
+                padding: '0 calc(var(--base) / 2)',
                 border: '1px solid var(--theme-elevation-150)',
                 borderRadius: 'var(--style-radius-m)',
                 marginBottom: 'calc(var(--base) / 4)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(var(--base) / 2)' }}>
-                <Key size={18} />
+                <KeyIcon size={18} />
                 <div>
                   <div>
                     {passkey.label || `${passkey.deviceType || 'Passkey'} · ${passkey.credentialID.slice(0, 6)}`}
@@ -201,16 +201,17 @@ export default function RegisterPasskeyButton() {
                   type="button"
                   disabled={renamingId === passkey.credentialID}
                   onClick={() => handleRename(passkey.credentialID, passkey.label || '')}
-                  icon={<PencilSimple size={16} />}
+                  icon={<PencilSimpleIcon size={16} />}
                   aria-label="Rename passkey"
                 />
                 <Button
                   buttonStyle="icon-label"
                   size="small"
                   type="button"
+                  className="passkey-delete-btn"
                   disabled={deletingId === passkey.credentialID}
                   onClick={() => handleDelete(passkey.credentialID)}
-                  icon={<Trash size={16} />}
+                  icon={<TrashIcon size={16} />}
                   aria-label="Remove passkey"
                 />
               </div>
@@ -219,25 +220,24 @@ export default function RegisterPasskeyButton() {
         </ul>
       )}
 
-      <div style={{ display: 'flex', gap: 'calc(var(--base) / 2)', alignItems: 'flex-start' }}>
-        <div className="field-type text" style={{ flex: '1 1 auto', margin: 0 }}>
-          <div className="field-type__wrap">
-            <input
-              type="text"
-              aria-label="New passkey label"
-              placeholder="Label (e.g. Work laptop)"
-              value={newLabel}
-              onChange={(e) => setNewLabel(e.target.value)}
-            />
-          </div>
-        </div>
+      <div style={{ display: 'flex', gap: 'calc(var(--base) / 2)', alignItems: 'center' }}>
+        <input
+          type="text"
+          aria-label="New passkey label"
+          placeholder="Label (e.g. Work laptop)"
+          value={newLabel}
+          onChange={(e) => setNewLabel(e.target.value)}
+          className="passkey-label-input"
+          style={{ flex: '1 1 auto' }}
+        />
         <Button
           buttonStyle="secondary"
           size="small"
           type="button"
+          className="passkey-register-btn"
           disabled={registerStatus === 'pending'}
           onClick={handleRegister}
-          icon={<Key size={16} />}
+          icon={<KeyIcon size={16} />}
           iconPosition="left"
         >
           {registerStatus === 'pending' ? 'Waiting for passkey…' : 'Register a new passkey'}

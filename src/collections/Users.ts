@@ -55,6 +55,7 @@ const Users: CollectionConfig = {
     useAsTitle: 'username',
     defaultColumns: ['username', 'email', 'role', 'updatedAt'],
     group: 'Admin',
+    listSearchableFields: ['username', 'email', 'name'],
   },
   access: {
     read: isAdmin,

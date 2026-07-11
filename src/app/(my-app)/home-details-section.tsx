@@ -24,7 +24,6 @@ type RawAboutEntry = {
   isCurrent?: boolean | null
   tags?: Array<{ tag?: string | null }> | null
   link?: string | null
-  order?: number | null
 }
 
 const mapAboutEntries = (docs: RawAboutEntry[]): AboutEntry[] => {
@@ -55,7 +54,6 @@ const mapAboutEntries = (docs: RawAboutEntry[]): AboutEntry[] => {
       isCurrent: entry.isCurrent ?? false,
       tags: entry.tags?.filter((tag) => tag?.tag).map((tag) => ({ tag: tag.tag as string })) ?? [],
       link: entry.link ?? undefined,
-      order: entry.order ?? 0,
     }
   })
 }
@@ -75,21 +73,21 @@ async function getAboutData(): Promise<{
         where: { type: { equals: 'education' } },
         depth: 1,
         limit: 100,
-        sort: 'order',
+        sort: '_order',
       }),
       payload.find({
         collection: 'about-entries',
         where: { type: { equals: 'experience' } },
         depth: 1,
         limit: 100,
-        sort: 'order',
+        sort: '_order',
       }),
       payload.find({
         collection: 'about-entries',
         where: { type: { equals: 'volunteering' } },
         depth: 1,
         limit: 100,
-        sort: 'order',
+        sort: '_order',
       }),
     ])
 

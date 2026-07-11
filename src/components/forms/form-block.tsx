@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { FormRenderer } from './form-renderer'
-import { Spinner } from '@phosphor-icons/react'
+import { SpinnerIcon } from '@phosphor-icons/react'
 import type { FormDocument } from '@/types/forms'
 import { cn } from '@/lib/utils'
 
@@ -60,7 +60,7 @@ export function FormBlock({ formId, className, introContent }: FormBlockProps) {
   if (isLoading) {
     return (
       <div className={cn('flex items-center justify-center py-12', className)}>
-        <Spinner weight="bold" className="size-8 animate-spin text-white/50" />
+        <SpinnerIcon weight="bold" className="size-8 animate-spin text-white/50" />
       </div>
     )
   }

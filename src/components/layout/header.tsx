@@ -163,7 +163,7 @@ export default function Header() {
                   }
                   closeMenu();
                 }}
-                className="hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-primary"
+                className="hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-primary"
               >
                 {link.label}
               </Link>

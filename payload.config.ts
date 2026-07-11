@@ -77,17 +77,35 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     theme: 'dark',
+    dateFormat: "yyyy-MM-dd HH:mm '(MYT)'",
     meta: {
       titleSuffix: ' - miiyuh.com CMS',
-      icons: {
-        icon: '/assets/img/favicons/favicon-32x32.png',
-      },
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          url: '/assets/img/favicons/favicon-16x16.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          url: '/assets/img/favicons/favicon-32x32.png',
+        },
+        {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          url: '/assets/img/favicons/apple-touch-icon.png',
+        },
+      ],
     },
     components: {
       graphics: {
         Logo: '@/payload-admin/Logo',
       },
       beforeLogin: ['@/payload-admin/PasskeyLoginButton'],
+      afterNavLinks: ['@/payload-admin/DisableNavGroupToggle', '@/payload-admin/SyncAdminFontVariables'],
     },
     livePreview: {
       url: ({ data, collectionConfig, globalConfig, locale }) => {
@@ -124,7 +142,7 @@ export default buildConfig({
         return url
       },
       collections: ['blog-posts', 'projects', 'gallery-collections', 'surveys'],
-      globals: ['privacy-policy', 'terms-of-service', 'resume'],
+      globals: ['privacy-policy', 'terms-of-service'],
       breakpoints: [
         {
           label: 'Mobile',
@@ -147,6 +165,16 @@ export default buildConfig({
       ],
     },
   },
+  i18n: {
+    translations: {
+      en: {
+        general: {
+          or: 'or',
+          leaveWithoutSaving: 'Leave without saving?',
+        },
+      },
+    },
+  },
   localization: {
     locales: [
       {
@@ -161,8 +189,8 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
-  collections: [Users, Media, GalleryCollections, BlogPosts, Projects, Papers, AboutPage],
-  globals: [PrivacyPolicy, TermsOfService, Resume],
+  collections: [Users, Papers, AboutPage, BlogPosts, Projects, GalleryCollections, Media],
+  globals: [Resume, PrivacyPolicy, TermsOfService],
   plugins: [
     formBuilderPlugin({
       fields: {

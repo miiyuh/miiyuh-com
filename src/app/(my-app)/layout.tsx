@@ -7,11 +7,9 @@ import {
   Instrument_Serif,
   Noto_Sans_Mono,
   Noto_Color_Emoji,
-  Stack_Sans_Text,
-  Stack_Sans_Headline,
-  Stack_Sans_Notch,
   Faculty_Glyphic,
 } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import { headers } from "next/headers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -44,18 +42,18 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   display: "swap",
 });
-const stackSansText = Stack_Sans_Text({
-  subsets: ["latin"],
+const stackSansText = localFont({
+  src: "../../assets/fonts/StackSansText-VariableFont_wght.ttf",
   variable: "--font-stack-sans-text",
   display: "swap",
 });
-const stackSansHeadline = Stack_Sans_Headline({
-  subsets: ["latin"],
+const stackSansHeadline = localFont({
+  src: "../../assets/fonts/StackSansHeadline-VariableFont_wght.ttf",
   variable: "--font-stack-sans-headline",
   display: "swap",
 });
-const stackSansNotch = Stack_Sans_Notch({
-  subsets: ["latin"],
+const stackSansNotch = localFont({
+  src: "../../assets/fonts/StackSansNotch-VariableFont_wght.ttf",
   variable: "--font-stack-sans-notch",
   display: "swap",
 });

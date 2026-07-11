@@ -15,7 +15,7 @@ import {
   createListCollection,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-import { Spinner, CheckCircle, WarningCircle, PaperPlaneRight } from '@phosphor-icons/react'
+import { SpinnerIcon, CheckCircleIcon, WarningCircleIcon, PaperPlaneRightIcon } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 import type {
   FormDocument,
@@ -28,8 +28,6 @@ import type {
 type FormRendererProps = {
   form: FormDocument
   className?: string
-  onSuccess?: (response: FormSubmitResponse) => void
-  onError?: (error: string) => void
 }
 
 /**
@@ -41,8 +39,6 @@ type FormRendererProps = {
 export function FormRenderer({
   form,
   className,
-  onSuccess,
-  onError,
 }: FormRendererProps) {
   const [values, setValues] = useState<FormValues>(() => {
     // Initialize default values from form fields
@@ -108,22 +104,19 @@ export function FormRenderer({
             result.errors?.[0]?.message || 'Failed to submit form'
           haptic.trigger('error')
           setState({ isSubmitting: false, isSuccess: false, error: errorMessage })
-          onError?.(errorMessage)
           return
         }
 
         haptic.trigger('success')
         setState({ isSubmitting: false, isSuccess: true, error: null })
-        onSuccess?.(result)
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : 'An unexpected error occurred'
         haptic.trigger('error')
         setState({ isSubmitting: false, isSuccess: false, error: errorMessage })
-        onError?.(errorMessage)
       }
     },
-    [form.id, values, honeypot, onSuccess, onError, haptic]
+    [form.id, values, honeypot, haptic]
   )
 
   // Success state
@@ -135,9 +128,9 @@ export function FormRenderer({
           className
         )}
       >
-        <CheckCircle weight="fill" className="mx-auto mb-4 size-12 text-accent-primary" />
-        <h3 className="mb-2 text-xl font-medium text-white">Thank You!</h3>
-        <p className="text-white/70">
+        <CheckCircleIcon weight="fill" className="mx-auto mb-4 size-12 text-accent-primary" />
+        <h3 className="mb-2 text-xl font-medium text-text-primary">Thank You!</h3>
+        <p className="text-text-secondary">
           Your submission has been received successfully.
         </p>
       </div>
@@ -153,13 +146,13 @@ export function FormRenderer({
       {/* Error Alert */}
       {state.error && (
         <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4 backdrop-blur-md">
-          <WarningCircle weight="fill" className="mt-0.5 size-5 shrink-0 text-red-400" />
+          <WarningCircleIcon weight="fill" className="mt-0.5 size-5 shrink-0 text-red-400" />
           <p className="text-sm text-red-300">{state.error}</p>
         </div>
       )}
 
       {/* Honeypot field — visually hidden and skipped by keyboard/screen readers */}
-      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+      <div aria-hidden="true" className="absolute -left-2499.75 top-auto h-px w-px overflow-hidden">
         <label htmlFor="_website">Leave this field empty</label>
         <input
           id="_website"
@@ -196,12 +189,12 @@ export function FormRenderer({
       >
         {state.isSubmitting ? (
           <>
-            <Spinner weight="bold" className="animate-spin" />
+            <SpinnerIcon weight="bold" className="animate-spin" />
             Submitting...
           </>
         ) : (
           <>
-            <PaperPlaneRight className="size-4" />
+            <PaperPlaneRightIcon className="size-4" />
             {form.submitButtonLabel || 'Submit'}
           </>
         )}
@@ -227,7 +220,7 @@ function FormFieldRenderer({
   // Message blocks render as static content
   if (field.blockType === 'message') {
     return (
-      <div className="rounded-xl border border-white/8 bg-white/3 p-4 text-white/80">
+      <div className="rounded-xl border border-white/8 bg-white/3 p-4 text-text-secondary">
         {/* TODO: Render rich text message content */}
         <p className="text-sm">Message content</p>
       </div>
@@ -248,7 +241,7 @@ function FormFieldRenderer({
   }
 
   const commonLabelProps = {
-    className: 'text-sm font-medium text-white/90',
+    className: 'text-sm font-medium text-text-primary',
   }
 
   switch (field.blockType) {
@@ -257,7 +250,7 @@ function FormFieldRenderer({
         <div className={cn('space-y-2', getWidthClass())}>
           <Label htmlFor={name} {...commonLabelProps}>
             {label}
-            {required && <span className="ml-1 text-amber-400">*</span>}
+            {required && <span className="ml-1 text-accent-hover">*</span>}
           </Label>
           <Input
             id={name}
@@ -277,7 +270,7 @@ function FormFieldRenderer({
         <div className={cn('space-y-2', getWidthClass())}>
           <Label htmlFor={name} {...commonLabelProps}>
             {label}
-            {required && <span className="ml-1 text-amber-400">*</span>}
+            {required && <span className="ml-1 text-accent-hover">*</span>}
           </Label>
           <Input
             id={name}
@@ -297,7 +290,7 @@ function FormFieldRenderer({
         <div className={cn('space-y-2', getWidthClass())}>
           <Label htmlFor={name} {...commonLabelProps}>
             {label}
-            {required && <span className="ml-1 text-amber-400">*</span>}
+            {required && <span className="ml-1 text-accent-hover">*</span>}
           </Label>
           <Input
             id={name}
@@ -316,7 +309,7 @@ function FormFieldRenderer({
         <div className={cn('space-y-2', getWidthClass())}>
           <Label htmlFor={name} {...commonLabelProps}>
             {label}
-            {required && <span className="ml-1 text-amber-400">*</span>}
+            {required && <span className="ml-1 text-accent-hover">*</span>}
           </Label>
           <Textarea
             id={name}
@@ -342,9 +335,9 @@ function FormFieldRenderer({
             }
             disabled={disabled}
           />
-          <Label htmlFor={name} className="text-sm text-white/90 cursor-pointer">
+          <Label htmlFor={name} className="text-sm text-text-primary cursor-pointer">
             {label}
-            {required && <span className="ml-1 text-amber-400">*</span>}
+            {required && <span className="ml-1 text-accent-hover">*</span>}
           </Label>
         </div>
       )
@@ -362,7 +355,7 @@ function FormFieldRenderer({
         <div className={cn('space-y-2', getWidthClass())}>
           <Label {...commonLabelProps}>
             {label}
-            {required && <span className="ml-1 text-amber-400">*</span>}
+            {required && <span className="ml-1 text-accent-hover">*</span>}
           </Label>
           <Select
             collection={collection}

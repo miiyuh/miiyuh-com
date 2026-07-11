@@ -8,6 +8,11 @@ export const TermsOfService: GlobalConfig = {
   label: 'Terms of Service',
   admin: {
     group: 'Legal',
+    components: {
+      elements: {
+        beforeDocumentControls: ['@/payload-admin/DocumentLastUpdated'],
+      },
+    },
   },
   access: {
     read: () => true,
@@ -20,9 +25,11 @@ export const TermsOfService: GlobalConfig = {
     {
       name: 'lastUpdated',
       type: 'date',
+      label: 'Last updated',
       admin: {
         date: {
           pickerAppearance: 'dayOnly',
+          displayFormat: 'yyyy-MM-dd',
         },
       },
     },

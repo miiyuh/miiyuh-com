@@ -15,15 +15,18 @@ export function slugField(opts?: {
 }) {
   const titleField = opts?.titleField ?? 'title'
 
+  const fieldName = opts?.fieldName ?? 'slug'
+
   return {
-    name: opts?.fieldName ?? 'slug',
+    name: fieldName,
+    label: fieldName.charAt(0).toUpperCase() + fieldName.slice(1),
     type: 'text' as const,
     required: true,
     unique: true,
     index: true,
     admin: {
       ...(opts?.width ? { width: opts.width } : {}),
-      description: 'URL-friendly identifier (auto-generated from title)',
+      description: `URL-friendly identifier (auto-generated from ${titleField})`,
     },
     hooks: {
       beforeValidate: [

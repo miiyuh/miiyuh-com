@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { projectEditor } from '../editor/richTextEditor'
 import { isAdmin } from '../access/is-admin'
-import { revalidateCollectionHooks } from './shared'
+import { revalidateCollectionHooks, slugField } from './shared'
 
 const Projects: CollectionConfig = {
   slug: 'projects',
@@ -25,28 +25,32 @@ const Projects: CollectionConfig = {
       defaultLimit: 10,
       limits: [5, 10, 20, 50],
     },
-    preview: (doc) => {
-      if (!doc?.slug) return ''
-      return `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/projects/${doc.slug}`
-    },
   },
+  orderable: true,
   versions: {
     drafts: true,
   },
   fields: [
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-      localized: true,
-      index: true,
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      index: true,
+      type: 'row',
+      fields: [
+        {
+          name: 'name',
+          label: 'name',
+          type: 'text',
+          required: true,
+          localized: true,
+          index: true,
+          admin: {
+            width: '60%',
+          },
+        },
+        slugField({
+          fieldName: 'slug',
+          titleField: 'name',
+          width: '40%',
+        }),
+      ],
     },
     {
       name: 'category',
@@ -66,19 +70,31 @@ const Projects: CollectionConfig = {
     },
     {
       name: 'description',
+      label: 'description',
       type: 'textarea',
       required: true,
       localized: true,
     },
     {
-      name: 'icon',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
+      type: 'row',
+      fields: [
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
     },
     {
       name: 'content',
@@ -89,6 +105,7 @@ const Projects: CollectionConfig = {
     {
       name: 'projectDetails',
       type: 'group',
+      label: 'Project details',
       admin: {
         condition: (data) => data.category === 'side-project',
       },
@@ -96,6 +113,7 @@ const Projects: CollectionConfig = {
         {
           name: 'techStack',
           type: 'array',
+          label: 'Tech stack',
           admin: {
             initCollapsed: true,
           },
@@ -120,16 +138,19 @@ const Projects: CollectionConfig = {
         {
           name: 'githubUrl',
           type: 'text',
+          label: 'GitHub URL',
         },
         {
           name: 'liveUrl',
           type: 'text',
+          label: 'Live URL',
         },
       ],
     },
     {
       name: 'universityDetails',
       type: 'group',
+      label: 'University details',
       admin: {
         condition: (data) => data.category === 'university-project',
       },
@@ -149,14 +170,9 @@ const Projects: CollectionConfig = {
       ],
     },
     {
-      name: 'order',
-      type: 'number',
-      index: true,
-      defaultValue: 0,
-    },
-    {
       name: 'externalLink',
       type: 'text',
+      label: 'External link',
     },
     {
       name: 'featured',
@@ -166,15 +182,18 @@ const Projects: CollectionConfig = {
     {
       name: 'seo',
       type: 'group',
+      label: 'SEO',
       fields: [
         {
           name: 'metaTitle',
           type: 'text',
+          label: 'Meta title',
           localized: true,
         },
         {
           name: 'metaDescription',
           type: 'textarea',
+          label: 'Meta description',
           localized: true,
         },
       ],

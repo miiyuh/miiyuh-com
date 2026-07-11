@@ -19,13 +19,14 @@ const AboutPage: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'startDate', 'endDate', 'isCurrent'],
-    group: 'Pages',
+    group: 'Content',
     listSearchableFields: ['title', 'subtitle'],
     pagination: {
       defaultLimit: 20,
       limits: [10, 20, 50],
     },
   },
+  orderable: true,
   fields: [
     {
       name: 'type',
@@ -40,6 +41,7 @@ const AboutPage: CollectionConfig = {
     },
     {
       name: 'title',
+      label: 'title',
       type: 'text',
       required: true,
       index: true,
@@ -47,6 +49,11 @@ const AboutPage: CollectionConfig = {
     {
       name: 'subtitle',
       type: 'text',
+      label: 'Organization / institution',
+      admin: {
+        description:
+          'Company name (Experience), institution (Education), or organization name (Volunteering) — depends on the entry type above.',
+      },
     },
     {
       name: 'description',
@@ -64,6 +71,7 @@ const AboutPage: CollectionConfig = {
     {
       name: 'startDate',
       type: 'text',
+      label: 'Start date',
       admin: {
         description: 'MM/YYYY format (e.g. "02/2024")',
       },
@@ -71,6 +79,7 @@ const AboutPage: CollectionConfig = {
     {
       name: 'endDate',
       type: 'text',
+      label: 'End date',
       admin: {
         description: 'MM/YYYY format (e.g. "05/2024"), or "Present" for ongoing',
       },
@@ -78,6 +87,7 @@ const AboutPage: CollectionConfig = {
     {
       name: 'isCurrent',
       type: 'checkbox',
+      label: 'Currently active',
       defaultValue: false,
     },
     {
@@ -97,15 +107,6 @@ const AboutPage: CollectionConfig = {
     {
       name: 'link',
       type: 'text',
-    },
-    {
-      name: 'order',
-      type: 'number',
-      index: true,
-      defaultValue: 0,
-      admin: {
-        description: 'Lower numbers appear first',
-      },
     },
   ],
   hooks: {

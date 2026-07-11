@@ -275,8 +275,8 @@ export default function BlogClient({
                             </>
                           )}
                         </div>
-                        <h2 className="text-lg font-medium text-text-primary group-hover:text-accent-primary transition-colors duration-200 mb-2">
-                          {post.title}
+                        <h2 className="text-lg font-medium text-text-primary transition-colors duration-200 mb-2">
+                          <span className="text-highlight">{post.title}</span>
                         </h2>
                         <p className="text-sm text-text-secondary/70 line-clamp-2 leading-relaxed">
                           {post.excerpt}

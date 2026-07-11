@@ -1,6 +1,6 @@
 <img src="https://miiyuh.com/assets/img/logo_miiyuh_v4-white_with-border.png" alt="miiyuh's logo" height="80px" />
 
-My personal portfolio website featuring photography, artwork, and blog content.
+My personal portfolio website featuring the photos that I took, the artworks I crafted, and the writings I wrote.
 
 ## 🛠 Tech Stack
 
@@ -12,8 +12,8 @@ My personal portfolio website featuring photography, artwork, and blog content.
 ## 📜 License
 
 - **Source Code** - Open for personal learning and portfolio inspiration
-- **Original Content** - All artwork, photography, logos, and media assets are copyrighted to me
+- **Original Content** - Any artwork, photos, or anything else I have created are mine, duh
 
 ## 🙋‍♀️ Connect
 
-Feel free to explore the code, star ⭐ the repository, or reach out through any social platform on the website!
+Feel free to explore the code, star the repository, or reach out through any social platform on the website!

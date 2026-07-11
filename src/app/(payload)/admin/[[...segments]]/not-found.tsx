@@ -3,7 +3,12 @@
 
 import { notFound } from 'next/navigation'
 
+// Note: Next.js's dev-mode parallel route evaluation for this optional
+// catch-all segment ([[...segments]]) can hit this boundary speculatively
+// even on requests that go on to resolve successfully (200) immediately
+// after — so a console.warn here is noise, not a signal of an actual
+// broken route. Removed; notFound() still fires correctly for genuine
+// unmatched /admin/* paths.
 export default async function NotFound() {
-  console.warn('Admin not-found handler triggered - this may indicate a rendering issue')
   notFound()
 }
