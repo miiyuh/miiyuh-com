@@ -185,7 +185,7 @@ export default async function RootLayout({
         <Analytics />
         <Script
           src="https://rybbit.miiyuh.com/api/script.js"
-          data-site-id="9a7b86930cc1"
+          data-site-id="c7820fe075c6"
           strategy="afterInteractive"
           nonce={nonce}
         />
