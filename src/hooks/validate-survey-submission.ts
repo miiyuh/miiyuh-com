@@ -92,9 +92,18 @@ export const validateSurveySubmission: CollectionBeforeValidateHook = async ({
     throw new APIError('Invalid submission.', 400)
   }
 
+  // `payload-types.ts` is generated and gitignored, so `form.fields` is only
+  // precisely typed where `payload generate:types` has been run — not in CI.
+  // Narrow from `unknown` so this type-checks identically with or without it.
+  // (A structural `{ name?: string | null }` will not do: the `message` field
+  // variant has no `name`, which trips the weak-type check once types exist.)
+  const formFields: readonly unknown[] = form?.fields ?? []
+
   const allowedFieldNames = new Set(
-    (form?.fields ?? [])
-      .map((field) => ('name' in field ? field.name : undefined))
+    formFields
+      .map((field) =>
+        typeof field === 'object' && field !== null && 'name' in field ? field.name : undefined
+      )
       .filter((name): name is string => typeof name === 'string' && name.length > 0)
   )
 
