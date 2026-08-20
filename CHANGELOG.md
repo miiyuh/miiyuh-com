@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.2](https://github.com/miiyuh/miiyuh-com/compare/v7.3.1...v7.3.2) (2026-08-20)
+
+### Bug Fixes
+
+* **deps:** update dependencies, upgrade bun to 1.4.0, and clear all audit findings ([#21](https://github.com/miiyuh/miiyuh-com/issues/21)) ([946ec05](https://github.com/miiyuh/miiyuh-com/commit/946ec05721b4c23ade88b96257924ae3b6f2278f))
+
 ## [7.3.1](https://github.com/miiyuh/miiyuh-com/compare/v7.3.0...v7.3.1) (2026-07-08)
 
 ### Bug Fixes
