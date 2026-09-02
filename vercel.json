@@ -1,6 +1,6 @@
 {
   "buildCommand": "bun run build",
-  "installCommand": "bun install",
+  "installCommand": "bunx bun@1.4.0 install --frozen-lockfile",
   "functions": {
     "src/app/(payload)/admin/**/*.tsx": {
       "maxDuration": 60
