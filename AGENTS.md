@@ -7,8 +7,10 @@ Personal portfolio (Next.js 16 + Payload CMS 3 + MongoDB + Tailwind CSS v4).
 - **Package manager**: `bun` (v1.4.0, see `package.json` `packageManager` field). Ignore `.npmrc` (stale).
 - **Dev server**: `bun run dev` (Turbopack)
 - **Production build**: `bun run build` (webpack via Payload)
-- **Lint**: `bun run lint` (ESLint flat config). Auto-fix: `bun run lint:fix`
-- **Type-check**: `bun run type-check` (tsc --noEmit)
+- **Lint**: `bun run lint` (oxlint, see `.oxlintrc.json`). Auto-fix: `bun run lint:fix`
+  - Type-aware rules are on (`options.typeAware`), powered by `oxlint-tsgolint`, which **requires TypeScript 7+**.
+  - Existing `// eslint-disable-next-line <rule>` comments are still honoured.
+- **Type-check**: `bun run type-check` (tsc --noEmit, TypeScript 7 / native)
 - **Clean**: `bun run clean` (removes `.next`)
 - **No tests** exist in this repo.
 

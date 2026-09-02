@@ -46,7 +46,7 @@ bun run dev
 bun run build
 [Note: Do not run unless told to do so.]
 
-# Lint (ESLint flat config)
+# Lint (oxlint — see .oxlintrc.json)
 bun run lint
 bun run lint:fix
 
@@ -63,8 +63,8 @@ bun run clean
   "dev": "next dev --turbopack --hostname 0.0.0.0",
   "build": "next build",
   "start": "next start",
-  "lint": "eslint .",
-  "lint:fix": "eslint . --fix",
+  "lint": "oxlint",
+  "lint:fix": "oxlint --fix",
   "type-check": "tsc --noEmit",
   "analyze": "ANALYZE=true bun run build",
   "clean": "bun run --bun ./node_modules/.bin/rimraf .next",
