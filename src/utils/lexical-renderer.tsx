@@ -3,6 +3,7 @@
 // Uses shared slugify utility for consistent heading IDs with TOC extraction
 
 import { SlugGenerator, extractNodeText } from './slugify'
+import { normalizeMediaUrl } from './media'
 
 // ============================================================================
 // Types
@@ -261,6 +262,55 @@ export function renderLexicalContent(content: { root?: Record<string, unknown> }
   return renderNode(content.root as LexicalNode, slugGenerator)
 }
 
+// ---------------------------------------------------------------------------
+// Image delivery
+// ---------------------------------------------------------------------------
+
+// Rich-text images previously pointed straight at Payload's media route, which
+// on Vercel resolves to the catch-all serverless function and streams the
+// original from R2 with `Cache-Control: max-age=0, must-revalidate` — so every
+// image on every view re-ran the function uncached, at full size. Routing them
+// through the Next image optimizer instead serves AVIF/WebP at the width the
+// layout actually needs, and those responses are CDN-cacheable.
+//
+// The optimizer rejects absolute same-origin URLs ("url" parameter is not
+// allowed), so the path is normalised to a root-relative one first.
+const OPTIMIZER_WIDTHS = [640, 828, 1080, 1920] as const
+const OPTIMIZER_QUALITY = 75
+
+function optimizedImage(rawSrc: string): { src: string; srcset: string } | null {
+  const normalized = normalizeMediaUrl(rawSrc)
+  if (!normalized || !normalized.startsWith('/')) return null
+
+  const url = (w: number) =>
+    `/_next/image?url=${encodeURIComponent(normalized)}&w=${w}&q=${OPTIMIZER_QUALITY}`
+
+  return {
+    src: url(1080),
+    srcset: OPTIMIZER_WIDTHS.map((w) => `${url(w)} ${w}w`).join(', '),
+  }
+}
+
+// The content column is capped at max-w-4xl (896px).
+const IMAGE_SIZES = '(max-width: 768px) 100vw, 896px'
+
+function imageMarkup(
+  rawSrc: string,
+  alt: string,
+  width: string,
+  height: string
+): string {
+  const optimized = optimizedImage(rawSrc)
+  const srcAttr = optimized ? optimized.src : rawSrc
+  const extra = optimized ? ` srcset="${optimized.srcset}" sizes="${IMAGE_SIZES}"` : ''
+  // `animate-pulse` stays on the wrapper as a CSS-only loading state — a loaded
+  // image paints over it. It must not depend on JS: inline handlers are blocked
+  // by the site's CSP (script-src has neither unsafe-inline nor unsafe-hashes).
+  return `<div class="relative overflow-hidden rounded-2xl bg-white/5 animate-pulse shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+          <img src="${srcAttr}"${extra} alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl" />
+        </div>`
+}
+
 function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
   if (!node) return ''
 
@@ -344,9 +394,7 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const width = safeWidth ? ` width="${safeWidth}"` : ''
       const height = safeHeight ? ` height="${safeHeight}"` : ''
       return `<figure class="my-8">
-        <div class="relative overflow-hidden rounded-2xl bg-white/5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
-          <img src="${src}" alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl" />
-        </div>
+        ${imageMarkup(src, alt, width, height)}
         ${caption ? `<figcaption class="mt-2 text-center text-sm text-text-secondary">${caption}</figcaption>` : ''}
       </figure>`
     }
@@ -378,9 +426,7 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       }
 
       return `<figure class="my-8">
-        <div class="relative overflow-hidden rounded-2xl bg-white/5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
-          <img src="${src}" alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl" />
-        </div>
+        ${imageMarkup(src, alt, width, height)}
         ${caption ? `<figcaption class="mt-2 text-center text-sm text-text-secondary">${caption}</figcaption>` : ''}
       </figure>`
     }
