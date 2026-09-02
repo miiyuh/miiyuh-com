@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.4.0](https://github.com/miiyuh/miiyuh-com/compare/v7.3.2...v7.4.0) (2026-09-02)
+
+### Features
+
+* **projects:** restore dedicated project pages, migrate to oxlint + TypeScript 7 ([#22](https://github.com/miiyuh/miiyuh-com/issues/22)) ([df6ff3f](https://github.com/miiyuh/miiyuh-com/commit/df6ff3fe0f7839097e40eba7a2395bf4bb174fff)), closes [#21](https://github.com/miiyuh/miiyuh-com/issues/21) [#21](https://github.com/miiyuh/miiyuh-com/issues/21) [#39](https://github.com/miiyuh/miiyuh-com/issues/39)
+
 ## [7.3.2](https://github.com/miiyuh/miiyuh-com/compare/v7.3.1...v7.3.2) (2026-08-20)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "miiyuh-com",
-  "version": "7.3.2",
+  "version": "7.4.0",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.4.0",
