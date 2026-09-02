@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # `payload-types.ts` is generated and gitignored, so this runs without it —
+      # the same condition the Vercel build sees. Do not add a generate:types step
+      # here without one, or CI stops catching that class of failure.
+      - name: Lint
+        run: bun run lint
+
+      - name: Type-check
+        run: bun run type-check
