@@ -13,9 +13,6 @@ export function ProjectDetailSkeleton() {
             className="-mx-8 px-8 md:mx-0 md:px-0"
           />
 
-          {/* Back link */}
-          <div className="h-5 bg-white/5 rounded animate-pulse w-32 mb-12" />
-
           {/* Header: logo + title, description, meta row, chips, links */}
           <div className="mb-12 space-y-4">
             <div className="flex items-center gap-4">
@@ -53,6 +50,11 @@ export function ProjectDetailSkeleton() {
                 <div className="h-3 bg-white/5 rounded animate-pulse w-36" />
               </div>
             </div>
+          </div>
+
+          {/* Footer back link — mirrors ProjectDetailClient */}
+          <div className="mt-12 border-t border-white/10 pt-8">
+            <div className="h-5 bg-white/5 rounded animate-pulse w-32" />
           </div>
         </div>
       </main>

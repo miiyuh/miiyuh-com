@@ -88,14 +88,13 @@ const BannerBlock: Block = {
       type: 'richText',
       required: true,
       editor: lexicalEditor({
-        features: ({ defaultFeatures }) => [
-          ...defaultFeatures.filter(
+        features: ({ defaultFeatures }) =>
+          defaultFeatures.filter(
             (feature) =>
               feature.key !== 'relationship' &&
               feature.key !== 'upload' &&
               feature.key !== 'blocks'
           ),
-        ],
       }),
     },
   ],

@@ -6,7 +6,9 @@
     "react",
     "nextjs",
     "jsx-a11y",
-    "import"
+    "import",
+    "oxc",
+    "unicorn"
   ],
   "categories": {
     "correctness": "error",

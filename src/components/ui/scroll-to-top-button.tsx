@@ -28,6 +28,10 @@ export default function ScrollToTopButton() {
     <button
       onClick={scrollToTop}
       aria-label="Scroll to top"
+      // Hidden state is visual only, so the control stayed tabbable and exposed
+      // to assistive tech while invisible.
+      aria-hidden={!visible}
+      tabIndex={visible ? 0 : -1}
       className={`fixed right-8 bottom-8 z-50 cursor-pointer p-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 text-white shadow-lg hover:bg-white/15 active:scale-90 transition-all duration-300 ease-out ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
       }`}

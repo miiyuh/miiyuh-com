@@ -70,7 +70,7 @@ export default function FontTestPage() {
           <h1 className="text-4xl font-bold">Font test lab</h1>
           <p className="text-text-secondary max-w-2xl">
             Quick audit of every font stack currently live on miiyuh.com—from Stack Sans Text UI copy to Noto
-            Glyphic blog content, Noto Serif JP paragraphs, and the full emoji fallback chain.
+            Sans blog content, Noto Serif JP paragraphs, and the full emoji fallback chain.
           </p>
         </header>
 

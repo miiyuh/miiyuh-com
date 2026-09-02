@@ -280,7 +280,7 @@ const OPTIMIZER_QUALITY = 75
 
 function optimizedImage(rawSrc: string): { src: string; srcset: string } | null {
   const normalized = normalizeMediaUrl(rawSrc)
-  if (!normalized || !normalized.startsWith('/')) return null
+  if (!normalized || !normalized.startsWith('/') || normalized.startsWith('//')) return null
 
   const url = (w: number) =>
     `/_next/image?url=${encodeURIComponent(normalized)}&w=${w}&q=${OPTIMIZER_QUALITY}`
@@ -345,8 +345,14 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const validTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag) ? tag : 'h2'
       // Slug from the raw node text, not childrenHtml — the latter is already
       // HTML-escaped, which corrupts slugs for apostrophes, quotes and ampersands.
-      const slug = slugGenerator.generate(extractNodeText(node))
-      return `<${validTag} id="${slug}">${childrenHtml}</${validTag}>`
+      //
+      // Empty headings must not consume a slug: extract-toc skips them, so
+      // generating one here would desynchronise the duplicate `-2`/`-3` suffixes
+      // between the rendered ids and the TOC anchors.
+      const headingText = extractNodeText(node)
+      const slug = headingText ? slugGenerator.generate(headingText) : ''
+      const idAttr = slug ? ` id="${slug}"` : ''
+      return `<${validTag}${idAttr}>${childrenHtml}</${validTag}>`
     }
 
     case 'list': {
