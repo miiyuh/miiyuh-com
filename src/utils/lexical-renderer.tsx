@@ -343,11 +343,9 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const safeHeight = sanitizeDimension(imgNode.height)
       const width = safeWidth ? ` width="${safeWidth}"` : ''
       const height = safeHeight ? ` height="${safeHeight}"` : ''
-      const imageLoadHandler = "this.classList.remove('opacity-0');this.classList.add('opacity-100');if(this.parentElement){this.parentElement.classList.remove('animate-pulse','bg-white/5');}"
-
       return `<figure class="my-8">
-        <div class="relative overflow-hidden rounded-2xl bg-white/5 animate-pulse shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
-          <img src="${src}" alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl opacity-0 transition-opacity duration-300" onload="${imageLoadHandler}" onerror="${imageLoadHandler}" />
+        <div class="relative overflow-hidden rounded-2xl bg-white/5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+          <img src="${src}" alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl" />
         </div>
         ${caption ? `<figcaption class="mt-2 text-center text-sm text-text-secondary">${caption}</figcaption>` : ''}
       </figure>`
@@ -368,8 +366,6 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const safeHeight = sanitizeDimension(uploadNode.value?.height)
       const width = safeWidth ? ` width="${safeWidth}"` : ''
       const height = safeHeight ? ` height="${safeHeight}"` : ''
-      const imageLoadHandler = "this.classList.remove('opacity-0');this.classList.add('opacity-100');if(this.parentElement){this.parentElement.classList.remove('animate-pulse','bg-white/5');}"
-
       // Check if it's a video
       const mimeType = uploadNode.value?.mimeType || ''
       if (mimeType.startsWith('video/')) {
@@ -382,8 +378,8 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       }
 
       return `<figure class="my-8">
-        <div class="relative overflow-hidden rounded-2xl bg-white/5 animate-pulse shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
-          <img src="${src}" alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl opacity-0 transition-opacity duration-300" onload="${imageLoadHandler}" onerror="${imageLoadHandler}" />
+        <div class="relative overflow-hidden rounded-2xl bg-white/5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+          <img src="${src}" alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl" />
         </div>
         ${caption ? `<figcaption class="mt-2 text-center text-sm text-text-secondary">${caption}</figcaption>` : ''}
       </figure>`
