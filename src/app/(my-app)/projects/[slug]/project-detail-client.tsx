@@ -100,14 +100,14 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
 
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
-      <section className="relative grow py-24" style={{ paddingTop: '24px' }}>
+      <section className="relative grow pt-6 pb-16">
         <div>
           
-          <div className="px-6 md:px-12 lg:px-24 xl:px-32">
+          <div className="px-8 md:px-32 lg:px-56 xl:px-80">
             {/* Breadcrumb Navigation */}
             <SimpleBreadcrumb
               items={breadcrumbs.projectDetail(project.name)}
-              className="-mx-6 px-6"
+              className="-mx-8 px-8 md:mx-0 md:px-0"
             />
 
             {/* Back button */}
@@ -131,11 +131,11 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                 {project.projectDetails?.status && getStatusBadge(project.projectDetails.status)}
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-notch tracking-tight mb-6 text-text-primary">
+              <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
                 {project.name}
               </h1>
 
-              <p className="text-lg text-text-secondary max-w-3xl leading-relaxed">
+              <p className="text-lg md:text-xl text-text-secondary max-w-3xl leading-relaxed text-pretty">
                 {project.description}
               </p>
             </div>
