@@ -303,11 +303,14 @@ function imageMarkup(
   const optimized = optimizedImage(rawSrc)
   const srcAttr = optimized ? optimized.src : rawSrc
   const extra = optimized ? ` srcset="${optimized.srcset}" sizes="${IMAGE_SIZES}"` : ''
-  // `animate-pulse` stays on the wrapper as a CSS-only loading state — a loaded
-  // image paints over it. It must not depend on JS: inline handlers are blocked
-  // by the site's CSP (script-src has neither unsafe-inline nor unsafe-hashes).
-  return `<div class="relative overflow-hidden rounded-2xl bg-white/5 animate-pulse shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
-          <img src="${srcAttr}"${extra} alt="${alt}"${width}${height} loading="lazy" decoding="async" class="w-full h-auto rounded-2xl" />
+  // The skeleton is a sibling *behind* the image, never an ancestor of it:
+  // `animate-pulse` animates opacity, and opacity on an ancestor composites the
+  // whole subtree, so putting it on the wrapper made the loaded image pulse too.
+  // As a positioned sibling it is simply covered once the image paints. This
+  // stays CSS-only deliberately — the CSP blocks inline handlers.
+  return `<div class="relative overflow-hidden rounded-2xl shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+          <div class="absolute inset-0 bg-white/5 animate-pulse" aria-hidden="true"></div>
+          <img src="${srcAttr}"${extra} alt="${alt}"${width}${height} loading="lazy" decoding="async" class="relative w-full h-auto rounded-2xl" />
         </div>`
 }
 
