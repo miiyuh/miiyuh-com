@@ -25,6 +25,28 @@ export function slugify(text: string): string {
 }
 
 /**
+ * Extract plain text from a Lexical node and its descendants.
+ *
+ * Both the renderer and the TOC extractor must slugify *this* — the raw node
+ * text — not rendered HTML. Rendered HTML is already escaped, so an apostrophe
+ * arrives as `&#39;` and slugify() reduces it to the digits `39`, producing
+ * `how-it39s-built` where the TOC expects `how-its-built`.
+ */
+export function extractNodeText(node: {
+  type?: string
+  text?: string
+  children?: unknown[]
+}): string {
+  if (node.type === 'text' && node.text) return node.text
+  if (Array.isArray(node.children)) {
+    return node.children
+      .map((child) => extractNodeText(child as Parameters<typeof extractNodeText>[0]))
+      .join('')
+  }
+  return ''
+}
+
+/**
  * Slug generator class that tracks duplicates and appends suffixes.
  * Use a single instance per render/extraction pass to ensure consistency.
  */

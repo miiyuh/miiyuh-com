@@ -12,7 +12,6 @@ const config: Config = {
           serif: ['var(--font-stack-sans-headline)', 'Stack Sans Headline', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
           headline: ['var(--font-stack-sans-headline)', 'Stack Sans Headline', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
           notch: ['var(--font-stack-sans-notch)', 'Stack Sans Notch', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
-          'faculty-glyphic': ['var(--font-faculty-glyphic)', 'Faculty Glyphic', 'serif'],
           'noto-serif-jp': ['var(--font-noto-serif-jp)', 'serif'],
           mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
           emoji: ['Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-color-emoji)', 'sans-serif'],

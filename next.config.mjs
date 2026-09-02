@@ -101,6 +101,25 @@ const nextConfig = {
         ],
       },
       {
+        // Uploaded media is the one API path that is static content, not dynamic
+        // data. Without this it answers `max-age=0, must-revalidate`, so every
+        // request re-runs the Payload function against R2 and never hits the CDN
+        // — see the measurements in the image-optimizer commit.
+        //
+        // Payload appends a suffix on filename collision, so these URLs are
+        // effectively immutable. 30 days rather than `immutable` so that a file
+        // deleted and re-uploaded under the same name still self-corrects.
+        // This rule is listed before /api/(.*) only for readability; Next applies
+        // every matching rule and these set different keys.
+        source: '/api/media/file/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
         // API routes: apply security headers but avoid forcing caching so dynamic data stays fast
         source: '/api/(.*)',
         headers: [

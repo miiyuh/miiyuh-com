@@ -1,0 +1,68 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    "typescript",
+    "react",
+    "nextjs",
+    "jsx-a11y",
+    "import",
+    "oxc",
+    "unicorn"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": {
+    "browser": true,
+    "es2024": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    ".agents/**",
+    ".claude/**",
+    ".impeccable/**",
+    ".next/**",
+    ".opencode/**",
+    "node_modules/**",
+    "payload-types.ts",
+    "public/**"
+  ],
+  "rules": {
+    "typescript/no-explicit-any": "error",
+    "typescript/no-unused-vars": "error",
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": "off",
+    "react/no-array-index-key": "off",
+    "jsx-a11y/prefer-tag-over-role": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/anchor-has-content": "warn",
+    "typescript/no-floating-promises": "warn",
+    "typescript/no-unsafe-type-assertion": "warn",
+    "typescript/no-unnecessary-type-assertion": "warn",
+    "typescript/consistent-return": "warn",
+    "typescript/no-unnecessary-type-conversion": "warn",
+    "typescript/restrict-template-expressions": "warn",
+    "typescript/no-base-to-string": "warn",
+    "typescript/no-redundant-type-constituents": "warn",
+    "typescript/no-unnecessary-boolean-literal-compare": "warn"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/opengraph-image.tsx",
+        "src/components/seo/og-title-card.tsx"
+      ],
+      "rules": {
+        "nextjs/no-img-element": "off",
+        "jsx-a11y/alt-text": "off"
+      }
+    }
+  ],
+  "options": {
+    "typeAware": true
+  }
+}

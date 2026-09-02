@@ -8,8 +8,8 @@
     "dev": "next dev --turbopack --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "type-check": "tsc --noEmit",
     "analyze": "ANALYZE=true bun run build",
     "clean": "bun run --bun ./node_modules/.bin/rimraf .next",
@@ -17,8 +17,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@ark-ui/react": "^5.38.2",
-    "@aws-sdk/client-s3": "^3.1114.0",
+    "@ark-ui/react": "^5.39.1",
+    "@aws-sdk/client-s3": "^3.1124.0",
     "@payloadcms/db-mongodb": "3.88.0",
     "@payloadcms/live-preview-react": "3.88.0",
     "@payloadcms/next": "3.88.0",
@@ -28,25 +28,25 @@
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.3.3",
     "@simplewebauthn/browser": "^13.3.0",
-    "@simplewebauthn/server": "^13.3.2",
+    "@simplewebauthn/server": "^13.3.3",
     "@tailwindcss/postcss": "^4.3.3",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "@web-kits/audio": "^0.1.0",
     "animejs": "4.5.0",
-    "baseline-browser-mapping": "^2.11.16",
+    "baseline-browser-mapping": "^2.11.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "fumadocs-core": "^16.14.5",
-    "fumadocs-ui": "^16.14.5",
+    "fumadocs-core": "^16.15.4",
+    "fumadocs-ui": "^16.15.4",
     "graphql": "^16.14.2",
     "lightgallery": "^2.9.0",
-    "next": "16.3.1",
+    "next": "16.3.4",
     "payload": "3.88.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-pdf": "^10.4.1",
-    "sharp": "^0.35.3",
+    "react-pdf": "^10.5.0",
+    "sharp": "^0.35.4",
     "tailwind-merge": "^3.6.0",
     "web-haptics": "^0.0.6"
   },
@@ -61,17 +61,12 @@
     "ip-address": "^10.5.0",
     "fast-uri": "^3.1.5",
     "immutable": "^4.3.9",
-    "minimatch@3": {
-      "brace-expansion": "^1.1.18"
-    },
-    "minimatch@10": {
-      "brace-expansion": "^5.0.9"
-    }
+    "brace-expansion": "^5.0.9",
+    "browserslist": "^4.28.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
-    "@eslint/eslintrc": "^3.3.6",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",
@@ -82,16 +77,16 @@
     "@types/animejs": "^3.1.13",
     "@types/node": "^25.9.5",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
+    "@types/react-dom": "^19.2.5",
     "conventional-changelog-conventionalcommits": "8.0.0",
-    "eslint": "^9.39.5",
-    "eslint-config-next": "^16.3.1",
     "husky": "^9.1.7",
+    "oxlint": "1.81.0",
+    "oxlint-tsgolint": "^7.0.2001",
     "rimraf": "^6.1.3",
     "semantic-release": "^25.0.9",
     "tailwindcss": "^4.3.3",
     "tailwindcss-motion": "^1.1.1",
-    "tsx": "^4.23.12",
-    "typescript": "^6.0.3"
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
   }
 }

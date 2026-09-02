@@ -7,7 +7,6 @@ import {
   Instrument_Serif,
   Noto_Sans_Mono,
   Noto_Color_Emoji,
-  Faculty_Glyphic,
 } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
@@ -55,12 +54,6 @@ const stackSansHeadline = localFont({
 const stackSansNotch = localFont({
   src: "../../assets/fonts/StackSansNotch-VariableFont_wght.ttf",
   variable: "--font-stack-sans-notch",
-  display: "swap",
-});
-const facultyGlyphic = Faculty_Glyphic({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-faculty-glyphic",
   display: "swap",
 });
 const notoMono = Noto_Sans_Mono({
@@ -173,7 +166,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} ${facultyGlyphic.variable} antialiased relative flex flex-col min-h-screen`}
+        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} antialiased relative flex flex-col min-h-screen`}
         style={{ fontFamily: 'var(--font-stack-sans-text), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
         {/* beforeInteractive scripts must be direct children of <body> per Next.js docs — placing this in <head> triggered a dev-mode "script tag" hydration warning */}

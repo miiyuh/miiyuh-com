@@ -1,21 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { animate, remove, set } from "animejs";
-import { prefersReducedMotion } from "@/lib/reduced-motion";
+import Link from "next/link";
 import { useWebHaptics } from "web-haptics/react";
-import { Dialog, DialogPopup } from "@/components/ui/dialog";
-import {
-  ArrowUpRightIcon,
-  RocketIcon,
-  GraduationCapIcon,
-  GithubLogoIcon,
-  ArrowSquareOutIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
-  XIcon,
-} from "@phosphor-icons/react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+
 
 // ---------------------------------------------------------------------------
 // Types
@@ -57,55 +45,21 @@ function getSubtitle(project: Project): string | null {
   return null;
 }
 
-function getCategoryIcon(category: Project["category"]) {
-  switch (category) {
-    case "side-project":
-      return RocketIcon;
-    case "university-project":
-      return GraduationCapIcon;
-  }
-}
-
-const CATEGORY_LABELS: Record<Project["category"], string> = {
-  "side-project": "Side Project",
-  "university-project": "University",
-};
-
 // ---------------------------------------------------------------------------
 // Entry (typographic list item)
 // ---------------------------------------------------------------------------
 
-function ProjectEntry({
-  project,
-  onSelect,
-  entryRef,
-}: {
-  project: Project;
-  onSelect: () => void;
-  entryRef?: (el: HTMLDivElement | null) => void;
-}) {
+function ProjectEntry({ project }: { project: Project }) {
   const haptic = useWebHaptics();
   const isSide = project.category === "side-project";
 
   return (
-    <div ref={entryRef}>
-      <article
-        className="group cursor-pointer"
-        onClick={() => {
-          haptic.trigger("medium");
-          onSelect();
-        }}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            haptic.trigger("medium");
-            onSelect();
-          }
-        }}
-        aria-label={`View details for ${project.name}`}
-      >
+    <Link
+      href={`/projects/${project.slug}`}
+      className="group block w-full text-left"
+      onClick={() => haptic.trigger("medium")}
+    >
+      <article>
         <div className="flex items-start justify-between gap-6">
           <div className="min-w-0 flex-1">
             {/* Name + optional icon */}
@@ -164,7 +118,7 @@ function ProjectEntry({
           <ArrowUpRightIcon className="w-6 h-6 shrink-0 mt-2 text-text-muted/30 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
         </div>
       </article>
-    </div>
+    </Link>
   );
 }
 
@@ -181,318 +135,30 @@ function EntrySeparator() {
 // ---------------------------------------------------------------------------
 
 export default function ProjectsList({ projects }: ProjectsListProps) {
-  const [selected, setSelected] = useState<Project | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const modalShellRef = useRef<HTMLDivElement | null>(null);
-  const isClosingRef = useRef(false);
-  const isNavigatingRef = useRef(false);
-
-  useEffect(() => {
-    return () => {
-      isClosingRef.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isModalOpen || !selected) return;
-    if (isNavigatingRef.current) {
-      isNavigatingRef.current = false;
-      return;
-    }
-
-    const shell = modalShellRef.current;
-    if (!shell) return;
-
-    isClosingRef.current = false;
-    remove(shell);
-
-    if (prefersReducedMotion()) {
-      set(shell, { opacity: 1, scale: 1 });
-      return;
-    }
-
-    set(shell, { opacity: 0, scale: 0.965 });
-
-    animate(shell, {
-      opacity: 1,
-      scale: 1,
-      duration: 170,
-      easing: "easeOutQuad",
-    });
-  }, [isModalOpen, selected]);
-
-  // Projects are already sorted by `order` from the DB query
-  const allProjects = projects;
-  const currentIndex = selected
-    ? allProjects.findIndex((p) => p.id === selected.id)
-    : -1;
-
-  const navigateProject = (direction: 1 | -1) => {
-    if (!selected || allProjects.length <= 1) return;
-    const idx = allProjects.findIndex((p) => p.id === selected.id);
-    if (idx === -1) return;
-    const nextIdx = (idx + direction + allProjects.length) % allProjects.length;
-    const next = allProjects[nextIdx];
-    if (!next) return;
-    isNavigatingRef.current = true;
-    setSelected(next);
-  };
-
-  useEffect(() => {
-    if (!isModalOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") navigateProject(-1);
-      if (e.key === "ArrowRight") navigateProject(1);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  });
-
-  const openProjectModal = (project: Project) => {
-    isClosingRef.current = false;
-    setSelected(project);
-    setIsModalOpen(true);
-  };
-
-  const closeProjectModal = () => {
-    if (isClosingRef.current) return;
-
-    const shell = modalShellRef.current;
-
-    if (!shell) {
-      setIsModalOpen(false);
-      setSelected(null);
-      return;
-    }
-
-    isClosingRef.current = true;
-    remove(shell);
-
-    if (prefersReducedMotion()) {
-      setIsModalOpen(false);
-      setSelected(null);
-      isClosingRef.current = false;
-      return;
-    }
-
-    animate(shell, {
-      opacity: 0,
-      scale: 0.965,
-      duration: 140,
-      easing: "easeInQuad",
-    })
-      .then(() => {
-        setIsModalOpen(false);
-        setSelected(null);
-        isClosingRef.current = false;
-      })
-      .catch(() => {
-        setIsModalOpen(false);
-        setSelected(null);
-        isClosingRef.current = false;
-      });
-  };
-
-  const handleModalOpenChange = ({ open }: { open: boolean }) => {
-    if (open) {
-      setIsModalOpen(true);
-      return;
-    }
-
-    closeProjectModal();
-  };
+  // Projects arrive already sorted by `_order` from the DB query
+  if (projects.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
+        <p className="text-sm text-text-muted/60">
+          tray is still in the developer — nothing developed yet
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      {/* Typographic list */}
-      {allProjects.length > 0 ? (
-        <div>
-          {allProjects.map((project, idx) => (
-            <div key={project.id}>
-              {idx > 0 && <EntrySeparator />}
-              <div
-                className="py-10 first:pt-0 animate-stagger-item"
-                style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
-              >
-                <ProjectEntry
-                  project={project}
-                  onSelect={() => openProjectModal(project)}
-                />
-              </div>
-            </div>
-          ))}
+    <div>
+      {projects.map((project, idx) => (
+        <div key={project.id}>
+          {idx > 0 && <EntrySeparator />}
+          <div
+            className="py-10 first:pt-0 animate-stagger-item"
+            style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
+          >
+            <ProjectEntry project={project} />
+          </div>
         </div>
-      ) : (
-        <div className="rounded-2xl border border-dashed border-white/8 px-6 py-12 text-center">
-          <p className="text-sm text-text-muted/60">
-            tray is still in the developer — nothing developed yet
-          </p>
-        </div>
-      )}
-
-      {/* Detail popup */}
-      <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
-        <DialogPopup
-          className="sm:max-w-5xl p-0 border border-white/10 bg-bg-primary max-h-[90vh] [clip-path:inset(0_round_1rem)]"
-          showCloseButton={false}
-        >
-          {selected &&
-            (() => {
-              const Icon = getCategoryIcon(selected.category);
-              return (
-                <div
-                  ref={modalShellRef}
-                  className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] overflow-hidden will-change-transform"
-                >
-                  {/* Left: Image */}
-                  <div key={selected.id} className="relative min-h-55 sm:min-h-65 lg:min-h-0 lg:aspect-4/3 bg-[#faf3e0] border-b border-white/10 lg:border-b-0 lg:border-r lg:border-white/10 animate-smooth-fade-in">
-                    {selected.image?.url ? (
-                      <Image
-                        src={selected.image.url}
-                        alt={selected.image.alt || selected.name}
-                        fill
-                        className="object-cover"
-                        quality={85}
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        priority
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-[#faf3e0] text-bg-primary/20">
-                        <Icon className="w-24 h-24" />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Right: Content */}
-                  <div className="relative bg-bg-primary p-4 sm:p-5 lg:p-6 xl:p-7 flex flex-col gap-5 sm:gap-6 overflow-y-auto">
-                    {/* Top bar: nav + close */}
-                    <div className="absolute right-0 left-0 top-0 flex items-center justify-between px-3 pt-3 sm:px-4 sm:pt-4 z-10 pointer-events-none">
-                      {allProjects.length > 1 && (
-                        <div className="flex items-center gap-2 pointer-events-auto">
-                          <button
-                            onClick={() => navigateProject(-1)}
-                            className="p-3 text-text-muted hover:text-text-primary transition-all duration-200 hover:-translate-y-0.5"
-                            aria-label="Previous project"
-                          >
-                            <CaretLeftIcon className="w-5 h-5" />
-                          </button>
-                          <span
-                            className="text-xs font-mono text-text-muted/40 tabular-nums min-w-[4ch] text-center select-none"
-                            aria-live="polite"
-                          >
-                            {currentIndex + 1}/{allProjects.length}
-                          </span>
-                          <button
-                            onClick={() => navigateProject(1)}
-                            className="p-3 text-text-muted hover:text-text-primary transition-all duration-200 hover:-translate-y-0.5"
-                            aria-label="Next project"
-                          >
-                            <CaretRightIcon className="w-5 h-5" />
-                          </button>
-                        </div>
-                      )}
-                      <div className="pointer-events-auto ml-auto">
-                        <button
-                          onClick={closeProjectModal}
-                          className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
-                          aria-label="Close dialog"
-                        >
-                          <XIcon className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Animated content */}
-                    <div key={selected.id} className="animate-smooth-fade-in pt-10 sm:pt-11">
-                      {/* Icon + Title */}
-                      <div className="pr-10">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden shrink-0 bg-[#faf3e0] flex items-center justify-center mb-4 sm:mb-5">
-                          {selected.icon?.url ? (
-                            <Image
-                              src={selected.icon.url}
-                              alt={selected.icon.alt || `${selected.name} icon`}
-                              width={48}
-                              height={48}
-                              className="w-12 h-12 object-cover"
-                              sizes="48px"
-                              quality={75}
-                            />
-                          ) : (
-                            <Icon className="w-6 h-6 text-bg-primary" />
-                          )}
-                        </div>
-
-                        {/* Title */}
-                        <h2 className="text-3xl sm:text-4xl font-serif text-text-primary mb-3 sm:mb-4 leading-tight">
-                          {selected.name}
-                        </h2>
-
-                        {/* Label */}
-                        <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-3 block">
-                          {CATEGORY_LABELS[selected.category]}
-                        </span>
-
-                        {/* Description */}
-                        <p className="text-sm sm:text-base text-text-primary/80 leading-relaxed">
-                          {selected.description}
-                        </p>
-                      </div>
-
-                      {/* Tech Stack / Details section */}
-                      {selected.category === "side-project" &&
-                        selected.projectDetails?.techStack &&
-                        selected.projectDetails.techStack.length > 0 && (
-                          <div className="pr-10">
-                            <p className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2 block">
-                              Tech
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {selected.projectDetails.techStack
-                                .slice(0, 4)
-                                .map((t, i) => (
-                                  <span
-                                    key={i}
-                                    className="px-2.5 sm:px-3 py-1 border border-text-primary/30 text-text-primary/70 text-xs rounded-full font-mono"
-                                  >
-                                    {t.tech}
-                                  </span>
-                                ))}
-                            </div>
-                          </div>
-                        )}
-
-                      {/* Action buttons */}
-                      <div className="flex items-center gap-2 pr-10 pt-1 sm:pt-2">
-                        {selected.projectDetails?.githubUrl && (
-                          <a
-                            href={selected.projectDetails.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
-                            aria-label="View on GitHub"
-                          >
-                            <GithubLogoIcon weight="fill" className="w-5 h-5" />
-                          </a>
-                        )}
-                        {selected.projectDetails?.liveUrl && (
-                          <a
-                            href={selected.projectDetails.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-3 text-text-primary hover:text-text-primary/60 transition-all duration-200 hover:-translate-y-0.5"
-                            aria-label="View live project"
-                          >
-                            <ArrowSquareOutIcon className="w-5 h-5" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-        </DialogPopup>
-      </Dialog>
-    </>
+      ))}
+    </div>
   );
 }
