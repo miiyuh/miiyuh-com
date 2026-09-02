@@ -28,7 +28,6 @@ const FONT_VARIABLES = [
   '--font-instrument-serif',
   '--font-stack-sans-text',
   '--font-stack-sans-headline',
-  '--font-faculty-glyphic',
   '--font-noto-mono',
   '--font-noto-color-emoji',
 ] as const
@@ -155,7 +154,7 @@ export default function FontDebugPage() {
           <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">Font telemetry</h1>
           <p className="text-text-secondary max-w-2xl">
             Snapshot of every font stack currently wired into the site. Useful for verifying Stack Sans Text, Stack
-            Sans Headline, Faculty Glyphic (blog content), Noto Serif JP, Noto Sans Mono, and the emoji fallbacks in
+            Sans Headline, Noto Serif JP, Noto Sans Mono, and the emoji fallbacks in
             one place. Instrument Serif stays loaded (see CSS font variables below) but is no longer applied anywhere.
           </p>
         </header>
@@ -221,11 +220,11 @@ export default function FontDebugPage() {
             </Card>
             <Card className="gap-0 md:col-span-2">
               <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Faculty Glyphic (blog post content)</p>
-                <div style={{ fontFamily: 'var(--font-faculty-glyphic), "Faculty Glyphic", serif' }}>
-                  <div className="text-2xl font-bold leading-[1.3] mb-2">A blog post heading in Faculty Glyphic</div>
+                <p className="text-sm text-text-secondary mb-2">Noto Sans (blog post content)</p>
+                <div style={{ fontFamily: 'var(--font-noto-sans), sans-serif' }}>
+                  <div className="text-2xl font-bold leading-[1.3] mb-2">A blog post heading in Noto Sans</div>
                   <p className="text-lg leading-[1.75]">
-                    Blog post body copy renders in Faculty Glyphic, replacing Noto Serif and Instrument Serif inside
+                    Blog post body copy and headings both render in Noto Sans inside
                     .lexical-content.
                   </p>
                 </div>
