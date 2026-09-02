@@ -67,14 +67,6 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
             className="-mx-8 px-8 md:mx-0 md:px-0"
           />
 
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary transition-colors mb-12"
-          >
-            <ArrowLeftIcon className="w-4 h-4" />
-            back to projects
-          </Link>
-
           <header className="mb-12 space-y-4">
             {/* Logo sits with the name, the way it does on the project itself.
                 Aligned to the first line, not centred — titles here wrap to 3 lines. */}
@@ -170,6 +162,17 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
               </div>
             </>
           )}
+
+          {/* Mirrors the blog post footer — the way back sits after the content */}
+          <footer className="mt-12 border-t border-white/10 pt-8">
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 text-text-primary hover:text-text-primary/80 transition-colors"
+            >
+              <ArrowLeftIcon weight="bold" className="w-4 h-4 shrink-0" />
+              <span>back to projects</span>
+            </Link>
+          </footer>
         </div>
       </section>
     </main>
