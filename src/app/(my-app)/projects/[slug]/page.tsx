@@ -4,7 +4,9 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import { Fragment, Suspense } from 'react'
 import { RefreshRouteOnSave } from '@/components/live-preview'
-import ProjectWrapper from './project-wrapper'
+import { renderLexicalContent } from '@/utils/lexical-renderer'
+import { extractTocFromLexical } from '@/utils/extract-toc'
+import ProjectDetailClient from './project-detail-client'
 import { ProjectDetailSkeleton } from './project-detail-skeleton'
 
 export const revalidate = 60
@@ -104,7 +106,8 @@ async function ProjectPageContent({ params }: PageProps) {
         ? { url: project.image.url ?? undefined, alt: project.image.alt }
         : undefined
       : undefined,
-    content: project.content,
+    htmlContent: renderLexicalContent(project.content ?? null),
+    toc: extractTocFromLexical(project.content),
     externalLink: project.externalLink ?? undefined,
     // Category-specific
     projectDetails: project.category === 'side-project' && project.projectDetails
@@ -127,7 +130,7 @@ async function ProjectPageContent({ params }: PageProps) {
   return (
     <Fragment>
       <RefreshRouteOnSave />
-      <ProjectWrapper project={transformedProject} />
+      <ProjectDetailClient project={transformedProject} />
     </Fragment>
   )
 }

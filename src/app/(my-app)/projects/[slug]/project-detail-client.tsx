@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import type { TOCItemType } from 'fumadocs-core/toc'
+import { PageTOC, MobileTOC } from '@/components/ui/page-toc'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { breadcrumbs } from '@/config/breadcrumbs'
 import {
@@ -27,7 +29,8 @@ interface ProjectDetailProps {
       url?: string
       alt?: string
     }
-    content?: unknown
+    htmlContent?: string
+    toc?: TOCItemType[]
     externalLink?: string
     projectDetails?: {
       techStack?: { tech: string }[]
@@ -44,6 +47,9 @@ interface ProjectDetailProps {
 }
 
 export default function ProjectDetailClient({ project }: ProjectDetailProps) {
+  const toc = project.toc ?? []
+  const hasContent = Boolean(project.htmlContent?.trim())
+
   const getCategoryIcon = () => {
     switch (project.category) {
       case 'side-project':
@@ -252,6 +258,32 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                     View Project
                   </a>
                 )}
+              </div>
+            )}
+
+            {/* ============================================ */}
+            {/* WRITE-UP (rich text) */}
+            {/* ============================================ */}
+            {hasContent && (
+              <div className="mt-16">
+                {toc.length > 0 && <MobileTOC toc={toc} scrollOffset={116} />}
+
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
+                  <article className="prose prose-invert max-w-none">
+                    <div
+                      className="lexical-content"
+                      dangerouslySetInnerHTML={{ __html: project.htmlContent ?? '' }}
+                    />
+                  </article>
+
+                  {toc.length > 0 && (
+                    <div className="hidden lg:block relative h-full border-l border-white/10 pl-8">
+                      <div className="sticky top-24 w-64">
+                        <PageTOC toc={toc} />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

@@ -54,10 +54,20 @@ export function ProjectDetailSkeleton() {
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="space-y-4 mb-12">
-            <div className="h-6 bg-white/5 rounded-lg animate-pulse w-40" />
-            <TextSkeleton lines={6} />
+          {/* Content Section (write-up + TOC rail) */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 mb-12">
+            <div className="space-y-4">
+              <div className="h-6 bg-white/5 rounded-lg animate-pulse w-40" />
+              <TextSkeleton lines={6} />
+            </div>
+            <div className="hidden lg:block border-l border-white/10 pl-8">
+              <div className="w-64 space-y-3">
+                <div className="h-4 bg-white/5 rounded animate-pulse w-24" />
+                <div className="h-3 bg-white/5 rounded animate-pulse w-40" />
+                <div className="h-3 bg-white/5 rounded animate-pulse w-32" />
+                <div className="h-3 bg-white/5 rounded animate-pulse w-36" />
+              </div>
+            </div>
           </div>
 
           {/* CTA Buttons */}
