@@ -2,7 +2,7 @@
 // Uses the shared slugify utility to ensure slugs match the renderer.
 
 import type { TOCItemType } from 'fumadocs-core/toc'
-import { SlugGenerator } from './slugify'
+import { SlugGenerator, extractNodeText } from './slugify'
 
 // Minimal types for TOC extraction - accepts any Lexical-like structure
 type LexicalNode = {
@@ -15,22 +15,6 @@ type LexicalNode = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyLexicalContent = { root?: any } | null | undefined
-
-/**
- * Extract plain text from a Lexical node and its children.
- * Recursively traverses all child nodes to build the complete text.
- */
-function extractTextFromNode(node: LexicalNode): string {
-  if (node.type === 'text' && node.text) {
-    return node.text
-  }
-
-  if (node.children) {
-    return node.children.map(extractTextFromNode).join('')
-  }
-
-  return ''
-}
 
 /**
  * Extract TOC items from Lexical content (server-side).
@@ -51,7 +35,7 @@ export function extractTocFromLexical(content: AnyLexicalContent): TOCItemType[]
   function extractHeadings(nodes: LexicalNode[]) {
     for (const node of nodes) {
       if (node.type === 'heading' && node.tag) {
-        const text = extractTextFromNode(node)
+        const text = extractNodeText(node)
         if (text) {
           const slug = slugGenerator.generate(text)
           const depth = parseInt(node.tag.replace('h', ''), 10)

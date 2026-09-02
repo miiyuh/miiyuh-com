@@ -2,7 +2,7 @@
 // Supports all Lexical node types with XSS protection and accessibility
 // Uses shared slugify utility for consistent heading IDs with TOC extraction
 
-import { SlugGenerator } from './slugify'
+import { SlugGenerator, extractNodeText } from './slugify'
 
 // ============================================================================
 // Types
@@ -290,8 +290,9 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
     case 'heading': {
       const tag = node.tag || 'h2'
       const validTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag) ? tag : 'h2'
-      const plainText = childrenHtml.replace(/<[^>]*>/g, '')
-      const slug = slugGenerator.generate(plainText)
+      // Slug from the raw node text, not childrenHtml — the latter is already
+      // HTML-escaped, which corrupts slugs for apostrophes, quotes and ampersands.
+      const slug = slugGenerator.generate(extractNodeText(node))
       return `<${validTag} id="${slug}">${childrenHtml}</${validTag}>`
     }
 
