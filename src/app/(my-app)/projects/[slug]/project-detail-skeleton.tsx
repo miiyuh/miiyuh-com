@@ -8,56 +8,41 @@ export function ProjectDetailSkeleton() {
     <Fragment>
       <main className="relative min-h-screen text-text-primary">
         <div className="px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-16">
-          {/* Breadcrumbs */}
           <SimpleBreadcrumb
             items={breadcrumbs.projectDetail('project')}
             className="-mx-8 px-8 md:mx-0 md:px-0"
           />
 
-          {/* Header Section */}
-          <div className="mb-12 space-y-6">
-            {/* Title + Metadata */}
+          {/* Back link */}
+          <div className="h-5 bg-white/5 rounded animate-pulse w-32 mb-12" />
+
+          {/* Header: logo + title, description, meta row, chips, links */}
+          <div className="mb-12 space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="size-12 md:size-14 shrink-0 bg-white/5 rounded-lg animate-pulse" />
+              <div className="h-12 bg-white/5 rounded-lg animate-pulse w-72" />
+            </div>
+
+            <TextSkeleton lines={2} />
+
+            <div className="h-4 bg-white/5 rounded animate-pulse w-64" />
+
+            <TagSkeleton count={3} />
+
+            <div className="flex gap-6">
+              <div className="h-5 bg-white/5 rounded animate-pulse w-16" />
+              <div className="h-5 bg-white/5 rounded animate-pulse w-12" />
+            </div>
+          </div>
+
+          {/* Screenshot — constrained, not a hero */}
+          <div className="mb-12 max-w-2xl">
+            <ImageSkeleton className="aspect-video rounded-lg" />
+          </div>
+
+          {/* Write-up + TOC rail */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
             <div className="space-y-4">
-              <TextSkeleton lines={1} />
-              <TagSkeleton count={3} />
-            </div>
-
-            {/* Description */}
-            <TextSkeleton lines={3} />
-          </div>
-
-          {/* Project Image (if exists) */}
-          <div className="mb-12">
-            <ImageSkeleton className="aspect-video" />
-          </div>
-
-          {/* Project Details Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            {/* Left Side */}
-            <div className="space-y-6">
-              <div>
-                <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32 mb-3" />
-                <TextSkeleton lines={2} />
-              </div>
-              <div>
-                <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32 mb-3" />
-                <TagSkeleton count={4} />
-              </div>
-            </div>
-
-            {/* Right Side */}
-            <div className="space-y-6">
-              <div>
-                <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32 mb-3" />
-                <TextSkeleton lines={2} />
-              </div>
-            </div>
-          </div>
-
-          {/* Content Section (write-up + TOC rail) */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 mb-12">
-            <div className="space-y-4">
-              <div className="h-6 bg-white/5 rounded-lg animate-pulse w-40" />
               <TextSkeleton lines={6} />
             </div>
             <div className="hidden lg:block border-l border-white/10 pl-8">
@@ -68,12 +53,6 @@ export function ProjectDetailSkeleton() {
                 <div className="h-3 bg-white/5 rounded animate-pulse w-36" />
               </div>
             </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex gap-4">
-            <div className="h-10 bg-white/5 rounded-lg animate-pulse w-32" />
-            <div className="h-10 bg-white/5 rounded-lg animate-pulse w-32" />
           </div>
         </div>
       </main>
