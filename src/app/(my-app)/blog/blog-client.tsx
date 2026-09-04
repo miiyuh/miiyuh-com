@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { ArrowUpRightIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
@@ -35,7 +35,7 @@ export default function BlogClient({
   pagination,
 }: BlogClientProps) {
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchValue, setSearchValue] = useState(searchQuery);
   const haptic = useWebHaptics();
 
   const router = useRouter();
@@ -83,6 +83,8 @@ export default function BlogClient({
 
   const handleSearchInputChange = useCallback(
     (value: string) => {
+      setSearchValue(value);
+
       if (searchDebounceRef.current) {
         clearTimeout(searchDebounceRef.current);
       }
@@ -97,6 +99,14 @@ export default function BlogClient({
     },
     [searchQuery, updateRoute],
   );
+
+  // Keep the input in sync when the query changes outside of typing
+  // (back/forward navigation, cleared filters), without clobbering in-flight input.
+  useEffect(() => {
+    setSearchValue((current) =>
+      current.trim() === searchQuery.trim() ? current : searchQuery,
+    );
+  }, [searchQuery]);
 
   useEffect(() => {
     return () => {
@@ -122,9 +132,7 @@ export default function BlogClient({
     if (searchDebounceRef.current) {
       clearTimeout(searchDebounceRef.current);
     }
-    if (searchInputRef.current) {
-      searchInputRef.current.value = "";
-    }
+    setSearchValue("");
     updateRoute({ search: "", tags: [], page: 1 });
   };
 
@@ -170,11 +178,9 @@ export default function BlogClient({
               <MagnifyingGlassIcon className="h-4 w-4 text-text-muted" />
             </div>
             <input
-              key={searchQuery}
-              ref={searchInputRef}
               type="text"
               placeholder="Search posts"
-              defaultValue={searchQuery}
+              value={searchValue}
               onChange={(e) => handleSearchInputChange(e.target.value)}
               className="w-full font-sans bg-white/2 border border-white/8 rounded-lg py-2.5 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/15 transition-all duration-200"
             />
