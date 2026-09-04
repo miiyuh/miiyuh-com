@@ -4,11 +4,13 @@ Personal portfolio (Next.js 16 + Payload CMS 3 + MongoDB + Tailwind CSS v4).
 
 ## Toolchain
 
-- **Package manager**: `bun` (v1.3.14, see `package.json` `packageManager` field). Ignore `.npmrc` (stale).
+- **Package manager**: `bun` (v1.4.0, see `package.json` `packageManager` field). Ignore `.npmrc` (stale).
 - **Dev server**: `bun run dev` (Turbopack)
 - **Production build**: `bun run build` (webpack via Payload)
-- **Lint**: `bun run lint` (ESLint flat config). Auto-fix: `bun run lint:fix`
-- **Type-check**: `bun run type-check` (tsc --noEmit)
+- **Lint**: `bun run lint` (oxlint, see `.oxlintrc.json`). Auto-fix: `bun run lint:fix`
+  - Type-aware rules are on (`options.typeAware`), powered by `oxlint-tsgolint`, which **requires TypeScript 7+**.
+  - Existing `// eslint-disable-next-line <rule>` comments are still honoured.
+- **Type-check**: `bun run type-check` (tsc --noEmit, TypeScript 7 / native)
 - **Clean**: `bun run clean` (removes `.next`)
 - **No tests** exist in this repo.
 
@@ -45,5 +47,5 @@ Personal portfolio (Next.js 16 + Payload CMS 3 + MongoDB + Tailwind CSS v4).
 ## Versioning
 
 - **Current version**: `"version"` field in `package.json`.
-- Before any deploy or significant release, **bump the version** in `package.json` following semver (`major.minor.patch`).
-- No automated versioning — bump manually when you ship.
+- **Automated** via semantic-release (see `.releaserc.json`), which runs on every push to `master`. Do NOT hand-edit the `version` field or `CHANGELOG.md` — the release job commits both.
+- Version is derived from conventional commit types: `fix:` → patch, `feat:` → minor, `BREAKING CHANGE:` → major. `chore:` and `docs:` do not cut a release.

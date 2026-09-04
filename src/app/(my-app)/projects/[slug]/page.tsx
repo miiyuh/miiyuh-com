@@ -4,7 +4,10 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import { Fragment, Suspense } from 'react'
 import { RefreshRouteOnSave } from '@/components/live-preview'
-import ProjectWrapper from './project-wrapper'
+import { renderLexicalContent } from '@/utils/lexical-renderer'
+import { extractTocFromLexical } from '@/utils/extract-toc'
+import { resolveMediaSrc } from '@/utils/media'
+import ProjectDetailClient from './project-detail-client'
 import { ProjectDetailSkeleton } from './project-detail-skeleton'
 
 export const revalidate = 60
@@ -98,13 +101,22 @@ async function ProjectPageContent({ params }: PageProps) {
     slug: project.slug,
     category: project.category as 'side-project' | 'university-project',
     description: project.description,
-    icon: project.icon ? (typeof project.icon === 'object' ? 'url' in project.icon ? (project.icon.url ?? undefined) : undefined : project.icon) : undefined,
-    image: project.image
-      ? typeof project.image === 'object' && 'url' in project.image
-        ? { url: project.image.url ?? undefined, alt: project.image.alt }
-        : undefined
-      : undefined,
-    content: project.content,
+    // `resolveMediaSrc` strips the origin off Payload's absolute media URLs and
+    // prefers R2 when configured — next/image rejects absolute same-origin URLs
+    // with `"url" parameter is not allowed`. Blog, gallery and home already use it.
+    icon:
+      typeof project.icon === 'object' && project.icon
+        ? resolveMediaSrc({ url: project.icon.url, filename: project.icon.filename })
+        : undefined,
+    image:
+      typeof project.image === 'object' && project.image
+        ? {
+            url: resolveMediaSrc({ url: project.image.url, filename: project.image.filename }),
+            alt: project.image.alt,
+          }
+        : undefined,
+    htmlContent: renderLexicalContent(project.content ?? null),
+    toc: extractTocFromLexical(project.content),
     externalLink: project.externalLink ?? undefined,
     // Category-specific
     projectDetails: project.category === 'side-project' && project.projectDetails
@@ -127,7 +139,7 @@ async function ProjectPageContent({ params }: PageProps) {
   return (
     <Fragment>
       <RefreshRouteOnSave />
-      <ProjectWrapper project={transformedProject} />
+      <ProjectDetailClient project={transformedProject} />
     </Fragment>
   )
 }
