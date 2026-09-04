@@ -36,6 +36,17 @@ export default function BlogClient({
 }: BlogClientProps) {
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [searchValue, setSearchValue] = useState(searchQuery);
+  const [syncedQuery, setSyncedQuery] = useState(searchQuery);
+
+  // Keep the input in sync when the query changes outside of typing
+  // (back/forward navigation, cleared filters), without clobbering in-flight
+  // input. Adjusting during render avoids the extra pass an effect would cost.
+  if (syncedQuery !== searchQuery) {
+    setSyncedQuery(searchQuery);
+    if (searchValue.trim() !== searchQuery.trim()) {
+      setSearchValue(searchQuery);
+    }
+  }
   const haptic = useWebHaptics();
 
   const router = useRouter();
@@ -99,14 +110,6 @@ export default function BlogClient({
     },
     [searchQuery, updateRoute],
   );
-
-  // Keep the input in sync when the query changes outside of typing
-  // (back/forward navigation, cleared filters), without clobbering in-flight input.
-  useEffect(() => {
-    setSearchValue((current) =>
-      current.trim() === searchQuery.trim() ? current : searchQuery,
-    );
-  }, [searchQuery]);
 
   useEffect(() => {
     return () => {
