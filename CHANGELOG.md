@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.4.1](https://github.com/miiyuh/miiyuh-com/compare/v7.4.0...v7.4.1) (2026-09-04)
+
+### Bug Fixes
+
+* **blog:** keep focus in search input while results update ([6be7b16](https://github.com/miiyuh/miiyuh-com/commit/6be7b16d221767a12e94702f9ac02814a4c2661b))
+
 ## [7.4.0](https://github.com/miiyuh/miiyuh-com/compare/v7.3.2...v7.4.0) (2026-09-02)
 
 ### Features
