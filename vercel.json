@@ -1,6 +1,6 @@
 {
   "buildCommand": "bun run build",
-  "installCommand": "bunx bun@1.4.2 install",
+  "installCommand": "bun install",
   "functions": {
     "src/app/(payload)/admin/**/*.tsx": {
       "maxDuration": 60
