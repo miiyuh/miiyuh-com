@@ -147,7 +147,7 @@ body {
   font-family:
     var(--font-stack-sans-text), "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
-  font-weight: 450;
+  font-weight: 200;
 }
 
 /* Remove default focus outlines for mouse users, keep for keyboard users */
@@ -320,6 +320,8 @@ svg *,
   font-family:
     var(--font-paper-mono), "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", ui-monospace, monospace;
+  /* Long-form reading weight; the rest of the site stays at 200 */
+  font-weight: 450;
 }
 
 .lexical-content p {

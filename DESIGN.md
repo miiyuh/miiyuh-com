@@ -26,12 +26,12 @@ typography:
   body:
     fontFamily: '"Stack Sans Text", system-ui, sans-serif'
     fontSize: '1rem'
-    fontWeight: 450
+    fontWeight: 200
     lineHeight: 1.75
   long-form:
     fontFamily: '"Paper Mono", ui-monospace, monospace'
     fontSize: '1rem'
-    fontWeight: 400
+    fontWeight: 450
     lineHeight: 1.75
   mono:
     fontFamily: '"Noto Sans Mono", monospace'
@@ -127,7 +127,7 @@ All colours come from the tokens in `globals.css` (`text-text-primary`, `bg-bg-p
 
 **Display / Nav:** Stack Sans Notch (`font-notch`)
 **Headings:** Stack Sans Headline (default for `h1`–`h6`, also `font-serif`)
-**UI / Body:** Stack Sans Text, weight 450
+**UI / Body:** Stack Sans Text, weight 200
 **Long-form body:** Paper Mono (`.lexical-content`, `font-paper-mono`) — blog posts, post excerpts, privacy policy, terms. Headings inside long-form content stay in Stack Sans Headline.
 **Mono:** Noto Sans Mono (`font-mono`) for small metadata such as course codes
 **Emoji:** Noto Color Emoji as a fallback only, loaded on demand (not preloaded)
@@ -138,9 +138,9 @@ All colours come from the tokens in `globals.css` (`text-text-primary`, `bg-bg-p
 - **Display** (Notch 400, text-5xl to md:text-6xl, tight tracking): Page titles (blog, gallery, projects, album names).
 - **Heading** (Headline 400, text-2xl to 3xl): Section headings (Experience, Education, ...), card titles.
 - **Title** (Headline, text-lg to 2xl): Entry and list-item titles.
-- **Body** (Text 450, 1rem, 1.75): Descriptions, bios, metadata. Max line length 65–75ch (`max-w-prose`).
+- **Body** (Text 200, 1rem, 1.75): Descriptions, bios, metadata. Max line length 65–75ch (`max-w-prose`).
 - **Label** (Text, 0.75rem, wide tracking): Tags, chips, small metadata.
-- **Long-form** (Paper Mono 400, 1rem, 1.75): Post and legal-page body. Paper Mono has no italic; italics are synthesised.
+- **Long-form** (Paper Mono 450, 1rem, 1.75): Post and legal-page body. Paper Mono has no italic; italics are synthesised.
 
 ## 4. Elevation
 
