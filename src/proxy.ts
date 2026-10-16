@@ -1,36 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
+import { DEFAULT_LOCALE, LOCALE_HEADER, splitLocalePath } from "@/lib/locale";
 
-const isDev = process.env.NODE_ENV === "development";
-
+// Public pages live under app/(my-app)/[locale]. The default locale is served
+// at unprefixed URLs (/blog), so rewrite those to /en/blog internally; prefixed
+// URLs (/ms/blog) already match the route. Pages stay static/ISR because the
+// locale comes from the URL, not a cookie or header.
 export function proxy(request: NextRequest) {
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+  const { pathname } = request.nextUrl;
+  const { locale, path } = splitLocalePath(pathname);
 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
-
-  // Skip enforcing CSP in dev: Turbopack/HMR needs eval and other
-  // allowances that would otherwise have to be duplicated here.
-  if (isDev) {
-    return NextResponse.next({ request: { headers: requestHeaders } });
+  // /en/... duplicates the unprefixed URL; send visitors to the canonical one
+  if (pathname === `/${DEFAULT_LOCALE}` || pathname.startsWith(`/${DEFAULT_LOCALE}/`)) {
+    const url = request.nextUrl.clone();
+    url.pathname = path;
+    return NextResponse.redirect(url, 308);
   }
 
-  const csp = `default-src 'self' data:; base-uri 'self'; block-all-mixed-content; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; manifest-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self' https://www.youtube.com https://player.vimeo.com; object-src 'none'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://rybbit.miiyuh.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://rybbit.miiyuh.com https://*.vercel-insights.com https://api.vercel.com https://*.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;`;
+  // Lets app/global-not-found.tsx (which has no route params) answer in the
+  // right language. Static pages ignore request headers, so caching is unaffected.
+  const headers = new Headers(request.headers);
+  headers.set(LOCALE_HEADER, locale);
 
-  requestHeaders.set("Content-Security-Policy", csp);
+  if (locale !== DEFAULT_LOCALE) return NextResponse.next({ request: { headers } });
 
-  const response = NextResponse.next({
-    request: { headers: requestHeaders },
-  });
-  response.headers.set("Content-Security-Policy", csp);
-
-  return response;
+  const url = request.nextUrl.clone();
+  url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
+  return NextResponse.rewrite(url, { request: { headers } });
 }
 
 export const config = {
   matcher: [
-    // Apply everywhere except the Payload admin panel (which keeps its own
-    // looser CSP in next.config.mjs for Monaco/code editors), static assets,
-    // and API/GraphQL routes.
-    "/((?!admin|api|graphql|_next/static|_next/image|favicon.ico).*)",
+    // Everything except the Payload admin/API, Next internals, and files with
+    // an extension (public assets, sitemap.xml, robots.txt, .well-known/*).
+    "/((?!admin|api|graphql|_next|.*\\..*).*)",
   ],
 };

@@ -23,7 +23,7 @@ function SheetClose(props: ComponentProps<typeof SheetPrimitive.CloseTrigger>) {
 }
 
 const sheetPopupVariants = cva(
-  "fixed z-50 flex flex-col gap-4 overflow-y-auto bg-[#0a0e18]/98 backdrop-blur-xl border-white/12 text-white shadow-[0_10px_50px_-15px_rgba(0,0,0,0.9)] transition-all duration-300 ease-in-out will-change-transform [--sheet-inset:0px] data-[state=open]:animate-in data-[state=closed]:animate-out",
+  "fixed z-50 flex flex-col gap-4 overflow-y-auto bg-surface-primary/98 backdrop-blur-xl border-white/12 text-white shadow-[0_10px_50px_-15px_rgba(0,0,0,0.9)] transition duration-300 ease-in-out will-change-transform [--sheet-inset:0px] data-[state=open]:animate-in data-[state=closed]:animate-out",
   {
     defaultVariants: {
       inset: false,
@@ -49,7 +49,7 @@ function SheetBackdrop({ className, ...props }: ComponentProps<typeof SheetPrimi
   return (
     <SheetPrimitive.Backdrop
       className={cn(
-        "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-all duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         className,
       )}
       data-slot="sheet-backdrop"
@@ -79,7 +79,7 @@ function SheetPopup({
         >
           {children}
           {showCloseButton && (
-            <SheetPrimitive.CloseTrigger className="absolute inset-e-3 top-3 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/12 bg-white/5 text-white/70 outline-none transition-all hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-[#070707] [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
+            <SheetPrimitive.CloseTrigger className="absolute inset-e-3 top-3 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/12 bg-white/5 text-white/70 outline-none transition hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0">
               <XIcon weight="bold" />
               <span className="sr-only">Close</span>
             </SheetPrimitive.CloseTrigger>

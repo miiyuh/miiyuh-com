@@ -1,0 +1,78 @@
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import ProjectsList from './projects-list'
+import { resolveLocale } from '@/lib/locale'
+
+export default async function ProjectsSection({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = await resolveLocale(params)
+  const payload = await getPayload({ config })
+
+  const { docs } = await payload.find({
+    collection: 'projects',
+    locale,
+    depth: 1,
+    sort: '_order',
+    limit: 100,
+    where: {
+      and: [
+        { category: { not_equals: 'research-paper' } },
+        { _status: { equals: 'published' } },
+      ],
+    },
+  })
+
+  // Transform projects for client with category-specific fields
+  const projects = docs.map((project) => {
+    const base = {
+      id: String(project.id),
+      name: project.name,
+      slug: project.slug,
+      category: project.category as 'side-project' | 'university-project',
+      description: project.description,
+      icon: project.icon ? (typeof project.icon === 'object' ? { id: project.icon.id, url: project.icon.url ?? undefined, alt: project.icon.alt } : undefined) : undefined,
+      image: project.image
+        ? typeof project.image === 'object' && 'url' in project.image
+          ? { url: project.image.url ?? undefined, alt: project.image.alt }
+          : undefined
+        : undefined,
+      externalLink: project.externalLink ?? undefined,
+    }
+
+    // Add category-specific fields
+    if (project.category === 'side-project' && project.projectDetails) {
+      const details = project.projectDetails as {
+        techStack?: { tech: string }[]
+        status?: 'active' | 'in-development' | 'archived'
+        githubUrl?: string
+        liveUrl?: string
+      }
+      return Object.assign(base, {
+        projectDetails: {
+          techStack: details.techStack,
+          status: details.status,
+          githubUrl: details.githubUrl,
+          liveUrl: details.liveUrl,
+        },
+      })
+    }
+
+    if (project.category === 'university-project' && project.universityDetails) {
+      const details = project.universityDetails as {
+        course?: string
+        semester?: string
+        grade?: string
+      }
+      return Object.assign(base, {
+        universityDetails: {
+          course: details.course,
+          semester: details.semester,
+          grade: details.grade,
+        },
+      })
+    }
+
+    return base
+  })
+
+  return <ProjectsList projects={projects} />
+}

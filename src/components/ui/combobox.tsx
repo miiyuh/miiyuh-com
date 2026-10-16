@@ -85,7 +85,7 @@ function ComboboxInput({
   return (
     <ComboboxPrimitive.Input
       className={cn(
-        "w-full min-w-0 rounded-lg border border-white/12 bg-white/5 px-3 py-2 text-base text-white outline-none ring-amber-400/30 transition-all placeholder:text-white/40 focus:border-white/20 focus:bg-white/8 focus:ring-2 sm:text-sm",
+        "w-full min-w-0 rounded-lg border border-white/12 bg-white/5 px-3 py-2 text-base text-white outline-none ring-amber-400/30 transition placeholder:text-white/40 focus:border-white/20 focus:bg-white/8 focus:ring-2 sm:text-sm",
         size === 'sm' && "px-2.5 py-1",
         size === 'lg' && "py-2.5",
         className,
@@ -134,7 +134,7 @@ function ComboboxContent({
       <ComboboxPrimitive.Positioner className="z-50">
         <ComboboxPrimitive.Content
           className={cn(
-            "relative flex max-h-[min(var(--available-height),23rem)] w-(--reference-width) min-w-32 origin-(--transform-origin) flex-col overflow-hidden rounded-xl border border-white/12 bg-[#0a0e18]/95 backdrop-blur-xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-all duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+            "relative flex max-h-[min(var(--available-height),23rem)] w-(--reference-width) min-w-32 origin-(--transform-origin) flex-col overflow-hidden rounded-xl border border-white/12 bg-surface-primary/95 backdrop-blur-xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
             className,
           )}
           data-slot="combobox-content"

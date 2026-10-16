@@ -21,6 +21,7 @@ export type BlogPostDocument = {
   coverImage?: BlogMediaRelationship | string | null
   content?: LexicalContent | null
   publishedAt?: string | null
+  updatedAt?: string | null
   tags?: BlogTag[] | null
   seo?: {
     metaTitle?: string | null

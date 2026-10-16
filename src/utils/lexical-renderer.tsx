@@ -135,7 +135,7 @@ export type LexicalContent = {
 // XSS Protection
 // ============================================================================
 
-const ALLOWED_URL_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:']
+const ALLOWED_URL_PROTOCOLS = new Set(['http:', 'https:', 'mailto:', 'tel:'])
 
 function escapeHtml(text: string): string {
   const htmlEscapes: Record<string, string> = {
@@ -152,7 +152,7 @@ function sanitizeUrl(url: string | undefined): string {
   if (!url) return '#'
   try {
     const parsed = new URL(url, 'https://example.com')
-    if (!ALLOWED_URL_PROTOCOLS.includes(parsed.protocol)) {
+    if (!ALLOWED_URL_PROTOCOLS.has(parsed.protocol)) {
       return '#'
     }
     // Escape so the URL cannot break out of the surrounding HTML attribute
@@ -377,7 +377,7 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       const isExternal = href.startsWith('http')
       const rel = isExternal ? 'noopener noreferrer' : ''
       const target = isExternal ? '_blank' : ''
-      return `<a href="${href}"${target ? ` target="${target}"` : ''}${rel ? ` rel="${rel}"` : ''} class="text-accent-primary hover:underline">${childrenHtml}</a>`
+      return `<a href="${href}"${target ? ` target="${target}"` : ''}${rel ? ` rel="${rel}"` : ''}>${childrenHtml}</a>`
     }
 
     case 'linebreak':
@@ -501,7 +501,7 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
         if (videoId) {
           return `<figure class="my-8 aspect-video">
             <iframe
-              src="https://www.youtube.com/embed/${videoId}"
+              src="https://www.youtube-nocookie.com/embed/${videoId}"
               title="${title}"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen

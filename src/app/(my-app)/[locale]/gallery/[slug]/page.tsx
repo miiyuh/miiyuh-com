@@ -1,0 +1,133 @@
+import type { Metadata } from "next";
+import { resolveLocale, type LocaleCode } from "@/lib/locale";
+import { getAlbumFlag } from "@/utils/album-flag";
+import { getPayload } from "payload";
+import { unstable_cache } from "next/cache";
+import config from "@payload-config";
+import { notFound } from "next/navigation";
+import { Fragment } from "react";
+import { RefreshRouteOnSave } from "@/components/live-preview";
+import AlbumClient from "./album-client";
+import type {
+  GalleryCollectionDocument,
+  GalleryCollectionSummary,
+  GalleryItem,
+} from "@/types/gallery";
+import { resolveMediaSrc } from "@/utils/media";
+
+// ISR: Revalidate every 60 seconds for faster repeat visits
+export const revalidate = 60;
+
+// No paths prebuilt at deploy: each page renders on first visit, then is
+// cached and revalidated like the rest (an empty list still opts into ISR).
+export async function generateStaticParams() {
+  return [];
+}
+
+type PageParams = {
+  locale: string;
+  slug: string;
+};
+
+interface PageProps {
+  params: Promise<PageParams>;
+}
+
+/**
+ * Fetch and cache a single published gallery collection by slug.
+ * Shared by generateMetadata and AlbumPageContent to avoid duplicate Payload queries.
+ */
+const getCachedGalleryCollection = unstable_cache(
+  async (slug: string, locale: LocaleCode): Promise<GalleryCollectionDocument | undefined> => {
+    const payload = await getPayload({ config });
+    const { docs } = await payload.find({
+      collection: "gallery-collections",
+      locale,
+      where: {
+        and: [{ slug: { equals: slug } }, { status: { equals: "published" } }],
+      },
+      depth: 1,
+      limit: 1,
+    });
+    return (docs[0] as GalleryCollectionDocument) ?? undefined;
+  },
+  ["gallery-collection-by-slug"],
+  { revalidate: 60, tags: ["gallery-collections"] },
+);
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const collection = await getCachedGalleryCollection(slug, await resolveLocale(params));
+
+  if (!collection) {
+    return {
+      title: "album not found - miiyuh.com",
+    };
+  }
+
+  return {
+    title: `${collection.title} - gallery - miiyuh.com`,
+    description: collection.description || `View ${collection.title} album`,
+  };
+}
+
+// notFound() must run before any Suspense boundary renders, otherwise the
+// response streams with a committed 200 status instead of a real 404.
+export default async function AlbumPage({ params }: PageProps) {
+  const { slug } = await params;
+
+  const collection = await getCachedGalleryCollection(slug, await resolveLocale(params));
+
+  if (!collection) {
+    notFound();
+  }
+
+  // Transform embedded images array to GalleryItem format
+  const galleryImages: GalleryItem[] = (collection.images ?? [])
+    .filter((img) => img.published !== false)
+    .map((img) => {
+      const imageMedia = typeof img.image === "object" ? img.image : null;
+
+      const src = resolveMediaSrc({
+        url: imageMedia?.url,
+        filename: imageMedia?.filename,
+      });
+
+      if (!src) {
+        return null;
+      }
+
+      const thumbSize = imageMedia?.sizes?.thumbnail
+      const thumbnailSrc =
+        thumbSize && (thumbSize.url || thumbSize.filename)
+          ? resolveMediaSrc({ url: thumbSize.url, filename: thumbSize.filename })
+          : undefined;
+
+      const item: GalleryItem = {
+        src,
+        title: img.title ?? imageMedia?.alt ?? "",
+        description: img.description ?? imageMedia?.caption ?? "",
+      };
+      if (thumbnailSrc) item.thumbnailSrc = thumbnailSrc;
+      return item;
+    })
+    .filter((item): item is GalleryItem => Boolean(item));
+
+  const collectionData: GalleryCollectionSummary = {
+    id: String(collection.id),
+    slug: collection.slug,
+    title: collection.title,
+    description: collection.description,
+    flag: getAlbumFlag(collection),
+    status: collection.status,
+    totalImages: collection.images?.length ?? 0,
+  };
+
+  return (
+    <Fragment>
+      <RefreshRouteOnSave />
+      <AlbumClient collection={collectionData} images={galleryImages} />
+    </Fragment>
+  );
+}

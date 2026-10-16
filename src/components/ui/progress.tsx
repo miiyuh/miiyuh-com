@@ -62,7 +62,7 @@ function ProgressIndicator({
 }: ComponentProps<typeof ProgressPrimitive.Range>) {
   return (
     <ProgressPrimitive.Range
-      className={cn("h-full bg-linear-to-r from-amber-400 to-orange-500 transition-all duration-500 rounded-full", className)}
+      className={cn("h-full bg-linear-to-r from-amber-400 to-orange-500 transition duration-500 rounded-full", className)}
       data-slot="progress-indicator"
       {...props}
     />

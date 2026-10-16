@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { isAdmin } from '../access/is-admin'
+import { isAdmin, isAdminOrPublished } from '../access/is-admin'
 import { slugField, revalidateCollectionHooks } from './shared'
 
 const Papers: CollectionConfig = {
@@ -9,7 +9,7 @@ const Papers: CollectionConfig = {
     plural: 'Academic Papers',
   },
   access: {
-    read: () => true,
+    read: isAdminOrPublished,
     create: isAdmin,
     update: isAdmin,
     delete: isAdmin,

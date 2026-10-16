@@ -44,7 +44,7 @@ function TabsList({
       {children}
       <TabsPrimitive.Indicator
         className={cn(
-          "absolute transition-all duration-200 ease-in-out",
+          "absolute transition duration-200 ease-in-out",
           variant === "underline"
             ? "z-10 bg-white data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:w-0.5"
             : "z-10 rounded-md bg-white/20 shadow-sm",

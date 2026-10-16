@@ -30,6 +30,7 @@ export type GalleryCollectionDocument = {
   slug: string
   title: string
   description?: string | null
+  flag?: string | null
   status: GalleryStatus
   albumDate?: string | null
   images?: GalleryImageItem[] | null
@@ -47,6 +48,7 @@ export type GalleryCollectionSummary = {
   slug: string
   title: string
   description?: string | null
+  flag?: string | null
   status: GalleryStatus
   totalImages: number
 }

@@ -25,6 +25,8 @@ function ToggleGroup({
   ...props
 }: ComponentProps<typeof ToggleGroupPrimitive.Root> &
   VariantProps<typeof toggleVariants>) {
+  const contextValue = React.useMemo(() => ({ size, variant }), [size, variant]);
+
   return (
     <ToggleGroupPrimitive.Root
       className={cn(
@@ -45,7 +47,7 @@ function ToggleGroup({
       orientation={orientation}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ size, variant }}>
+      <ToggleGroupContext.Provider value={contextValue}>
         {children}
       </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
@@ -68,7 +70,7 @@ function Toggle({
   return (
     <ToggleGroupPrimitive.Item
       className={cn(
-        "relative inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium text-sm text-white outline-none transition-all before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary data-disabled:pointer-events-none data-disabled:opacity-64 data-[state=on]:bg-amber-400/15 data-[state=on]:border-amber-400/60 data-[state=on]:transition-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium text-sm text-white outline-none transition before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary data-disabled:pointer-events-none data-disabled:opacity-64 data-[state=on]:bg-amber-400/15 data-[state=on]:border-amber-400/60 data-[state=on]:transition-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         resolvedSize === "default" && "h-8 min-w-8 px-[calc(--spacing(2)-1px)]",
         resolvedSize === "lg" && "h-9 min-w-9 px-[calc(--spacing(2.5)-1px)]",
         resolvedSize === "sm" && "h-7 min-w-7 px-[calc(--spacing(1.5)-1px)]",

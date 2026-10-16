@@ -3,24 +3,23 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { getAllForms } from "@/utils/forms";
 import { slugify } from "@/utils/slugify";
+import { getBlogPostPath } from "@/utils/blog-path";
+import { LOCALE_CODES, localeAlternates } from "@/lib/locale";
 
 const baseUrl = "https://miiyuh.com";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
-function withLocaleAlternates(url: string, lastModified: Date, changeFrequency: SitemapEntry["changeFrequency"], priority: number): SitemapEntry {
-  return {
-    url,
+// One entry per locale (/blog, /ms/blog), each listing every language version
+function withLocaleAlternates(path: string, lastModified: Date, changeFrequency: SitemapEntry["changeFrequency"], priority: number): SitemapEntry[] {
+  const languages = localeAlternates(path, baseUrl);
+  return LOCALE_CODES.map((locale) => ({
+    url: languages[locale],
     lastModified,
     changeFrequency,
     priority,
-    alternates: {
-      languages: {
-        en: url,
-        ms: `${url}${url.includes("?") ? "&" : "?"}locale=ms`,
-      },
-    },
-  };
+    alternates: { languages },
+  }));
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -72,19 +71,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const surveys = await getAllForms().catch(() => []);
 
   const entries: MetadataRoute.Sitemap = [
-    withLocaleAlternates(baseUrl, buildTime, "weekly", 1.0),
-    withLocaleAlternates(`${baseUrl}/gallery`, buildTime, "weekly", 0.8),
-    withLocaleAlternates(`${baseUrl}/projects`, buildTime, "weekly", 0.8),
-    withLocaleAlternates(`${baseUrl}/blog`, buildTime, "weekly", 0.8),
-    withLocaleAlternates(`${baseUrl}/surveys`, buildTime, "monthly", 0.5),
-    withLocaleAlternates(
-      `${baseUrl}/privacy-policy`,
+    ...withLocaleAlternates("/", buildTime, "weekly", 1.0),
+    ...withLocaleAlternates(`/gallery`, buildTime, "weekly", 0.8),
+    ...withLocaleAlternates(`/projects`, buildTime, "weekly", 0.8),
+    ...withLocaleAlternates(`/blog`, buildTime, "weekly", 0.8),
+    ...withLocaleAlternates(`/surveys`, buildTime, "monthly", 0.5),
+    ...withLocaleAlternates(
+      `/privacy-policy`,
       new Date((privacyPolicy as { updatedAt?: string } | null)?.updatedAt || buildTime),
       "yearly",
       0.3,
     ),
-    withLocaleAlternates(
-      `${baseUrl}/terms-of-service`,
+    ...withLocaleAlternates(
+      `/terms-of-service`,
       new Date((termsOfService as { updatedAt?: string } | null)?.updatedAt || buildTime),
       "yearly",
       0.3,
@@ -98,12 +97,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     updatedAt?: string;
   }>) {
     if (!post.slug) continue;
-    const date = new Date(post.publishedAt || post.createdAt || Date.now());
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
     entries.push(
-      withLocaleAlternates(
-        `${baseUrl}/blog/${year}/${month}/${post.slug}`,
+      ...withLocaleAlternates(
+        getBlogPostPath(post.slug, post.publishedAt || post.createdAt || Date.now()),
         new Date(post.updatedAt || Date.now()),
         "monthly",
         0.6,
@@ -117,8 +113,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }>) {
     if (!project.slug) continue;
     entries.push(
-      withLocaleAlternates(
-        `${baseUrl}/projects/${project.slug}`,
+      ...withLocaleAlternates(
+        `/projects/${project.slug}`,
         new Date(project.updatedAt || Date.now()),
         "monthly",
         0.7,
@@ -132,8 +128,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }>) {
     if (!album.slug) continue;
     entries.push(
-      withLocaleAlternates(
-        `${baseUrl}/gallery/${album.slug}`,
+      ...withLocaleAlternates(
+        `/gallery/${album.slug}`,
         new Date(album.updatedAt || Date.now()),
         "monthly",
         0.7,
@@ -147,8 +143,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }>) {
     if (!survey.title) continue;
     entries.push(
-      withLocaleAlternates(
-        `${baseUrl}/surveys/${slugify(survey.title)}`,
+      ...withLocaleAlternates(
+        `/surveys/${slugify(survey.title)}`,
         new Date(survey.updatedAt || Date.now()),
         "monthly",
         0.5,

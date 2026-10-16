@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/components/locale-link';
 import { useWebHaptics } from 'web-haptics/react'
 import type { ReactNode } from 'react'
 import { useStuckObserver } from '@/hooks/use-stuck-observer'

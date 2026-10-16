@@ -1,0 +1,56 @@
+'use client'
+
+import type { TOCItemType } from 'fumadocs-core/toc'
+import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
+import { breadcrumbs } from '@/config/breadcrumbs'
+import { PageTOC } from '@/components/ui/page-toc'
+
+interface TermsOfServiceClientProps {
+    htmlContent: string
+    toc: TOCItemType[]
+    updatedAt?: string
+}
+
+const formatDate = (dateString?: string) => {
+    if (!dateString) return null
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+}
+
+export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: TermsOfServiceClientProps) {
+    return (
+        <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
+            <section className="relative grow px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80" style={{ paddingTop: '24px' }}>
+                <SimpleBreadcrumb items={breadcrumbs.termsOfService()} />
+                
+
+                <div className="mb-8">
+                    <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary">
+                        terms of service
+                    </h1>
+                    {updatedAt && (
+                        <p className="text-sm text-text-muted/60">
+                            Last updated: {formatDate(updatedAt)}
+                        </p>
+                    )}
+                </div>
+
+                <div className="border-t border-white/8 pt-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
+                        <div
+                            className="text-base leading-relaxed text-text-secondary lexical-content"
+                            dangerouslySetInnerHTML={{ __html: htmlContent }}
+                        />
+                        {toc.length > 0 && (
+                            <aside className="hidden lg:block">
+                                <div className="sticky top-24">
+                                    <PageTOC toc={toc} />
+                                </div>
+                            </aside>
+                        )}
+                    </div>
+                </div>
+            </section>
+        </main>
+    )
+}

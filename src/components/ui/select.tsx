@@ -24,7 +24,7 @@ function SelectTrigger({
     <SelectPrimitive.Control>
       <SelectPrimitive.Trigger
         className={cn(
-          "relative inline-flex w-full min-w-36 select-none items-center justify-between gap-2 rounded-xl border border-white/15 bg-white/4 backdrop-blur-md px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/5 text-text-primary shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] outline-none ring-accent-hover/30 transition-all pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 data-placeholder-shown:text-text-muted focus-visible:border-accent-hover/70 focus-visible:ring-[3px] data-invalid:border-red-400/60 focus-visible:data-invalid:border-red-300/60 focus-visible:data-invalid:ring-red-300/40 data-disabled:pointer-events-none data-disabled:opacity-60 sm:text-sm [[data-disabled],:focus-visible,[data-invalid],[data-state=open]]:shadow-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:opacity-80",
+          "relative inline-flex w-full min-w-36 select-none items-center justify-between gap-2 rounded-xl border border-white/15 bg-white/4 backdrop-blur-md px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/5 text-text-primary shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] outline-none ring-accent-hover/30 transition pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 data-placeholder-shown:text-text-muted focus-visible:border-accent-hover/70 focus-visible:ring-[3px] data-invalid:border-red-400/60 focus-visible:data-invalid:border-red-300/60 focus-visible:data-invalid:ring-red-300/40 data-disabled:pointer-events-none data-disabled:opacity-60 sm:text-sm [[data-disabled],:focus-visible,[data-invalid],[data-state=open]]:shadow-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:opacity-80",
           size === "sm" &&
             "gap-1.5 px-[calc(--spacing(2.5)-1px)] py-[calc(--spacing(1)-1px)]",
           size === "lg" && "py-[calc(--spacing(2)-1px)]",
@@ -69,7 +69,7 @@ function SelectPopup({
         <SelectPrimitive.Content
           className={cn(
             "origin-(--transform-origin) transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
-            "relative block h-full rounded-xl border border-white/12 bg-[#0b0f1a]/95 backdrop-blur-xl text-text-primary shadow-2xl before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] before:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]",
+            "relative block h-full rounded-xl border border-white/12 bg-surface-primary/95 backdrop-blur-xl text-text-primary shadow-2xl before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] before:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]",
             className,
           )}
           data-slot="select-popup"

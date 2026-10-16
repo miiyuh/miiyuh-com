@@ -1,17 +1,20 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import Image from "next/image";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { NAVIGATION_LINKS } from "@/constants";
 import { useWebHaptics } from "web-haptics/react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import { localizePath } from "@/lib/locale";
+import { useLocale } from "@/lib/locale-context";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const haptic = useWebHaptics();
   const pathname = usePathname();
+  const locale = useLocale();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = useCallback(() => {
@@ -35,14 +38,14 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-bg-primary/95 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
+      <header className="bg-bg-primary/95 backdrop-blur-xl px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 py-4 border-b border-white/8 relative z-40">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" onClick={closeMenu}>
             <Image
               src="/assets/img/logo_miiyuh_v4-white.png"
               alt="miiyuh - return to homepage"
-              width={128}
+              width={74}
               height={32}
               className="h-8 w-auto"
               priority
@@ -121,7 +124,7 @@ export default function Header() {
                     href={link.href}
                     className="hover:underline"
                     onClick={(e) => {
-                      if (link.href === pathname) {
+                      if (localizePath(link.href, locale) === pathname) {
                         e.preventDefault();
                         return;
                       }
@@ -144,7 +147,7 @@ export default function Header() {
         role="dialog"
         aria-modal={menuOpen ? "true" : undefined}
         aria-label="Navigation menu"
-        className={`fixed inset-0 z-30 bg-bg-primary/95 backdrop-blur-xl flex flex-col justify-center items-center transition-all duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-0 z-30 bg-bg-primary/95 backdrop-blur-xl flex flex-col justify-center items-center transition duration-300 ease-in-out lg:hidden ${
           menuOpen
             ? "opacity-100 visible translate-y-0"
             : "opacity-0 invisible -translate-y-2"
@@ -156,7 +159,7 @@ export default function Header() {
               <Link
                 href={link.href}
                 onClick={(e) => {
-                  if (link.href === pathname) {
+                  if (localizePath(link.href, locale) === pathname) {
                     e.preventDefault();
                     closeMenu();
                     return;

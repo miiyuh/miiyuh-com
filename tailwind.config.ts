@@ -12,7 +12,6 @@ const config: Config = {
           serif: ['var(--font-stack-sans-headline)', 'Stack Sans Headline', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
           headline: ['var(--font-stack-sans-headline)', 'Stack Sans Headline', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
           notch: ['var(--font-stack-sans-notch)', 'Stack Sans Notch', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
-          'noto-serif-jp': ['var(--font-noto-serif-jp)', 'serif'],
           mono: ['var(--font-noto-mono)', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'monospace'],
           emoji: ['Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'var(--font-noto-color-emoji)', 'sans-serif'],
         },
@@ -20,8 +19,6 @@ const config: Config = {
       colors: {
         bg: {
           primary: 'var(--bg-primary)',
-          secondary: 'var(--bg-secondary)',
-          tertiary: 'var(--bg-tertiary)',
         },
         text: {
           primary: 'var(--text-primary)',
@@ -35,8 +32,6 @@ const config: Config = {
         },
         surface: {
           primary: 'var(--surface-primary)',
-          glass: 'var(--surface-glass)',
-          'glass-hover': 'var(--surface-glass-hover)',
         },
         status: {
           active: {
@@ -54,9 +49,6 @@ const config: Config = {
             text: 'var(--status-archived-text)',
             border: 'var(--status-archived-border)',
           },
-        },
-        border: {
-          glass: 'var(--border-glass)',
         },
       },
       backgroundImage: {

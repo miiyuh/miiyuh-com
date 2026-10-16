@@ -20,7 +20,9 @@ import { Resume } from './src/globals/Resume'
 import { fullFeaturedEditor } from './src/editor/richTextEditor'
 import { isAdmin } from './src/access/is-admin'
 import { slugify } from './src/utils/slugify'
-import { validateSurveySubmission } from './src/hooks/validate-survey-submission'
+import { validateSurveySubmission } from './src/collections/hooks/validate-survey-submission'
+import { getBlogPostPath } from './src/utils/blog-path'
+import { DEFAULT_LOCALE, isValidLocale, localizePath } from './src/lib/locale'
 
 const requiredEnv = (key: string, fallback?: string): string => {
   const value = process.env[key]
@@ -116,10 +118,7 @@ export default buildConfig({
         const slug = collectionConfig?.slug || globalConfig?.slug
 
         if (slug === 'blog-posts') {
-          const date = new Date(data.publishedAt || new Date())
-          const year = date.getFullYear()
-          const month = String(date.getMonth() + 1).padStart(2, '0')
-          previewPath = `/blog/${year}/${month}/${data.slug}`
+          previewPath = getBlogPostPath(data.slug, data.publishedAt || new Date())
         } else if (slug === 'projects') {
           previewPath = `/projects/${data.slug}`
         } else if (slug === 'gallery-collections') {
@@ -133,13 +132,8 @@ export default buildConfig({
           previewPath = '/terms-of-service'
         }
 
-        const url = `${baseUrl}${previewPath}`
-
-        if (locale?.code && locale.code !== 'en') {
-          return `${url}?locale=${locale.code}`
-        }
-
-        return url
+        const previewLocale = locale?.code && isValidLocale(locale.code) ? locale.code : DEFAULT_LOCALE
+        return `${baseUrl}${localizePath(previewPath || '/', previewLocale)}`
       },
       collections: ['blog-posts', 'projects', 'gallery-collections', 'surveys'],
       globals: ['privacy-policy', 'terms-of-service'],

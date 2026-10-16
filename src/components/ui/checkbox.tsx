@@ -13,7 +13,7 @@ function Checkbox({
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        "relative inline-flex size-4 shrink-0 items-center justify-center rounded-md border border-white/20 bg-white/5 shadow-sm outline-none transition-all before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(0.375rem-1px)] focus-visible:ring-2 focus-visible:ring-accent-hover/50 focus-visible:ring-offset-1 focus-visible:ring-offset-[#070707] data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:border-red-500/50 focus-visible:data-invalid:ring-red-500/50 data-[state=checked]:border-accent-primary data-[state=checked]:bg-accent-primary data-[state=checked]:text-text-primary data-[state=indeterminate]:border-accent-primary data-[state=indeterminate]:bg-accent-primary data-[state=indeterminate]:text-text-primary",
+        "relative inline-flex size-4 shrink-0 items-center justify-center rounded-md border border-white/20 bg-white/5 shadow-sm outline-none transition before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(0.375rem-1px)] focus-visible:ring-2 focus-visible:ring-accent-hover/50 focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:border-red-500/50 focus-visible:data-invalid:ring-red-500/50 data-[state=checked]:border-accent-primary data-[state=checked]:bg-accent-primary data-[state=checked]:text-text-primary data-[state=indeterminate]:border-accent-primary data-[state=indeterminate]:bg-accent-primary data-[state=indeterminate]:text-text-primary",
         className,
       )}
       data-slot="checkbox"

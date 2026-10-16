@@ -4,7 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from 'react'
 import { SoundProvider as AudioSoundProvider } from '@web-kits/audio/react'
@@ -13,6 +13,20 @@ import { playClickSound } from '@/lib/sounds'
 import { prefersReducedMotion } from '@/lib/reduced-motion'
 
 const STORAGE_KEY = 'sound-enabled'
+const CHANGE_EVENT = 'sound-enabled-change'
+
+// localStorage-backed preference that renders "off" on the server and the
+// stored value on the client without a hydration mismatch.
+function subscribeToPreference(onChange: () => void) {
+  window.addEventListener('storage', onChange)
+  window.addEventListener(CHANGE_EVENT, onChange)
+  return () => {
+    window.removeEventListener('storage', onChange)
+    window.removeEventListener(CHANGE_EVENT, onChange)
+  }
+}
+const readPreference = () => window.localStorage.getItem(STORAGE_KEY) === 'true'
+const serverPreference = () => false
 
 type SoundPreferenceContextValue = {
   enabled: boolean
@@ -64,14 +78,11 @@ function ClickSoundListener() {
 // Wraps the app to provide click-sound feedback on buttons/links, gated
 // behind an explicit, localStorage-persisted opt-in (default off).
 export function SoundProvider({ children }: { children: ReactNode }) {
-  const [enabled, setEnabledState] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return window.localStorage.getItem(STORAGE_KEY) === 'true'
-  })
+  const enabled = useSyncExternalStore(subscribeToPreference, readPreference, serverPreference)
 
   const setEnabled = (value: boolean) => {
-    setEnabledState(value)
     window.localStorage.setItem(STORAGE_KEY, String(value))
+    window.dispatchEvent(new Event(CHANGE_EVENT))
   }
 
   return (

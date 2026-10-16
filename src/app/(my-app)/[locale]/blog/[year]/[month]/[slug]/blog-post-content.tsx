@@ -1,0 +1,39 @@
+"use client";
+
+import type { TOCItemType } from "fumadocs-core/toc";
+import { PageTOC, MobileTOC } from "@/components/ui/page-toc";
+
+type BlogPostContentProps = {
+  htmlContent: string;
+  toc: TOCItemType[];
+};
+
+export default function BlogPostContent({
+  htmlContent,
+  toc,
+}: BlogPostContentProps) {
+
+  return (
+    <>
+      {/* Mobile sticky TOC — sits below cover image, sticks to top on scroll */}
+      <MobileTOC toc={toc} scrollOffset={116} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
+        {/* Main content */}
+        <article>
+          <div
+            className="lexical-content"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
+        </article>
+
+        {/* Table of contents sidebar - visible only on large screens */}
+        <div className="hidden lg:block relative h-full border-l border-white/10 pl-8">
+          <div className="sticky top-24 w-64">
+            <PageTOC toc={toc} />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

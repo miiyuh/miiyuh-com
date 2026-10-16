@@ -1,9 +1,9 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 @config "../../../tailwind.config.ts";
 
 /* CSS Custom Properties for consistent theming */
 :root {
-  --font-inter: 'InterVariable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   --font-sans:
     var(--font-stack-sans-text), 'Stack Sans Text', ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji",
@@ -29,36 +29,6 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Self-hosted Inter variable font (was rsms.me CDN) */
-@font-face {
-  font-family: 'InterVariable';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/inter/InterVariable.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'InterVariable';
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/inter/InterVariable.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
 }
 
 /* Text-highlight hover effect: a marker-style background box behind the
@@ -124,19 +94,6 @@ a {
     var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
 }
 
-/* Instrument Serif retired from active use in 7.2.0 — the font stays loaded
-   via layout.tsx (--font-instrument-serif) in case it's wanted again later.
-   The Tailwind `font-serif` utility now resolves to Stack Sans Headline
-   instead (see tailwind.config.ts), so this rule is intentionally disabled. */
-/*
-.font-serif,
-.font-serif p {
-  font-family:
-    var(--font-instrument-serif), "Instrument Serif", "Apple Color Emoji",
-    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
-}
-*/
-
 /* Tailwind v4's JS-config compat layer only auto-generates utilities for the
    standard sans/serif/mono keys — custom fontFamily keys (like `notch` in
    tailwind.config.ts) only produce the --font-* CSS variable, not a class.
@@ -145,6 +102,19 @@ a {
   font-family:
     var(--font-stack-sans-notch), "Stack Sans Notch", "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
+}
+
+.font-paper-mono {
+  font-family:
+    var(--font-paper-mono), "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji",
+    ui-monospace, monospace !important;
+}
+
+.font-noto-serif {
+  font-family:
+    var(--font-noto-serif), "Noto Serif", "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
 }
 
 .font-mono {
@@ -186,13 +156,6 @@ body {
   font-weight: 200;
 }
 
-/* Only paragraphs with font-serif class use Noto Serif JP */
-p.font-serif {
-  font-family:
-    var(--font-noto-serif), "Noto Serif JP", "Apple Color Emoji",
-    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
-}
-
 /* Remove default focus outlines for mouse users, keep for keyboard users */
 *:focus {
   outline: none;
@@ -226,11 +189,6 @@ svg *,
   -webkit-filter: none !important;
 }
 
-/* Optimize image loading */
-img {
-  content-visibility: auto;
-}
-
 /* Simple emoji styling for cross-platform compatibility */
 .emoji-primary {
   font-family:
@@ -259,12 +217,16 @@ img {
     animation: smoothSlideUp 0.8s var(--ease-out-quart) forwards;
   }
 
-  /* Simple-list-reveal stagger — pair with style={{ '--i': index }} on each
-     item, capped at 9 (10 items x 50ms = 500ms max total stagger). */
+  /* Page entrance: short and immediate (no delay) so navigation feels instant */
+  .animate-page-in {
+    animation: pageIn 200ms var(--ease-out-quart) both;
+  }
+
+  /* List-reveal stagger — pair with style={{ '--i': index }} on each item,
+     capped at 9 by callers (10 items x 25ms = 225ms max total stagger). */
   .animate-stagger-item {
-    opacity: 0;
-    animation: smoothSlideUp 400ms var(--ease-out-quart) forwards;
-    animation-delay: calc(var(--i, 0) * 50ms);
+    animation: pageIn 200ms var(--ease-out-quart) both;
+    animation-delay: calc(var(--i, 0) * 25ms);
   }
 
   /* Skip rendering off-screen content — pair with contain-intrinsic-size so the
@@ -290,6 +252,13 @@ img {
    shared the class selector with Tailwind's own generated utility. */
 [class*="backdrop-blur-xl"] {
   backdrop-filter: blur(24px) saturate(180%) !important;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
 }
 
 @keyframes smoothFadeIn {
@@ -350,17 +319,21 @@ img {
   }
 }
 
-/* Lexical content styling for blog posts */
+/* Lexical content styling for blog posts and the legal pages.
+   Body text is Noto Serif; headings inside content use the site's
+   heading face (Stack Sans Headline). */
 .lexical-content {
   font-family:
-    var(--font-noto-sans), "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif;
+    var(--font-noto-serif), "Noto Serif", "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", serif;
+  /* Long-form reading weight; the rest of the site stays at 200 */
+  font-weight: 400;
 }
 
 .lexical-content p {
   font-family:
-    var(--font-noto-sans), "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif !important;
+    var(--font-noto-serif), "Noto Serif", "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", serif !important;
   margin-bottom: 1.25rem;
   line-height: 1.75;
   color: var(--text-primary);
@@ -373,9 +346,9 @@ img {
 .lexical-content h5,
 .lexical-content h6 {
   font-family:
-    var(--font-noto-sans), "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif;
-  font-weight: 700;
+    var(--font-stack-sans-headline), "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
+  font-weight: 600;
   line-height: 1.3;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -465,20 +438,47 @@ img {
   text-decoration: underline;
 }
 
-/* Reduced motion — crossfade or instant transitions only */
+/* Reduced motion: keep fades (they communicate state without movement),
+   drop translation/scale/rotation and decorative looping motion. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  html {
     scroll-behavior: auto !important;
   }
 
-  .animate-in {
-    opacity: 1 !important;
-    transform: none !important;
+  .animate-page-in,
+  .animate-stagger-item {
+    animation-name: fadeOnly;
+  }
+
+  /* tw-animate-css enter/exit: opacity only */
+  .animate-in,
+  .animate-out {
+    --tw-enter-translate-x: 0;
+    --tw-enter-translate-y: 0;
+    --tw-enter-scale: 1;
+    --tw-enter-rotate: 0;
+    --tw-exit-translate-x: 0;
+    --tw-exit-translate-y: 0;
+    --tw-exit-scale: 1;
+    --tw-exit-rotate: 0;
+  }
+
+  /* Hover lifts, fan-outs, slide-ins: transitions limited to colour/opacity */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow !important;
+  }
+
+  .animate-skeleton,
+  .animate-pulse {
     animation: none !important;
+  }
+}
+
+@keyframes fadeOnly {
+  from {
+    opacity: 0;
   }
 }

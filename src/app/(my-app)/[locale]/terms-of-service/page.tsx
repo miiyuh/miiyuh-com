@@ -1,0 +1,62 @@
+import type { Metadata } from 'next'
+import { isValidLocale, pageAlternates, resolveLocale } from '@/lib/locale'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { Fragment } from 'react'
+import { RefreshRouteOnSave } from '@/components/live-preview'
+import { renderLexicalContent } from '@/utils/lexical-renderer'
+import { extractTocFromLexical } from '@/utils/extract-toc'
+import TermsOfServiceClient from './terms-of-service-client'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  if (!isValidLocale(locale)) return {}
+  return {
+    title: 'terms of service - miiyuh.com',
+    description: 'terms and conditions governing the use of this website. your rights, responsibilities, and disclaimers.',
+    alternates: pageAlternates('/terms-of-service', locale),
+  }
+}
+
+export const revalidate = 300
+
+export default async function TermsOfService({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = await resolveLocale(params)
+  const payload = await getPayload({ config })
+  const termsOfService = await payload.findGlobal({
+    slug: 'terms-of-service',
+    locale,
+  })
+
+  const content = termsOfService.content
+  const lastUpdated = termsOfService.lastUpdated
+  const updatedAt = termsOfService.updatedAt
+
+  // If content is empty, show a message
+  if (!content) {
+    return (
+      <Fragment>
+        <RefreshRouteOnSave />
+        <TermsOfServiceClient
+          htmlContent="<div class='text-center p-8'><p class='text-lg'>Content not yet available. Please populate the Terms of Service in the CMS admin at <a href='/admin' class='text-accent-hover underline'>/admin</a>.</p></div>"
+          toc={[]}
+          updatedAt={lastUpdated ?? updatedAt ?? undefined}
+        />
+      </Fragment>
+    )
+  }
+
+  const htmlContent = renderLexicalContent(content)
+  const toc = extractTocFromLexical(content)
+
+  return (
+    <Fragment>
+      <RefreshRouteOnSave />
+      <TermsOfServiceClient htmlContent={htmlContent} toc={toc} updatedAt={lastUpdated ?? updatedAt ?? undefined} />
+    </Fragment>
+  )
+}
