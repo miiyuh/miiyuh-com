@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "@/components/locale-link";
 import { useWebHaptics } from "web-haptics/react";
 import LocaleToggle from "@/components/layout/locale-toggle";
@@ -22,13 +23,16 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/8 px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 pt-12 pb-24 sm:pb-8 text-text-secondary">
       <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
-        {/* Wordmark: decorative, the header logo already names the site */}
-        <p
+        {/* Faint logo: decorative, the header logo already names the site */}
+        <Image
+          src="/assets/img/logo_miiyuh_v4-white.png"
+          alt=""
           aria-hidden="true"
-          className="font-notch leading-[0.8] tracking-tight text-text-primary/10 select-none text-[clamp(4rem,12vw,8rem)] -ml-[0.04em]"
-        >
-          miiyuh
-        </p>
+          width={2497}
+          height={1080}
+          sizes="(max-width: 768px) 60vw, 300px"
+          className="h-auto w-[min(60vw,18.5rem)] opacity-10 select-none pointer-events-none"
+        />
 
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-16 gap-y-8 sm:flex sm:gap-20">
           {COLUMNS.map((column) => (

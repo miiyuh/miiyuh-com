@@ -1,260 +1,309 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Card, CardPanel } from "@/components/ui/card"
-import { DevPageShell } from "@/components/ui/dev-page-shell"
-import { SECTION_TITLE } from "@/config/dev-pages"
+import { DevPageShell } from '@/components/ui/dev-page-shell'
 
-type FontStackKey =
-  | 'html'
-  | 'body'
-  | 'sans'
-  | 'headingSerif'
-  | 'paragraphSerif'
-  | 'mono'
-  | 'emoji'
-
-type FontStacks = Record<FontStackKey, string>
-
-type FontInfo = {
-  stacks: FontStacks | null
-  vars: Record<string, string>
+type Family = {
+  name: string
+  role: string
+  usage: string
+  variable: string
+  className: string
+  min: number
+  max: number
+  defaultWeight: number
+  sample: string
 }
 
-const FONT_VARIABLES = [
-  '--font-paper-mono',
-  '--font-stack-sans-text',
-  '--font-stack-sans-headline',
-  '--font-noto-mono',
-  '--font-noto-color-emoji',
-] as const
+// Every typeface the site loads (src/lib/fonts.ts), with where it is used
+const FAMILIES: Family[] = [
+  {
+    name: 'Stack Sans Text',
+    role: 'UI and body',
+    usage: 'body, font-sans (weight 200)',
+    variable: '--font-stack-sans-text',
+    className: 'font-sans',
+    min: 200,
+    max: 700,
+    defaultWeight: 200,
+    sample: 'Fresh graduate, creative developer, and photographer.',
+  },
+  {
+    name: 'Stack Sans Headline',
+    role: 'Headings',
+    usage: 'h1–h6, font-serif',
+    variable: '--font-stack-sans-headline',
+    className: 'font-serif',
+    min: 200,
+    max: 700,
+    defaultWeight: 400,
+    sample: 'Experience, Education, Volunteering',
+  },
+  {
+    name: 'Stack Sans Notch',
+    role: 'Display and navigation',
+    usage: 'font-notch: page titles, nav, footer, 404',
+    variable: '--font-stack-sans-notch',
+    className: 'font-notch',
+    min: 200,
+    max: 700,
+    defaultWeight: 400,
+    sample: 'gallery projects blog',
+  },
+  {
+    name: 'Paper Mono',
+    role: 'Long-form reading',
+    usage: '.lexical-content (posts, legal pages), font-paper-mono (weight 450)',
+    variable: '--font-paper-mono',
+    className: 'font-paper-mono',
+    min: 100,
+    max: 800,
+    defaultWeight: 450,
+    sample: 'This frame never made it out of the darkroom.',
+  },
+  {
+    name: 'Noto Sans Mono',
+    role: 'Small metadata',
+    usage: 'font-mono: course codes, clock, error references',
+    variable: '--font-noto-mono',
+    className: 'font-mono',
+    min: 100,
+    max: 900,
+    defaultWeight: 400,
+    sample: 'CSF 3013 · 17:59 GMT+8 · ref 4f2a9c',
+  },
+]
 
-const STACK_LABELS: Record<FontStackKey, string> = {
-  html: 'HTML root (Stack Sans Text)',
-  body: 'Body element',
-  sans: 'font-sans utility (Stack Sans Text)',
-  headingSerif: 'font-serif utility (Stack Sans Headline)',
-  paragraphSerif: 'p.font-serif (Noto Serif JP)',
-  mono: 'font-mono (Noto Sans Mono)',
-  emoji: 'font-emoji (Emoji stack)',
+const WEIGHT_RAMP = [100, 200, 300, 400, 450, 500, 600, 700, 800, 900]
+
+type Diagnostics = {
+  loaded: Record<string, boolean>
+  resolved: Array<{ label: string; family: string; weight: string }>
 }
 
-export default function FontDebugPage() {
-  const [fontInfo, setFontInfo] = useState<FontInfo>({ stacks: null, vars: {} })
+// Elements whose computed font tells us the cascade is wired up correctly
+const PROBES: Array<{ label: string; tag: keyof HTMLElementTagNameMap; className?: string }> = [
+  { label: 'body text', tag: 'p' },
+  { label: 'h2', tag: 'h2' },
+  { label: '.font-notch', tag: 'span', className: 'font-notch' },
+  { label: '.lexical-content p', tag: 'p', className: '__lexical' },
+  { label: '.font-mono', tag: 'span', className: 'font-mono' },
+  { label: '.font-emoji', tag: 'span', className: 'font-emoji' },
+]
+
+function readDiagnostics(): Diagnostics {
+  const body = getComputedStyle(document.body)
+  const loaded: Record<string, boolean> = {}
+  for (const family of FAMILIES) {
+    const first = body.getPropertyValue(family.variable).split(',')[0]?.trim()
+    loaded[family.name] = Boolean(first) && document.fonts.check(`${family.defaultWeight} 16px ${first}`)
+  }
+
+  const resolved = PROBES.map(({ label, tag, className }) => {
+    const host = document.createElement('div')
+    if (className === '__lexical') host.className = 'lexical-content'
+    host.style.cssText = 'position:absolute;visibility:hidden;top:-9999px'
+    const el = document.createElement(tag)
+    if (className && className !== '__lexical') el.className = className
+    el.textContent = 'sample'
+    host.appendChild(el)
+    document.body.appendChild(host)
+    const style = getComputedStyle(el)
+    const result = { label, family: style.fontFamily.split(',')[0].replace(/["']/g, ''), weight: style.fontWeight }
+    host.remove()
+    return result
+  })
+
+  return { loaded, resolved }
+}
+
+export default function FontsPage() {
+  const [sample, setSample] = useState('')
+  const [weights, setWeights] = useState<Record<string, number>>(() =>
+    Object.fromEntries(FAMILIES.map((f) => [f.name, f.defaultWeight])),
+  )
+  const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    let rafId: number | null = null
     let cancelled = false
-
-    const sampleFont = (className: string, tag: keyof HTMLElementTagNameMap = 'span') => {
-      const element = document.createElement(tag)
-      element.className = className
-      element.style.position = 'absolute'
-      element.style.visibility = 'hidden'
-      element.style.top = '-9999px'
-      element.textContent = 'font-sample'
-      document.body.appendChild(element)
-      const family = getComputedStyle(element).fontFamily
-      document.body.removeChild(element)
-      return family
-    }
-
-        rafId = window.requestAnimationFrame(() => {
-          try {
-            const rootStyle = getComputedStyle(document.documentElement)
-            const bodyStyle = getComputedStyle(document.body)
-
-            const stacks: FontStacks = {
-              html: rootStyle.fontFamily,
-              body: bodyStyle.fontFamily,
-              sans: sampleFont('font-sans'),
-              headingSerif: sampleFont('font-serif'),
-              paragraphSerif: sampleFont('font-serif', 'p'),
-              mono: sampleFont('font-mono'),
-              emoji: sampleFont('font-emoji'),
-            }
-
-            // Font variables are set on <body> by Next.js font classes, not on <html>
-            const bodyComputed = getComputedStyle(document.body)
-            const vars = FONT_VARIABLES.reduce<Record<string, string>>((acc, variable) => {
-              const value = bodyComputed.getPropertyValue(variable).trim()
-              if (value) {
-                acc[variable] = value
-              }
-              return acc
-            }, {})
-
-        if (!cancelled) {
-          setFontInfo({ stacks, vars })
-        }
-      } catch (error) {
-        console.error('Font debug error:', error)
-      }
+    void document.fonts.ready.then(() => {
+      if (!cancelled) setDiagnostics(readDiagnostics())
     })
-
     return () => {
       cancelled = true
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId)
-      }
     }
   }, [])
 
-  const renderSample = (key: FontStackKey) => {
-    switch (key) {
-      case 'headingSerif':
-        return (
-          <div className="font-serif text-2xl tracking-tight">
-            Stack Sans Headline · Cosmic Headlines & Midnight Essays
-          </div>
-        )
-      case 'paragraphSerif':
-        return (
-          <p className="font-serif text-base leading-relaxed">
-            Body copy switches to Noto Serif JP for bilingual text. 静かな夜明けとともに、街が目を覚ます。
-          </p>
-        )
-      case 'mono':
-        return (
-          <pre className="font-mono text-sm bg-white/4 border border-white/8 p-3 overflow-auto">
-{`const lens = {
-  focalLength: 35,
-  aperture: 'f/1.4',
-}`}
-          </pre>
-        )
-      case 'emoji':
-        return (
-          <p className="font-emoji text-2xl">🍁✨📷🎨🗼🧠🌌</p>
-        )
-      case 'sans':
-        return (
-          <p className="font-sans text-base">
-            Stack Sans Text drives all interface elements, nav, and small UI annotations.
-          </p>
-        )
-      case 'body':
-        return <p>The body inherits the same Stack Sans Text stack for consistency.</p>
-      case 'html':
-        return <p>The html element defines the global Stack Sans Text stack.</p>
-      default:
-        return null
-    }
-  }
-
   return (
     <DevPageShell>
-      <div className="mx-auto max-w-5xl space-y-12">
-        <header className="space-y-3">
-          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">Font telemetry</h1>
-          <p className="text-text-secondary max-w-2xl">
-            Snapshot of every font stack currently wired into the site. Useful for verifying Stack Sans Text, Stack
-            Sans Headline, Noto Serif JP, Noto Sans Mono, and the emoji fallbacks in
-            one place. Instrument Serif stays loaded (see CSS font variables below) but is no longer applied anywhere.
+      <header className="space-y-3">
+        <h1 className="font-notch text-5xl md:text-6xl tracking-tight">fonts</h1>
+        <p className="text-lg text-text-secondary max-w-prose">
+          Every typeface the site loads, where it is used, and how it renders. Fonts are declared once in{' '}
+          <code className="font-mono text-sm text-text-primary">src/lib/fonts.ts</code>.
+        </p>
+      </header>
+
+      <label className="flex flex-col gap-2 max-w-xl">
+        <span className="text-xs uppercase tracking-widest text-text-muted">Sample text</span>
+        <input
+          value={sample}
+          onChange={(e) => setSample(e.target.value)}
+          placeholder="Type to preview every family"
+          className="rounded-lg border border-white/8 bg-white/2 px-3 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-white/15"
+        />
+      </label>
+
+      <section aria-labelledby="families" className="space-y-4">
+        <h2 id="families" className="text-2xl">Families</h2>
+        <div className="grid gap-4">
+          {FAMILIES.map((family) => {
+            const weight = weights[family.name]
+            const isLoaded = diagnostics?.loaded[family.name]
+            return (
+              <article key={family.name} className="rounded-xl border border-white/8 bg-white/2 p-6 space-y-5">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+                  <div>
+                    <h3 className="text-xl">{family.name}</h3>
+                    <p className="text-sm text-text-secondary">
+                      {family.role} · <span className="font-mono text-xs">{family.usage}</span>
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-text-muted">
+                    <span className="font-mono">{family.variable}</span>
+                    <span
+                      className={`rounded-full px-2 py-0.5 ${
+                        isLoaded === undefined
+                          ? 'bg-white/4'
+                          : isLoaded
+                            ? 'bg-accent-primary/20 text-accent-hover'
+                            : 'bg-red-500/10 text-red-300'
+                      }`}
+                    >
+                      {isLoaded === undefined ? 'checking' : isLoaded ? 'loaded' : 'not loaded'}
+                    </span>
+                  </div>
+                </div>
+
+                <p className={`${family.className} text-3xl md:text-4xl leading-tight text-text-primary`} style={{ fontWeight: weight }}>
+                  {sample || family.sample}
+                </p>
+
+                <label className="flex items-center gap-4 text-sm text-text-muted">
+                  <span className="w-24 shrink-0">weight {weight}</span>
+                  <input
+                    type="range"
+                    min={family.min}
+                    max={family.max}
+                    step={10}
+                    value={weight}
+                    onChange={(e) => setWeights((w) => ({ ...w, [family.name]: Number(e.target.value) }))}
+                    className="w-full max-w-sm accent-[var(--accent-hover)]"
+                    aria-label={`${family.name} weight`}
+                  />
+                  <span className="font-mono text-xs">
+                    {family.min}–{family.max}
+                  </span>
+                </label>
+
+                <div className="flex flex-wrap gap-x-6 gap-y-2 border-t border-white/8 pt-4">
+                  {WEIGHT_RAMP.filter((w) => w >= family.min && w <= family.max).map((w) => (
+                    <span key={w} className={`${family.className} text-lg text-text-secondary`} style={{ fontWeight: w }}>
+                      {w}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </section>
+
+      <section aria-labelledby="scale" className="space-y-4">
+        <h2 id="scale" className="text-2xl">Type scale</h2>
+        <div className="rounded-xl border border-white/8 bg-white/2 p-6 space-y-6">
+          <div>
+            <p className="text-xs text-text-muted mb-1 font-mono">display · font-notch text-5xl md:text-6xl</p>
+            <p className="font-notch text-5xl md:text-6xl tracking-tight">gallery</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted mb-1 font-mono">heading · h2 text-3xl</p>
+            <p className="font-serif text-3xl">Experience</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted mb-1 font-mono">title · text-2xl</p>
+            <p className="font-serif text-2xl">Library Management System (LMS)</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted mb-1 font-mono">body · text-base, weight 200</p>
+            <p className="text-base text-text-secondary max-w-prose">
+              Full-stack system for book lending with role-based access and overdue tracking designed for schools.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted mb-1 font-mono">label · text-xs tracking-widest</p>
+            <p className="text-xs uppercase tracking-widest text-text-muted">topics</p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="long-form" className="space-y-4">
+        <h2 id="long-form" className="text-2xl">Long-form (.lexical-content)</h2>
+        <div className="rounded-xl border border-white/8 bg-white/2 p-6">
+          <div className="lexical-content max-w-prose">
+            <h2>Historical parallels</h2>
+            <p>
+              The walls were never only about keeping titans out. They were about deciding who counts as inside, and
+              who gets to write the history <em>everyone</em> else has to learn. <strong>Bold</strong> and{' '}
+              <a href="#long-form">linked text</a> keep the same rhythm.
+            </p>
+            <ul>
+              <li>Propaganda and the manufacturing of truth</li>
+              <li>Nationalism, patriotism, and the other</li>
+            </ul>
+            <blockquote>If you win, you live. If you lose, you die.</blockquote>
+            <p>Malay: bingkai ini tidak pernah keluar dari bilik gelap.</p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="emoji" className="space-y-4">
+        <h2 id="emoji" className="text-2xl">Emoji fallback</h2>
+        <div className="rounded-xl border border-white/8 bg-white/2 p-6 space-y-2">
+          <p className="font-emoji text-3xl">🇲🇾 🇯🇵 🍁 📷 ✨</p>
+          <p className="text-sm text-text-muted">
+            Noto Color Emoji is not preloaded; it downloads only when a glyph like these renders.
           </p>
-        </header>
+        </div>
+      </section>
 
-        <section className="space-y-4">
-          <h2 className={SECTION_TITLE}>Computed font stacks</h2>
-          {!fontInfo.stacks && <span className="text-sm text-text-muted">Collecting metrics…</span>}
-          <div className="grid gap-4 md:grid-cols-2">
-            {(Object.keys(STACK_LABELS) as FontStackKey[]).map((key) => {
-              const value = fontInfo.stacks?.[key]
-              return (
-                <Card key={key} className="gap-0">
-                  <CardPanel className="space-y-3">
-                    <div>
-                      <p className="text-sm text-text-secondary">{STACK_LABELS[key]}</p>
-                      <pre className="font-mono text-xs bg-bg-primary/60 border border-white/8 px-3 py-2 mt-2 overflow-x-auto">
-                        {value || '—'}
-                      </pre>
-                    </div>
-                    <div className="text-sm text-text-primary">{renderSample(key)}</div>
-                  </CardPanel>
-                </Card>
-              )
-            })}
-          </div>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className={SECTION_TITLE}>CSS font variables</h2>
-          <div className="grid gap-3 md:grid-cols-2">
-            {FONT_VARIABLES.map((variable) => (
-              <Card key={variable} className="gap-0">
-                <CardPanel>
-                  <p className="text-sm text-text-secondary">{variable}</p>
-                  <p className="font-mono text-sm mt-2 break-all">
-                    {fontInfo.vars[variable] || 'NOT FOUND'}
-                  </p>
-                </CardPanel>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className={SECTION_TITLE}>Live specimens</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card className="gap-0">
-              <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Stack Sans Text UI copy</p>
-                <p>
-                  Buttons, inputs, and navigation rely on Stack Sans Text. If this line does not match the rest of
-                  the UI, the font failed to load.
-                </p>
-              </CardPanel>
-            </Card>
-            <Card className="gap-0">
-              <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Stack Sans Headline display</p>
-                <div className="font-serif text-3xl leading-[1.1]">
-                  Ghosted headlines float above the gallery grid.
-                </div>
-              </CardPanel>
-            </Card>
-            <Card className="gap-0 md:col-span-2">
-              <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Noto Sans (blog post content)</p>
-                <div style={{ fontFamily: 'var(--font-paper-mono), monospace' }}>
-                  <div className="text-2xl font-bold leading-[1.3] mb-2">A blog post heading in Noto Sans</div>
-                  <p className="text-lg leading-[1.75]">
-                    Blog post body copy and headings both render in Noto Sans inside
-                    .lexical-content.
-                  </p>
-                </div>
-              </CardPanel>
-            </Card>
-            <Card className="gap-0 md:col-span-2">
-              <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Noto Serif JP paragraph</p>
-                <p className="font-serif text-lg leading-relaxed">
-                  Mixed-language copy like 日本の都市風景と late-night code sessions rely on Noto Serif JP to keep kanji and
-                  Latin glyphs consistent.
-                </p>
-              </CardPanel>
-            </Card>
-            <Card className="gap-0">
-              <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Noto Sans Mono</p>
-                <pre className="font-mono text-sm bg-white/4 border border-white/8 p-3">
-{`function hydrate() {
-  return 'glow';
-}`}
-                </pre>
-              </CardPanel>
-            </Card>
-            <Card className="gap-0">
-              <CardPanel>
-                <p className="text-sm text-text-secondary mb-2">Emoji stack</p>
-                <p className="font-emoji text-2xl">🎞️ 📷 🌃 🛫 🗺️ ✨ 🐉</p>
-              </CardPanel>
-            </Card>
-          </div>
-        </section>
-      </div>
+      <section aria-labelledby="diagnostics" className="space-y-4">
+        <h2 id="diagnostics" className="text-2xl">Resolved fonts</h2>
+        <div className="rounded-xl border border-white/8 bg-white/2 p-6">
+          {diagnostics ? (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs uppercase tracking-widest text-text-muted">
+                  <th className="pb-3 font-normal">Element</th>
+                  <th className="pb-3 font-normal">First family</th>
+                  <th className="pb-3 font-normal">Weight</th>
+                </tr>
+              </thead>
+              <tbody className="font-mono text-xs">
+                {diagnostics.resolved.map((row) => (
+                  <tr key={row.label} className="border-t border-white/8">
+                    <td className="py-2.5 text-text-secondary">{row.label}</td>
+                    <td className="py-2.5 text-text-primary">{row.family}</td>
+                    <td className="py-2.5 text-text-secondary">{row.weight}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-sm text-text-muted">Waiting for fonts to load…</p>
+          )}
+        </div>
+      </section>
     </DevPageShell>
   )
 }
