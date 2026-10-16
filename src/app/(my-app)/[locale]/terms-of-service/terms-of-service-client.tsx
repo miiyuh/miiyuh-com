@@ -11,13 +11,13 @@ interface TermsOfServiceClientProps {
     updatedAt?: string
 }
 
-export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: TermsOfServiceClientProps) {
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return null
-        const date = new Date(dateString)
-        return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    }
+const formatDate = (dateString?: string) => {
+    if (!dateString) return null
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+}
 
+export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: TermsOfServiceClientProps) {
     return (
         <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
             <section className="relative grow px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80" style={{ paddingTop: '24px' }}>

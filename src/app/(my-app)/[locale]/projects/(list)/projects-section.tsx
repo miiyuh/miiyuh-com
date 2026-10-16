@@ -46,15 +46,14 @@ export default async function ProjectsSection({ params }: { params: Promise<{ lo
         githubUrl?: string
         liveUrl?: string
       }
-      return {
-        ...base,
+      return Object.assign(base, {
         projectDetails: {
           techStack: details.techStack,
           status: details.status,
           githubUrl: details.githubUrl,
           liveUrl: details.liveUrl,
         },
-      }
+      })
     }
 
     if (project.category === 'university-project' && project.universityDetails) {
@@ -63,14 +62,13 @@ export default async function ProjectsSection({ params }: { params: Promise<{ lo
         semester?: string
         grade?: string
       }
-      return {
-        ...base,
+      return Object.assign(base, {
         universityDetails: {
           course: details.course,
           semester: details.semester,
           grade: details.grade,
         },
-      }
+      })
     }
 
     return base

@@ -66,7 +66,7 @@ const getCachedPublishedTagOptions = unstable_cache(
       })
     })
 
-    return Array.from(tagOptionsMap.values()).sort((a, b) => a.label.localeCompare(b.label))
+    return Array.from(tagOptionsMap.values()).toSorted((a, b) => a.label.localeCompare(b.label))
   },
   ['blog-published-tag-options'],
   {

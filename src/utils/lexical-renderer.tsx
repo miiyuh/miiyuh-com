@@ -135,7 +135,7 @@ export type LexicalContent = {
 // XSS Protection
 // ============================================================================
 
-const ALLOWED_URL_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:']
+const ALLOWED_URL_PROTOCOLS = new Set(['http:', 'https:', 'mailto:', 'tel:'])
 
 function escapeHtml(text: string): string {
   const htmlEscapes: Record<string, string> = {
@@ -152,7 +152,7 @@ function sanitizeUrl(url: string | undefined): string {
   if (!url) return '#'
   try {
     const parsed = new URL(url, 'https://example.com')
-    if (!ALLOWED_URL_PROTOCOLS.includes(parsed.protocol)) {
+    if (!ALLOWED_URL_PROTOCOLS.has(parsed.protocol)) {
       return '#'
     }
     // Escape so the URL cannot break out of the surrounding HTML attribute

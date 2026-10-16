@@ -31,6 +31,10 @@ interface BlogClientProps {
   };
 }
 
+// Published posts always have a date; "/blog" is only a safe fallback
+const getPostUrl = (post: BlogPostCard) =>
+  post.publishedAt ? getBlogPostPath(post.slug, post.publishedAt) : "/blog";
+
 export default function BlogClient({
   posts,
   availableTags,
@@ -151,10 +155,6 @@ export default function BlogClient({
     const query = params.toString();
     return query ? `${pathname}?${query}` : pathname;
   };
-
-  // Published posts always have a date; "/blog" is only a safe fallback
-  const getPostUrl = (post: BlogPostCard) =>
-    post.publishedAt ? getBlogPostPath(post.slug, post.publishedAt) : "/blog";
 
   const locale = useLocale();
   const formatDate = (dateString?: string) =>
