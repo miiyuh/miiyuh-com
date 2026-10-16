@@ -53,12 +53,12 @@ const FAMILIES: Family[] = [
   {
     name: 'Noto Serif',
     role: 'Long-form reading',
-    usage: '.lexical-content (posts, legal pages, weight 450), font-noto-serif (post excerpt)',
+    usage: '.lexical-content (posts, legal pages, weight 400), font-noto-serif (post excerpt)',
     variable: '--font-noto-serif',
     className: 'font-noto-serif',
     min: 100,
     max: 900,
-    defaultWeight: 450,
+    defaultWeight: 400,
     sample: 'This frame never made it out of the darkroom.',
   },
   {
@@ -69,7 +69,7 @@ const FAMILIES: Family[] = [
     className: 'font-paper-mono',
     min: 100,
     max: 800,
-    defaultWeight: 450,
+    defaultWeight: 400,
     sample: '21:25 GMT+8',
   },
   {

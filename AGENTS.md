@@ -34,7 +34,7 @@ Personal portfolio (Next.js 16 + Payload CMS 3 + MongoDB + Tailwind CSS v4).
 ## Style
 
 - **Theme**: Dark (#070707 bg, #FAF3E0 text), CSS variables in `globals.css`, glass-morphism panels. Use the tokens (`text-text-primary`, `bg-bg-primary`, `bg-surface-primary`); no hex values in class names. Accent: `#035940` for fills only, `text-accent-hover` (`#86efac`) for green text/icons. See `DESIGN.md`.
-- **Typography**: Stack Sans Text (body, weight 200), Stack Sans Headline (headings), Stack Sans Notch (display/nav, `font-notch`), Noto Serif (long-form body in `.lexical-content`, weight 450; headings in it 600), Paper Mono (footer clock), Noto Sans Mono (`font-mono`). Stack Sans and Paper Mono are local; Noto Serif / Noto Sans Mono / Noto Color Emoji come from next/font/google.
+- **Typography**: Stack Sans Text (body, weight 200), Stack Sans Headline (headings), Stack Sans Notch (display/nav, `font-notch`), Noto Serif (long-form body in `.lexical-content`, weight 400; headings in it 600), Paper Mono (footer clock), Noto Sans Mono (`font-mono`). Stack Sans and Paper Mono are local; Noto Serif / Noto Sans Mono / Noto Color Emoji come from next/font/google.
 - **Responsive spacing**: `px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80` for main containers, header and footer. Blog posts keep a fixed `max-w-4xl` reading width.
 - **Motion**: page entrance `animate-page-in` (200ms, no delay), lists `animate-stagger-item`; use `transition`/`transition-colors`, never `transition-all`.
 - **Emojis**: NEVER use unless the user explicitly asks.

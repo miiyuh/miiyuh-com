@@ -87,7 +87,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
               </h1>
             </div>
 
-            <p className="text-lg md:text-xl text-text-secondary italic font-noto-serif font-[450] max-w-3xl leading-relaxed text-pretty">
+            <p className="text-lg md:text-xl text-text-secondary italic font-noto-serif font-normal max-w-3xl leading-relaxed text-pretty">
               {project.description}
             </p>
 

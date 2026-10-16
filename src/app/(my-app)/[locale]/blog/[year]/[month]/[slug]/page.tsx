@@ -202,7 +202,7 @@ async function Page({ params }: PageProps) {
             </div>
 
             {post.excerpt && (
-              <p className="text-base text-text-secondary italic font-noto-serif font-[450]">
+              <p className="text-base text-text-secondary italic font-noto-serif font-normal">
                 {post.excerpt}
               </p>
             )}

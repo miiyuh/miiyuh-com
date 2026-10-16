@@ -31,7 +31,7 @@ typography:
   long-form:
     fontFamily: '"Noto Serif", serif'
     fontSize: '1rem'
-    fontWeight: 450
+    fontWeight: 400
     lineHeight: 1.75
   mono:
     fontFamily: '"Noto Sans Mono", monospace'
@@ -140,7 +140,7 @@ All colours come from the tokens in `globals.css` (`text-text-primary`, `bg-bg-p
 - **Title** (Headline, text-lg to 2xl): Entry and list-item titles.
 - **Body** (Text 200, 1rem, 1.75): Descriptions, bios, metadata. Max line length 65–75ch (`max-w-prose`).
 - **Label** (Text, 0.75rem, wide tracking): Tags, chips, small metadata.
-- **Long-form** (Noto Serif 450, 1rem, 1.75): Post and legal-page body. Headings inside it are Stack Sans Headline 600.
+- **Long-form** (Noto Serif 400, 1rem, 1.75): Post and legal-page body. Headings inside it are Stack Sans Headline 600.
 
 ## 4. Elevation
 

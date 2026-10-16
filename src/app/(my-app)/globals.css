@@ -327,7 +327,7 @@ svg *,
     var(--font-noto-serif), "Noto Serif", "Apple Color Emoji",
     var(--font-noto-color-emoji), "Segoe UI Emoji", serif;
   /* Long-form reading weight; the rest of the site stays at 200 */
-  font-weight: 450;
+  font-weight: 400;
 }
 
 .lexical-content p {
