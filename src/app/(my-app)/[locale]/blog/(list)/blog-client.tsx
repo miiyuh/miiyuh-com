@@ -198,10 +198,10 @@ export default function BlogClient({
 
           {/* Topic Tags */}
           {allTopics.length > 0 && (
-            <div className="space-y-2" role="group" aria-labelledby="blog-topics-label">
-              <span id="blog-topics-label" className="block text-xs uppercase tracking-widest text-text-muted/60 font-light">
+            <fieldset className="min-w-0 space-y-2">
+              <legend className="block p-0 text-xs uppercase tracking-widest text-text-muted/60 font-light">
                 Topics
-              </span>
+              </legend>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => {
@@ -232,7 +232,7 @@ export default function BlogClient({
                   </button>
                 ))}
               </div>
-            </div>
+            </fieldset>
           )}
         </div>
       </div>

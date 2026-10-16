@@ -104,12 +104,13 @@ export default async function AlbumPage({ params }: PageProps) {
           ? resolveMediaSrc({ url: thumbSize.url, filename: thumbSize.filename })
           : undefined;
 
-      return {
+      const item: GalleryItem = {
         src,
         title: img.title ?? imageMedia?.alt ?? "",
         description: img.description ?? imageMedia?.caption ?? "",
-        ...(thumbnailSrc ? { thumbnailSrc } : {}),
-      } satisfies GalleryItem;
+      };
+      if (thumbnailSrc) item.thumbnailSrc = thumbnailSrc;
+      return item;
     })
     .filter((item): item is GalleryItem => Boolean(item));
 

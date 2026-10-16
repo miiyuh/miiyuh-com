@@ -250,8 +250,8 @@ export default function ComponentsLabPage() {
                     <Label htmlFor="dialog-desc">Description</Label>
                     <Textarea id="dialog-desc" placeholder="Optional description" rows={2} />
                   </div>
-                  <label className="flex items-center gap-3 text-sm text-text-secondary">
-                    <Checkbox defaultChecked />
+                  <label htmlFor="dialog-template" className="flex items-center gap-3 text-sm text-text-secondary">
+                    <Checkbox ids={{ hiddenInput: "dialog-template" }} defaultChecked />
                     <span>Create from template</span>
                   </label>
                   <DialogFooter className="pt-4!">
@@ -336,8 +336,8 @@ export default function ComponentsLabPage() {
             <CardDescription className={SECTION_SUB}>Binary selection and multi-line input</CardDescription>
           </CardHeader>
           <CardPanel className="space-y-4">
-            <label className="flex items-center gap-3 text-sm text-text-secondary">
-              <Checkbox checked={checked} onCheckedChange={(v) => setChecked(v.checked === true)} />
+            <label htmlFor="remember-choices" className="flex items-center gap-3 text-sm text-text-secondary">
+              <Checkbox ids={{ hiddenInput: "remember-choices" }} checked={checked} onCheckedChange={(v) => setChecked(v.checked === true)} />
               <span>Remember my choices</span>
             </label>
             <Textarea value={note} onChange={(e) => setNote(e.target.value)} rows={3} />
