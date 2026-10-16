@@ -56,7 +56,8 @@ export default function Footer() {
         </nav>
       </div>
 
-      <div className="mt-10 pt-6 border-t border-white/8 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Full-bleed divider: negative margins cancel the footer padding, padding restores alignment */}
+      <div className="mt-10 pt-6 border-t border-white/8 -mx-8 px-8 md:-mx-16 md:px-16 lg:-mx-32 lg:px-32 xl:-mx-56 xl:px-56 2xl:-mx-80 2xl:px-80 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-text-muted">
           {/* Year comes from the last (re)render; suppress the mismatch around New Year */}
           <span suppressHydrationWarning>© {new Date().getFullYear()}</span> miiyuh, made in malaysia
