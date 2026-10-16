@@ -53,7 +53,7 @@ const FAMILIES: Family[] = [
   {
     name: 'Paper Mono',
     role: 'Long-form reading',
-    usage: '.lexical-content (posts, legal pages), font-paper-mono (weight 450)',
+    usage: '.lexical-content (posts, legal pages, weight 450), font-paper-mono (footer clock)',
     variable: '--font-paper-mono',
     className: 'font-paper-mono',
     min: 100,
@@ -64,7 +64,7 @@ const FAMILIES: Family[] = [
   {
     name: 'Noto Sans Mono',
     role: 'Small metadata',
-    usage: 'font-mono: course codes, clock, error references',
+    usage: 'font-mono: course codes, error references',
     variable: '--font-noto-mono',
     className: 'font-mono',
     min: 100,

@@ -34,6 +34,7 @@ import { InfoIcon, CheckCircleIcon, WarningIcon, XCircleIcon, TrayIcon, DotsThre
 import { HeadingWithHash } from "@/components/ui/heading-with-hash"
 import { DevPageShell } from "@/components/ui/dev-page-shell"
 import { SECTION_TITLE, SECTION_SUB } from "@/config/dev-pages"
+import { SiteSection } from "./site-section"
 
 export default function ComponentsLabPage() {
   const [name, setName] = useState("Ada Lovelace")
@@ -53,19 +54,22 @@ export default function ComponentsLabPage() {
 
   return (
     <DevPageShell>
-      <header className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/4 backdrop-blur-xl px-8 py-8 shadow-[0_25px_60px_-35px_rgba(0,0,0,0.8)] lg:px-10">
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-1.5">
-            <h1 className="text-3xl font-semibold leading-tight text-text-primary sm:text-4xl">UI component library</h1>
-            <p className="text-base text-text-secondary">
-              A → Z showcase of every UI primitive in the design system.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="outline">Ark UI + Radix primitives</Badge>
-          </div>
-        </div>
+      <header className="space-y-3">
+        <h1 className="font-notch text-5xl md:text-6xl tracking-tight">components</h1>
+        <p className="text-lg text-text-secondary max-w-prose">
+          What the live site uses first, then every UI primitive in{' '}
+          <code className="font-mono text-sm text-text-primary">src/components/ui</code> (Ark UI + Radix).
+        </p>
       </header>
+
+      <SiteSection />
+
+      <div className="space-y-1">
+        <h2 className="text-2xl">Primitives</h2>
+        <p className="text-sm text-text-secondary">
+          The component library. Most of these are not on the public site yet; they are kept ready for new pages.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 gap-7 xl:grid-cols-2 lg:gap-8">
         {/* Accordion */}
