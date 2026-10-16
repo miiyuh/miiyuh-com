@@ -2,9 +2,9 @@
 
 import dynamic from 'next/dynamic'
 import ClientHeader from '@/components/layout/client-header'
+import Footer from '@/components/layout/footer'
 import { SoundProvider } from '@/components/layout/sound-provider'
 
-const Footer = dynamic(() => import('@/components/layout/footer'), { ssr: false })
 const ScrollToTopButton = dynamic(() => import('@/components/ui/scroll-to-top-button'), { ssr: false })
 
 export function AppProvider({ children }: { children: React.ReactNode }) {

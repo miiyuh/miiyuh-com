@@ -14,7 +14,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={
           cn(
             !unstyled &&
-              "relative inline-flex w-full rounded-xl border border-white/15 bg-white/4 backdrop-blur-md text-base shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] ring-accent-hover/30 transition-all before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] has-focus-visible:has-aria-invalid:border-red-400/60 has-focus-visible:has-aria-invalid:ring-red-300/40 has-aria-invalid:border-red-400/60 has-focus-visible:border-accent-hover/70 has-disabled:opacity-60 has-focus-visible:ring-[3px] sm:text-sm",
+              "relative inline-flex w-full rounded-xl border border-white/15 bg-white/4 backdrop-blur-md text-base shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] ring-accent-hover/30 transition before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] has-focus-visible:has-aria-invalid:border-red-400/60 has-focus-visible:has-aria-invalid:ring-red-300/40 has-aria-invalid:border-red-400/60 has-focus-visible:border-accent-hover/70 has-disabled:opacity-60 has-focus-visible:ring-[3px] sm:text-sm",
             className,
           ) || undefined
         }

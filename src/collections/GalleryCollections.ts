@@ -57,6 +57,14 @@ const GalleryCollections: CollectionConfig = {
               type: 'textarea',
             },
             {
+              name: 'flag',
+              label: 'flag',
+              type: 'text',
+              admin: {
+                description: 'Optional flag emoji shown after the album title, e.g. 🇯🇵',
+              },
+            },
+            {
               type: 'row',
               fields: [
                 {

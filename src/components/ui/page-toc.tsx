@@ -64,7 +64,7 @@ function TocThumb({
   return (
     <div
       ref={thumbRef}
-      className="absolute left-0 w-0.5 rounded-full transition-all duration-150 ease-linear opacity-0"
+      className="absolute left-0 w-0.5 rounded-full transition duration-150 ease-linear opacity-0"
       style={{ backgroundColor: 'var(--text-primary)' }}
     />
   )

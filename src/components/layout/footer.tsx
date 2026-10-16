@@ -13,7 +13,8 @@ export default function Footer() {
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         {/* Left side - Copyright */}
         <p className="text-center sm:text-left">
-          © 2026 miiyuh 🍁 made in malaysia! 🇲🇾
+          {/* Year comes from the last (re)render; suppress the mismatch around New Year */}
+          <span suppressHydrationWarning>© {new Date().getFullYear()}</span> miiyuh 🍁 made in malaysia! 🇲🇾
         </p>
 
         {/* Middle - Locale + sound preference toggles */}
@@ -26,8 +27,6 @@ export default function Footer() {
         <div className="flex gap-4">
           <Link
             href="/privacy-policy"
-            target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center gap-1 hover:underline hover:text-text-primary/90 transition-colors duration-300"
             onClick={() => haptic.trigger("light")}
           >
@@ -36,8 +35,6 @@ export default function Footer() {
           </Link>
           <Link
             href="/terms-of-service"
-            target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center gap-1 hover:underline hover:text-text-primary/90 transition-colors duration-300"
             onClick={() => haptic.trigger("light")}
           >

@@ -39,14 +39,14 @@ export default function GalleryGrid({
               className="group block w-full text-left h-full"
               onClick={() => haptic.trigger("medium")}
             >
-              <article className="h-full p-6 border-r border-b border-white/8 bg-transparent hover:bg-white/3 transition-all duration-500 flex flex-col relative overflow-visible">
+              <article className="h-full p-6 border-r border-b border-white/8 bg-transparent hover:bg-white/3 transition duration-500 flex flex-col relative overflow-visible">
                 {/* Stacked Cover Images */}
                 <div className="w-full aspect-square relative mb-6 perspective-1000">
                   {stackImages.length > 0 ? (
                     stackImages.map((img, i) => (
                       <div
                         key={i}
-                        className={`absolute inset-0 rounded-2xl transition-all duration-500 ease-out origin-bottom
+                        className={`absolute inset-0 rounded-2xl transition duration-500 ease-out origin-bottom
                           ${i === 0 ? "z-30" : i === 1 ? "z-20" : "z-10"}
                         `}
                         style={{
@@ -54,7 +54,7 @@ export default function GalleryGrid({
                         }}
                       >
                           <div
-                            className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition-all duration-500 origin-bottom
+                            className={`w-full h-full relative rounded-2xl overflow-hidden border border-white/8 bg-bg-primary shadow-lg transition duration-500 origin-bottom
                             ${i === 1 ? "group-hover:-rotate-6 group-hover:-translate-x-8" : ""}
                             ${i === 2 ? "group-hover:rotate-6 group-hover:translate-x-8" : ""}
                           `}
@@ -62,13 +62,13 @@ export default function GalleryGrid({
                             <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
                             <Image
                             src={img.src}
-                            alt={collection.title}
+                            alt=""
                             fill
                             className="object-cover"
                             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                             quality={i === 0 ? 80 : 75}
-                            priority={i === 0}
-                            loading={i === 0 ? "eager" : "lazy"}
+                            priority={i === 0 && index < 2}
+                            loading={i === 0 && index < 4 ? "eager" : "lazy"}
                           />
                           <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
                         </div>
@@ -86,11 +86,11 @@ export default function GalleryGrid({
                   <div className="flex items-start justify-between mb-2">
                     <h2 className="text-2xl font-notch text-text-primary transition-colors">
                       <span className="text-highlight">{collection.title}</span>
-                      {(collection.slug.includes("japan") || collection.slug.includes("2025")) && (
-                        <span className="font-emoji ml-2 inline-block">🇯🇵</span>
+                      {collection.flag && (
+                        <span className="font-emoji ml-2 inline-block">{collection.flag}</span>
                       )}
                     </h2>
-                    <ArrowUpRightIcon className="w-5 h-5 text-text-muted group-hover:text-accent-hover group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                    <ArrowUpRightIcon className="w-5 h-5 text-text-muted group-hover:text-accent-hover group-hover:translate-x-1 group-hover:-translate-y-1 transition duration-300" />
                   </div>
 
                   <p className="text-text-secondary text-sm line-clamp-2">

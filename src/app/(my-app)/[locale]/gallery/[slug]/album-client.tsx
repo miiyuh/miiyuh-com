@@ -77,8 +77,8 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
             <div className="mb-16 max-w-4xl">
               <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
                 {collection.title}
-                {(collection.slug.includes("japan") || collection.slug.includes("2025")) && (
-                  <span className="font-emoji ml-3 inline-block">🇯🇵</span>
+                {collection.flag && (
+                  <span className="font-emoji ml-3 inline-block">{collection.flag}</span>
                 )}
               </h1>
               <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed select-none cursor-default text-pretty">
@@ -116,7 +116,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
 
                         {image.title && (
                           <div className="absolute bottom-0 left-0 right-0">
-                            <div className="px-3 py-2 bg-linear-to-t from-black/70 to-transparent md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
+                            <div className="px-3 py-2 bg-linear-to-t from-black/70 to-transparent pointer-fine:translate-y-full pointer-fine:group-hover:translate-y-0 pointer-fine:group-focus-visible:translate-y-0 transition-transform duration-300 pointer-events-none">
                               <h3 className="font-bold text-white text-xs truncate">
                                 {image.title}
                               </h3>

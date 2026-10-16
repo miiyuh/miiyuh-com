@@ -119,7 +119,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                     className="group inline-flex items-center gap-1.5 text-text-secondary hover:text-text-primary transition-colors"
                   >
                     {link.label}
-                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-text-muted/50 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-text-muted/50 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition duration-300" />
                   </a>
                 ))}
               </div>

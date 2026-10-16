@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "@/components/locale-link";
+import NextLink from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -140,11 +141,13 @@ export default function BlogClient({
     updateRoute({ search: "", tags: [], page: 1 });
   };
 
-  const handlePageChange = (page: number) => {
-    if (page === pagination.page || page < 1 || page > pagination.totalPages)
-      return;
-    haptic.trigger("selection");
-    updateRoute({ page });
+  // Same URL with only the page changed (page 1 drops the param)
+  const pageHref = (page: number) => {
+    const params = new URLSearchParams(searchParamsString);
+    if (page > 1) params.set("page", String(page));
+    else params.delete("page");
+    const query = params.toString();
+    return query ? `${pathname}?${query}` : pathname;
   };
 
   // Published posts always have a date; "/blog" is only a safe fallback
@@ -161,12 +164,19 @@ export default function BlogClient({
     });
   };
 
-  const pageNumbers = useMemo(() => {
-    return Array.from(
-      { length: Math.max(pagination.totalPages, 1) },
-      (_, index) => index + 1,
-    );
-  }, [pagination.totalPages]);
+  // 1 … 4 5 6 … 12 — first, last, and the current page's neighbours
+  const pageItems = useMemo(() => {
+    const { page, totalPages } = pagination;
+    const items: Array<number | "gap"> = [];
+    for (let n = 1; n <= totalPages; n++) {
+      if (n === 1 || n === totalPages || Math.abs(n - page) <= 1) {
+        items.push(n);
+      } else if (items[items.length - 1] !== "gap") {
+        items.push("gap");
+      }
+    }
+    return items;
+  }, [pagination]);
 
   return (
     <div>
@@ -174,31 +184,36 @@ export default function BlogClient({
         <div className="space-y-4">
           {/* Search Bar */}
           <div className="relative">
+            <label htmlFor="blog-search" className="sr-only">
+              Search posts
+            </label>
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon className="h-4 w-4 text-text-muted" />
+              <MagnifyingGlassIcon className="h-4 w-4 text-text-muted" aria-hidden="true" />
             </div>
             <input
-              type="text"
+              id="blog-search"
+              type="search"
               placeholder="Search posts"
               value={searchValue}
               onChange={(e) => handleSearchInputChange(e.target.value)}
-              className="w-full font-sans bg-white/2 border border-white/8 rounded-lg py-2.5 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/15 transition-all duration-200"
+              className="w-full font-sans bg-white/2 border border-white/8 rounded-lg py-2.5 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/15 transition duration-200"
             />
           </div>
 
           {/* Topic Tags */}
           {allTopics.length > 0 && (
-            <div className="space-y-2">
-              <label className="text-xs uppercase tracking-widest text-text-muted/60 font-light">
+            <div className="space-y-2" role="group" aria-labelledby="blog-topics-label">
+              <span id="blog-topics-label" className="block text-xs uppercase tracking-widest text-text-muted/60 font-light">
                 Topics
-              </label>
+              </span>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => {
                     haptic.trigger("selection");
                     clearFilters();
                   }}
-                  className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
+                  aria-pressed={selectedTags.length === 0}
+                  className={`min-h-11 px-3 text-xs rounded-full transition duration-200 ${
                     selectedTags.length === 0
                       ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
                       : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
@@ -210,7 +225,8 @@ export default function BlogClient({
                   <button
                     key={topic.value}
                     onClick={() => toggleTopic(topic.value)}
-                    className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
+                    aria-pressed={selectedTags.includes(topic.value)}
+                    className={`min-h-11 px-3 text-xs rounded-full transition duration-200 ${
                       selectedTags.includes(topic.value)
                         ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
                         : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
@@ -239,7 +255,7 @@ export default function BlogClient({
                   style={{ "--i": Math.min(index, 9) } as React.CSSProperties}
                   onClick={() => haptic.trigger("medium")}
                 >
-                  <div className="relative flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
+                  <div className="relative flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition duration-300">
                     <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <ArrowUpRightIcon
                         className="w-5 h-5 text-text-muted"
@@ -316,44 +332,66 @@ export default function BlogClient({
             className="mt-10 flex items-center justify-center gap-2"
             aria-label="Pagination"
           >
-            <button
-              onClick={() => handlePageChange(pagination.page - 1)}
-              disabled={pagination.page === 1}
-              className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
-                pagination.page === 1
-                  ? "text-text-muted/40 cursor-not-allowed"
-                  : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
-              }`}
-            >
-              ←
-            </button>
-            {pageNumbers.map((pageNumber) => (
-              <button
-                key={pageNumber}
-                onClick={() => handlePageChange(pageNumber)}
-                aria-current={
-                  pageNumber === pagination.page ? "page" : undefined
-                }
-                className={`w-11 h-11 text-sm rounded-lg transition-colors duration-200 ${
-                  pageNumber === pagination.page
-                    ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
-                    : "text-text-muted bg-white/4 border border-white/8 hover:text-text-primary hover:bg-white/6"
-                }`}
+            {/* Real links (crawlable, open-in-new-tab) that keep the current filters */}
+            {pagination.page > 1 ? (
+              <NextLink
+                href={pageHref(pagination.page - 1)}
+                scroll={false}
+                onClick={() => haptic.trigger("selection")}
+                aria-label="Previous page"
+                className="min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
               >
-                {pageNumber}
-              </button>
-            ))}
-            <button
-              onClick={() => handlePageChange(pagination.page + 1)}
-              disabled={pagination.page === pagination.totalPages}
-              className={`min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
-                pagination.page === pagination.totalPages
-                  ? "text-text-muted/40 cursor-not-allowed"
-                  : "text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
-              }`}
-            >
-              →
-            </button>
+                <span aria-hidden="true">←</span>
+              </NextLink>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg text-text-muted/40"
+              >
+                ←
+              </span>
+            )}
+            {pageItems.map((item, index) =>
+              item === "gap" ? (
+                <span key={`gap-${index}`} aria-hidden="true" className="w-11 h-11 flex items-center justify-center text-sm text-text-muted/60">
+                  …
+                </span>
+              ) : (
+                <NextLink
+                  key={item}
+                  href={pageHref(item)}
+                  scroll={false}
+                  onClick={() => haptic.trigger("selection")}
+                  aria-label={`Page ${item}`}
+                  aria-current={item === pagination.page ? "page" : undefined}
+                  className={`w-11 h-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 ${
+                    item === pagination.page
+                      ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
+                      : "text-text-muted bg-white/4 border border-white/8 hover:text-text-primary hover:bg-white/6"
+                  }`}
+                >
+                  {item}
+                </NextLink>
+              ),
+            )}
+            {pagination.page < pagination.totalPages ? (
+              <NextLink
+                href={pageHref(pagination.page + 1)}
+                scroll={false}
+                onClick={() => haptic.trigger("selection")}
+                aria-label="Next page"
+                className="min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg transition-colors duration-200 text-text-muted hover:text-text-primary bg-white/4 border border-white/8 hover:bg-white/6"
+              >
+                <span aria-hidden="true">→</span>
+              </NextLink>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="min-h-11 min-w-11 flex items-center justify-center text-sm rounded-lg text-text-muted/40"
+              >
+                →
+              </span>
+            )}
           </nav>
         )}
       </div>

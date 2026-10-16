@@ -84,7 +84,7 @@ export default function HomeHero() {
                   alt=""
                   width={24}
                   height={24}
-                  className="w-6 h-6 object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
+                  className="w-6 h-6 object-contain grayscale group-hover:grayscale-0 transition duration-300 opacity-70 group-hover:opacity-100"
                   loading="lazy"
                   quality={80}
                   sizes="24px"
@@ -105,14 +105,14 @@ export default function HomeHero() {
             <Link
               key={link.href}
               href={link.href}
-              className="group flex flex-col h-full p-6 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/15 transition-all duration-300 animate-stagger-item"
+              className="group flex flex-col h-full p-6 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/15 transition duration-300 animate-stagger-item"
               style={{ "--i": index } as React.CSSProperties}
               onClick={() => haptic.trigger("medium")}
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-                <h3 className="font-notch text-xl text-text-primary transition-colors">
+                <h2 className="font-notch text-xl text-text-primary transition-colors">
                   <span className="text-highlight">{link.label}</span>
-                </h3>
+                </h2>
                 <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-hover transition-colors shrink-0" aria-hidden="true" />
               </div>
               <p className="text-xs text-text-secondary">

@@ -21,7 +21,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
   const showLogo = Boolean(entry.logo?.url) && !hasLogoError;
 
   return (
-    <div className="group relative p-5 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 shadow-[0_2px_8px_rgba(0,0,0,0.3)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.45)] transition-all duration-300">
+    <div className="group relative p-5 rounded-xl border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 shadow-[0_2px_8px_rgba(0,0,0,0.3)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.45)] transition duration-300">
       <div className="flex items-start gap-4">
         <div className="w-12 h-12 flex items-center justify-center shrink-0">
           {showLogo ? (

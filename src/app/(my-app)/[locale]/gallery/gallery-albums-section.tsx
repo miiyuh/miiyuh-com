@@ -1,4 +1,5 @@
 import { resolveLocale } from '@/lib/locale'
+import { getAlbumFlag } from '@/utils/album-flag'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import GalleryGrid from './gallery-grid'
@@ -73,6 +74,7 @@ export default async function GalleryAlbumsSection({ params }: { params: Promise
     slug: collection.slug,
     title: collection.title,
     description: collection.description ?? '',
+    flag: getAlbumFlag(collection),
     status: collection.status,
     totalImages: collection.images?.length ?? 0,
   }))

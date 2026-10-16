@@ -147,7 +147,7 @@ export default function Header() {
         role="dialog"
         aria-modal={menuOpen ? "true" : undefined}
         aria-label="Navigation menu"
-        className={`fixed inset-0 z-30 bg-bg-primary/95 backdrop-blur-xl flex flex-col justify-center items-center transition-all duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-0 z-30 bg-bg-primary/95 backdrop-blur-xl flex flex-col justify-center items-center transition duration-300 ease-in-out lg:hidden ${
           menuOpen
             ? "opacity-100 visible translate-y-0"
             : "opacity-0 invisible -translate-y-2"

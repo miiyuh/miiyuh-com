@@ -75,7 +75,7 @@ const MeterIndicator = forwardRef<HTMLDivElement, MeterIndicatorProps>(
   ({ className, ...props }, ref) => {
     return (
       <div
-        className={cn('h-full bg-primary transition-all duration-500', className)}
+        className={cn('h-full bg-primary transition duration-500', className)}
         data-slot="meter-indicator"
         ref={ref}
         {...props}

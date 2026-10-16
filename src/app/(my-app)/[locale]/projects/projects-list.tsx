@@ -115,7 +115,7 @@ function ProjectEntry({ project }: { project: Project }) {
           </div>
 
           {/* Arrow */}
-          <ArrowUpRightIcon className="w-6 h-6 shrink-0 mt-2 text-text-muted/30 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+          <ArrowUpRightIcon className="w-6 h-6 shrink-0 mt-2 text-text-muted/30 group-hover:text-text-primary/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition duration-300" />
         </div>
       </article>
     </Link>

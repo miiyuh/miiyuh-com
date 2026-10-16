@@ -20,7 +20,7 @@ function Switch({
     >
       <SwitchPrimitive.Control
         className={cn(
-          "inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-white/12 p-0.5 shadow-inner transition-all focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary data-[state=checked]:border-amber-500/50 data-[state=checked]:bg-amber-500 data-[state=unchecked]:bg-white/8",
+          "inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-white/12 p-0.5 shadow-inner transition focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary data-[state=checked]:border-amber-500/50 data-[state=checked]:bg-amber-500 data-[state=unchecked]:bg-white/8",
         )}
       >
         <SwitchPrimitive.Thumb

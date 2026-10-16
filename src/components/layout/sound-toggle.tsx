@@ -10,7 +10,7 @@ export default function SoundToggle() {
     <div className="inline-flex items-center rounded-full border border-white/10 text-xs font-sans tracking-wide" data-no-click-sound>
       <button
         onClick={() => setEnabled(!enabled)}
-        className={`group relative px-2.5 py-1.5 transition-all duration-200 rounded-full cursor-pointer ${
+        className={`group relative px-2.5 py-1.5 transition duration-200 rounded-full cursor-pointer ${
           enabled
             ? 'bg-text-primary text-black font-medium'
             : 'text-text-muted hover:text-text-primary hover:bg-bg-primary/80 hover:backdrop-blur-xl'

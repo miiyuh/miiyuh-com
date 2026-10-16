@@ -56,7 +56,7 @@ function ToastProvider({
             <Toast.Root
               key={toast.id}
               className={cn(
-                "relative z-50 select-none rounded-xl border border-white/12 bg-surface-primary/95 backdrop-blur-xl px-3.5 py-3 text-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition-all duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full",
+                "relative z-50 select-none rounded-xl border border-white/12 bg-surface-primary/95 backdrop-blur-xl px-3.5 py-3 text-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.8)] transition duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full",
               )}
             >
               <div className="flex items-center justify-between gap-1.5 text-sm">

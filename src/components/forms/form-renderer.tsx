@@ -123,6 +123,7 @@ export function FormRenderer({
   if (state.isSuccess) {
     return (
       <div
+        role="status"
         className={cn(
           'rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-8 text-center backdrop-blur-md',
           className
@@ -145,7 +146,7 @@ export function FormRenderer({
     >
       {/* Error Alert */}
       {state.error && (
-        <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4 backdrop-blur-md">
+        <div role="alert" className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4 backdrop-blur-md">
           <WarningCircleIcon weight="fill" className="mt-0.5 size-5 shrink-0 text-red-400" />
           <p className="text-sm text-red-300">{state.error}</p>
         </div>

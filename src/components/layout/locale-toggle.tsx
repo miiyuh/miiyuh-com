@@ -31,7 +31,7 @@ export default function LocaleToggle() {
           <button
             key={locale.code}
             onClick={() => setLocale(locale.code)}
-            className={`group relative px-2.5 py-1.5 transition-all duration-200 first:rounded-l-full last:rounded-r-full cursor-pointer ${
+            className={`group relative px-2.5 py-1.5 transition duration-200 first:rounded-l-full last:rounded-r-full cursor-pointer ${
               isActive
                 ? 'bg-text-primary text-black font-medium'
                 : 'text-text-muted hover:text-text-primary hover:bg-bg-primary/80 hover:backdrop-blur-xl'

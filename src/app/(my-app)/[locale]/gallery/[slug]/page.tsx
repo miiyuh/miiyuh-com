@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { resolveLocale, type LocaleCode } from "@/lib/locale";
+import { getAlbumFlag } from "@/utils/album-flag";
 import { getPayload } from "payload";
 import { unstable_cache } from "next/cache";
 import config from "@payload-config";
@@ -116,6 +117,7 @@ async function AlbumPageContent({ params }: PageProps) {
     slug: collection.slug,
     title: collection.title,
     description: collection.description,
+    flag: getAlbumFlag(collection),
     status: collection.status,
     totalImages: collection.images?.length ?? 0,
   };
