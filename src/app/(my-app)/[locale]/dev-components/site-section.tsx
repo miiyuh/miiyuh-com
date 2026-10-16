@@ -78,7 +78,7 @@ export function SiteSection() {
           <p className="font-serif text-2xl">
             <span className="text-highlight">hover this title</span>
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] text-text-muted/50 rounded-full bg-white/4 px-2 py-0.5">tag</span>
             <span className="min-h-11 inline-flex items-center px-3 text-xs rounded-full bg-white/4 text-text-muted border border-transparent">
               topic
