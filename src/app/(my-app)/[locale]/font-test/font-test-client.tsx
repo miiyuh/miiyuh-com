@@ -1,6 +1,6 @@
 'use client'
 
-const notoSansStack = "var(--font-noto-sans), 'Noto Sans', 'Stack Sans Text', sans-serif"
+const notoSansStack = "var(--font-paper-mono), 'Paper Mono', monospace"
 
 export default function FontTestPage() {
   const specimens = [
@@ -56,7 +56,7 @@ export default function FontTestPage() {
       description: 'Raw CSS variable sample in case Inter fails to load.',
       content: (
         <p className="text-lg" style={{ fontFamily: notoSansStack }}>
-          This sentence forces the --font-noto-sans stack for reliability tests.
+          This sentence forces the --font-paper-mono stack for reliability tests.
         </p>
       ),
     },

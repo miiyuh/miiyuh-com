@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/components/locale-link';
 import { ArrowUpRightIcon, ClipboardTextIcon, ChatCircleDotsIcon } from '@phosphor-icons/react'
 import { useWebHaptics } from 'web-haptics/react'
 
@@ -57,7 +57,7 @@ export default function SurveysClient({ surveys }: SurveysClientProps) {
         >
           <div className="relative flex items-center gap-4 p-5 rounded-lg border border-white/8 bg-white/2 hover:bg-white/5 hover:border-white/12 transition-all duration-300">
             <div className="shrink-0 w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center group-hover:bg-accent-primary/15 transition-colors">
-              <ClipboardTextIcon className="w-5 h-5 text-accent-primary" />
+              <ClipboardTextIcon className="w-5 h-5 text-accent-hover" />
             </div>
 
             <div className="flex-1 min-w-0">

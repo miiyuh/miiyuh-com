@@ -1,21 +1,26 @@
 'use client'
 
 import { useCallback } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   AVAILABLE_LOCALES,
-  LOCALE_COOKIE_NAME,
-  LOCALE_COOKIE_MAX_AGE,
+  localizePath,
+  splitLocalePath,
   type LocaleCode,
 } from '@/lib/locale'
 import { useLocale } from '@/lib/locale-context'
 
 export default function LocaleToggle() {
   const currentLocale = useLocale()
+  const pathname = usePathname()
+  const router = useRouter()
 
+  // Same page in the other locale, keeping the query string and #hash
   const setLocale = useCallback((code: LocaleCode) => {
-    document.cookie = `${LOCALE_COOKIE_NAME}=${code}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`
-    window.location.reload()
-  }, [])
+    if (code === currentLocale) return
+    const { path } = splitLocalePath(pathname)
+    router.push(`${localizePath(path, code)}${window.location.search}${window.location.hash}`)
+  }, [currentLocale, pathname, router])
 
   return (
     <div className="inline-flex items-center rounded-full border border-white/10 text-xs font-sans tracking-wide">

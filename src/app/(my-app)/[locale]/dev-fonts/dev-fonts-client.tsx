@@ -22,7 +22,7 @@ type FontInfo = {
 }
 
 const FONT_VARIABLES = [
-  '--font-noto-sans',
+  '--font-paper-mono',
   '--font-noto-serif',
   '--font-noto-serif-jp',
   '--font-instrument-serif',
@@ -221,7 +221,7 @@ export default function FontDebugPage() {
             <Card className="gap-0 md:col-span-2">
               <CardPanel>
                 <p className="text-sm text-text-secondary mb-2">Noto Sans (blog post content)</p>
-                <div style={{ fontFamily: 'var(--font-noto-sans), sans-serif' }}>
+                <div style={{ fontFamily: 'var(--font-paper-mono), monospace' }}>
                   <div className="text-2xl font-bold leading-[1.3] mb-2">A blog post heading in Noto Sans</div>
                   <p className="text-lg leading-[1.75]">
                     Blog post body copy and headings both render in Noto Sans inside

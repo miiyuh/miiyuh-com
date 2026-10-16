@@ -1,6 +1,8 @@
 import { CollectionConfig } from 'payload'
 import { blogEditor } from '../editor/richTextEditor'
-import { isAdmin } from '../access/is-admin'
+import { isAdmin, isAdminOrPublished } from '../access/is-admin'
+import { allLocaleRoutePaths } from '../lib/locale'
+import { getBlogPostPath } from '../utils/blog-path'
 import { slugField } from './shared'
 
 const revalidateBlogRoutes = async (
@@ -12,7 +14,7 @@ const revalidateBlogRoutes = async (
   try {
     const { revalidatePath, revalidateTag } = await import('next/cache')
 
-    revalidatePath('/blog')
+    allLocaleRoutePaths('/blog').forEach((path) => revalidatePath(path))
     revalidateTag('blog-published-tag-options', 'max')
 
     const slug = doc?.slug
@@ -22,15 +24,7 @@ const revalidateBlogRoutes = async (
       return
     }
 
-    const [year, month] = new Date(publishedAt)
-      .toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
-      .split('-')
-
-    if (!year || !month) {
-      return
-    }
-
-    revalidatePath(`/blog/${year}/${month}/${slug}`)
+    allLocaleRoutePaths(getBlogPostPath(slug, publishedAt)).forEach((path) => revalidatePath(path))
   } catch {
     // Ignore revalidation errors in non-Next contexts
   }
@@ -43,7 +37,7 @@ const BlogPosts: CollectionConfig = {
     plural: 'Blog Posts',
   },
   access: {
-    read: () => true,
+    read: isAdminOrPublished,
     create: isAdmin,
     update: isAdmin,
     delete: isAdmin,

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import { ShieldPlusIcon, HandshakeIcon } from "@phosphor-icons/react";
 import { useWebHaptics } from "web-haptics/react";
 import LocaleToggle from "@/components/layout/locale-toggle";

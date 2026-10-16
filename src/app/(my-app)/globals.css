@@ -147,6 +147,13 @@ a {
     var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif !important;
 }
 
+.font-paper-mono {
+  font-family:
+    var(--font-paper-mono), "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji",
+    ui-monospace, monospace !important;
+}
+
 .font-mono {
   font-family:
     var(--font-noto-mono), "Noto Sans Mono", "Apple Color Emoji",
@@ -350,17 +357,19 @@ img {
   }
 }
 
-/* Lexical content styling for blog posts */
+/* Lexical content styling for blog posts and the legal pages.
+   Body text is Paper Mono; headings inside content use the site's
+   heading face (Stack Sans Headline). */
 .lexical-content {
   font-family:
-    var(--font-noto-sans), "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif;
+    var(--font-paper-mono), "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", ui-monospace, monospace;
 }
 
 .lexical-content p {
   font-family:
-    var(--font-noto-sans), "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif !important;
+    var(--font-paper-mono), "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", ui-monospace, monospace !important;
   margin-bottom: 1.25rem;
   line-height: 1.75;
   color: var(--text-primary);
@@ -373,8 +382,8 @@ img {
 .lexical-content h5,
 .lexical-content h6 {
   font-family:
-    var(--font-noto-sans), "Apple Color Emoji",
-    "Noto Color Emoji", "Segoe UI Emoji", var(--font-noto-color-emoji), sans-serif;
+    var(--font-stack-sans-headline), "Apple Color Emoji",
+    var(--font-noto-color-emoji), "Segoe UI Emoji", sans-serif;
   font-weight: 700;
   line-height: 1.3;
   margin-top: 2rem;

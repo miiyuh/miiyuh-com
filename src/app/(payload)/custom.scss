@@ -297,10 +297,10 @@ select,
   margin-block: calc(var(--base) * 1.2);
 }
 
-/* ── Rich text editor content: Noto Sans, matching the public site's
+/* ── Rich text editor content: Paper Mono, matching the public site's
    blog post body font ── */
 .ContentEditable__root {
-  font-family: var(--font-noto-sans), sans-serif;
+  font-family: var(--font-paper-mono), ui-monospace, monospace;
 }
 
 /* ── Destructive action: passkey delete button ── */

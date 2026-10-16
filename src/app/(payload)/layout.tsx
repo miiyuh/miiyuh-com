@@ -6,7 +6,6 @@ import type { ServerFunctionClient } from 'payload'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import React from 'react'
 import localFont from 'next/font/local'
-import { Noto_Sans } from 'next/font/google'
 
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
@@ -27,9 +26,10 @@ const stackSansNotch = localFont({
   display: 'swap',
 })
 
-const notoSans = Noto_Sans({
-  subsets: ['latin'],
-  variable: '--font-noto-sans',
+const paperMono = localFont({
+  src: '../../assets/fonts/PaperMono-VariableFont_wght.woff2',
+  weight: '100 800',
+  variable: '--font-paper-mono',
   display: 'swap',
 })
 
@@ -45,7 +45,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
     <div
-      className={`${stackSansText.variable} ${stackSansNotch.variable} ${notoSans.variable}`}
+      className={`${stackSansText.variable} ${stackSansNotch.variable} ${paperMono.variable}`}
       style={{ fontFamily: 'var(--font-stack-sans-text), sans-serif' }}
     >
       {children}

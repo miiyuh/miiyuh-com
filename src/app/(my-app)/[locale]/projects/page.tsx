@@ -1,22 +1,29 @@
 import type { Metadata } from 'next'
+import { isValidLocale, pageAlternates } from '@/lib/locale'
 import { Suspense } from 'react'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { breadcrumbs } from '@/config/breadcrumbs'
 import ProjectsSection from './projects-section'
 import { ProjectsListSkeleton } from './projects-list-skeleton'
 
-export const metadata: Metadata = {
-  title: 'projects - miiyuh.com',
-  description: 'side projects, university work, and research papers — the collection by miiyuh.',
-  alternates: {
-    canonical: 'https://miiyuh.com/projects',
-  },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  if (!isValidLocale(locale)) return {}
+  return {
+    title: 'projects - miiyuh.com',
+    description: 'side projects, university work, and research papers — the collection by miiyuh.',
+    alternates: pageAlternates('/projects', locale),
+  }
 }
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ params }: { params: Promise<{ locale: string }> }) {
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow pt-6 pb-16">
@@ -35,7 +42,7 @@ export default function ProjectsPage() {
           </div>
 
           <Suspense fallback={<ProjectsListSkeleton />}>
-            <ProjectsSection />
+            <ProjectsSection params={params} />
           </Suspense>
         </div>
       </section>

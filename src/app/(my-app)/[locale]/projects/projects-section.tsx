@@ -1,19 +1,23 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectsList from './projects-list'
+import { resolveLocale } from '@/lib/locale'
 
-export default async function ProjectsSection() {
+export default async function ProjectsSection({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = await resolveLocale(params)
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
     collection: 'projects',
+    locale,
     depth: 1,
     sort: '_order',
     limit: 100,
     where: {
-      category: {
-        not_equals: 'research-paper',
-      },
+      and: [
+        { category: { not_equals: 'research-paper' } },
+        { _status: { equals: 'published' } },
+      ],
     },
   })
 

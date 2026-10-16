@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { resolveLocale, type LocaleCode } from "@/lib/locale";
 import { getPayload } from "payload";
 import { unstable_cache } from "next/cache";
 import config from "@payload-config";
@@ -17,7 +18,14 @@ import { resolveMediaSrc } from "@/utils/media";
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60;
 
+// No paths prebuilt at deploy: each page renders on first visit, then is
+// cached and revalidated like the rest (an empty list still opts into ISR).
+export async function generateStaticParams() {
+  return [];
+}
+
 type PageParams = {
+  locale: string;
   slug: string;
 };
 
@@ -30,10 +38,11 @@ interface PageProps {
  * Shared by generateMetadata and AlbumPageContent to avoid duplicate Payload queries.
  */
 const getCachedGalleryCollection = unstable_cache(
-  async (slug: string): Promise<GalleryCollectionDocument | undefined> => {
+  async (slug: string, locale: LocaleCode): Promise<GalleryCollectionDocument | undefined> => {
     const payload = await getPayload({ config });
     const { docs } = await payload.find({
       collection: "gallery-collections",
+      locale,
       where: {
         and: [{ slug: { equals: slug } }, { status: { equals: "published" } }],
       },
@@ -49,7 +58,7 @@ const getCachedGalleryCollection = unstable_cache(
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const collection = await getCachedGalleryCollection(slug);
+  const collection = await getCachedGalleryCollection(slug, await resolveLocale(params));
 
   if (!collection) {
     return {
@@ -66,7 +75,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 async function AlbumPageContent({ params }: PageProps) {
   const { slug } = await params;
 
-  const collection = await getCachedGalleryCollection(slug);
+  const collection = await getCachedGalleryCollection(slug, await resolveLocale(params));
 
   if (!collection) {
     notFound();

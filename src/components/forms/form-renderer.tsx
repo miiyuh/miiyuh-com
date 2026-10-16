@@ -128,7 +128,7 @@ export function FormRenderer({
           className
         )}
       >
-        <CheckCircleIcon weight="fill" className="mx-auto mb-4 size-12 text-accent-primary" />
+        <CheckCircleIcon weight="fill" className="mx-auto mb-4 size-12 text-accent-hover" />
         <h3 className="mb-2 text-xl font-medium text-text-primary">Thank You!</h3>
         <p className="text-text-secondary">
           Your submission has been received successfully.

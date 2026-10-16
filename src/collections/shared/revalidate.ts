@@ -1,3 +1,5 @@
+import { allLocaleRoutePaths } from '../../lib/locale'
+
 export function revalidateCollectionHooks(
   getPaths: (doc: Record<string, unknown> | undefined | null) => string[]
 ) {
@@ -5,7 +7,7 @@ export function revalidateCollectionHooks(
     try {
       const { revalidatePath } = await import('next/cache')
       const paths = getPaths(doc)
-      for (const path of paths) {
+      for (const path of paths.flatMap(allLocaleRoutePaths)) {
         revalidatePath(path)
       }
     } catch {
@@ -23,7 +25,7 @@ export function revalidateGlobalHooks(...paths: string[]) {
   const hook = async () => {
     try {
       const { revalidatePath } = await import('next/cache')
-      for (const path of paths) {
+      for (const path of paths.flatMap(allLocaleRoutePaths)) {
         revalidatePath(path)
       }
     } catch {

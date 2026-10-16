@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { ArrowUpRightIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 import type { BlogPostCard } from "@/types/blog";
+import { getBlogPostPath } from "@/utils/blog-path";
 import { useWebHaptics } from "web-haptics/react";
 
 interface TagOption {
@@ -146,13 +147,9 @@ export default function BlogClient({
     updateRoute({ page });
   };
 
-  const getPostUrl = (post: BlogPostCard) => {
-    if (!post.publishedAt) return `/blog/${post.slug}`;
-    const [year, month] = new Date(post.publishedAt)
-      .toLocaleDateString("en-CA", { timeZone: "Asia/Kuala_Lumpur" })
-      .split("-");
-    return `/blog/${year}/${month}/${post.slug}`;
-  };
+  // Published posts always have a date; "/blog" is only a safe fallback
+  const getPostUrl = (post: BlogPostCard) =>
+    post.publishedAt ? getBlogPostPath(post.slug, post.publishedAt) : "/blog";
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "";
@@ -203,7 +200,7 @@ export default function BlogClient({
                   }}
                   className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
                     selectedTags.length === 0
-                      ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
+                      ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
                       : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
                   }`}
                 >
@@ -215,7 +212,7 @@ export default function BlogClient({
                     onClick={() => toggleTopic(topic.value)}
                     className={`min-h-11 px-3 text-xs rounded-full transition-all duration-200 ${
                       selectedTags.includes(topic.value)
-                        ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
+                        ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
                         : "bg-white/4 text-text-muted hover:text-text-secondary hover:bg-white/6 border border-transparent"
                     }`}
                   >
@@ -307,7 +304,7 @@ export default function BlogClient({
                 haptic.trigger("light");
                 clearFilters();
               }}
-              className="text-sm text-accent-primary hover:underline underline-offset-4"
+              className="text-sm text-accent-hover hover:underline underline-offset-4"
             >
               Clear all filters
             </button>
@@ -339,7 +336,7 @@ export default function BlogClient({
                 }
                 className={`w-11 h-11 text-sm rounded-lg transition-colors duration-200 ${
                   pageNumber === pagination.page
-                    ? "bg-accent-primary/20 text-accent-primary border border-accent-primary/30"
+                    ? "bg-accent-primary/20 text-accent-hover border border-accent-primary/30"
                     : "text-text-muted bg-white/4 border border-white/8 hover:text-text-primary hover:bg-white/6"
                 }`}
               >

@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { projectEditor } from '../editor/richTextEditor'
-import { isAdmin } from '../access/is-admin'
+import { isAdmin, isAdminOrPublished } from '../access/is-admin'
 import { revalidateCollectionHooks, slugField } from './shared'
 
 const Projects: CollectionConfig = {
@@ -10,7 +10,7 @@ const Projects: CollectionConfig = {
     plural: 'Projects',
   },
   access: {
-    read: () => true,
+    read: isAdminOrPublished,
     create: isAdmin,
     update: isAdmin,
     delete: isAdmin,

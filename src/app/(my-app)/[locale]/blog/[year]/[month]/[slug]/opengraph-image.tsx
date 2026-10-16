@@ -3,7 +3,7 @@ import { getPayload } from "payload";
 import { unstable_cache } from "next/cache";
 import { headers } from "next/headers";
 import config from "@payload-config";
-import { getServerLocale } from "@/lib/locale-server";
+import { resolveLocale, type LocaleCode } from "@/lib/locale";
 import { getOgAssets } from "@/utils/og-fonts";
 import { getOgBackgroundStyle } from "@/components/seo/og-background";
 import { resolveMediaSrc } from "@/utils/media";
@@ -13,7 +13,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const getCachedPostSummary = unstable_cache(
-  async (slug: string, locale: Awaited<ReturnType<typeof getServerLocale>>) => {
+  async (slug: string, locale: LocaleCode) => {
     const payload = await getPayload({ config });
     const { docs } = await payload.find({
       collection: "blog-posts",
@@ -41,9 +41,10 @@ const getCachedPostSummary = unstable_cache(
   { revalidate: 60, tags: ["blog-posts"] },
 );
 
-export async function generateImageMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const locale = await getServerLocale();
+type OgParams = Promise<{ locale: string; slug: string }>;
+
+export async function generateImageMetadata({ params }: { params: OgParams }) {
+  const [{ slug }, locale] = await Promise.all([params, resolveLocale(params)]);
   const { title } = await getCachedPostSummary(slug, locale);
 
   return [
@@ -56,9 +57,8 @@ export async function generateImageMetadata({ params }: { params: Promise<{ slug
   ];
 }
 
-export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const locale = await getServerLocale();
+export default async function Image({ params }: { params: OgParams }) {
+  const [{ slug }, locale] = await Promise.all([params, resolveLocale(params)]);
   const [{ title, rawCoverImageSrc }, { notchFont, textFont, logoDataUrl, noiseDataUrl }] =
     await Promise.all([getCachedPostSummary(slug, locale), getOgAssets()]);
 

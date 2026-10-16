@@ -5,8 +5,7 @@ import config from '@payload-config'
 import BlogClient from './blog-client'
 import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
 import { resolveMediaSrc } from '@/utils/media'
-import { getServerLocale } from '@/lib/locale-server'
-import type { LocaleCode } from '@/lib/locale'
+import { resolveLocale, type LocaleCode } from '@/lib/locale'
 
 const POSTS_PER_PAGE = 9
 
@@ -18,6 +17,7 @@ type TagOption = {
 type SearchParams = Record<string, string | string[] | undefined>
 
 type BlogPostsSectionProps = {
+  params: Promise<{ locale: string }>
   searchParams?: Promise<SearchParams>
 }
 
@@ -75,8 +75,8 @@ const getCachedPublishedTagOptions = unstable_cache(
   }
 )
 
-export default async function BlogPostsSection({ searchParams }: BlogPostsSectionProps) {
-  const locale = await getServerLocale()
+export default async function BlogPostsSection({ params, searchParams }: BlogPostsSectionProps) {
+  const locale = await resolveLocale(params)
   const payload = await getPayload({ config })
 
   const resolvedSearchParams = searchParams ? await searchParams : {}

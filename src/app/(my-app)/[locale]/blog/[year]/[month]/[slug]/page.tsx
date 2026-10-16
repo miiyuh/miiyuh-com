@@ -3,7 +3,7 @@ import { getPayload } from "payload";
 import { unstable_cache } from "next/cache";
 import config from "@payload-config";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import Image from "next/image";
 import { Fragment, Suspense } from "react";
 
@@ -20,13 +20,19 @@ import type { BlogPostDocument } from "@/types/blog";
 import { resolveMediaSrc } from "@/utils/media";
 import { extractTocFromLexical } from "@/utils/extract-toc";
 import { renderLexicalContent } from "@/utils/lexical-renderer";
-import { getServerLocale } from "@/lib/locale-server";
-import type { LocaleCode } from "@/lib/locale";
+import { pageAlternates, resolveLocale, type LocaleCode } from "@/lib/locale";
+import { getBlogYearMonth } from "@/utils/blog-path";
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60;
 
-type PageParams = { year: string; month: string; slug: string };
+// No paths prebuilt at deploy: each page renders on first visit, then is
+// cached and revalidated like the rest (an empty list still opts into ISR).
+export async function generateStaticParams() {
+  return [];
+}
+
+type PageParams = { locale: string; year: string; month: string; slug: string };
 
 type PageProps = {
   params: Promise<PageParams>;
@@ -56,15 +62,13 @@ const getCachedBlogPost = unstable_cache(
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { year, month, slug } = await params;
-  const locale = await getServerLocale();
+  const locale = await resolveLocale(params);
 
   const post = await getCachedBlogPost(slug, locale);
   if (!post) return { title: "page not found - miiyuh.com" };
 
   // Verify the post matches the year/month (using Malaysia timezone)
-  const [postYear, postMonth] = new Date(post.publishedAt as string)
-    .toLocaleDateString("en-CA", { timeZone: "Asia/Kuala_Lumpur" })
-    .split("-");
+  const [postYear, postMonth] = getBlogYearMonth(post.publishedAt as string);
 
   if (postYear !== year || postMonth !== month) {
     return { title: "page not found - miiyuh.com" };
@@ -72,14 +76,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = post.seo?.metaTitle || `${post.title} - miiyuh.com`;
   const description = post.seo?.metaDescription || post.excerpt || `read ${post.title}`;
-  const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
+  const alternates = pageAlternates(`/blog/${year}/${month}/${slug}`, locale);
+  const canonicalUrl = alternates.canonical;
 
   return {
     title,
     description,
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    alternates,
     openGraph: {
       title,
       description,
@@ -97,15 +100,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 async function PageContent({ params }: PageProps) {
   const { year, month, slug } = await params;
-  const locale = await getServerLocale();
+  const locale = await resolveLocale(params);
 
   const post = await getCachedBlogPost(slug, locale);
   if (!post) notFound();
 
   // Verify the post matches the year/month in the URL (using Malaysia timezone)
-  const [postYear, postMonth] = new Date(post.publishedAt as string)
-    .toLocaleDateString("en-CA", { timeZone: "Asia/Kuala_Lumpur" })
-    .split("-");
+  const [postYear, postMonth] = getBlogYearMonth(post.publishedAt as string);
 
   if (postYear !== year || postMonth !== month) {
     notFound();
@@ -121,7 +122,7 @@ async function PageContent({ params }: PageProps) {
   });
 
   const publishedAtDate = post.publishedAt ? new Date(post.publishedAt) : null;
-  const canonicalUrl = `https://miiyuh.com/blog/${year}/${month}/${slug}`;
+  const canonicalUrl = pageAlternates(`/blog/${year}/${month}/${slug}`, locale).canonical;
 
   const blogPostingJsonLd = {
     "@context": "https://schema.org",
@@ -199,7 +200,7 @@ async function PageContent({ params }: PageProps) {
             </div>
 
             {post.excerpt && (
-              <p className="text-md text-secondary italic" style={{ fontFamily: 'var(--font-noto-sans), sans-serif' }}>
+              <p className="text-base text-text-secondary italic font-paper-mono">
                 {post.excerpt}
               </p>
             )}

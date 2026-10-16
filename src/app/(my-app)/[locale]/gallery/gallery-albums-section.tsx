@@ -1,3 +1,4 @@
+import { resolveLocale } from '@/lib/locale'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import GalleryGrid from './gallery-grid'
@@ -13,11 +14,13 @@ import { resolveMediaSrc } from '@/utils/media'
 
 const PREVIEW_IMAGE_LIMIT = 3
 
-export default async function GalleryAlbumsSection() {
+export default async function GalleryAlbumsSection({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = await resolveLocale(params)
   const payload = await getPayload({ config })
 
   const { docs: collectionDocs } = await payload.find({
     collection: 'gallery-collections',
+    locale,
     where: {
       status: {
         equals: 'published',

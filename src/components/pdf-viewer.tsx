@@ -92,7 +92,7 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
 
       {pdfLoading && (
         <div className="flex items-center justify-center py-12">
-          <SpinnerIcon weight="bold" className="w-6 h-6 animate-spin text-accent-primary" />
+          <SpinnerIcon weight="bold" className="w-6 h-6 animate-spin text-accent-hover" />
         </div>
       )}
 

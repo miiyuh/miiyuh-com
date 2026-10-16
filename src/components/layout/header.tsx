@@ -1,17 +1,20 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import Image from "next/image";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { NAVIGATION_LINKS } from "@/constants";
 import { useWebHaptics } from "web-haptics/react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import { localizePath } from "@/lib/locale";
+import { useLocale } from "@/lib/locale-context";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const haptic = useWebHaptics();
   const pathname = usePathname();
+  const locale = useLocale();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = useCallback(() => {
@@ -121,7 +124,7 @@ export default function Header() {
                     href={link.href}
                     className="hover:underline"
                     onClick={(e) => {
-                      if (link.href === pathname) {
+                      if (localizePath(link.href, locale) === pathname) {
                         e.preventDefault();
                         return;
                       }
@@ -156,7 +159,7 @@ export default function Header() {
               <Link
                 href={link.href}
                 onClick={(e) => {
-                  if (link.href === pathname) {
+                  if (localizePath(link.href, locale) === pathname) {
                     e.preventDefault();
                     closeMenu();
                     return;

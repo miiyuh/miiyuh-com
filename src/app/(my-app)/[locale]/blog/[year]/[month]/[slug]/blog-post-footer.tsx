@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/components/locale-link';
 import { ArrowLeftIcon } from '@phosphor-icons/react'
 
 export function BlogPostFooter() {

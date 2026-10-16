@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { isValidLocale, pageAlternates } from '@/lib/locale'
 import { Suspense } from 'react'
 import ErrorBoundary from '@/components/ui/error-boundary'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
@@ -6,18 +7,24 @@ import { breadcrumbs } from '@/config/breadcrumbs'
 import GalleryAlbumsSection from './gallery-albums-section'
 import { GalleryGridSkeleton } from './gallery-grid-skeleton'
 
-export const metadata: Metadata = {
-  title: 'gallery - miiyuh.com',
-  description: 'from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork by miiyuh.',
-  alternates: {
-    canonical: 'https://miiyuh.com/gallery',
-  },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  if (!isValidLocale(locale)) return {}
+  return {
+    title: 'gallery - miiyuh.com',
+    description: 'from the pens and lenses of mine, through out the years. a curated collection of my photography and artwork by miiyuh.',
+    alternates: pageAlternates('/gallery', locale),
+  }
 }
 
 // ISR: Revalidate every 5 minutes with collection hooks forcing faster updates on save
 export const revalidate = 300
 
-export default function GalleryPage() {
+export default function GalleryPage({ params }: { params: Promise<{ locale: string }> }) {
   return (
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
@@ -39,7 +46,7 @@ export default function GalleryPage() {
 
             {/* Albums Grid - borders act as grid lines */}
             <Suspense fallback={<GalleryGridSkeleton />}>
-              <GalleryAlbumsSection />
+              <GalleryAlbumsSection params={params} />
             </Suspense>
           </div>
         </main>

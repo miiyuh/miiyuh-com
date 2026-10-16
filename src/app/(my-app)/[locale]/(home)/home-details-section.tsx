@@ -4,6 +4,7 @@ import HomeDetails from './home-details'
 import type { AboutEntry } from '@/types/about'
 import type { LexicalContent } from '@/utils/lexical-renderer'
 import { resolveMediaSrc } from '@/utils/media'
+import { resolveLocale, type LocaleCode } from '@/lib/locale'
 
 type RawAboutLogo = {
   id?: string | number
@@ -58,7 +59,7 @@ const mapAboutEntries = (docs: RawAboutEntry[]): AboutEntry[] => {
   })
 }
 
-async function getAboutData(): Promise<{
+async function getAboutData(locale: LocaleCode): Promise<{
   education: AboutEntry[]
   experience: AboutEntry[]
   volunteering: AboutEntry[]
@@ -70,6 +71,7 @@ async function getAboutData(): Promise<{
     const [educationResult, experienceResult, volunteeringResult] = await Promise.all([
       payload.find({
         collection: 'about-entries',
+        locale,
         where: { type: { equals: 'education' } },
         depth: 1,
         limit: 100,
@@ -77,6 +79,7 @@ async function getAboutData(): Promise<{
       }),
       payload.find({
         collection: 'about-entries',
+        locale,
         where: { type: { equals: 'experience' } },
         depth: 1,
         limit: 100,
@@ -84,6 +87,7 @@ async function getAboutData(): Promise<{
       }),
       payload.find({
         collection: 'about-entries',
+        locale,
         where: { type: { equals: 'volunteering' } },
         depth: 1,
         limit: 100,
@@ -114,7 +118,7 @@ type RawMediaDoc = {
   filesize?: number | null
 }
 
-async function getResumeData(): Promise<{
+async function getResumeData(locale: LocaleCode): Promise<{
   pdfUrl?: string
   title: string
   filename?: string
@@ -123,7 +127,7 @@ async function getResumeData(): Promise<{
   try {
     const payload = await getPayload({ config })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const resume = (await payload.findGlobal({ slug: 'resume' as any, depth: 1 })) as any
+    const resume = (await payload.findGlobal({ slug: 'resume' as any, locale, depth: 1 })) as any
     const pdf = resume.pdf as RawMediaDoc | string | null | undefined
     const pdfUrl =
       pdf && typeof pdf === 'object'
@@ -141,10 +145,11 @@ async function getResumeData(): Promise<{
   }
 }
 
-export default async function HomeDetailsSection() {
+export default async function HomeDetailsSection({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = await resolveLocale(params)
   const [aboutData, resumeData] = await Promise.all([
-    getAboutData(),
-    getResumeData(),
+    getAboutData(locale),
+    getResumeData(locale),
   ])
 
   return (

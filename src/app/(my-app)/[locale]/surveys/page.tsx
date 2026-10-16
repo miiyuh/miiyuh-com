@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
+import { isValidLocale, pageAlternates } from '@/lib/locale'
 import { Suspense } from 'react'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
 import { breadcrumbs } from '@/config/breadcrumbs'
 import SurveysSection from './surveys-section'
 import { SurveysListSkeleton } from './surveys-list-skeleton'
 
-export const metadata: Metadata = {
-  title: 'surveys - miiyuh.com',
-  description: 'quick polls and feedback forms. share your thoughts on various topics and help shape future content.',
-  alternates: {
-    canonical: 'https://miiyuh.com/surveys',
-  },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  if (!isValidLocale(locale)) return {}
+  return {
+    title: 'surveys - miiyuh.com',
+    description: 'quick polls and feedback forms. share your thoughts on various topics and help shape future content.',
+    alternates: pageAlternates('/surveys', locale),
+  }
 }
 
 export const revalidate = 60 // Revalidate every minute

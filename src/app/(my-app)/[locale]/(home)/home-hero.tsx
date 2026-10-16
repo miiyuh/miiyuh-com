@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import { NAVIGATION_LINKS, SOCIAL_PLATFORMS } from "@/constants";
 import {
   MapPinIcon,
@@ -113,7 +113,7 @@ export default function HomeHero() {
                 <h3 className="font-notch text-xl text-text-primary transition-colors">
                   <span className="text-highlight">{link.label}</span>
                 </h3>
-                <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-primary transition-colors shrink-0" aria-hidden="true" />
+                <ArrowUpRightIcon className="w-8 h-8 text-text-muted group-hover:text-accent-hover transition-colors shrink-0" aria-hidden="true" />
               </div>
               <p className="text-xs text-text-secondary">
                 {link.description}

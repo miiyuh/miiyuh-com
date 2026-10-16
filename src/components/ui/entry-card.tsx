@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 import type { AboutEntry } from "@/types/about";
 import { renderLexicalContent } from "@/utils/lexical-renderer";
@@ -71,7 +71,7 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
           )}
           {entry.description && (
             <div
-              className="text-text-secondary text-sm leading-relaxed mt-2 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:mt-1 [&_p]:mt-0 [&_a]:underline hover:[&_a]:text-accent-primary [&_strong]:font-semibold"
+              className="text-text-secondary text-sm leading-relaxed mt-2 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:mt-1 [&_p]:mt-0 [&_a]:underline hover:[&_a]:text-accent-hover [&_strong]:font-semibold"
               dangerouslySetInnerHTML={{ __html: renderLexicalContent(entry.description) }}
             />
           )}

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import Image from "next/image";
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 
@@ -90,7 +90,7 @@ export default function GalleryGrid({
                         <span className="font-emoji ml-2 inline-block">🇯🇵</span>
                       )}
                     </h2>
-                    <ArrowUpRightIcon className="w-5 h-5 text-text-muted group-hover:text-accent-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                    <ArrowUpRightIcon className="w-5 h-5 text-text-muted group-hover:text-accent-hover group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </div>
 
                   <p className="text-text-secondary text-sm line-clamp-2">

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import { NAVIGATION_LINKS } from "@/constants";
 
 export default function NotFound() {

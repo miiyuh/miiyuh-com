@@ -16,7 +16,7 @@ import { useEffect } from 'react'
  * the wrapper div at runtime and copy them onto :root, where every portal
  * can reach them.
  */
-const FONT_VARIABLES = ['--font-stack-sans-text', '--font-stack-sans-notch', '--font-noto-sans']
+const FONT_VARIABLES = ['--font-stack-sans-text', '--font-stack-sans-notch', '--font-paper-mono']
 
 export default function SyncAdminFontVariables() {
   useEffect(() => {

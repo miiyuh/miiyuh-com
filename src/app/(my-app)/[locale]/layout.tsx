@@ -1,7 +1,6 @@
-import "./globals.css";
+import "../globals.css";
 import type { Metadata } from "next";
 import {
-  Noto_Sans,
   Noto_Serif,
   Noto_Serif_JP,
   Instrument_Serif,
@@ -10,17 +9,19 @@ import {
 } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
-import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/components/layout/app-provider";
-import { getServerLocale } from "@/lib/locale-server";
+import { LOCALE_CODES, isValidLocale } from "@/lib/locale";
 import { LocaleProvider } from "@/lib/locale-context";
 import { JsonLd } from "@/components/seo/json-ld";
 
-const notoSans = Noto_Sans({
-  subsets: ["latin"],
-  variable: "--font-noto-sans",
+// Body text inside blog posts and the legal pages (.lexical-content)
+const paperMono = localFont({
+  src: "../../../assets/fonts/PaperMono-VariableFont_wght.woff2",
+  weight: "100 800",
+  variable: "--font-paper-mono",
   display: "swap",
 });
 const notoSerif = Noto_Serif({
@@ -42,17 +43,17 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 const stackSansText = localFont({
-  src: "../../assets/fonts/StackSansText-VariableFont_wght.ttf",
+  src: "../../../assets/fonts/StackSansText-VariableFont_wght.ttf",
   variable: "--font-stack-sans-text",
   display: "swap",
 });
 const stackSansHeadline = localFont({
-  src: "../../assets/fonts/StackSansHeadline-VariableFont_wght.ttf",
+  src: "../../../assets/fonts/StackSansHeadline-VariableFont_wght.ttf",
   variable: "--font-stack-sans-headline",
   display: "swap",
 });
 const stackSansNotch = localFont({
-  src: "../../assets/fonts/StackSansNotch-VariableFont_wght.ttf",
+  src: "../../../assets/fonts/StackSansNotch-VariableFont_wght.ttf",
   variable: "--font-stack-sans-notch",
   display: "swap",
 });
@@ -90,13 +91,24 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+// Locale is the first URL segment (src/proxy.ts maps unprefixed URLs to /en),
+// so every locale can be prerendered and cached instead of read from a cookie.
+export function generateStaticParams() {
+  return LOCALE_CODES.map((locale) => ({ locale }));
+}
+
+// Not `dynamicParams = false`: that is inherited by every child segment and
+// would 404 blog posts/albums that weren't prebuilt. Unknown locales 404 below.
+
 export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  const locale = await getServerLocale()
-  const nonce = (await headers()).get("x-nonce") ?? undefined
+  const { locale } = await params
+  if (!isValidLocale(locale)) notFound()
 
   const personJsonLd = {
     "@context": "https://schema.org",
@@ -166,11 +178,11 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${notoSans.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} antialiased relative flex flex-col min-h-screen`}
-        style={{ fontFamily: 'var(--font-stack-sans-text), var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
+        className={`${paperMono.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} antialiased relative flex flex-col min-h-screen`}
+        style={{ fontFamily: 'var(--font-stack-sans-text), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
         {/* beforeInteractive scripts must be direct children of <body> per Next.js docs — placing this in <head> triggered a dev-mode "script tag" hydration warning */}
-        <Script src="/theme-favicons.js" strategy="beforeInteractive" nonce={nonce} />
+        <Script src="/theme-favicons.js" strategy="beforeInteractive" />
         <LocaleProvider locale={locale}>
           <AppProvider>{children}</AppProvider>
         </LocaleProvider>
@@ -180,7 +192,6 @@ export default async function RootLayout({
           src="https://rybbit.miiyuh.com/api/script.js"
           data-site-id="c7820fe075c6"
           strategy="afterInteractive"
-          nonce={nonce}
         />
       </body>
     </html>

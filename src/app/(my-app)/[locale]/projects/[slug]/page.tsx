@@ -8,11 +8,12 @@ import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
 import { resolveMediaSrc } from '@/utils/media'
 import ProjectDetailClient from './project-detail-client'
+import { pageAlternates, resolveLocale } from '@/lib/locale'
 import { ProjectDetailSkeleton } from './project-detail-skeleton'
 
 export const revalidate = 60
 
-type PageParams = { slug: string }
+type PageParams = { locale: string; slug: string }
 
 type PageProps = {
   params: Promise<PageParams>
@@ -20,14 +21,17 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
+  const locale = await resolveLocale(params)
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
     collection: 'projects',
+    locale,
     where: {
       and: [
         { slug: { equals: slug } },
         { category: { not_equals: 'research-paper' } },
+        { _status: { equals: 'published' } },
       ],
     },
     depth: 0,
@@ -51,6 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: seo?.metaTitle || `${project.name} - Projects - miiyuh`,
+    alternates: pageAlternates(`/projects/${slug}`, locale),
     description:
       seo?.metaDescription ||
       (typeof project.description === 'string' ? project.description : undefined),
@@ -64,9 +69,10 @@ export async function generateStaticParams() {
     depth: 0,
     limit: 200,
     where: {
-      category: {
-        not_equals: 'research-paper',
-      },
+      and: [
+        { category: { not_equals: 'research-paper' } },
+        { _status: { equals: 'published' } },
+      ],
     },
     select: {
       slug: true,
@@ -77,14 +83,17 @@ export async function generateStaticParams() {
 
 async function ProjectPageContent({ params }: PageProps) {
   const { slug } = await params
+  const locale = await resolveLocale(params)
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
     collection: 'projects',
+    locale,
     where: {
       and: [
         { slug: { equals: slug } },
         { category: { not_equals: 'research-paper' } },
+        { _status: { equals: 'published' } },
       ],
     },
     depth: 1,
