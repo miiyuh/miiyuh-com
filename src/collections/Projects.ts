@@ -206,7 +206,7 @@ const Projects: CollectionConfig = {
         paths.push(`/projects/${doc.slug}`)
       }
       return paths
-    }),
+    }, { tags: ['projects'] }),
   },
 }
 

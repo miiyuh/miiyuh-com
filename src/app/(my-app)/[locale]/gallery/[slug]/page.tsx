@@ -5,10 +5,9 @@ import { getPayload } from "payload";
 import { unstable_cache } from "next/cache";
 import config from "@payload-config";
 import { notFound } from "next/navigation";
-import { Fragment, Suspense } from "react";
+import { Fragment } from "react";
 import { RefreshRouteOnSave } from "@/components/live-preview";
 import AlbumClient from "./album-client";
-import { GalleryAlbumSkeleton } from "./gallery-album-skeleton";
 import type {
   GalleryCollectionDocument,
   GalleryCollectionSummary,
@@ -73,7 +72,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function AlbumPageContent({ params }: PageProps) {
+// notFound() must run before any Suspense boundary renders, otherwise the
+// response streams with a committed 200 status instead of a real 404.
+export default async function AlbumPage({ params }: PageProps) {
   const { slug } = await params;
 
   const collection = await getCachedGalleryCollection(slug, await resolveLocale(params));
@@ -127,13 +128,5 @@ async function AlbumPageContent({ params }: PageProps) {
       <RefreshRouteOnSave />
       <AlbumClient collection={collectionData} images={galleryImages} />
     </Fragment>
-  );
-}
-
-export default function AlbumPage({ params }: PageProps) {
-  return (
-    <Suspense fallback={<GalleryAlbumSkeleton />}>
-      <AlbumPageContent params={params} />
-    </Suspense>
   );
 }

@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
-import { Fragment, Suspense } from 'react'
+import { Fragment } from 'react'
+import { unstable_cache } from 'next/cache'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
 import { resolveMediaSrc } from '@/utils/media'
 import ProjectDetailClient from './project-detail-client'
-import { pageAlternates, resolveLocale } from '@/lib/locale'
-import { ProjectDetailSkeleton } from './project-detail-skeleton'
+import { pageAlternates, resolveLocale, type LocaleCode } from '@/lib/locale'
 
 export const revalidate = 60
 
@@ -19,31 +19,37 @@ type PageProps = {
   params: Promise<PageParams>
 }
 
+/**
+ * Fetch and cache a single published project by slug.
+ * Shared by generateMetadata and the page so notFound() can run before render.
+ */
+const getCachedProject = unstable_cache(
+  async (slug: string, locale: LocaleCode) => {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'projects',
+      locale,
+      where: {
+        and: [
+          { slug: { equals: slug } },
+          { category: { not_equals: 'research-paper' } },
+          { _status: { equals: 'published' } },
+        ],
+      },
+      depth: 1,
+      limit: 1,
+    })
+    return docs[0]
+  },
+  ['project-by-slug'],
+  { revalidate: 60, tags: ['projects'] },
+)
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const locale = await resolveLocale(params)
-  const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'projects',
-    locale,
-    where: {
-      and: [
-        { slug: { equals: slug } },
-        { category: { not_equals: 'research-paper' } },
-        { _status: { equals: 'published' } },
-      ],
-    },
-    depth: 0,
-    limit: 1,
-    select: {
-      name: true,
-      description: true,
-      seo: true,
-    },
-  })
-
-  const project = docs[0]
+  const project = await getCachedProject(slug, locale)
   if (!project) return { title: 'Project Not Found - miiyuh' }
 
   const seo = project.seo as
@@ -81,26 +87,13 @@ export async function generateStaticParams() {
   return docs.map((doc) => ({ slug: doc.slug }))
 }
 
-async function ProjectPageContent({ params }: PageProps) {
+// notFound() must run before any Suspense boundary renders, otherwise the
+// response streams with a committed 200 status instead of a real 404.
+export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params
   const locale = await resolveLocale(params)
-  const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'projects',
-    locale,
-    where: {
-      and: [
-        { slug: { equals: slug } },
-        { category: { not_equals: 'research-paper' } },
-        { _status: { equals: 'published' } },
-      ],
-    },
-    depth: 1,
-    limit: 1,
-  })
-
-  const project = docs[0]
+  const project = await getCachedProject(slug, locale)
   if (!project) notFound()
 
   // Transform for client
@@ -150,13 +143,5 @@ async function ProjectPageContent({ params }: PageProps) {
       <RefreshRouteOnSave />
       <ProjectDetailClient project={transformedProject} />
     </Fragment>
-  )
-}
-
-export default function ProjectPage({ params }: PageProps) {
-  return (
-    <Suspense fallback={<ProjectDetailSkeleton />}>
-      <ProjectPageContent params={params} />
-    </Suspense>
   )
 }

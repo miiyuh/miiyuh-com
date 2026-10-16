@@ -5,7 +5,7 @@ import config from "@payload-config";
 import { notFound } from "next/navigation";
 import Link from "@/components/locale-link";
 import Image from "next/image";
-import { Fragment, Suspense } from "react";
+import { Fragment } from "react";
 
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
 import { breadcrumbs } from "@/config/breadcrumbs";
@@ -14,7 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import { RefreshRouteOnSave } from "@/components/live-preview";
 import { JsonLd } from "@/components/seo/json-ld";
 import BlogPostContent from "./blog-post-content";
-import { BlogPostSkeleton } from "./blog-post-skeleton";
 import { BlogPostFooter } from "./blog-post-footer";
 import type { BlogPostDocument } from "@/types/blog";
 import { resolveMediaSrc } from "@/utils/media";
@@ -99,7 +98,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function PageContent({ params }: PageProps) {
+// notFound() must run before any Suspense boundary renders, otherwise the
+// response streams with a committed 200 status instead of a real 404.
+async function Page({ params }: PageProps) {
   const { year, month, slug } = await params;
   const locale = await resolveLocale(params);
 
@@ -221,14 +222,6 @@ async function PageContent({ params }: PageProps) {
         </div>
       </main>
     </Fragment>
-  );
-}
-
-function Page({ params }: PageProps) {
-  return (
-    <Suspense fallback={<BlogPostSkeleton />}>
-      <PageContent params={params} />
-    </Suspense>
   );
 }
 
