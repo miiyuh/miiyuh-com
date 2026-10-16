@@ -61,7 +61,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow pt-6 pb-16">
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80">
+        <div className="px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80">
           <SimpleBreadcrumb
             items={breadcrumbs.projectDetail(project.name)}
             className="-mx-8 px-8 md:mx-0 md:px-0"
@@ -145,7 +145,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
               {toc.length > 0 && <MobileTOC toc={toc} scrollOffset={116} />}
 
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
-                <article className="prose prose-invert max-w-none">
+                <article>
                   <div
                     className="lexical-content"
                     dangerouslySetInnerHTML={{ __html: project.htmlContent ?? '' }}

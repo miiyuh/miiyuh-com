@@ -7,12 +7,12 @@ import { Fragment } from 'react'
 export function BlogPostSkeleton() {
   return (
     <Fragment>
-      <main className="relative min-h-screen text-[#FAF3E0]">
-        <div className="relative z-10 mx-auto max-w-4xl px-8 md:px-32 lg:px-8 pt-6 pb-16 animate-smooth-slide-up">
+      <main className="relative min-h-screen text-text-primary">
+        <div className="relative z-10 mx-auto max-w-4xl px-8 md:px-16 lg:px-8 pt-6 pb-16">
           {/* Breadcrumbs Skeleton */}
           <SimpleBreadcrumb
             items={breadcrumbs.blogPost('year', 'month', 'post')}
-            className="-mx-8 px-8 md:-mx-32 md:px-32 lg:mx-0 lg:px-0"
+            className="-mx-8 px-8 md:-mx-16 md:px-16 lg:mx-0 lg:px-0"
             staticFrom="lg"
           />
 
@@ -40,7 +40,7 @@ export function BlogPostSkeleton() {
           <TextSkeleton lines={8} className="mb-12 space-y-4" />
 
           {/* Back to Blog Link Skeleton */}
-          <footer className="mt-12 border-t border-[#FAF3E0]/10 pt-8">
+          <footer className="mt-12 border-t border-text-primary/10 pt-8">
             <div className="h-5 bg-white/5 rounded-lg animate-pulse w-32" />
           </footer>
         </div>

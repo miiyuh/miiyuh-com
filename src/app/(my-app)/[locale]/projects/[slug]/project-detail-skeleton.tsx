@@ -7,7 +7,7 @@ export function ProjectDetailSkeleton() {
   return (
     <Fragment>
       <main className="relative min-h-screen text-text-primary">
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-16">
+        <div className="px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 pt-6 pb-16">
           <SimpleBreadcrumb
             items={breadcrumbs.projectDetail('project')}
             className="-mx-8 px-8 md:mx-0 md:px-0"

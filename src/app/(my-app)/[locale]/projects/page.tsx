@@ -27,11 +27,11 @@ export default function ProjectsPage({ params }: { params: Promise<{ locale: str
   return (
     <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
       <section className="relative grow pt-6 pb-16">
-        <div className="px-8 md:px-32 lg:px-56 xl:px-80">
+        <div className="px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80">
           {/* Breadcrumb + heading */}
           <SimpleBreadcrumb items={breadcrumbs.projects()} className="-mx-8 px-8 md:mx-0 md:px-0" />
 
-          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="mb-8 animate-page-in">
             <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
               projects
             </h1>

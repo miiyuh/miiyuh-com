@@ -3,7 +3,7 @@ import { NAVIGATION_LINKS } from "@/constants";
 
 export default function NotFound() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-[70vh] px-8 md:px-32 lg:px-56 xl:px-80 py-12">
+    <main className="flex flex-col items-center justify-center min-h-[70vh] px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 py-12">
       <div className="flex flex-col items-center gap-6 max-w-md text-center">
         <h1 className="text-6xl md:text-8xl font-notch text-text-primary">
           404

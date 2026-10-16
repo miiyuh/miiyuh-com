@@ -5,7 +5,7 @@ import { TextSkeleton } from '@/components/ui/skeleton'
 export function SurveySkeleton() {
   return (
     <main className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
-      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-24 min-h-[70vh]">
+      <section className="relative grow px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 pt-6 pb-24 min-h-[70vh]">
         <div>
           {/* Breadcrumb Navigation */}
           <SimpleBreadcrumb items={breadcrumbs.surveyDetail('survey')} className="-mx-8 px-8 md:mx-0 md:px-0" />

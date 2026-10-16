@@ -67,7 +67,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
   return (
     <ErrorBoundary>
       <div className="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col relative">
-        <main className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-16">
+        <main className="relative grow px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 pt-6 pb-16">
           <div>
             {/* Breadcrumb Navigation */}
             <SimpleBreadcrumb items={breadcrumbs.galleryAlbum(collection.title)} />
@@ -101,7 +101,7 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                     <div key={`${collection.slug}-${imgIndex}`}>
                       <a
                         href={image.src}
-                        className="block group relative overflow-hidden rounded-2xl glass-panel-pro shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)] hover:border-accent-primary/50 transition-all duration-500"
+                        className="block group relative overflow-hidden rounded-2xl"
                         data-sub-html={subHtml}
                         data-thumb={image.thumbnailSrc || undefined}
                       >

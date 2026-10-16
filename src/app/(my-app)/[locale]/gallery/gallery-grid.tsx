@@ -23,7 +23,7 @@ export default function GalleryGrid({
   const haptic = useWebHaptics();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border-t border-l border-white/8 animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border-t border-l border-white/8 animate-page-in">
       {collections.map((collection, index) => {
         const images = galleryData[collection.slug] ?? [];
         const stackImages: GalleryItem[] = images.slice(0, 3);

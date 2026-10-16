@@ -69,7 +69,7 @@ function SelectPopup({
         <SelectPrimitive.Content
           className={cn(
             "origin-(--transform-origin) transition-[scale,opacity] data-[state=closed]:scale-98 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
-            "relative block h-full rounded-xl border border-white/12 bg-[#0b0f1a]/95 backdrop-blur-xl text-text-primary shadow-2xl before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] before:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]",
+            "relative block h-full rounded-xl border border-white/12 bg-surface-primary/95 backdrop-blur-xl text-text-primary shadow-2xl before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-2px)] before:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]",
             className,
           )}
           data-slot="select-popup"

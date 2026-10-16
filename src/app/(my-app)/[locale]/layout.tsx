@@ -1,12 +1,6 @@
 import "../globals.css";
 import type { Metadata } from "next";
-import {
-  Noto_Serif,
-  Noto_Serif_JP,
-  Instrument_Serif,
-  Noto_Sans_Mono,
-  Noto_Color_Emoji,
-} from "next/font/google";
+import { Noto_Sans_Mono, Noto_Color_Emoji } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
 import { notFound } from "next/navigation";
@@ -24,35 +18,20 @@ const paperMono = localFont({
   variable: "--font-paper-mono",
   display: "swap",
 });
-const notoSerif = Noto_Serif({
-  subsets: ["latin"],
-  variable: "--font-noto-serif",
-  display: "swap",
-});
-const notoSerifJP = Noto_Serif_JP({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-noto-serif-jp",
-  display: "swap",
-});
-// Kept loaded but not applied anywhere in the UI — retained in case it's wanted again later.
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-instrument-serif",
-  display: "swap",
-});
 const stackSansText = localFont({
+  weight: "200 700",
   src: "../../../assets/fonts/StackSansText-VariableFont_wght.ttf",
   variable: "--font-stack-sans-text",
   display: "swap",
 });
 const stackSansHeadline = localFont({
+  weight: "200 700",
   src: "../../../assets/fonts/StackSansHeadline-VariableFont_wght.ttf",
   variable: "--font-stack-sans-headline",
   display: "swap",
 });
 const stackSansNotch = localFont({
+  weight: "200 700",
   src: "../../../assets/fonts/StackSansNotch-VariableFont_wght.ttf",
   variable: "--font-stack-sans-notch",
   display: "swap",
@@ -67,6 +46,8 @@ const notoColorEmoji = Noto_Color_Emoji({
   subsets: ["emoji"],
   variable: "--font-noto-color-emoji",
   display: "swap",
+  // Only fetched when an emoji glyph actually renders (unicode-range), not on every page
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -140,16 +121,10 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang={locale} className="bg-[#070707] text-[#FAF3E0]">
+    <html lang={locale} className="bg-bg-primary text-text-primary">
       <head>
         <JsonLd data={personJsonLd} />
         <JsonLd data={websiteJsonLd} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
 
         {/* Default to dark-mode favicon set (light icon) before script applies theme-specific variants */}
         <link
@@ -178,7 +153,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${paperMono.variable} ${notoSerif.variable} ${notoSerifJP.variable} ${instrumentSerif.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} antialiased relative flex flex-col min-h-screen`}
+        className={`${paperMono.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} antialiased relative flex flex-col min-h-screen`}
         style={{ fontFamily: 'var(--font-stack-sans-text), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
         {/* beforeInteractive scripts must be direct children of <body> per Next.js docs — placing this in <head> triggered a dev-mode "script tag" hydration warning */}

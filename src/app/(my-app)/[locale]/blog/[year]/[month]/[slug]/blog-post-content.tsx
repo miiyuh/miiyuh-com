@@ -20,7 +20,7 @@ export default function BlogPostContent({
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8">
         {/* Main content */}
-        <article className="prose prose-invert max-w-none">
+        <article>
           <div
             className="lexical-content"
             dangerouslySetInnerHTML={{ __html: htmlContent }}

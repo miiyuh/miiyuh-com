@@ -25,11 +25,11 @@ export const revalidate = 60 // Revalidate every minute
 export default function SurveysPage() {
   return (
     <main className="flex flex-col bg-bg-primary text-text-primary font-sans relative min-h-screen">
-      <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80 pt-6 pb-16 min-h-[70vh]">
+      <section className="relative grow px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 pt-6 pb-16 min-h-[70vh]">
         <div>
           <SimpleBreadcrumb items={breadcrumbs.surveys()} className="-mx-8 px-8 md:mx-0 md:px-0" />
 
-          <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="mb-8 animate-page-in">
             <h1 className="text-5xl md:text-6xl font-notch tracking-tight mb-4 text-text-primary text-balance">
               surveys
             </h1>

@@ -20,7 +20,7 @@ export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: Te
 
     return (
         <main className="flex flex-col bg-transparent text-text-primary font-sans relative min-h-screen">
-            <section className="relative grow px-8 md:px-32 lg:px-56 xl:px-80" style={{ paddingTop: '24px' }}>
+            <section className="relative grow px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80" style={{ paddingTop: '24px' }}>
                 <SimpleBreadcrumb items={breadcrumbs.termsOfService()} />
                 
 
@@ -38,7 +38,7 @@ export default function TermsOfServiceClient({ htmlContent, toc, updatedAt }: Te
                 <div className="border-t border-white/8 pt-8">
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
                         <div
-                            className="text-base leading-relaxed text-text-secondary lexical-content prose prose-invert max-w-none"
+                            className="text-base leading-relaxed text-text-secondary lexical-content"
                             dangerouslySetInnerHTML={{ __html: htmlContent }}
                         />
                         {toc.length > 0 && (

@@ -1,7 +1,7 @@
 function EntryCardSkeleton({ index }: { index: number }) {
   return (
     <div
-      className="p-5 rounded-xl border border-white/8 bg-white/2 animate-in fade-in duration-500"
+      className="p-5 rounded-xl border border-white/8 bg-white/2"
       style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="flex items-start gap-4">

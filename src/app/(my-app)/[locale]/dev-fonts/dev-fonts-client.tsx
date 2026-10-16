@@ -23,9 +23,6 @@ type FontInfo = {
 
 const FONT_VARIABLES = [
   '--font-paper-mono',
-  '--font-noto-serif',
-  '--font-noto-serif-jp',
-  '--font-instrument-serif',
   '--font-stack-sans-text',
   '--font-stack-sans-headline',
   '--font-noto-mono',

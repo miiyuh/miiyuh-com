@@ -52,7 +52,7 @@ export default function HomeDetails({
     <>
       {/* Experience Section */}
       {experience.length > 0 && (
-        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <section className="animate-page-in">
           <SectionStickyHeader>
             <BriefcaseIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
             <h2 className="text-3xl font-serif text-text-primary">
@@ -80,7 +80,7 @@ export default function HomeDetails({
 
       {/* Education Section */}
       {education.length > 0 && (
-        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <section className="animate-page-in">
           <SectionStickyHeader>
             <GraduationCapIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
             <h2 className="text-3xl font-serif text-text-primary">
@@ -108,7 +108,7 @@ export default function HomeDetails({
 
       {/* Volunteering Section */}
       {volunteering.length > 0 && (
-        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <section className="animate-page-in">
           <SectionStickyHeader>
             <HandHeartIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
             <h2 className="text-3xl font-serif text-text-primary">
@@ -135,7 +135,7 @@ export default function HomeDetails({
       )}
 
       {/* Resume Section */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <section className="animate-page-in">
         <SectionStickyHeader>
           <FileTextIcon className="w-6 h-6 text-text-primary" aria-hidden="true" />
           <h2 className="text-3xl font-serif text-text-primary">

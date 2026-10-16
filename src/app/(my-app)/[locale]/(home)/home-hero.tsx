@@ -21,7 +21,7 @@ export default function HomeHero() {
   return (
     <>
       {/* Hero Section: Portrait + Bio + Social Links */}
-      <section className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8 items-start animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <section className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8 items-start animate-page-in">
         {/* Portrait - Full width mobile/tablet, column 1 desktop */}
         <div className="flex justify-center items-start w-full lg:w-auto lg:col-span-1">
           <div className="relative w-48 h-48 lg:w-full lg:h-full lg:aspect-square rounded-full overflow-hidden border border-white/8 shrink-0">
@@ -99,7 +99,7 @@ export default function HomeHero() {
       </section>
 
       {/* Navigation Cards */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 [animation-delay:100ms]">
+      <section className="animate-page-in">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {NAVIGATION_LINKS.map((link, index) => (
             <Link

@@ -38,7 +38,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-bg-primary/95 backdrop-blur-xl px-8 md:px-32 lg:px-56 xl:px-80 py-4 border-b border-white/8 relative z-40">
+      <header className="bg-bg-primary/95 backdrop-blur-xl px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 py-4 border-b border-white/8 relative z-40">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" onClick={closeMenu}>

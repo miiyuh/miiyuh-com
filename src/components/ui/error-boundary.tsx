@@ -30,15 +30,15 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         this.props.fallback || (
-          <div className="min-h-screen bg-[#1A1A1A] text-[#FAF3E0] flex items-center justify-center p-6">
+          <div className="min-h-screen bg-surface-primary text-text-primary flex items-center justify-center p-6">
             <div className="text-center">
               <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
-              <p className="text-[#FAF3E0]/70 mb-6">
+              <p className="text-text-primary/70 mb-6">
                 We apologize for the inconvenience. Please try refreshing the page.
               </p>
               <button
                 onClick={() => window.location.reload()}
-                className="px-6 py-2 bg-[#FAF3E0] text-[#1A1A1A] rounded-lg hover:bg-[#FAF3E0]/90 transition-colors"
+                className="px-6 py-2 bg-text-primary text-bg-primary rounded-lg hover:bg-text-primary/90 transition-colors"
               >
                 Refresh Page
               </button>
