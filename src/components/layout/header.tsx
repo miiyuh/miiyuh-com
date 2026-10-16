@@ -45,7 +45,7 @@ export default function Header() {
             <Image
               src="/assets/img/logo_miiyuh_v4-white.png"
               alt="miiyuh - return to homepage"
-              width={128}
+              width={74}
               height={32}
               className="h-8 w-auto"
               priority
