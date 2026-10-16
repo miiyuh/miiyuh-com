@@ -39,7 +39,7 @@ export default function LocaleToggle() {
             aria-label={`Switch to ${locale.labelFull}`}
             aria-pressed={isActive}
           >
-            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded-md bg-text-primary text-bg-primary text-[10px] font-sans whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded-md bg-text-primary text-bg-primary text-[10px] font-sans whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
               {currentLocale === 'en'
                 ? isActive
                   ? 'Currently in English'
@@ -47,7 +47,7 @@ export default function LocaleToggle() {
                 : isActive
                   ? 'Bahasa Melayu digunakan'
                   : 'Tukar ke Bahasa Inggeris'}
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-text-primary" />
+              <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-text-primary" />
             </span>
             {locale.label}
           </button>
