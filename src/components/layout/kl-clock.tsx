@@ -27,7 +27,7 @@ export function KlClock() {
       <span className="font-paper-mono tabular-nums text-text-secondary min-w-[5ch]" aria-live="off">
         {time ?? '--:--'}
       </span>
-      <span className="text-text-muted/70">GMT+8</span>
+      <span className="text-text-muted/70">gmt+8</span>
     </p>
   )
 }
