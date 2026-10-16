@@ -209,7 +209,7 @@ export default function FontsPage() {
                     step={10}
                     value={weight}
                     onChange={(e) => setWeights((w) => ({ ...w, [family.name]: Number(e.target.value) }))}
-                    className="w-full max-w-sm accent-[var(--accent-hover)]"
+                    className="w-full max-w-sm accent-(--accent-hover)"
                     aria-label={`${family.name} weight`}
                   />
                   <span className="font-mono text-xs">
