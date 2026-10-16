@@ -20,7 +20,7 @@ import { Resume } from './src/globals/Resume'
 import { fullFeaturedEditor } from './src/editor/richTextEditor'
 import { isAdmin } from './src/access/is-admin'
 import { slugify } from './src/utils/slugify'
-import { validateSurveySubmission } from './src/hooks/validate-survey-submission'
+import { validateSurveySubmission } from './src/collections/hooks/validate-survey-submission'
 import { getBlogPostPath } from './src/utils/blog-path'
 import { DEFAULT_LOCALE, isValidLocale, localizePath } from './src/lib/locale'
 

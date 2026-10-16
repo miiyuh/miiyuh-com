@@ -22,6 +22,7 @@ import { extractTocFromLexical } from "@/utils/extract-toc";
 import { renderLexicalContent } from "@/utils/lexical-renderer";
 import { pageAlternates, resolveLocale, type LocaleCode } from "@/lib/locale";
 import { getBlogYearMonth } from "@/utils/blog-path";
+import { formatPostDate } from "@/utils/format-date";
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60;
@@ -131,7 +132,9 @@ async function PageContent({ params }: PageProps) {
     description: post.seo?.metaDescription || post.excerpt || `read ${post.title}`,
     url: canonicalUrl,
     datePublished: publishedAtDate ? publishedAtDate.toISOString() : undefined,
-    dateModified: publishedAtDate ? publishedAtDate.toISOString() : undefined,
+    dateModified: post.updatedAt
+      ? new Date(post.updatedAt).toISOString()
+      : publishedAtDate?.toISOString(),
     author: {
       "@type": "Person",
       name: "miiyuh",
@@ -159,7 +162,7 @@ async function PageContent({ params }: PageProps) {
             <div className="mb-8 aspect-video overflow-hidden rounded-lg relative">
               <Image
                 src={coverImage}
-                alt={post.title}
+                alt={(typeof post.coverImage === "object" && post.coverImage?.alt) || post.title}
                 fill
                 className="object-cover"
                 priority
@@ -178,9 +181,7 @@ async function PageContent({ params }: PageProps) {
             <div className="flex flex-wrap items-center gap-4 text-sm text-text-muted">
               {publishedAtDate && (
                 <time dateTime={publishedAtDate.toISOString()}>
-                  {publishedAtDate.toLocaleDateString("en-CA", {
-                    timeZone: "Asia/Kuala_Lumpur",
-                  })}
+                  {formatPostDate(publishedAtDate, locale)}
                 </time>
               )}
 

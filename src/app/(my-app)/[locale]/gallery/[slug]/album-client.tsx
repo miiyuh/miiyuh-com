@@ -8,20 +8,13 @@ import { breadcrumbs } from "@/config/breadcrumbs";
 import { OptimizedGalleryImage } from "@/components/gallery/optimized-gallery-image";
 import type { GalleryCollectionSummary, GalleryItem } from "@/types/gallery";
 
-// LightGallery imports
-import lightGallery from "lightgallery";
-import lgZoom from "lightgallery/plugins/zoom";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgFullscreen from "lightgallery/plugins/fullscreen";
-import lgRotate from "lightgallery/plugins/rotate";
-import lgShare from "lightgallery/plugins/share";
-
+// LightGallery JS is loaded after render (see effect) to keep it out of the
+// initial bundle; its CSS stays static so the lightbox never opens unstyled.
+import type { LightGallery } from "lightgallery/lightgallery";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-fullscreen.css";
-import "lightgallery/css/lg-rotate.css";
-import "lightgallery/css/lg-share.css";
 
 interface AlbumClientProps {
   collection: GalleryCollectionSummary;
@@ -37,15 +30,24 @@ const escapeHtml = (value: string): string =>
     .replace(/'/g, "&#39;");
 
 export default function AlbumClient({ collection, images }: AlbumClientProps) {
-  const galleryRef = useRef<ReturnType<typeof lightGallery> | null>(null);
+  const galleryRef = useRef<LightGallery | null>(null);
 
   useEffect(() => {
     const containerId = `lightgallery-${collection.slug}`;
-    const element = document.getElementById(containerId);
+    let cancelled = false;
 
-    if (element && !galleryRef.current) {
+    void (async () => {
+      const [{ default: lightGallery }, { default: lgZoom }, { default: lgThumbnail }, { default: lgFullscreen }] =
+        await Promise.all([
+          import("lightgallery"),
+          import("lightgallery/plugins/zoom"),
+          import("lightgallery/plugins/thumbnail"),
+          import("lightgallery/plugins/fullscreen"),
+        ]);
+      const element = document.getElementById(containerId);
+      if (cancelled || !element || galleryRef.current) return;
       galleryRef.current = lightGallery(element, {
-        plugins: [lgZoom, lgThumbnail, lgFullscreen, lgRotate, lgShare],
+        plugins: [lgZoom, lgThumbnail, lgFullscreen],
         speed: 500,
         selector: "a",
         download: false,
@@ -54,9 +56,10 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
         mousewheel: true,
         exThumbImage: "data-thumb",
       });
-    }
+    })();
 
     return () => {
+      cancelled = true;
       if (galleryRef.current) {
         galleryRef.current.destroy();
         galleryRef.current = null;

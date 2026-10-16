@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useEffect, memo } from "react";
+import { useState, memo } from "react";
 import Image from "next/image";
 import type { GalleryItem } from "@/types/gallery";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 
 interface OptimizedGalleryImageProps {
   image: GalleryItem;
   index: number;
   onLoad?: (index: number) => void;
-  onVisible?: (index: number) => void;
   className?: string;
   sizes?: string;
   quality?: number;
@@ -20,7 +18,6 @@ function OptimizedGalleryImageComponent({
   image,
   index,
   onLoad,
-  onVisible,
   className = "",
   sizes = "(max-width: 768px) 45vw, (max-width: 1024px) 30vw, 20vw",
   quality = 80,
@@ -28,18 +25,6 @@ function OptimizedGalleryImageComponent({
 }: OptimizedGalleryImageProps) {
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const { isVisible, elementRef } = useIntersectionObserver<HTMLDivElement>({
-    threshold: 0.01,
-    rootMargin: "300px",
-    triggerOnce: true,
-    enabled: !priority,
-  });
-
-  // Notify parent when the element first becomes visible
-  useEffect(() => {
-    if (isVisible) onVisible?.(index);
-  }, [isVisible, index, onVisible]);
 
   const handleLoad = () => {
     setIsLoaded(true);
@@ -49,14 +34,6 @@ function OptimizedGalleryImageComponent({
   const handleError = () => {
     setHasError(true);
   };
-
-  if (!isVisible) {
-    return (
-      <div ref={elementRef} className={`w-full aspect-square ${className}`}>
-        <div className="w-full h-full bg-white/5 animate-pulse rounded-2xl" />
-      </div>
-    );
-  }
 
   if (hasError) {
     return (
@@ -69,10 +46,7 @@ function OptimizedGalleryImageComponent({
   }
 
   return (
-      <div
-        ref={elementRef}
-        className={`w-full aspect-square relative ${className}`}
-      >
+    <div className={`w-full aspect-square relative ${className}`}>
         {!isLoaded && (
           <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton rounded-2xl" />
         )}

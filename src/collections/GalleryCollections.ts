@@ -176,7 +176,7 @@ const GalleryCollections: CollectionConfig = {
         paths.push(`/gallery/${doc.slug}`)
       }
       return paths
-    }),
+    }, { tags: ['gallery-collections'] }),
   },
 }
 

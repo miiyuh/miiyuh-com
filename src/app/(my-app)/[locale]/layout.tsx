@@ -10,6 +10,7 @@ import { AppProvider } from "@/components/layout/app-provider";
 import { LOCALE_CODES, isValidLocale } from "@/lib/locale";
 import { LocaleProvider } from "@/lib/locale-context";
 import { JsonLd } from "@/components/seo/json-ld";
+import { SOCIAL_LINKS } from "@/constants";
 
 // Body text inside blog posts and the legal pages (.lexical-content)
 const paperMono = localFont({
@@ -53,7 +54,7 @@ const notoColorEmoji = Noto_Color_Emoji({
 export const metadata: Metadata = {
   metadataBase: new URL("https://miiyuh.com"),
   title: "miiyuh's webpage",
-  description: "hello, and welcome to my webpage!",
+  description: "Fresh graduate, creative developer, and photographer. Advocating for better policy, governance, and urban life in Malaysia.",
   keywords: ["miiyuh", "photography", "artwork", "blog", "portfolio"],
   authors: [{ name: "miiyuh" }],
   creator: "miiyuh",
@@ -98,19 +99,7 @@ export default async function RootLayout({
     url: "https://miiyuh.com",
     image: "https://miiyuh.com/assets/img/personal-profile-pic.png",
     jobTitle: "Creative Developer & Photographer",
-    sameAs: [
-      "https://github.com/miiyuh",
-      "https://twitter.com/miiyuh_",
-      "https://instagram.com/miiyuh.jpg",
-      "https://linkedin.com/in/muhamad-azri",
-      "https://bsky.app/profile/miiyuh.com",
-      "https://myanimelist.net/profile/miiyuh",
-      "https://anilist.co/user/miiyuh",
-      "https://steamcommunity.com/id/miiyuh",
-      "https://www.tiktok.com/@azri.my",
-      "https://twitch.tv/miiyuh_",
-      "https://youtube.com/@miiyuh_",
-    ],
+    sameAs: Object.values(SOCIAL_LINKS),
   };
 
   const websiteJsonLd = {

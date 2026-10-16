@@ -183,11 +183,6 @@ svg *,
   -webkit-filter: none !important;
 }
 
-/* Optimize image loading */
-img {
-  content-visibility: auto;
-}
-
 /* Simple emoji styling for cross-platform compatibility */
 .emoji-primary {
   font-family:

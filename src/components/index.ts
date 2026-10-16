@@ -4,7 +4,6 @@
 export { default as Header } from './layout/header'
 export { default as ClientHeader } from './layout/client-header'
 export { default as Footer } from './layout/footer'
-export { default as PageLayout } from './layout/page-layout'
 
 // UI components
 export { default as ErrorBoundary } from './ui/error-boundary'

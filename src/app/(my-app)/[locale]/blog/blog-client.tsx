@@ -9,6 +9,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowUpRightIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 import type { BlogPostCard } from "@/types/blog";
 import { getBlogPostPath } from "@/utils/blog-path";
+import { formatPostDate } from "@/utils/format-date";
+import { useLocale } from "@/lib/locale-context";
 import { useWebHaptics } from "web-haptics/react";
 
 interface TagOption {
@@ -154,15 +156,9 @@ export default function BlogClient({
   const getPostUrl = (post: BlogPostCard) =>
     post.publishedAt ? getBlogPostPath(post.slug, post.publishedAt) : "/blog";
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return "";
-    return new Date(dateString).toLocaleDateString("en-GB", {
-      timeZone: "Asia/Kuala_Lumpur",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  };
+  const locale = useLocale();
+  const formatDate = (dateString?: string) =>
+    dateString ? formatPostDate(dateString, locale) : "";
 
   // 1 … 4 5 6 … 12 — first, last, and the current page's neighbours
   const pageItems = useMemo(() => {
@@ -279,7 +275,7 @@ export default function BlogClient({
                     <div className="flex-1 min-w-0 flex flex-col justify-between">
                       <div>
                         <div className="flex flex-wrap items-center gap-2 mb-3">
-                          <time className="text-xs text-text-muted/60">
+                          <time dateTime={post.publishedAt ?? undefined} className="text-xs text-text-muted/60">
                             {post.publishedAt && formatDate(post.publishedAt)}
                           </time>
                           {post.tags && post.tags.length > 0 && (
