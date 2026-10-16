@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.0](https://github.com/miiyuh/miiyuh-com/compare/v7.4.1...v7.5.0) (2026-10-16)
+
+### Features
+
+* locale routing, real 404s, new footer and typography pass ([#23](https://github.com/miiyuh/miiyuh-com/issues/23)) ([21032bb](https://github.com/miiyuh/miiyuh-com/commit/21032bb02221cf8dbedeab18933084c382e93626)), closes [#anchors](https://github.com/miiyuh/miiyuh-com/issues/anchors) [FAF3E0/#070707](https://github.com/FAF3E0/miiyuh-com/issues/070707)
+
 ## [7.4.1](https://github.com/miiyuh/miiyuh-com/compare/v7.4.0...v7.4.1) (2026-09-04)
 
 ### Bug Fixes
