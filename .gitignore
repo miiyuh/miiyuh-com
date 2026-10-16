@@ -48,6 +48,7 @@ scripts/
 .impeccable/
 .opencode/
 .agents/
+.claude/skills/
 skills-lock.json
 
 # ─── Editors / IDE ──────────────────────────────────────
