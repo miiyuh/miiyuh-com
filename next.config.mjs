@@ -6,6 +6,9 @@ const nextConfig = {
   allowedDevOrigins: ['100.85.118.33'],
 
   experimental: {
+    // app/global-not-found.tsx: real server-rendered 404 for unmatched URLs
+    // (the site has two root layouts and the main one sits under [locale])
+    globalNotFound: true,
     optimizePackageImports: [
       "@phosphor-icons/react",
       "@ark-ui/react",

@@ -8,6 +8,9 @@ export type LocaleCode = (typeof AVAILABLE_LOCALES)[number]['code']
 export const DEFAULT_LOCALE: LocaleCode = 'en'
 export const LOCALE_CODES: LocaleCode[] = AVAILABLE_LOCALES.map((l) => l.code)
 
+// Request header set by src/proxy.ts with the URL's locale
+export const LOCALE_HEADER = 'x-site-locale'
+
 export function isValidLocale(code: string): code is LocaleCode {
   return AVAILABLE_LOCALES.some((l) => l.code === code)
 }

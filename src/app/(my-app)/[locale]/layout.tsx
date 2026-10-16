@@ -1,7 +1,6 @@
 import "../globals.css";
 import type { Metadata } from "next";
-import { Noto_Sans_Mono, Noto_Color_Emoji } from "next/font/google";
-import localFont from "next/font/local";
+import { fontVariables } from "@/lib/fonts";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -11,45 +10,6 @@ import { LOCALE_CODES, isValidLocale } from "@/lib/locale";
 import { LocaleProvider } from "@/lib/locale-context";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SOCIAL_LINKS } from "@/constants";
-
-// Body text inside blog posts and the legal pages (.lexical-content)
-const paperMono = localFont({
-  src: "../../../assets/fonts/PaperMono-VariableFont_wght.woff2",
-  weight: "100 800",
-  variable: "--font-paper-mono",
-  display: "swap",
-});
-const stackSansText = localFont({
-  weight: "200 700",
-  src: "../../../assets/fonts/StackSansText-VariableFont_wght.ttf",
-  variable: "--font-stack-sans-text",
-  display: "swap",
-});
-const stackSansHeadline = localFont({
-  weight: "200 700",
-  src: "../../../assets/fonts/StackSansHeadline-VariableFont_wght.ttf",
-  variable: "--font-stack-sans-headline",
-  display: "swap",
-});
-const stackSansNotch = localFont({
-  weight: "200 700",
-  src: "../../../assets/fonts/StackSansNotch-VariableFont_wght.ttf",
-  variable: "--font-stack-sans-notch",
-  display: "swap",
-});
-const notoMono = Noto_Sans_Mono({
-  subsets: ["latin"],
-  variable: "--font-noto-mono",
-  display: "swap",
-});
-const notoColorEmoji = Noto_Color_Emoji({
-  weight: "400",
-  subsets: ["emoji"],
-  variable: "--font-noto-color-emoji",
-  display: "swap",
-  // Only fetched when an emoji glyph actually renders (unicode-range), not on every page
-  preload: false,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://miiyuh.com"),
@@ -142,7 +102,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${paperMono.variable} ${notoMono.variable} ${notoColorEmoji.variable} ${stackSansText.variable} ${stackSansHeadline.variable} ${stackSansNotch.variable} antialiased relative flex flex-col min-h-screen`}
+        className={`${fontVariables} antialiased relative flex flex-col min-h-screen`}
         style={{ fontFamily: 'var(--font-stack-sans-text), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial' }}
       >
         {/* beforeInteractive scripts must be direct children of <body> per Next.js docs — placing this in <head> triggered a dev-mode "script tag" hydration warning */}

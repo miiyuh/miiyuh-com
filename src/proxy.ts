@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { DEFAULT_LOCALE, splitLocalePath } from "@/lib/locale";
+import { DEFAULT_LOCALE, LOCALE_HEADER, splitLocalePath } from "@/lib/locale";
 
 // Public pages live under app/(my-app)/[locale]. The default locale is served
 // at unprefixed URLs (/blog), so rewrite those to /en/blog internally; prefixed
@@ -16,11 +16,16 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  if (locale !== DEFAULT_LOCALE) return NextResponse.next();
+  // Lets app/global-not-found.tsx (which has no route params) answer in the
+  // right language. Static pages ignore request headers, so caching is unaffected.
+  const headers = new Headers(request.headers);
+  headers.set(LOCALE_HEADER, locale);
+
+  if (locale !== DEFAULT_LOCALE) return NextResponse.next({ request: { headers } });
 
   const url = request.nextUrl.clone();
   url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
-  return NextResponse.rewrite(url);
+  return NextResponse.rewrite(url, { request: { headers } });
 }
 
 export const config = {
