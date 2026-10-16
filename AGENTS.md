@@ -28,7 +28,7 @@ Personal portfolio (Next.js 16 + Payload CMS 3 + MongoDB + Tailwind CSS v4).
 - **Database**: MongoDB (Mongoose adapter). Requires `DATABASE_URI` env var.
 - **Media storage**: Cloudflare R2 (S3-compatible). Enabled when `R2_BUCKET_NAME` is set.
 - **Admin UI**: `/admin` route, user slug `users`. Admin access guarded by `src/access/is-admin.ts`.
-- **Type generation**: `payload-types.ts` is gitignored (generated). Regenerate with `bun run payload generate:types`.
+- **Type generation**: `payload-types.ts` is committed (import via `@payload-types`). After changing any collection, global or field, regenerate with `bun run payload generate:types` and commit the result.
 - **Seed scripts**: `scripts/` dir is gitignored; has `seed:gallery`, `seed:projects`, `seed:about`, `create:admin`. Always run dev server first before seeding.
 
 ## Style

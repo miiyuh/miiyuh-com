@@ -40,7 +40,6 @@ next-env.d.ts
 # ─── Payload CMS ────────────────────────────────────────
 .payload
 payload-generated-types.d.ts
-payload-types.ts
 media/
 scripts/
 

@@ -2,32 +2,12 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import HomeDetails from './home-details'
 import type { AboutEntry } from '@/types/about'
+import type { AboutEntry as AboutEntryDoc, Media } from '@payload-types'
 import type { LexicalContent } from '@/utils/lexical-renderer'
 import { resolveMediaSrc } from '@/utils/media'
 import { resolveLocale, type LocaleCode } from '@/lib/locale'
 
-type RawAboutLogo = {
-  id?: string | number
-  url?: string | null
-  filename?: string | null
-  alt?: string | null
-}
-
-type RawAboutEntry = {
-  id: string | number
-  type?: 'education' | 'experience' | 'volunteering'
-  title?: string
-  subtitle?: string | null
-  description?: unknown | null
-  logo?: RawAboutLogo | string | null
-  startDate?: string | null
-  endDate?: string | null
-  isCurrent?: boolean | null
-  tags?: Array<{ tag?: string | null }> | null
-  link?: string | null
-}
-
-const mapAboutEntries = (docs: RawAboutEntry[]): AboutEntry[] => {
+const mapAboutEntries = (docs: AboutEntryDoc[]): AboutEntry[] => {
   return docs.map((entry) => {
     const rawLogo = entry.logo && typeof entry.logo === 'object' ? entry.logo : null
     const logoSrc = rawLogo
@@ -96,9 +76,9 @@ async function getAboutData(locale: LocaleCode): Promise<{
     ])
 
     return {
-      education: mapAboutEntries(educationResult.docs as unknown as RawAboutEntry[]),
-      experience: mapAboutEntries(experienceResult.docs as unknown as RawAboutEntry[]),
-      volunteering: mapAboutEntries(volunteeringResult.docs as unknown as RawAboutEntry[]),
+      education: mapAboutEntries(educationResult.docs),
+      experience: mapAboutEntries(experienceResult.docs),
+      volunteering: mapAboutEntries(volunteeringResult.docs),
     }
   } catch (error) {
     console.error('Failed to fetch about data:', error)
@@ -110,14 +90,6 @@ async function getAboutData(locale: LocaleCode): Promise<{
   }
 }
 
-type RawMediaDoc = {
-  id?: string | number
-  url?: string | null
-  filename?: string | null
-  alt?: string | null
-  filesize?: number | null
-}
-
 async function getResumeData(locale: LocaleCode): Promise<{
   pdfUrl?: string
   title: string
@@ -126,16 +98,15 @@ async function getResumeData(locale: LocaleCode): Promise<{
 } | null> {
   try {
     const payload = await getPayload({ config })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const resume = (await payload.findGlobal({ slug: 'resume' as any, locale, depth: 1 })) as any
-    const pdf = resume.pdf as RawMediaDoc | string | null | undefined
+    const resume = await payload.findGlobal({ slug: 'resume', locale, depth: 1 })
+    const pdf: Media | string | null | undefined = resume.pdf
     const pdfUrl =
       pdf && typeof pdf === 'object'
         ? resolveMediaSrc({ url: pdf.url, filename: pdf.filename })
         : undefined
     return {
       pdfUrl,
-      title: (resume.title as string) || 'resume',
+      title: resume.title || 'resume',
       filename: pdf && typeof pdf === 'object' ? (pdf.filename ?? undefined) : undefined,
       filesize: pdf && typeof pdf === 'object' ? (pdf.filesize ?? undefined) : undefined,
     }
