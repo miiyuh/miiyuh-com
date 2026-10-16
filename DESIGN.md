@@ -29,7 +29,7 @@ typography:
     fontWeight: 200
     lineHeight: 1.75
   long-form:
-    fontFamily: '"Paper Mono", ui-monospace, monospace'
+    fontFamily: '"Noto Serif", serif'
     fontSize: '1rem'
     fontWeight: 450
     lineHeight: 1.75
@@ -93,7 +93,7 @@ This system explicitly rejects corporate gloss, AI-generated templates, and anyt
 ### Key Characteristics:
 - **Dark by conviction** — the black background is a conscious choice, not a default. It makes photographic and artistic content pop.
 - **Sharp edges, soft depth** — components have defined borders and subtle glass surfaces, but the overall silhouette is crisp and deliberate.
-- **Typographic hierarchy** — one family, three cuts: Stack Sans Notch for display and navigation (personality), Stack Sans Headline for headings, Stack Sans Text for UI and body. Paper Mono takes over for long-form reading (blog posts, legal pages).
+- **Typographic hierarchy** — one family, three cuts: Stack Sans Notch for display and navigation (personality), Stack Sans Headline for headings, Stack Sans Text for UI and body. Noto Serif takes over for long-form reading (blog posts, legal pages).
 - **Restrained accent** — a single green accent is used sparingly (≤10% of any screen) to guide attention, never to decorate.
 - **Motion with purpose** — entrances and transitions exist to orient, not to dazzle. Prefers-reduced-motion is always respected.
 
@@ -128,11 +128,11 @@ All colours come from the tokens in `globals.css` (`text-text-primary`, `bg-bg-p
 **Display / Nav:** Stack Sans Notch (`font-notch`)
 **Headings:** Stack Sans Headline (default for `h1`–`h6`, also `font-serif`)
 **UI / Body:** Stack Sans Text, weight 200
-**Long-form body:** Paper Mono (`.lexical-content`, `font-paper-mono`) — blog posts, post excerpts, privacy policy, terms. Headings inside long-form content stay in Stack Sans Headline.
+**Long-form body:** Noto Serif (`.lexical-content`, `font-noto-serif`) — blog posts, post excerpts, privacy policy, terms. Headings inside long-form content stay in Stack Sans Headline at weight 600. Paper Mono is kept for the footer clock.
 **Mono:** Noto Sans Mono (`font-mono`) for small metadata such as course codes
 **Emoji:** Noto Color Emoji as a fallback only, loaded on demand (not preloaded)
 
-**Character:** A single variable family keeps the UI coherent; the Notch cut gives display moments their personality. Paper Mono makes long-form reading feel like a typed draft — deliberate and slow, in contrast to the quick UI around it.
+**Character:** A single variable family keeps the UI coherent; the Notch cut gives display moments their personality. Noto Serif makes long-form reading feel like a printed page — deliberate and slow, in contrast to the quick UI around it.
 
 ### Hierarchy
 - **Display** (Notch 400, text-5xl to md:text-6xl, tight tracking): Page titles (blog, gallery, projects, album names).
@@ -140,7 +140,7 @@ All colours come from the tokens in `globals.css` (`text-text-primary`, `bg-bg-p
 - **Title** (Headline, text-lg to 2xl): Entry and list-item titles.
 - **Body** (Text 200, 1rem, 1.75): Descriptions, bios, metadata. Max line length 65–75ch (`max-w-prose`).
 - **Label** (Text, 0.75rem, wide tracking): Tags, chips, small metadata.
-- **Long-form** (Paper Mono 450, 1rem, 1.75): Post and legal-page body. Paper Mono has no italic; italics are synthesised.
+- **Long-form** (Noto Serif 450, 1rem, 1.75): Post and legal-page body. Headings inside it are Stack Sans Headline 600.
 
 ## 4. Elevation
 
