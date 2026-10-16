@@ -3,41 +3,40 @@ name: miiyuh.com
 description: Personal portfolio — photography, artwork, projects, blog
 colors:
   pitch-black: '#070707'
+  surface: 'rgba(12, 12, 14, 1)'
   warm-ivory: '#faf3e0'
   ivory-muted: 'rgba(250, 243, 224, 0.7)'
   ivory-faded: 'rgba(250, 243, 224, 0.5)'
-  ghost-border: 'rgba(255, 255, 255, 0.1)'
-  terminal-green: '#4ade80'
-  terminal-green-light: '#86efac'
-  surface-glass: 'rgba(255, 255, 255, 0.04)'
-  surface-glass-hover: 'rgba(255, 255, 255, 0.08)'
+  ghost-border: 'rgba(255, 255, 255, 0.08)'
+  forest-green: '#035940'
+  mint: '#86efac'
+  selection: '#123524'
 typography:
   display:
-    fontFamily: '"Instrument Serif", Georgia, serif'
-    fontSize: 'clamp(1.875rem, 4vw, 3rem)'
+    fontFamily: '"Stack Sans Notch", sans-serif'
+    fontSize: '3rem to 3.75rem (text-5xl / md:text-6xl page titles)'
     fontWeight: 400
     lineHeight: 1.1
-    letterSpacing: '-0.02em'
+    letterSpacing: '-0.025em'
   heading:
-    fontFamily: 'InterVariable, Inter, system-ui, sans-serif'
-    fontSize: 'clamp(1.25rem, 2.5vw, 1.875rem)'
-    fontWeight: 600
+    fontFamily: '"Stack Sans Headline", sans-serif'
+    fontSize: '1.5rem to 1.875rem'
+    fontWeight: 400
     lineHeight: 1.3
   body:
-    fontFamily: 'InterVariable, Inter, system-ui, sans-serif'
+    fontFamily: '"Stack Sans Text", system-ui, sans-serif'
+    fontSize: '1rem'
+    fontWeight: 450
+    lineHeight: 1.75
+  long-form:
+    fontFamily: '"Paper Mono", ui-monospace, monospace'
     fontSize: '1rem'
     fontWeight: 400
     lineHeight: 1.75
-  label:
-    fontFamily: 'InterVariable, Inter, system-ui, sans-serif'
-    fontSize: '0.75rem'
-    fontWeight: 500
-    letterSpacing: '0.05em'
-  serif-body:
-    fontFamily: '"Noto Serif", "Noto Serif JP", Georgia, serif'
-    fontSize: '1rem'
+  mono:
+    fontFamily: '"Noto Sans Mono", monospace'
+    fontSize: '0.875rem'
     fontWeight: 400
-    lineHeight: 1.75
 rounded:
   sm: '0.5rem'
   md: '0.75rem'
@@ -47,7 +46,11 @@ rounded:
 spacing:
   section: '4rem'
   card-padding: '1.5rem'
-  container: 'clamp(1rem, 5vw, 5rem)'
+  container: 'px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80'
+  reading-column: 'max-w-4xl (blog posts keep a fixed width for readability)'
+motion:
+  page-entrance: '200ms fade + 6px rise, ease-out-quart, no delay'
+  list-stagger: '25ms per item, capped at 9 items'
 components:
   button-default:
     backgroundColor: '#ffffff'
@@ -83,14 +86,14 @@ components:
 
 **Creative North Star: "The Darkroom"**
 
-A personal portfolio that feels like a developer's darkroom — controlled, precise, and process-oriented. Every element is deliberate; nothing is decorative. Deep black backgrounds let content (photography, artwork, projects) take center stage, while a restrained green accent — borrowed from terminal UIs and code editors — adds life without shouting. The aesthetic is inspired by tools like Zed: minimal, sharp, data-driven, and built with care.
+A personal portfolio that feels like a developer's darkroom — controlled, precise, and process-oriented. Every element is deliberate; nothing is decorative. Deep black backgrounds let content (photography, artwork, projects) take center stage, while a restrained green accent adds life without shouting. The darkroom carries into the copy: empty and error states speak in it ("nothing developed yet", "the film got exposed"). The aesthetic is inspired by tools like Zed: minimal, sharp, data-driven, and built with care.
 
 This system explicitly rejects corporate gloss, AI-generated templates, and anything that feels templated. Every component should feel hand-crafted and intentional.
 
 ### Key Characteristics:
 - **Dark by conviction** — the black background is a conscious choice, not a default. It makes photographic and artistic content pop.
 - **Sharp edges, soft depth** — components have defined borders and subtle glass surfaces, but the overall silhouette is crisp and deliberate.
-- **Typographic hierarchy** — Instrument Serif for display/headings (warmth, personality), Inter for UI/body (clarity, speed), Noto Serif for long-form reading (comfort).
+- **Typographic hierarchy** — one family, three cuts: Stack Sans Notch for display and navigation (personality), Stack Sans Headline for headings, Stack Sans Text for UI and body. Paper Mono takes over for long-form reading (blog posts, legal pages).
 - **Restrained accent** — a single green accent is used sparingly (≤10% of any screen) to guide attention, never to decorate.
 - **Motion with purpose** — entrances and transitions exist to orient, not to dazzle. Prefers-reduced-motion is always respected.
 
@@ -99,7 +102,8 @@ This system explicitly rejects corporate gloss, AI-generated templates, and anyt
 A restrained, high-contrast palette built for reading and showcasing visual work.
 
 ### Primary
-- **Terminal Green** (`#4ade80`): The single accent color. Used for interactive highlights, active states, and emphasis. Never decorative. Its rarity is the point.
+- **Forest Green** (`#035940`, `--accent-primary`): The accent as a *background* — the marker-style `.text-highlight` behind hovered titles, selected-chip fills (at 20%). Too dark to use as text on black (about 2.4:1).
+- **Mint** (`#86efac`, `--accent-hover`): The accent as *text or icon* — selected chips, current page, hover arrows. Passes AA on the black canvas.
 
 ### Neutral
 - **Pitch Black** (`#070707`): The canvas. Primary background for all surfaces. Near-true black for maximum contrast with content.
@@ -108,30 +112,35 @@ A restrained, high-contrast palette built for reading and showcasing visual work
 - **Ivory Faded** (rgba 250, 243, 224 / 0.5): Tertiary text for placeholders, disabled states, tags.
 
 ### Surface & Border
-- **Ghost Border** (rgba 255, 255, 255 / 0.1): Default container border. Subtle, present but not visible at a glance.
-- **Surface Glass** (rgba 255, 255, 255 / 0.04): Base glass surface for cards, panels.
-- **Surface Glass Hover** (rgba 255, 255, 255 / 0.08): Elevated glass surface on hover/focus.
+- **Surface** (`#0c0c0e`, `--surface-primary`): Popovers, menus, toasts, sheets.
+- **Ghost Border** (`white/8`): Default container border. Strengthens to `white/12` to `white/15` on hover.
+- **Glass fills** (`white/2` at rest, `white/5` on hover): Cards and entry rows.
+
+All colours come from the tokens in `globals.css` (`text-text-primary`, `bg-bg-primary`, `bg-surface-primary`, ...); hex values in class names are not used.
 
 ### Named Rules
-**The One Voice Rule.** Terminal Green appears on ≤10% of any given screen. It is a pointer, not a palette.
+**The One Voice Rule.** The green accent appears on ≤10% of any given screen. It is a pointer, not a palette.
+**The Two Greens Rule.** Forest green fills, mint speaks. Never set text or icons in `#035940`.
 **The No-Gradient Rule.** Text gradients (`background-clip: text`) are forbidden. Emphasis comes from weight and size, not color effects.
 
 ## 3. Typography
 
-**Display Font:** Instrument Serif (Georgia, serif fallback)
-**Body Font:** InterVariable / Inter (system-ui, sans-serif fallback)
-**Serif Body:** Noto Serif + Noto Serif JP (for long-form blog content)
-**Mono Font:** Noto Sans Mono
+**Display / Nav:** Stack Sans Notch (`font-notch`)
+**Headings:** Stack Sans Headline (default for `h1`–`h6`, also `font-serif`)
+**UI / Body:** Stack Sans Text, weight 450
+**Long-form body:** Paper Mono (`.lexical-content`, `font-paper-mono`) — blog posts, post excerpts, privacy policy, terms. Headings inside long-form content stay in Stack Sans Headline.
+**Mono:** Noto Sans Mono (`font-mono`) for small metadata such as course codes
+**Emoji:** Noto Color Emoji as a fallback only, loaded on demand (not preloaded)
 
-**Character:** A sharp sans-serif / warm serif pairing. Inter brings clarity and speed — it's the UI workhorse. Instrument Serif adds personality and warmth for display moments. Noto Serif takes over for long-form reading where comfort matters.
+**Character:** A single variable family keeps the UI coherent; the Notch cut gives display moments their personality. Paper Mono makes long-form reading feel like a typed draft — deliberate and slow, in contrast to the quick UI around it.
 
 ### Hierarchy
-- **Display** (400, clamp 1.875rem–3rem, 1.1, -0.02em): Section headings, hero text. Instrument Serif for character. Font-serif class.
-- **Heading** (600, clamp 1.25rem–1.875rem, 1.3): Subsection titles, card titles. Inter, semibold.
-- **Title** (500, 1.125rem, 1.4): Entry titles, timeline items. Inter, medium weight.
-- **Body** (400, 1rem, 1.75): Descriptions, bios, metadata. Max line length 65–75ch.
-- **Label** (500, 0.75rem, 0.05em): Tags, badges, small metadata. Uppercase optional.
-- **Serif Body** (400, 1rem, 1.75): Blog post content, long-form reading. Noto Serif for comfortable extended reading.
+- **Display** (Notch 400, text-5xl to md:text-6xl, tight tracking): Page titles (blog, gallery, projects, album names).
+- **Heading** (Headline 400, text-2xl to 3xl): Section headings (Experience, Education, ...), card titles.
+- **Title** (Headline, text-lg to 2xl): Entry and list-item titles.
+- **Body** (Text 450, 1rem, 1.75): Descriptions, bios, metadata. Max line length 65–75ch (`max-w-prose`).
+- **Label** (Text, 0.75rem, wide tracking): Tags, chips, small metadata.
+- **Long-form** (Paper Mono 400, 1rem, 1.75): Post and legal-page body. Paper Mono has no italic; italics are synthesised.
 
 ## 4. Elevation
 
@@ -174,8 +183,9 @@ Flat by default, with depth as a response to interaction. The system uses a hybr
 - **Use:** Metadata labels only. Never for primary navigation or CTAs.
 
 ### Navigation
-- **Desktop:** Instrument Serif at 1.25rem. Links underline on hover. Haptic feedback.
-- **Mobile:** Full-screen overlay, centered, 3rem font size. Links transition to Terminal Green on hover.
+- **Desktop:** Stack Sans Notch at 1.25rem. Links underline on hover. Haptic feedback.
+- **Mobile:** Full-screen overlay, centered, 3rem Stack Sans Notch, focus-trapped.
+- **Locale:** English at unprefixed URLs, Malay under `/ms`. The footer EN/MS toggle switches to the same page in the other language.
 
 ### Inputs / Fields
 - **Style:** Clean, no box-shadow glow on focus. Default browser border replaced with custom styling. Focus-visible ring uses the text color for consistency.
@@ -183,13 +193,24 @@ Flat by default, with depth as a response to interaction. The system uses a hybr
 ### Selection
 - **Background (#123524):** A dark forest-green, harmonizing with the green accent. Selected text is readable against the dark bg.
 
+### Motion
+- **Page entrance:** `animate-page-in` — 200ms opacity + 6px rise, `--ease-out-quart`, starts immediately. Pages should feel instant; motion only softens the swap.
+- **Lists:** `animate-stagger-item` with `--i` (25ms steps, cap 9).
+- **Hover:** colour/background/border transitions (150–300ms). Use `transition` or `transition-colors`, never `transition-all`.
+- **Component enter/exit:** `tw-animate-css` (`animate-in`, `fade-in-0`, `zoom-in-95`, ...).
+- **Reduced motion:** fades remain; translation, scale, rotation and shimmer are removed.
+
+### Error states
+- 404 and error pages share `ErrorScreen`: oversized faint code numeral, Notch heading in the darkroom voice, primary + secondary button, section links. Bilingual.
+
 ## 6. Do's and Don'ts
 
 ### Do:
-- **Do** use Instrument Serif for display moments — it's where the site gets its personality.
+- **Do** use Stack Sans Notch for display moments — it's where the site gets its personality.
 - **Do** let content breathe — generous spacing between sections, tight spacing inside components.
 - **Do** use the green accent sparingly — a single interactive element per viewport at most.
-- **Do** respect `prefers-reduced-motion` — crossfade or instant transitions only.
+- **Do** respect `prefers-reduced-motion` — fades only, no movement.
+- **Do** use the shared container padding (`px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80`) for every page, header and footer; only the blog post keeps its fixed reading width.
 - **Do** test heading copy at every breakpoint; if it overflows, reduce the font-size clamp.
 
 ### Don't:
