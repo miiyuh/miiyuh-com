@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.0](https://github.com/miiyuh/miiyuh-com/compare/v7.5.0...v7.6.0) (2026-10-17)
+
+### Features
+
+* **media:** serve images as JPEG XL with AVIF/WebP fallback ([033e59e](https://github.com/miiyuh/miiyuh-com/commit/033e59e23391a4e579a6f8f709c35982dbcb541c))
+
 ## [7.5.0](https://github.com/miiyuh/miiyuh-com/compare/v7.4.1...v7.5.0) (2026-10-16)
 
 ### Features
