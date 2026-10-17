@@ -4,7 +4,7 @@ import { unstable_cache } from "next/cache";
 import config from "@payload-config";
 import { notFound } from "next/navigation";
 import Link from "@/components/locale-link";
-import Image from "next/image";
+import { JxlImage } from "@/components/ui/jxl-image";
 import { Fragment } from "react";
 
 import { SimpleBreadcrumb } from "@/components/ui/simple-breadcrumb";
@@ -16,7 +16,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import BlogPostContent from "./blog-post-content";
 import { BlogPostFooter } from "./blog-post-footer";
 import type { BlogPostDocument } from "@/types/blog";
-import { resolveMediaSrc } from "@/utils/media";
+import { resolveMediaSrc, toJxlSources } from "@/utils/media";
 import { extractTocFromLexical } from "@/utils/extract-toc";
 import { renderLexicalContent } from "@/utils/lexical-renderer";
 import { pageAlternates, resolveLocale, type LocaleCode } from "@/lib/locale";
@@ -161,8 +161,9 @@ async function Page({ params }: PageProps) {
           {/* Cover Image */}
           {coverImage && (
             <div className="mb-8 aspect-video overflow-hidden rounded-lg relative">
-              <Image
+              <JxlImage
                 src={coverImage}
+                jxl={typeof post.coverImage === "object" ? toJxlSources(post.coverImage) : undefined}
                 alt={(typeof post.coverImage === "object" && post.coverImage?.alt) || post.title}
                 fill
                 className="object-cover"

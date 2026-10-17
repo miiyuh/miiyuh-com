@@ -1,4 +1,5 @@
 import type { LexicalContent } from '@/utils/lexical-renderer'
+import type { JxlSource } from '@/utils/media'
 
 export interface AboutEntry {
   id: string
@@ -6,7 +7,7 @@ export interface AboutEntry {
   title: string
   subtitle?: string
   description?: LexicalContent | null
-  logo?: { id: string; url: string; alt?: string }
+  logo?: { id: string; url: string; alt?: string; jxl?: JxlSource[] }
   startDate?: string
   endDate?: string
   isCurrent?: boolean

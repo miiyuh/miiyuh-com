@@ -17,7 +17,14 @@ const nextConfig = {
   },
 
   // Required for Payload CMS on Vercel
-  serverExternalPackages: ["sharp", "graphql"],
+  serverExternalPackages: ["sharp", "graphql", "@jsquash/jxl"],
+
+  // The JPEG XL encoder loads its WASM with fs at runtime, which file tracing
+  // cannot see. Uploads go through /api; /admin covers its server functions.
+  outputFileTracingIncludes: {
+    "/api/**/*": ["./node_modules/@jsquash/jxl/codec/enc/jxl_enc.wasm"],
+    "/admin/**/*": ["./node_modules/@jsquash/jxl/codec/enc/jxl_enc.wasm"],
+  },
 
   // Turbopack configuration
   turbopack: {

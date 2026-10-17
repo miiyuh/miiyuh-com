@@ -3,7 +3,7 @@
 // Uses shared slugify utility for consistent heading IDs with TOC extraction
 
 import { SlugGenerator, extractNodeText } from './slugify'
-import { normalizeMediaUrl } from './media'
+import { normalizeMediaUrl, toJxlSources, type JxlSource } from './media'
 
 // ============================================================================
 // Types
@@ -65,6 +65,7 @@ type LexicalUploadNode = LexicalBaseNode & {
     width?: number
     height?: number
     mimeType?: string
+    jxl?: { filename?: string | null; width?: number | null }[] | null
   }
   src?: string
   alt?: string
@@ -298,7 +299,8 @@ function imageMarkup(
   rawSrc: string,
   alt: string,
   width: string,
-  height: string
+  height: string,
+  jxl?: JxlSource[]
 ): string {
   const optimized = optimizedImage(rawSrc)
   const srcAttr = optimized ? optimized.src : rawSrc
@@ -308,9 +310,19 @@ function imageMarkup(
   // whole subtree, so putting it on the wrapper made the loaded image pulse too.
   // As a positioned sibling it is simply covered once the image paints. This
   // stays CSS-only deliberately — the CSP blocks inline handlers.
+  //
+  // Uploads with pre-generated JPEG XL variants get a <picture> so supporting
+  // browsers take those; everyone else falls through to the optimizer srcset.
+  const jxlSrcset = jxl
+    ?.map((s) => `${sanitizeUrl(s.src)} ${s.width}w`)
+    .join(', ')
+  const img = `<img src="${srcAttr}"${extra} alt="${alt}"${width}${height} loading="lazy" decoding="async" class="relative w-full h-auto rounded-2xl" />`
+  const picture = jxlSrcset
+    ? `<picture><source type="image/jxl" srcset="${jxlSrcset}" sizes="${IMAGE_SIZES}" />${img}</picture>`
+    : img
   return `<div class="relative overflow-hidden rounded-2xl shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
           <div class="absolute inset-0 bg-white/5 animate-pulse" aria-hidden="true"></div>
-          <img src="${srcAttr}"${extra} alt="${alt}"${width}${height} loading="lazy" decoding="async" class="relative w-full h-auto rounded-2xl" />
+          ${picture}
         </div>`
 }
 
@@ -435,7 +447,7 @@ function renderNode(node: LexicalNode, slugGenerator: SlugGenerator): string {
       }
 
       return `<figure class="my-8">
-        ${imageMarkup(src, alt, width, height)}
+        ${imageMarkup(src, alt, width, height, toJxlSources(uploadNode.value))}
         ${caption ? `<figcaption class="mt-2 text-center text-sm text-text-secondary">${caption}</figcaption>` : ''}
       </figure>`
     }

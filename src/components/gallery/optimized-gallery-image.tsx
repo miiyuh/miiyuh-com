@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, memo } from "react";
-import Image from "next/image";
+import { JxlImage } from "@/components/ui/jxl-image";
 import type { GalleryItem } from "@/types/gallery";
 
 interface OptimizedGalleryImageProps {
@@ -50,8 +50,9 @@ function OptimizedGalleryImageComponent({
         {!isLoaded && (
           <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton rounded-2xl" />
         )}
-        <Image
+        <JxlImage
         src={image.src}
+        jxl={image.jxl}
         alt={image.title || "Gallery image"}
         fill
         className={`w-full h-full object-cover transition-opacity duration-300 ${

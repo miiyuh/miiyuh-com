@@ -11,6 +11,7 @@ export { default as ScrollToTopButton } from './ui/scroll-to-top-button'
 export { HeadingWithHash } from './ui/heading-with-hash'
 export { PageTOC } from './ui/page-toc'
 export { EntryCard } from './ui/entry-card'
+export { JxlImage } from './ui/jxl-image'
 
 // Forms components
 export { FormRenderer } from './forms/form-renderer'

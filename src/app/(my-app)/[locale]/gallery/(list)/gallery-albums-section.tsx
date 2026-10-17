@@ -11,7 +11,7 @@ import type {
   GalleryImageItem,
   MediaDocument,
 } from '@/types/gallery'
-import { resolveMediaSrc } from '@/utils/media'
+import { resolveMediaSrc, toJxlSources } from '@/utils/media'
 
 const PREVIEW_IMAGE_LIMIT = 3
 
@@ -43,7 +43,7 @@ export default async function GalleryAlbumsSection({ params }: { params: Promise
     const previewImages = collection.images.slice(0, PREVIEW_IMAGE_LIMIT)
 
     const items: GalleryItem[] = previewImages
-      .map((imgItem: GalleryImageItem) => {
+      .map((imgItem: GalleryImageItem): GalleryItem | null => {
         const imageMedia =
           imgItem.image && typeof imgItem.image === 'object'
             ? (imgItem.image as MediaDocument)
@@ -60,6 +60,7 @@ export default async function GalleryAlbumsSection({ params }: { params: Promise
           src,
           title: imgItem.title ?? imageMedia?.alt ?? '',
           description: imgItem.description ?? imageMedia?.caption ?? '',
+          jxl: toJxlSources(imageMedia),
         }
       })
       .filter((item): item is GalleryItem => Boolean(item))

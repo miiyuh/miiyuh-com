@@ -43,3 +43,18 @@ export const resolveMediaSrc = ({
 
   return undefined
 }
+
+/** One JPEG XL rendition for a `<source type="image/jxl">` srcset. */
+export type JxlSource = { src: string; width: number }
+
+type JxlRows = { jxl?: { filename?: string | null; width?: number | null }[] | null }
+
+/** Map a media doc's generated `jxl` rows to srcset entries, if it has any. */
+export const toJxlSources = (media?: JxlRows | null): JxlSource[] | undefined => {
+  const sources = (media?.jxl ?? []).flatMap((row) => {
+    // Encoded: srcset is comma/space separated, so raw filenames could split it.
+    const src = row.filename ? resolveMediaSrc({ filename: encodeURIComponent(row.filename) }) : undefined
+    return src && row.width ? [{ src, width: row.width }] : []
+  })
+  return sources.length > 0 ? sources : undefined
+}

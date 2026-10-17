@@ -28,3 +28,12 @@ export const SOCIAL_LINKS = {
 
 export type SocialPlatform = keyof typeof SOCIAL_LINKS;
 export const SOCIAL_PLATFORMS = Object.keys(SOCIAL_LINKS) as SocialPlatform[];
+
+// JPEG XL renditions of static images (scripts/generate-static-jxl.ts)
+const jxlSet = (base: string, widths: number[]) =>
+  widths.map((width) => ({ src: `/assets/img/jxl/${base}-${width}w.jxl`, width }));
+
+export const STATIC_JXL = {
+  profilePic: jxlSet("personal-profile-pic", [384, 640, 1080]),
+  logo: jxlSet("logo_miiyuh_v4-white", [160, 320, 640]),
+};

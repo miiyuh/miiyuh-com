@@ -4,7 +4,7 @@ import HomeDetails from './home-details'
 import type { AboutEntry } from '@/types/about'
 import type { AboutEntry as AboutEntryDoc, Media } from '@payload-types'
 import type { LexicalContent } from '@/utils/lexical-renderer'
-import { resolveMediaSrc } from '@/utils/media'
+import { resolveMediaSrc, toJxlSources } from '@/utils/media'
 import { resolveLocale, type LocaleCode } from '@/lib/locale'
 
 const mapAboutEntries = (docs: AboutEntryDoc[]): AboutEntry[] => {
@@ -28,6 +28,7 @@ const mapAboutEntries = (docs: AboutEntryDoc[]): AboutEntry[] => {
             id: String(rawLogo?.id ?? ''),
             url: logoSrc,
             alt: rawLogo?.alt ?? undefined,
+            jxl: toJxlSources(rawLogo),
           }
         : undefined,
       startDate: entry.startDate ?? undefined,

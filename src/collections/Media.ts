@@ -1,5 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { isAdmin } from '../access/is-admin'
+import { resolveMediaSrc } from '../utils/media'
+import { deleteJxlAfterDelete, generateJxlAfterChange } from './shared/media-jxl'
 
 const Media: CollectionConfig = {
   slug: 'media',
@@ -21,9 +23,20 @@ const Media: CollectionConfig = {
       limits: [12, 24, 48],
     },
   },
+  hooks: {
+    afterChange: [generateJxlAfterChange],
+    afterDelete: [deleteJxlAfterDelete],
+  },
   upload: {
     staticDir: process.env.R2_BUCKET_NAME ? undefined : 'media',
-    adminThumbnail: 'thumbnail',
+    // Smallest JPEG XL variant, falling back to the regular thumbnail until
+    // the variants exist (they are generated just after upload).
+    adminThumbnail: ({ doc }) => {
+      const jxl = (doc.jxl as { filename?: string }[] | undefined)?.[0]
+      if (jxl?.filename) return resolveMediaSrc({ filename: jxl.filename }) ?? null
+      const thumb = (doc.sizes as { thumbnail?: { url?: string | null } } | undefined)?.thumbnail
+      return thumb?.url ?? (doc.url as string | undefined) ?? null
+    },
     imageSizes: [
       {
         name: 'thumbnail',
@@ -50,9 +63,37 @@ const Media: CollectionConfig = {
         position: 'centre',
       },
     ],
-    mimeTypes: ['image/*', 'application/pdf'],
+    // Explicit list instead of `image/*`: the prebuilt sharp has no libjxl,
+    // so a JPEG XL (or HEIC) original could not be resized. Upload JPEG/PNG
+    // and the JXL variants are generated automatically.
+    mimeTypes: [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/avif',
+      'image/gif',
+      'image/svg+xml',
+      'image/tiff',
+      'application/pdf',
+    ],
   },
   fields: [
+    {
+      name: 'jxl',
+      label: 'JPEG XL variants',
+      type: 'array',
+      admin: {
+        readOnly: true,
+        initCollapsed: true,
+        description: 'Generated automatically a few seconds after upload. Served to browsers that support JPEG XL.',
+      },
+      fields: [
+        { name: 'filename', type: 'text', required: true },
+        { name: 'width', type: 'number', required: true },
+        { name: 'height', type: 'number', required: true },
+        { name: 'filesize', type: 'number' },
+      ],
+    },
     {
       name: 'alt',
       type: 'text',

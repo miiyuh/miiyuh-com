@@ -1,4 +1,5 @@
 import type { LexicalContent } from '@/utils/lexical-renderer'
+import type { JxlSource } from '@/utils/media'
 
 export type BlogTag = {
   id?: string | number
@@ -11,6 +12,7 @@ export type BlogMediaRelationship = {
   url?: string | null
   alt?: string | null
   caption?: string | null
+  jxl?: { filename?: string | null; width?: number | null }[] | null
 }
 
 export type BlogPostDocument = {
@@ -38,6 +40,7 @@ export type BlogPostCard = {
     url: string
     alt?: string
     caption?: string
+    jxl?: JxlSource[]
   }
   publishedAt: string
   tags: { tag: string }[]

@@ -13,7 +13,7 @@ import type {
   GalleryCollectionSummary,
   GalleryItem,
 } from "@/types/gallery";
-import { resolveMediaSrc } from "@/utils/media";
+import { resolveMediaSrc, toJxlSources } from "@/utils/media";
 
 // ISR: Revalidate every 60 seconds for faster repeat visits
 export const revalidate = 60;
@@ -86,7 +86,7 @@ export default async function AlbumPage({ params }: PageProps) {
   // Transform embedded images array to GalleryItem format
   const galleryImages: GalleryItem[] = (collection.images ?? [])
     .filter((img) => img.published !== false)
-    .map((img) => {
+    .map((img): GalleryItem | null => {
       const imageMedia = typeof img.image === "object" ? img.image : null;
 
       const src = resolveMediaSrc({
@@ -108,6 +108,7 @@ export default async function AlbumPage({ params }: PageProps) {
         src,
         title: img.title ?? imageMedia?.alt ?? "",
         description: img.description ?? imageMedia?.caption ?? "",
+        jxl: toJxlSources(imageMedia),
       };
       if (thumbnailSrc) item.thumbnailSrc = thumbnailSrc;
       return item;

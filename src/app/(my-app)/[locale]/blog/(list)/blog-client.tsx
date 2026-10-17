@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "@/components/locale-link";
 import NextLink from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -12,6 +11,7 @@ import { getBlogPostPath } from "@/utils/blog-path";
 import { formatPostDate } from "@/utils/format-date";
 import { useLocale } from "@/lib/locale-context";
 import { useWebHaptics } from "web-haptics/react";
+import { JxlImage } from "@/components/ui/jxl-image";
 
 interface TagOption {
   value: string;
@@ -261,8 +261,9 @@ export default function BlogClient({
                     {coverSrc && (
                       <div className="relative w-full sm:w-48 shrink-0 aspect-video rounded-md overflow-hidden">
                         <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
-                        <Image
+                        <JxlImage
                           src={coverSrc}
+                          jxl={post.coverImage?.jxl}
                           alt={post.coverImage?.alt || post.title}
                           fill
                           className="object-cover"

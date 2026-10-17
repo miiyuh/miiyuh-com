@@ -7,7 +7,7 @@ import { unstable_cache } from 'next/cache'
 import { RefreshRouteOnSave } from '@/components/live-preview'
 import { renderLexicalContent } from '@/utils/lexical-renderer'
 import { extractTocFromLexical } from '@/utils/extract-toc'
-import { resolveMediaSrc } from '@/utils/media'
+import { resolveMediaSrc, toJxlSources } from '@/utils/media'
 import ProjectDetailClient from './project-detail-client'
 import { pageAlternates, resolveLocale, type LocaleCode } from '@/lib/locale'
 
@@ -110,11 +110,14 @@ export default async function ProjectPage({ params }: PageProps) {
       typeof project.icon === 'object' && project.icon
         ? resolveMediaSrc({ url: project.icon.url, filename: project.icon.filename })
         : undefined,
+    iconJxl:
+      typeof project.icon === 'object' && project.icon ? toJxlSources(project.icon) : undefined,
     image:
       typeof project.image === 'object' && project.image
         ? {
             url: resolveMediaSrc({ url: project.image.url, filename: project.image.filename }),
             alt: project.image.alt,
+            jxl: toJxlSources(project.image),
           }
         : undefined,
     htmlContent: renderLexicalContent(project.content ?? null),

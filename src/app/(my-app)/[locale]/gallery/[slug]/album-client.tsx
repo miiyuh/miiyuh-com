@@ -107,6 +107,17 @@ export default function AlbumClient({ collection, images }: AlbumClientProps) {
                         className="block group relative overflow-hidden rounded-2xl"
                         data-sub-html={subHtml}
                         data-thumb={image.thumbnailSrc || undefined}
+                        data-sources={
+                          image.jxl
+                            ? JSON.stringify([
+                                {
+                                  type: "image/jxl",
+                                  srcset: image.jxl.map((s) => `${s.src} ${s.width}w`).join(", "),
+                                  sizes: "100vw",
+                                },
+                              ])
+                            : undefined
+                        }
                       >
                         <OptimizedGalleryImage
                           image={image}

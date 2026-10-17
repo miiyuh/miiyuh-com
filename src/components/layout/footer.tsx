@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import { JxlImage } from "@/components/ui/jxl-image";
 import Link from "@/components/locale-link";
 import { useWebHaptics } from "web-haptics/react";
 import LocaleToggle from "@/components/layout/locale-toggle";
 import { KlClock } from "@/components/layout/kl-clock";
-import { NAVIGATION_LINKS } from "@/constants";
+import { NAVIGATION_LINKS, STATIC_JXL } from "@/constants";
 
 const LEGAL_LINKS = [
   { href: "/privacy-policy", label: "privacy policy" },
@@ -24,8 +24,9 @@ export default function Footer() {
     <footer className="border-t border-white/8 px-8 md:px-16 lg:px-32 xl:px-56 2xl:px-80 pt-12 pb-24 sm:pb-8 text-text-secondary">
       <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
         {/* Faint logo: decorative, the header logo already names the site */}
-        <Image
+        <JxlImage
           src="/assets/img/logo_miiyuh_v4-white.png"
+          jxl={STATIC_JXL.logo}
           alt=""
           aria-hidden="true"
           width={2497}

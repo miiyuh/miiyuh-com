@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "@/components/locale-link";
-import { NAVIGATION_LINKS, SOCIAL_PLATFORMS } from "@/constants";
+import { NAVIGATION_LINKS, SOCIAL_PLATFORMS, STATIC_JXL } from "@/constants";
+import { JxlImage } from "@/components/ui/jxl-image";
 import {
   MapPinIcon,
   CodeIcon,
@@ -25,8 +26,9 @@ export default function HomeHero() {
         {/* Portrait - Full width mobile/tablet, column 1 desktop */}
         <div className="flex justify-center items-start w-full lg:w-auto lg:col-span-1">
           <div className="relative w-48 h-48 lg:w-full lg:h-full lg:aspect-square rounded-full overflow-hidden border border-white/8 shrink-0">
-            <Image
+            <JxlImage
               src="/assets/img/personal-profile-pic.png"
+              jxl={STATIC_JXL.profilePic}
               alt="Portrait of Muhamad Azri"
               fill
               className="object-cover"
