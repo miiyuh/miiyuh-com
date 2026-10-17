@@ -239,6 +239,18 @@ export interface Paper {
 export interface Media {
   id: string;
   /**
+   * Generated automatically a few seconds after upload. Served to browsers that support JPEG XL.
+   */
+  jxl?:
+    | {
+        filename: string;
+        width: number;
+        height: number;
+        filesize?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Describes the image for screen readers and accessibility. Required for every upload.
    */
   alt: string;
@@ -948,6 +960,15 @@ export interface GalleryCollectionsSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  jxl?:
+    | T
+    | {
+        filename?: T;
+        width?: T;
+        height?: T;
+        filesize?: T;
+        id?: T;
+      };
   alt?: T;
   caption?: T;
   focalPoint?: T;

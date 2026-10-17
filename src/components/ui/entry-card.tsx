@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { JxlImage } from "@/components/ui/jxl-image";
 import Link from "@/components/locale-link";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 import type { AboutEntry } from "@/types/about";
@@ -32,8 +32,9 @@ export function EntryCard({ entry, fallbackIcon }: EntryCardProps) {
                   aria-hidden="true"
                 />
               )}
-              <Image
+              <JxlImage
                 src={entry.logo!.url}
+                jxl={entry.logo?.jxl}
                 alt={entry.logo?.alt || entry.title}
                 width={48}
                 height={48}

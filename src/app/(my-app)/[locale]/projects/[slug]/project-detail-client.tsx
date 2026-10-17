@@ -1,7 +1,8 @@
 'use client'
 
 import Link from '@/components/locale-link';
-import Image from 'next/image'
+import { JxlImage } from '@/components/ui/jxl-image'
+import type { JxlSource } from '@/utils/media'
 import type { TOCItemType } from 'fumadocs-core/toc'
 import { PageTOC, MobileTOC } from '@/components/ui/page-toc'
 import { SimpleBreadcrumb } from '@/components/ui/simple-breadcrumb'
@@ -16,9 +17,11 @@ interface ProjectDetailProps {
     category: 'side-project' | 'university-project'
     description: string
     icon?: string
+    iconJxl?: JxlSource[]
     image?: {
       url?: string
       alt?: string
+      jxl?: JxlSource[]
     }
     htmlContent?: string
     toc?: TOCItemType[]
@@ -72,8 +75,9 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
                 Aligned to the first line, not centred — titles here wrap to 3 lines. */}
             <div className="flex items-start gap-4">
               {project.icon && (
-                <Image
+                <JxlImage
                   src={project.icon}
+                  jxl={project.iconJxl}
                   alt=""
                   width={56}
                   height={56}
@@ -128,8 +132,9 @@ export default function ProjectDetailClient({ project }: ProjectDetailProps) {
 
           {project.image?.url && (
             <figure className="mb-12 max-w-2xl">
-              <Image
+              <JxlImage
                 src={project.image.url}
+                jxl={project.image.jxl}
                 alt={project.image.alt || `${project.name} screenshot`}
                 width={1280}
                 height={720}

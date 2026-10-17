@@ -1,3 +1,5 @@
+import type { JxlSource } from '@/utils/media'
+
 export type GalleryStatus = 'draft' | 'published'
 
 // Media object from Payload
@@ -7,6 +9,7 @@ export type MediaDocument = {
   filename?: string | null
   alt?: string | null
   caption?: string | null
+  jxl?: { filename?: string | null; width?: number | null }[] | null
   sizes?: {
     thumbnail?: { url?: string | null; filename?: string | null; width?: number; height?: number }
     card?: { url?: string | null; filename?: string | null; width?: number; height?: number }
@@ -41,6 +44,7 @@ export type GalleryItem = {
   title: string
   description: string
   thumbnailSrc?: string
+  jxl?: JxlSource[]
 }
 
 export type GalleryCollectionSummary = {

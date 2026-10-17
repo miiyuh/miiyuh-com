@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "@/components/locale-link";
-import Image from "next/image";
+import { JxlImage } from "@/components/ui/jxl-image";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { NAVIGATION_LINKS } from "@/constants";
+import { NAVIGATION_LINKS, STATIC_JXL } from "@/constants";
 import { useWebHaptics } from "web-haptics/react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { localizePath } from "@/lib/locale";
@@ -42,8 +42,9 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" onClick={closeMenu}>
-            <Image
+            <JxlImage
               src="/assets/img/logo_miiyuh_v4-white.png"
+              jxl={STATIC_JXL.logo}
               alt="miiyuh - return to homepage"
               width={74}
               height={32}

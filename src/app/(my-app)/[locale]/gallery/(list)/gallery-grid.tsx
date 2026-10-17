@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "@/components/locale-link";
-import Image from "next/image";
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 
 import { useWebHaptics } from "web-haptics/react";
+import { JxlImage } from "@/components/ui/jxl-image";
 import type {
   GalleryCollectionSummary,
   GalleryDataMap,
@@ -60,8 +60,9 @@ export default function GalleryGrid({
                           `}
                           >
                             <div className="absolute inset-0 bg-linear-to-r from-white/2 via-white/[0.07] to-white/2 bg-size-[200%_100%] animate-skeleton" />
-                            <Image
+                            <JxlImage
                             src={img.src}
+                            jxl={img.jxl}
                             alt=""
                             fill
                             className="object-cover"

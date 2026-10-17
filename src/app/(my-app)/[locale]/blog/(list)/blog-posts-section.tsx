@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import config from '@payload-config'
 import BlogClient from './blog-client'
 import type { BlogPostCard, BlogPostDocument } from '@/types/blog'
-import { resolveMediaSrc } from '@/utils/media'
+import { resolveMediaSrc, toJxlSources } from '@/utils/media'
 import { resolveLocale, type LocaleCode } from '@/lib/locale'
 
 const POSTS_PER_PAGE = 9
@@ -186,6 +186,7 @@ export default async function BlogPostsSection({ params, searchParams }: BlogPos
           url: coverImageUrl,
           alt: coverImageData?.alt ?? post.title,
           caption: coverImageData?.caption ?? undefined,
+          jxl: toJxlSources(coverImageData),
         }
       : undefined
 
